@@ -1,0 +1,30 @@
+package open.digytal.model;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+//@Entity
+//@Table(name="tb_entidade")
+public class Entidade {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	/**
+	 * GenerationType.AUTO:	Valor padrão, deixa com o provedor de persistência a escolha da estratégia mais adequada de acordo com o banco de dados.
+	 */
+	/**
+	 * GenerationType.SEQUENCE:	Informamos ao provedor de persistência que os valores serão gerados a partir de uma sequence. Caso não seja especificado um nome para a sequence, será utilizada uma sequence padrão, a qual será global, para todas as entidades. Caso uma sequence seja especificada, o provedor passará a adotar essa sequence para criação das chaves primárias. Alguns bancos de dados podem não suportar essa opção.
+	 	
+	 	@SequenceGenerator(name=”entidade_sequence”, sequenceName=”tb_entidade_seq”,initialValue=1, allocationSize=100)
+	 	@GeneratedValue(generator=”entidade_sequence”,strategy=GenerationType.SEQUENCE, )
+		
+	 */
+	/**
+	 * GenerationType.TABLE	Com a opção TABLE é necessário criar uma tabela para gerenciar as chaves primárias. Por causa da sobrecarga de consultas necessárias para manter a tabela atualizada, essa opção é pouco recomendada.
+	 	@TableGenerator(name = "ENTIDADE_ID",  table = "TB_ID_ENTIDAD", pkColumnName = "NOME_ENTIDADE", valueColumnName = "SUA_ENTIDADE(CLIENTE)", pkColumnValue = "ULTIMO_ID", initialValue = 500, allocationSize = 100) 
+	 	@GeneratedValue(generator="ENTIDADE_ID",strategy=GenerationType.TABLE)
+	 */
+	private Long id;
+}
