@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name="tb_conta")
 public class Conta implements Serializable {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Column(length=50,nullable=false)
