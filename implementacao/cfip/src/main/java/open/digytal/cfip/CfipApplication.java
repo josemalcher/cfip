@@ -7,14 +7,46 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import open.digytal.cfip.dao.ContaDao;
+import open.digytal.cfip.model.Categoria;
 import open.digytal.cfip.model.Conta;
+import open.digytal.cfip.model.Natureza;
+import open.digytal.cfip.model.TipoMovimento;
 import open.digytal.cfip.repository.ContaRepository;
+import open.digytal.cfip.repository.NaturezaRepository;
 
 @SpringBootApplication
 public class CfipApplication {
-
+	static ConfigurableApplicationContext context;
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = SpringApplication.run(CfipApplication.class, args);
+		context = SpringApplication.run(CfipApplication.class, args);
+		exemploContas();
+		exemploNaturezas();
+		
+	}
+	static void exemploNaturezas() {
+		NaturezaRepository repository = context.getBean(NaturezaRepository.class);
+		
+		Natureza supermercado = new Natureza();
+		supermercado.setNome("SUPERMERCADO");
+		supermercado.setTipoMovimento(TipoMovimento.D);
+		supermercado.setCategoria(Categoria.A);
+		
+		repository.save(supermercado);
+		
+		Natureza restaurante = new Natureza();
+		restaurante.setNome("RESTAURANTE");
+		restaurante.setTipoMovimento(TipoMovimento.D);
+		restaurante.setCategoria(Categoria.A);
+		
+		System.out.println(restaurante.getCategoria().getNome());
+		System.out.println(restaurante.getTipoMovimento().getNome());
+		System.out.println("Transferencia" + restaurante.getTipoMovimento().isTranferencia());
+		repository.save(restaurante);
+		
+		imprimirLista(repository.findAll());
+		
+	}
+	static void exemploContas() {
 		ContaDao dao = context.getBean(ContaDao.class);
 		//FIXME:Nova implementação
 		ContaRepository repository = context.getBean(ContaRepository.class);
@@ -45,7 +77,6 @@ public class CfipApplication {
 		List<Conta> lista = repository.findAll();
 		
 		imprimirLista(lista);
-		
 	}
 	public static void imprimirLista(List lista) {
 		for(Object item: lista) {

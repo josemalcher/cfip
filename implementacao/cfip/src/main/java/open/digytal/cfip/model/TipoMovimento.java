@@ -16,4 +16,7 @@ public enum TipoMovimento implements Serializable {
 	public boolean isTranferencia() {
 		return tranferencia;
 	}
+	public String getNome() {
+		return nome;
+	}
 }
