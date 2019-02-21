@@ -5,8 +5,8 @@ import org.hsqldb.util.DatabaseManagerSwing;
 public class StartHSQLDB {
 	static String FILE_URL="file:/digytal/cfip/database/cfipdb";
 	public static void main(String[] args) {
-		local();		
-		//server();
+		//local();		
+		server();
 	}
 	static void local() {
 		final String[] dbArgs = { "--user", "sa", "--password", "", "--url", "jdbc:hsqldb:" +FILE_URL };
@@ -14,9 +14,9 @@ public class StartHSQLDB {
 		
 	}
 	static void server() {
-		final String[] dbArg = {"--database.0", FILE_URL, "--dbname.0", "database","--port","5454"};
+		final String[] dbArg = {"--database.0", FILE_URL, "--dbname.0", "cfipdb","--port","5454"};
 		org.hsqldb.server.Server.main(dbArg);
-		/*final String[] dbArgsServer = { "--url", "jdbc:hsqldb:hsql://localhost:5454/database" };
-		DatabaseManagerSwing.main(dbArgsServer);*/
+		final String[] dbArgsServer = { "--url", "jdbc:hsqldb:hsql://localhost:5454/cfipdb" };
+		DatabaseManagerSwing.main(dbArgsServer);
 	}	
 }
