@@ -1,19 +1,24 @@
 package open.digytal.cfip.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="tb_conta")
 public class Conta implements Serializable {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	
 	@Column(length=50,nullable=false)
@@ -25,6 +30,27 @@ public class Conta implements Serializable {
 	@Column(name="cartao_cred", length=1,nullable=false)
 	private boolean cartaoCredito;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="dt_inclusao",nullable=false)
+	private Date dataInclusao;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="dt_alteracao")
+	private Date dataAlteracao;
+	
+	public Conta() {
+		
+	}
+	@PrePersist
+	private void inclusao() {
+		this.dataInclusao = new Date();
+		System.out.println("A data de inclusao é " + dataInclusao);
+	}
+	@PreUpdate
+	private void alteraca() {
+		this.dataAlteracao = new Date();
+		//System.out.println("A data de inclusao é " + dataInclusao);
+	}
 	public Integer getId() {
 		return id;
 	}

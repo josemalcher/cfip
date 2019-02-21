@@ -16,7 +16,7 @@ public class StartHSQLDB {
 	static void server() {
 		final String[] dbArg = {"--database.0", FILE_URL, "--dbname.0", "cfipdb","--port","5454"};
 		org.hsqldb.server.Server.main(dbArg);
-		final String[] dbArgsServer = { "--url", "jdbc:hsqldb:hsql://localhost:5454/cfipdb" };
-		DatabaseManagerSwing.main(dbArgsServer);
+		//final String[] dbArgsServer = { "--url", "jdbc:hsqldb:hsql://localhost:5454/cfipdb" };
+		//DatabaseManagerSwing.main(dbArgsServer);
 	}	
 }

@@ -1,6 +1,7 @@
 package open.digytal.cfip;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,8 +20,9 @@ public class CfipApplication {
 	static ConfigurableApplicationContext context;
 	public static void main(String[] args) {
 		context = SpringApplication.run(CfipApplication.class, args);
-		exemploContas();
-		exemploNaturezas();
+		alteraConta();
+		//exemploContas();
+		//exemploNaturezas();
 		
 	}
 	static void exemploNaturezas() {
@@ -44,6 +46,14 @@ public class CfipApplication {
 		repository.save(restaurante);
 		
 		imprimirLista(repository.findAll());
+		
+	}
+	static void alteraConta() {
+		ContaRepository repository = context.getBean(ContaRepository.class);
+		Optional<Conta> oc = repository.findById(2);
+		Conta c= oc.get();
+		c.setNome("CCR VISA 0701 - 19");
+		repository.save(c);
 		
 	}
 	static void exemploContas() {
