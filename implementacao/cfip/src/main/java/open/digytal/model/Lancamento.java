@@ -1,4 +1,4 @@
-package open.digytal.cfip.model;
+package open.digytal.model;
 
 import java.util.Date;
 

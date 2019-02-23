@@ -1,4 +1,4 @@
-package open.digytal.cfip;
+package open.digytal;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,13 +7,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import open.digytal.cfip.dao.ContaDao;
-import open.digytal.cfip.model.Categoria;
-import open.digytal.cfip.model.Conta;
-import open.digytal.cfip.model.Natureza;
-import open.digytal.cfip.model.TipoMovimento;
-import open.digytal.cfip.repository.ContaRepository;
-import open.digytal.cfip.repository.NaturezaRepository;
+import open.digytal.dao.ContaDao;
+import open.digytal.model.Categoria;
+import open.digytal.model.Conta;
+import open.digytal.model.Natureza;
+import open.digytal.model.TipoMovimento;
+import open.digytal.repository.ContaRepository;
+import open.digytal.repository.NaturezaRepository;
 
 @SpringBootApplication
 public class CfipApplication {
