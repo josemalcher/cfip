@@ -1,4 +1,4 @@
-package open.digytal.controle;
+package open.digytal.controller;
 
 import org.springframework.stereotype.Component;
 

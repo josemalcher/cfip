@@ -125,7 +125,7 @@ public class FrmConta extends Formulario {
 			txtNome.requestFocus();
 			txtNome.setValue(entidade.getNome());
 			txtSigla.setText(entidade.getSigla());
-			txtSaldo.setValue(entidade.getSaldo());
+			txtSaldo.setValue(entidade.getSaldoInicial());
 			chkAplicacao.setSelected(entidade.isAplicacao());
 			chkPropria.setSelected(entidade.isPropria());
 		} catch (Exception e) {

@@ -75,8 +75,8 @@ public class FrmNaturezas extends Formulario {
 		tabela.getModeloColuna().getColumn(2).setPreferredWidth(110);
 		
 		tabela.getModeloColuna().setCampo(0, "nome");
-		tabela.getModeloColuna().setCampo(1, "tipoMovimento");
-		tabela.getModeloColuna().setCampo(2, "categoria");
+		tabela.getModeloColuna().setCampo(1, "tipoMovimento.nome");
+		tabela.getModeloColuna().setCampo(2, "categoria.nome");
 
 		//constraints - grid bag layout
 		GridBagConstraints gbcTxtFiltro = new GridBagConstraints();

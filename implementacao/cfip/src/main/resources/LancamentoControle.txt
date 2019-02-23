@@ -1,0 +1,261 @@
+package open.digytal.service.impl.cfip;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import javax.persistence.TypedQuery;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import open.digytal.model.Role;
+import open.digytal.model.cfip.Conta;
+import open.digytal.model.cfip.Lancamento;
+import open.digytal.model.cfip.TipoMovimento;
+import open.digytal.persistencia.Repositorio;
+import open.digytal.repository.LancamentoRepository;
+import open.digytal.service.Controle;
+import open.digytal.service.cfip.LancamentoService;
+import open.digytal.util.DataHora;
+import open.digytal.util.Formatador;
+
+@Service
+@Profile(Controle.JPA)
+public class LancamentoControle implements LancamentoService {
+	@Autowired
+	private Repositorio repositorio;
+	
+	@Autowired
+	private LancamentoRepository repository;
+	
+	private static Logger LOG = Logger.getLogger(LancamentoControle.class.getName());
+	
+	private final String SQL_LANCAMENTO_PREVISAO="SELECT l FROM Lancamento l WHERE l.excluido=:excluido AND l.previsao = :previsao AND l.usuario=:usuario AND";
+	private List<Lancamento> listarLancamentos(boolean excluido, boolean previsao, String usuario, Date inicio,
+											   Date fim, Integer conta, Integer natureza) {
+		StringBuilder sql = new StringBuilder(SQL_LANCAMENTO_PREVISAO);
+		
+		if(previsao)
+			sql.append(" l.quitacao BETWEEN :inicio AND :fim ");
+		else
+			sql.append(" l.data BETWEEN :inicio AND :fim ");
+		if (natureza != null && natureza >0) {
+			sql.append(" AND l.natureza.id=:natureza ");
+		}
+		if (conta != null && conta >0 ) {
+			sql.append(" AND l.conta.id=:conta ");
+		}
+		if(previsao)
+			sql = sql.append(" ORDER BY l.quitacao");
+		else
+			sql = sql.append(" ORDER BY l.data");
+		
+		TypedQuery<Lancamento> query = repositorio.getEntityManager().createQuery(sql.toString(), Lancamento.class);
+		query.setParameter("excluido", excluido);
+		query.setParameter("previsao", previsao);
+		query.setParameter("usuario", usuario);
+		query.setParameter("inicio", inicio);
+		query.setParameter("fim", fim);
+		if (natureza != null && natureza >0)
+			query.setParameter("natureza", natureza);
+
+		if (conta != null && conta > 0)
+			query.setParameter("conta", conta);
+
+		List<Lancamento> lista = query.getResultList();
+		// ISSO Ã‰ PARA TRAZER SÃ“ AS TRANSFERENCIAS DE CREDITO NA PREVISAO
+		List<Lancamento> minLista = new ArrayList<Lancamento>();
+		for (Lancamento l : lista) {
+			if (l.getTipoMovimento() == TipoMovimento.CREDITO
+					|| (l.getTipoMovimento() == TipoMovimento.DEBITO && !(l.isTransferencia()))) {
+				minLista.add(l);
+			}
+		}
+		if (previsao)
+			return minLista;
+		else
+			return lista;
+		//return null;
+	}
+	// TELA DE LANÇAMENTOS
+	public List<Lancamento> listarLancamentos(String usuario, Date inicio, Date fim, Integer conta,
+			Integer natureza) {
+		return listarLancamentos(false, false, usuario, inicio, fim, conta, natureza);
+	}
+
+	// TELA DE PREVISOES
+	public List<Lancamento> listarPrevisoes(String usuario, Date inicio, Date fim, Integer conta, Integer natureza) {
+		return listarLancamentos(false, true, usuario, inicio, fim, conta, natureza);
+	}
+
+	// TELA DE EXTRATOS
+	public List<Lancamento> listarContaLancamentos(String usuario, Date inicio, Date fim, Integer conta) {
+		return listarLancamentos(false, false, usuario, inicio, fim, conta, null);
+	}
+
+	@Transactional
+	public void incluirLancamento(Lancamento entidade) {
+		Date quitacao = entidade.getQuitacao();
+		int parcelaInicial = entidade.getComplemento().getParcelaInicial();
+		int parcelaFinal = entidade.getComplemento().getParcelaFinal();
+		int parcelas = (parcelaFinal + 1) - parcelaInicial;
+		for (int parcela = parcelaInicial; parcela <= parcelaFinal; parcela++) {
+			entidade.getComplemento().setParcelas(parcelas);
+			entidade.setParcela(parcela);
+
+			Lancamento lancamento = entidade.copia();
+
+			lancamento.setQuitacao(quitacao);
+			if (parcelas > 1)
+				lancamento.setDescricao(lancamento.getDescricao() + " PARC.: " + parcela + "/" + parcelaFinal);
+
+			Conta conta = lancamento.getConta();
+
+			lancamento.setPeriodo(DataHora.periodo(lancamento.getData()));
+
+			if (lancamento.getQuitacao() != null)
+				lancamento.setPeriodoQuitacao(DataHora.periodo(lancamento.getQuitacao()));
+
+			Double valor = lancamento.getValor();
+			TipoMovimento tipoMovimento = lancamento.getTipoMovimento();
+
+			if (TipoMovimento.DEBITO == tipoMovimento || TipoMovimento.TRANSFERENCIA == tipoMovimento) {
+				lancamento.setValor(valor * -1);
+				lancamento.getComplemento().setValorPrincipal(lancamento.getValor());
+			}
+			if(TipoMovimento.CREDITO == tipoMovimento)
+				conta.setCusto(conta.getCusto() + lancamento.getComplemento().getTaxaConversao());
+			
+			if (!lancamento.isPrevisao()) {
+				conta.setSaldo(conta.getSaldo() + lancamento.getValor());
+			}
+			Lancamento transferencia = lancamento.copia();
+			if (TipoMovimento.TRANSFERENCIA == tipoMovimento) {
+				transferencia.setValor(valor);
+				transferencia.getComplemento().setValorPrincipal(valor);
+				transferencia.setTransferencia(true);
+				transferencia.setTipoMovimento(TipoMovimento.CREDITO);
+
+				lancamento.setTransferencia(true);
+				lancamento.setTipoMovimento(TipoMovimento.DEBITO);
+
+				Conta destino = lancamento.getDestino();
+				transferencia.setDestino(null);
+
+				if (!lancamento.isPrevisao()) {
+					destino.setSaldo(destino.getSaldo() + valor);
+				}
+				transferencia.setDescricao("TRANSF.DE: " + conta.getNome() + " - " + lancamento.getDescricao());
+
+				transferencia.setConta(destino);
+
+				if (lancamento.getQuitacao() != null)
+					transferencia.setPeriodoQuitacao(DataHora.periodo(lancamento.getQuitacao()));
+				repositorio.alterar(destino);
+			}
+
+			repositorio.alterar(conta);
+			//lancamento.setDestinoLancamento(transferencia.getId());
+			lancamento = repositorio.alterar(lancamento);
+			if (TipoMovimento.TRANSFERENCIA == tipoMovimento) {
+				transferencia.setOrigemLancamento(lancamento.getId());
+				transferencia = repositorio.alterar(transferencia);
+			}
+			if (quitacao != null) {
+				//TODO: Criar classe calendario
+				GregorianCalendar gc = new GregorianCalendar();
+				gc.setTime(quitacao);
+				gc.add(Calendar.MONTH, 1);
+				quitacao = gc.getTime();
+			}
+		}
+	}
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	public void compensarLancamento(Integer id, Date quitacao ) {
+		compensarLancamento(quitacao, id);
+	}
+	@Transactional(propagation=Propagation.NESTED)
+	public void compensarLancamento(Date quitacao,Integer ... ids) {
+		for(Integer id:ids) {
+			Lancamento lancamento = repositorio.buscar(Lancamento.class, id);
+			lancamento.setDescricao(lancamento.getDescricao() + " - DE: " + Formatador.formatar(lancamento.getData()));
+			lancamento.setQuitacao(quitacao);
+			lancamento.setData(quitacao);
+			lancamento.setPrevisao(false);
+			Conta conta = lancamento.getConta();
+			
+			conta.setSaldo(conta.getSaldo() + lancamento.getValor());
+			// depois tentar salvar em dois metodos um Ãºnica transacao
+			if (lancamento.isTransferencia()) {
+				Lancamento origem = repositorio.buscar(Lancamento.class, lancamento.getOrigemLancamento());
+				origem.setQuitacao(quitacao);
+				origem.setData(quitacao);
+				origem.setPrevisao(false);
+				//Conta contaOrigem = getEntityManager().find(Conta.class, origem.getConta());
+				Conta contaOrigem = origem.getConta();
+				contaOrigem.setSaldo(contaOrigem.getSaldo() + origem.getValor());
+				repositorio.alterar(contaOrigem);
+				repositorio.incluir(origem);
+			}
+
+			repositorio.alterar(conta);
+			repositorio.alterar(lancamento);
+			LOG.info("Compensando lançamento:: " + lancamento.getId() + " " + lancamento.getDescricao());
+		}
+	}
+	
+	@Transactional
+	public void amortizarLancamento(Integer id, Date quitacao, Double amortizado) {
+		Lancamento lancamento = repositorio.buscar(Lancamento.class, id);
+		Double valor = lancamento.getValor();
+		if (lancamento.getTipoMovimento() == TipoMovimento.DEBITO) {
+			amortizado = amortizado * -1;
+		}
+		Double diferenca = valor - amortizado;
+
+		lancamento.setPrevisao(false);
+
+		//Conta conta = getEntityManager().find(Conta.class, lancamento.getConta());
+		Conta conta = lancamento.getConta();
+		
+		lancamento.setValor(amortizado);
+		conta.setSaldo(conta.getSaldo() + amortizado);
+		if (diferenca != 0.0d) {
+			Lancamento novo = new Lancamento();
+			novo.setOrigemLancamento(lancamento.getId());
+			novo.setPrevisao(true);
+			novo.setData(new Date());
+			novo.setQuitacao(quitacao);
+			novo.setDescricao("AMORT LANCTO: " + lancamento.getId() + "-" + lancamento.getDescricao());
+			novo.setConta(lancamento.getConta());
+			novo.setNatureza(lancamento.getNatureza());
+			novo.setPeriodo(0);
+			novo.setValor(diferenca);
+			novo.getComplemento().setValorPrincipal(diferenca);
+			if (novo.getQuitacao() != null)
+				novo.setPeriodoQuitacao(0);
+			novo.setTipoMovimento(lancamento.getTipoMovimento());
+			novo.setUsuario(lancamento.getUsuario());
+			repositorio.incluir(novo);
+		}
+		repositorio.alterar(conta);
+		repositorio.alterar(lancamento);
+	}
+	@Override
+	public Lancamento buscar(Integer id) {
+		Optional<Lancamento> entidade = repository.findById(id);
+		return entidade.isPresent()?entidade.get():null;
+	}
+	@Override
+	public Lancamento salvar(Lancamento entidade) {
+		return repository.save(entidade);
+	}
+}

@@ -70,8 +70,8 @@ public class FrmContas extends Formulario {
 		cmdExtrato.setIcone("pastabusca");
 		tabela.getModeloTabela().addColumn("Sigla");
 		tabela.getModeloTabela().addColumn("Nome");
-		tabela.getModeloTabela().addColumn("Saldo");
-		tabela.getModeloTabela().addColumn("Custo");
+		tabela.getModeloTabela().addColumn("Saldo Inicial");
+		tabela.getModeloTabela().addColumn("Saldo Atual");
 		tabela.getModeloTabela().addColumn("Aplicação");
 		
 		tabela.getModeloColuna().getColumn(0).setPreferredWidth(80);
@@ -82,8 +82,8 @@ public class FrmContas extends Formulario {
 		
 		tabela.getModeloColuna().setCampo(0, "sigla");
 		tabela.getModeloColuna().setCampo(1, "nome");
-		tabela.getModeloColuna().setCampo(2, "saldo");
-		tabela.getModeloColuna().setCampo(3, "custo");
+		tabela.getModeloColuna().setCampo(2, "saldoInicial");
+		tabela.getModeloColuna().setCampo(3, "saldoAtual");
 		tabela.getModeloColuna().setCampo(4, "aplicacao");
 		
 		

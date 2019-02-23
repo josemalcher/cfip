@@ -36,7 +36,7 @@ public class DataHora implements DataHoraConstants {
 		return get(data,SEGUNDO);
 	}
 	public static int periodo(Date data) {
-		return Integer.valueOf(Formatador.formatar(ano(data),"0000") + Formatador.formatar(mes(data),"00"));
+		return Integer.valueOf(Formatador.formatar(DataHora.ano(data),"0000") + Formatador.formatar(DataHora.mes(data),"00"));
 	}
 	public static void main(String[] args) {
 		GregorianCalendar gc = new GregorianCalendar(1984,5,30,6,37,25);

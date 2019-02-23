@@ -52,8 +52,8 @@ public class FrmNatureza extends Formulario {
 		super.getRodape().add(chkNovo);
 		super.getRodape().add(cmdSalvar);
 		super.getRodape().add(cmdSair);
-		cboTipoMovto.setItens(TipoMovimento.values());
-		cboCategoria.setItens(Categoria.values());
+		cboTipoMovto.setItens(TipoMovimento.values(),"nome");
+		cboCategoria.setItens(Categoria.values(),"nome");
 		// IMPORTANTE
 		JPanel panelCampos = super.getConteudo();
 		panelCampos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));

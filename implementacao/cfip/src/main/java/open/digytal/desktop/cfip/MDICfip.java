@@ -285,10 +285,10 @@ public class MDICfip extends MDI {
 		//exibir((Formulario)SpringBootApp.getBean(FrmLancamentoDespesaRapida.class));
 	}
 	private void exibirLactoReceita() {
-		//exibir((Formulario)SpringBootApp.getBean(FrmLancamentoCredito.class));
+		exibir((Formulario)SpringBootApp.getBean(FrmLancamentoCredito.class));
 	}
 	private void exibirLanctoDespesa() {
-		//exibir((Formulario)SpringBootApp.getBean(FrmLancamentoDebito.class));
+		exibir((Formulario)SpringBootApp.getBean(FrmLancamentoDebito.class));
 	}
 	private void exibirLanctoPrevisao() {
 		//exibir((Formulario)SpringBootApp.getBean(FrmLancamentoPrevisao.class));

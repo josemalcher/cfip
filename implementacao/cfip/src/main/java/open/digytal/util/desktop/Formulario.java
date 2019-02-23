@@ -1,15 +1,25 @@
 package open.digytal.util.desktop;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.LayoutManager;
+import java.beans.PropertyVetoException;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.SwingUtilities;
+import javax.swing.border.EtchedBorder;
+
+import open.digytal.util.Imagem;
+import open.digytal.util.TipoOperacao;
 import open.digytal.util.desktop.ss.SSCabecalho;
 import open.digytal.util.desktop.ss.SSMensagem;
 import open.digytal.util.desktop.ss.SSRodape;
-import open.digytal.util.Imagem;
-import open.digytal.util.TipoOperacao;
-
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import java.awt.*;
-import java.beans.PropertyVetoException;
 
 //WindowBuilder
 //http://download.eclipse.org/windowbuilder/WB/integration/4.7/
@@ -95,7 +105,6 @@ public abstract class Formulario extends JPanel {
 		}
 		frm.setLogin(this.getLogin());
 		JInternalFrame internal = new JInternalFrame(getTitulo());
-		//internal.setUndecorated(true);
 		internal.setFrameIcon(Imagem.png("app"));
 		internal.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
@@ -113,13 +122,7 @@ public abstract class Formulario extends JPanel {
 		frm.carregar();
 		mdi.getAreaTrabalho().add(internal);
 		mdi.getAreaTrabalho().getDesktopManager().activateFrame(internal);
-		internal.setMaximizable(true);
-		try {
-			internal.setMaximum(true);
-		} catch (PropertyVetoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}   
+		   
 		
 	}
 
