@@ -20,9 +20,9 @@ public class CfipApplication {
 	static ConfigurableApplicationContext context;
 	public static void main(String[] args) {
 		context = SpringApplication.run(CfipApplication.class, args);
-		alteraConta();
-		//exemploContas();
-		//exemploNaturezas();
+		//alteraConta();
+		exemploContas();
+		exemploNaturezas();
 		
 	}
 	static void exemploNaturezas() {
