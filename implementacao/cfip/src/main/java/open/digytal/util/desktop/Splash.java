@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import open.digytal.util.Imagem;
-import open.digytal.util.ambiente.Configurador;
 
 public class Splash extends JFrame {
     private JLabel logotipo;
@@ -19,7 +18,7 @@ public class Splash extends JFrame {
         logotipo = new JLabel(Imagem.jpg( "splash"));
         getContentPane().add(logotipo, BorderLayout.CENTER);
         logotipo.setBorder(BorderFactory.createEtchedBorder());
-        JLabel lblVersao = new JLabel(Configurador.getFabricante() + " - " + Configurador.getProduto() + " - Versão: 1.0");
+        JLabel lblVersao = new JLabel("Digytal" + " - " + "CFIP" + " - Versão: 1.0");
         lblVersao.setBorder(BorderFactory.createEtchedBorder());
         lblVersao.setFont(new Font("Tahoma", Font.BOLD, 11));
         lblVersao.setForeground(Color.BLUE);

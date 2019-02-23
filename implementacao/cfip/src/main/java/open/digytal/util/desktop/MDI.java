@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 
 import open.digytal.util.Configuracao;
 import open.digytal.util.Imagem;
-import open.digytal.util.ambiente.Configurador;
 
 public abstract class MDI extends JFrame {
     private JDesktopPane areaTrabalho = new JDesktopPane();
@@ -82,7 +81,7 @@ public abstract class MDI extends JFrame {
 
         getContentPane().add(areaTrabalho, BorderLayout.CENTER);
         setJMenuBar(barraMenu);
-        setTitle("MDI -Multiple Document Interface");
+        setTitle("CFIP - Controle Financeiro Pessoal");
 
         this.setIconImage(Imagem.png("app").getImage());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
