@@ -21,7 +21,7 @@ public class Natureza implements Serializable {
 	@Column(nullable=false, length=50)
 	private String nome;
 	
-	@Enumerated(EnumType.STRING) //EnumType.ORDINAL
+	@Enumerated(EnumType.STRING)
 	@Column(name="tipo_mov_id",nullable=false,length=30)
 	private TipoMovimento tipoMovimento;
 	

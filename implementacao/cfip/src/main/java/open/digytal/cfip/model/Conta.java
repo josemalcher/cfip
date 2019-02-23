@@ -1,18 +1,13 @@
 package open.digytal.cfip.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="tb_conta")
@@ -27,29 +22,10 @@ public class Conta implements Serializable {
 	@Column(length=8,precision=2,nullable=false)
 	private Double saldo;
 	
-	@Column(name="cartao_cred", length=1,nullable=false)
-	private boolean cartaoCredito;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="dt_inclusao",nullable=false)
-	private Date dataInclusao;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="dt_alteracao")
-	private Date dataAlteracao;
-	
+	@Column(name="propria", length=1,nullable=false)
+	private boolean propria;
 	public Conta() {
-		
-	}
-	@PrePersist
-	private void inclusao() {
-		this.dataInclusao = new Date();
-		System.out.println("A data de inclusao é " + dataInclusao);
-	}
-	@PreUpdate
-	private void alteraca() {
-		this.dataAlteracao = new Date();
-		//System.out.println("A data de inclusao é " + dataInclusao);
+		this.propria = true;
 	}
 	public Integer getId() {
 		return id;
@@ -69,15 +45,11 @@ public class Conta implements Serializable {
 	public void setSaldo(Double saldo) {
 		this.saldo = saldo;
 	}
-	public boolean isCartaoCredito() {
-		return cartaoCredito;
+	public boolean isPropria() {
+		return propria;
 	}
-	public void setCartaoCredito(boolean cartaoCredito) {
-		this.cartaoCredito = cartaoCredito;
-	}
-	@Override
-	public String toString() {
-		return "Conta [id=" + id + ", nome=" + nome + ", saldo=" + saldo + ", cartaoCredito=" + cartaoCredito + "]";
+	public void setPropria(boolean propria) {
+		this.propria = propria;
 	}
 	
 }

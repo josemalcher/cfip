@@ -61,21 +61,19 @@ public class CfipApplication {
 		//FIXME:Nova implementação
 		ContaRepository repository = context.getBean(ContaRepository.class);
 		Conta corrente = new Conta();
-		corrente.setCartaoCredito(false);
 		corrente.setNome("CCT BRASIL 1879-0");
 		corrente.setSaldo(125.85);
 		
 		dao.salvar(corrente);
 		
 		Conta cartaoCredito = new Conta();
-		cartaoCredito.setCartaoCredito(true);
+		cartaoCredito.setPropria(false);
 		cartaoCredito.setNome("CCR VISA 0701");
 		cartaoCredito.setSaldo(120.0);
 		
 		dao.salvar(cartaoCredito);
 		
 		Conta poupanca = new Conta();
-		poupanca.setCartaoCredito(false);
 		poupanca.setNome("CPC BRASIL 0701-X");
 		poupanca.setSaldo(100.0);
 		
