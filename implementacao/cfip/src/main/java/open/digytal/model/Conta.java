@@ -19,11 +19,18 @@ public class Conta implements Serializable {
 	@Column(length=50,nullable=false)
 	private String nome;
 	
+	@Column(length=10,nullable=false)
+	private String sigla;
+	
 	@Column(length=8,precision=2,nullable=false)
 	private Double saldo;
 	
 	@Column(name="propria", length=1,nullable=false)
 	private boolean propria;
+	
+	@Column(name="aplicacao", length=1,nullable=false)
+	private boolean aplicacao;
+	
 	public Conta() {
 		this.propria = true;
 	}
@@ -51,5 +58,16 @@ public class Conta implements Serializable {
 	public void setPropria(boolean propria) {
 		this.propria = propria;
 	}
-	
+	public boolean isAplicacao() {
+		return aplicacao;
+	}
+	public void setAplicacao(boolean aplicacao) {
+		this.aplicacao = aplicacao;
+	}
+	public String getSigla() {
+		return sigla;
+	}
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
+	}
 }
