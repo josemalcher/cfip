@@ -19,8 +19,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.SpringBootApp;
-import open.digytal.model.cfip.Natureza;
-import open.digytal.service.cfip.NaturezaService;
+import open.digytal.model.Natureza;
+import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCampoTexto;
@@ -32,7 +32,7 @@ import open.digytal.util.desktop.ss.util.SSValidacao;
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)	
 public class FrmNaturezas extends Formulario {
 	@Autowired
-	private NaturezaService service;
+	private NaturezaRepository service;
 	
 	//JA PODERIA VIR DE FormularioConsulta
 	private JPanel filtro = new JPanel();
@@ -138,14 +138,13 @@ public class FrmNaturezas extends Formulario {
 	}
 	private void listar() {
 		List<Natureza> lista = new ArrayList<Natureza>();
-		String login=SpringBootApp.getSessao().getLogin();
 		try {
 			String nome = txtFiltro.getText();
 			if (SSValidacao.vazio(nome)) {
-				lista = service.listarNaturezas(login);
+				lista = service.listar();
 
 			} else {
-				lista = service.listarNaturezas(login, nome);
+				lista = service.listar(nome);
 			}
 			if(lista.size()==0)
 				SSMensagem.avisa("Nenhum dado encontrado");

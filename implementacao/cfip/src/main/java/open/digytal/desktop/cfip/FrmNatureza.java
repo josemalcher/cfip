@@ -12,13 +12,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.SpringBootApp;
-import open.digytal.model.cfip.Categoria;
-import open.digytal.model.cfip.Natureza;
-import open.digytal.model.cfip.TipoMovimento;
-import open.digytal.service.cfip.NaturezaService;
+import open.digytal.model.Categoria;
+import open.digytal.model.Natureza;
+import open.digytal.model.TipoMovimento;
+import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCaixaCombinacao;
@@ -26,10 +28,10 @@ import open.digytal.util.desktop.ss.SSCampoTexto;
 import open.digytal.util.desktop.ss.SSMensagem;
 
 @Component
-//@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FrmNatureza extends Formulario {
 	@Autowired
-	private NaturezaService service;
+	private NaturezaRepository service;
 	private Natureza entidade;
 	
 	private SSCampoTexto txtNome = new SSCampoTexto();
@@ -122,7 +124,7 @@ public class FrmNatureza extends Formulario {
 	private void atribuir() {
 		try {
 			txtNome.setValue(entidade.getNome());
-			txtDescricao.setText(entidade.getDescricao());
+			txtDescricao.setText(entidade.getNome());
 			cboTipoMovto.setValue(entidade.getTipoMovimento());
 			cboCategoria.setValue(entidade.getCategoria());
 			txtNome.requestFocus();
@@ -137,13 +139,12 @@ public class FrmNatureza extends Formulario {
 	private void salvar() {
 		try {
 			entidade.setNome(txtNome.getText());
-			entidade.setDescricao(txtDescricao.getText());
+			entidade.setNome(txtDescricao.getText());
 			entidade.setTipoMovimento((TipoMovimento) cboTipoMovto.getValue());
-			entidade.setUsuario(SpringBootApp.getSessao().getLogin());
 			entidade.setCategoria((Categoria) cboCategoria.getValue());
 
-			if (entidade.getNome() == null || entidade.getNome().isEmpty() || entidade.getDescricao() == null
-					|| entidade.getDescricao().isEmpty() || entidade.getTipoMovimento() == null || entidade.getCategoria() ==null) {
+			if (entidade.getNome() == null || entidade.getNome().isEmpty() || entidade.getNome() == null
+					|| entidade.getNome().isEmpty() || entidade.getTipoMovimento() == null || entidade.getCategoria() ==null) {
 				SSMensagem.avisa("Dados incompletos");
 				return;
 			}
@@ -153,9 +154,9 @@ public class FrmNatureza extends Formulario {
 			}
 			
 			//dao.gravar(operacao, entidade);
-			service.salvar(entidade);
+			service.save(entidade);
 			
-			SSMensagem.informa("NaturezaService registrado com sucesso!!");
+			SSMensagem.informa("Natureza registrada com sucesso!!");
 			novo();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
