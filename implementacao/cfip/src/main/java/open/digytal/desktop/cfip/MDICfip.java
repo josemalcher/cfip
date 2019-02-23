@@ -9,7 +9,9 @@ import javax.swing.JSeparator;
 
 import org.springframework.stereotype.Component;
 
+import open.digytal.SpringBootApp;
 import open.digytal.util.Imagem;
+import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.MDI;
 
 @Component
@@ -262,10 +264,10 @@ public class MDICfip extends MDI {
 		//exibir((Formulario)SpringBootApp.getBean(FrmDespesasRapidas.class));
 	}
 	private void exibirConta() {
-		//exibir((Formulario)SpringBootApp.getBean(FrmContas.class));
+		exibir((Formulario)SpringBootApp.getBean(FrmContas.class));
 	}
 	private void exibirNatureza() {
-		//exibir((Formulario)SpringBootApp.getBean(FrmNaturezas.class));
+		exibir((Formulario)SpringBootApp.getBean(FrmNaturezas.class));
 	}
 	private void exibirContatos() {
 		//exibir((Formulario)SpringBootApp.getBean(FrmContatos.class));
