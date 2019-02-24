@@ -257,7 +257,7 @@ public class FrmExtrato extends Formulario {
 				if(lista==null || lista.size()==0)
 					SSMensagem.avisa("Nenhum dado encontrado");
 
-				total = CfipUtil.totais(lista, true);
+				total = CfipUtil.lancamentos(lista);
 				txtDespesas.setValue(total.getDebito());
 				txtReceitas.setValue(total.getCredito());
 				grid.setValue(lista);

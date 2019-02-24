@@ -73,7 +73,10 @@ public class LancamentoController {
 	public List<Lancamento> listarLancamentos(Date inicio, Date fim, Integer conta, Integer natureza) {
 		return listarLancamentos(false, inicio, fim, conta, natureza);
 	}
-
+	// TELA DE PREVISOES
+	public List<Lancamento> listarPrevisoes(Date inicio, Date fim, Integer conta, Integer natureza) {
+		return listarLancamentos(true, inicio, fim, conta, natureza);
+	}
 	@Transactional
 	public void incluir(Lancamento lancamento) {
 		boolean previsao = lancamento.isPrevisao();

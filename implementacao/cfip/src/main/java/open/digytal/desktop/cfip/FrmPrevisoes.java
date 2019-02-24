@@ -44,62 +44,73 @@ import open.digytal.util.desktop.ss.SSCampoNumero;
 import open.digytal.util.desktop.ss.SSGrade;
 import open.digytal.util.desktop.ss.SSMensagem;
 import open.digytal.util.desktop.ss.SSPosicaoRotulo;
+import open.digytal.util.desktop.ss.tabela.SSTipoSelecao;
+import open.digytal.util.desktop.ss.util.SSDataHora;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class FrmLancamentos extends Formulario {
+public class FrmPrevisoes extends Formulario {
 	// rodape
-	private SSBotao cmdIncluir = new SSBotao();
+	private SSBotao cmdCompensar = new SSBotao();
+	private SSBotao cmdSelecionados = new SSBotao();
+	private SSBotao cmdAmortizar = new SSBotao();
+	private SSBotao cmdProrrogar = new SSBotao();
 	private SSBotao cmdFechar = new SSBotao();
 	private SSBotao cmdBuscar = new SSBotao();
 	private SSGrade grid = new SSGrade();
 	private JScrollPane scroll = new JScrollPane();
-	@Autowired
-	private LancamentoController service;
+	// DAOs - NAO OFICIAL
 	@Autowired
 	private ContaRepository contaService;
 	@Autowired
 	private NaturezaRepository naturezaService;
+	@Autowired
+	private LancamentoController service;
 
 	private SSCampoDataHora txtDataDe = new SSCampoDataHora();
 	private SSCampoDataHora txtDataAte = new SSCampoDataHora();
 	private SSCaixaCombinacao cboConta = new SSCaixaCombinacao();
 	private SSCaixaCombinacao cboNatureza = new SSCaixaCombinacao();
-	private SSCaixaCombinacao cboSaldo = new SSCaixaCombinacao();
 	private JLabel lblDesc = new JLabel();
-	
+
 	//
-	private Total total=new Total();
+	private Total total = new Total();
 	private SSCampoNumero txtDespesas = new SSCampoNumero();
 	private SSCampoNumero txtReceitas = new SSCampoNumero();
 	private SSCampoNumero txtSaldoAtual = new SSCampoNumero();
 	//
-	public FrmLancamentos() {
+
+	public FrmPrevisoes() {
 		init();
 	}
 
 	private void init() {
 		cboConta.setPreferredWidth(180);
 		cboNatureza.setPreferredWidth(150);
-		super.setTitulo("Consulta de Lançamentos");
-		super.setDescricao("Descrição das entradas e saidas no sistema");
-		getRodape().add(cmdIncluir);
+		super.setTitulo("Consulta de Previsões");
+		super.setDescricao("Registro dos valores à pagar e à receber");
+		setAlinhamentoRodape(FlowLayout.LEFT);
+		getRodape().add(cmdCompensar);
+		getRodape().add(cmdAmortizar);
+		getRodape().add(cmdProrrogar);
+		getRodape().add(cmdSelecionados);
 		getRodape().add(cmdFechar);
 		// implementando o conteudo do formulario
 		JPanel conteudo = super.getConteudo();
 		conteudo.setLayout(new BorderLayout());
+
 		// usando o painel de conteudo
 		JPanel painelFiltro = new JPanel();
 		conteudo.add(painelFiltro, BorderLayout.NORTH);
+		grid.setTipoSelecao(SSTipoSelecao.SELECAO_MULTIPLA);
+		scroll.setViewportView(grid);
 		JPanel pnlDesc = new JPanel(new BorderLayout());
 		lblDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDesc.setFont(new Font("Tahoma", Font.BOLD, 9));
 		lblDesc.setForeground(Color.BLUE);
-		lblDesc.setText("SELECIONE UMA LINHA PARA MAIORES INFORMAÇÕES");
+		lblDesc.setText("SEGURE A TECLA Ctrl PARA SELECIONAR MAIS DE UMA LINHA");
 		pnlDesc.add(lblDesc, BorderLayout.NORTH);
-		scroll.setViewportView(grid);
 		pnlDesc.add(scroll, BorderLayout.CENTER);
-
 		conteudo.add(pnlDesc, BorderLayout.CENTER);
 		grid.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent event) {
@@ -115,36 +126,60 @@ public class FrmLancamentos extends Formulario {
 		gbcBuscar.anchor = GridBagConstraints.NORTHWEST;
 		gbcBuscar.fill = GridBagConstraints.HORIZONTAL;
 		gbcBuscar.insets = new Insets(15, 5, 5, 5);
-		gbcBuscar.gridx = 5;
+		gbcBuscar.gridx = 4;
 		gbcBuscar.gridy = 0;
 		painelFiltro.add(cmdBuscar, gbcBuscar);
 
 		// campos da tabela
 		grid.getModeloTabela().addColumn("Data");
+		grid.getModeloTabela().addColumn("Parcelas");
 		grid.getModeloTabela().addColumn("Conta");
 		grid.getModeloTabela().addColumn("Natureza");
 		grid.getModeloTabela().addColumn("Valor");
-		
+		grid.getModeloTabela().addColumn("Restante");
+
 		grid.getModeloColuna().getColumn(0).setPreferredWidth(50);
-		grid.getModeloColuna().getColumn(1).setPreferredWidth(220);
-		grid.getModeloColuna().getColumn(2).setPreferredWidth(220);
-		grid.getModeloColuna().getColumn(3).setPreferredWidth(80);
-		
+		grid.getModeloColuna().getColumn(1).setPreferredWidth(55);
+		grid.getModeloColuna().getColumn(2).setPreferredWidth(170);
+		grid.getModeloColuna().getColumn(3).setPreferredWidth(120);
+		grid.getModeloColuna().getColumn(4).setPreferredWidth(70);
+		grid.getModeloColuna().getColumn(5).setPreferredWidth(100);
+
 		grid.getModeloColuna().setCampo(0, "data");
 		grid.getModeloColuna().setFormato(0, "dd/MM/yy");
-		grid.getModeloColuna().setCampo(1, "conta.nome");
-		grid.getModeloColuna().setCampo(2, "natureza.nome");
-		grid.getModeloColuna().setCampo(3, "valor");
-		grid.getModeloColuna().setFormato(3, Formato.MOEDA);
-		cmdIncluir.setText("Novo");
+		grid.getModeloColuna().setCampo(1, "parcelamento.configuracao");
+		grid.getModeloColuna().setCampo(2, "conta.nome");
+		// grid.getModeloColuna().setCampo(2, "sigla");
+		grid.getModeloColuna().setCampo(3, "natureza.nome");
+		grid.getModeloColuna().setCampo(4, "valor");
+		grid.getModeloColuna().setFormato(4, Formato.MOEDA);
+		grid.getModeloColuna().definirPositivoNegativo(4);
+		grid.getModeloColuna().setCampo(5, "parcelamento.restante");
+		grid.getModeloColuna().setFormato(5, Formato.MOEDA);
+		grid.getModeloColuna().definirPositivoNegativo(5);
+
+		cmdCompensar.setText("Compensar");
+		cmdAmortizar.setText("Amortizar");
+		cmdProrrogar.setText("Atualizar");
+		cmdSelecionados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				compensarSelecionados();
+			}
+		});
+		cmdSelecionados.setText("Selecionados");
+
 		cmdFechar.setText("Fechar");
 		cmdBuscar.setText("Buscar");
+		cmdCompensar.setIcone("dinheiro");
+		cmdProrrogar.setIcone("atualizar");
+		cmdAmortizar.setIcone("amortizar");
+		cmdSelecionados.setIcone("selecionados");
 
 		GridBagConstraints gbc_txtDataDe = new GridBagConstraints();
 		gbc_txtDataDe.anchor = GridBagConstraints.NORTHWEST;
 		gbc_txtDataDe.insets = new Insets(5, 5, 5, 0);
 		gbc_txtDataDe.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtDataDe.gridx = 1;
+		gbc_txtDataDe.gridx = 0;
 		gbc_txtDataDe.gridy = 0;
 		txtDataDe.setColunas(8);
 		txtDataDe.setRotulo("De");
@@ -154,7 +189,7 @@ public class FrmLancamentos extends Formulario {
 		gbc_txtDataAte.anchor = GridBagConstraints.NORTHWEST;
 		gbc_txtDataAte.insets = new Insets(5, 5, 5, 0);
 		gbc_txtDataAte.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtDataAte.gridx = 2;
+		gbc_txtDataAte.gridx = 1;
 		gbc_txtDataAte.gridy = 0;
 		txtDataAte.setColunas(8);
 		txtDataAte.setRotulo("Até");
@@ -165,7 +200,7 @@ public class FrmLancamentos extends Formulario {
 		gbc_cboConta.anchor = GridBagConstraints.NORTHWEST;
 		gbc_cboConta.insets = new Insets(5, 5, 5, 0);
 		gbc_cboConta.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboConta.gridx = 3;
+		gbc_cboConta.gridx = 2;
 		gbc_cboConta.gridy = 0;
 		cboConta.setRotulo("Conta");
 		painelFiltro.add(cboConta, gbc_cboConta);
@@ -175,19 +210,10 @@ public class FrmLancamentos extends Formulario {
 		gbc_cboNatureza.weightx = 1.0;
 		gbc_cboNatureza.insets = new Insets(5, 5, 5, 0);
 		gbc_cboNatureza.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboNatureza.gridx = 4;
+		gbc_cboNatureza.gridx = 3;
 		gbc_cboNatureza.gridy = 0;
 		cboNatureza.setRotulo("Natureza");
 		painelFiltro.add(cboNatureza, gbc_cboNatureza);
-
-		GridBagConstraints gbc_cboSaldo = new GridBagConstraints();
-		gbc_cboSaldo.anchor = GridBagConstraints.NORTHWEST;
-		gbc_cboSaldo.insets = new Insets(5, 5, 5, 0);
-		gbc_cboSaldo.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboSaldo.gridx = 0;
-		gbc_cboSaldo.gridy = 0;
-		cboSaldo.setRotulo("Saldo");
-		painelFiltro.add(cboSaldo, gbc_cboSaldo);
 		cmdBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				listar();
@@ -199,21 +225,29 @@ public class FrmLancamentos extends Formulario {
 				sair();
 			}
 		});
-		cmdIncluir.addActionListener(new ActionListener() {
+		cmdCompensar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				incluir();
+				compensar();
 			}
 		});
-		cboSaldo.setVisible(false);
-		cmdIncluir.setVisible(false);
-		
+		cmdAmortizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				amortizar();
+			}
+		});
+		cmdProrrogar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				prorrogar();
+			}
+		});
+
 		//
 		FlowLayout pnlSaldoLayout = new FlowLayout();
 		pnlSaldoLayout.setAlignment(FlowLayout.RIGHT);
-		JPanel pnlSaldo= new JPanel(pnlSaldoLayout);
+		JPanel pnlSaldo = new JPanel(pnlSaldoLayout);
 		pnlSaldo.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		
-		pnlDesc.add(pnlSaldo,BorderLayout.SOUTH);
+
+		pnlDesc.add(pnlSaldo, BorderLayout.SOUTH);
 		txtDespesas.setComponenteCorFonte(Color.RED);
 		txtDespesas.setComponenteNegrito(true);
 		txtDespesas.setEditavel(false);
@@ -222,30 +256,40 @@ public class FrmLancamentos extends Formulario {
 		txtDespesas.setRotulo("Despesa");
 		txtReceitas.setComponenteNegrito(true);
 		txtReceitas.setComponenteCorFonte(Color.BLUE);
-		
+
 		txtReceitas.setEditavel(false);
 		txtReceitas.setColunas(6);
 		txtReceitas.setRotuloPosicao(SSPosicaoRotulo.ESQUERDA);
 		txtReceitas.setRotulo("Receita");
 		txtSaldoAtual.setComponenteNegrito(true);
 		txtSaldoAtual.setComponenteCorFonte(Color.BLUE);
-		
+
 		txtSaldoAtual.setEditavel(false);
 		txtSaldoAtual.setColunas(6);
 		txtSaldoAtual.setRotuloPosicao(SSPosicaoRotulo.ESQUERDA);
 		txtSaldoAtual.setRotulo("Saldo");
-		
-		
+
 		txtDespesas.setFormato(Formato.MOEDA);
 		txtSaldoAtual.setFormato(Formato.MOEDA);
 		txtReceitas.setFormato(Formato.MOEDA);
-			
+
 		pnlSaldo.add(txtReceitas);
 		pnlSaldo.add(txtDespesas);
 		pnlSaldo.add(txtSaldoAtual);
 		txtReceitas.setComponenteCorFonte(Color.BLUE);
 		txtDespesas.setComponenteCorFonte(Color.RED);
-		//
+
+	}
+
+	@Override
+	public void carregar() {
+		cboConta.setPrimeiroElementoVazio(true);
+		cboNatureza.setPrimeiroElementoVazio(true);
+		cboConta.setItens(contaService.listar(), "nome");
+		cboNatureza.setItens(naturezaService.listar(), "nome");
+		txtDataDe.setDataHora(SSDataHora.primeiroDiaDoMes());
+		txtDataAte.setDataHora(SSDataHora.ultimoDiaDoMes());
+
 	}
 
 	private void exibirDescricao() {
@@ -259,30 +303,51 @@ public class FrmLancamentos extends Formulario {
 		}
 	}
 
-	@Override
-	public void carregar() {
-		cboConta.setPrimeiroElementoVazio(true);
-		cboNatureza.setPrimeiroElementoVazio(true); 
-		cboConta.setItens(contaService.listar(), "nome");
-		cboNatureza.setItens(naturezaService.listar(), "nome");
-
-		txtDataDe.setDataHora(new Date());
-		txtDataAte.setDataHora(new Date());
-
-	}
-
 	private void sair() {
 		super.fechar();
 	}
 
-	private void incluir() {
-		abrirCadastro(null);
+	private void prorrogar() {
+		/*
+		 * Lancamento entidade = (Lancamento) grid.getLinhaSelecionada(); if (entidade
+		 * != null) { // FrmProrrogar frm = getBean(FrmProrrogar.class); FrmAtualizar
+		 * frm = SpringBootApp.getBean(FrmAtualizar.class); frm.setId(entidade.getId());
+		 * this.dialogo(frm); listar(); } else
+		 * SSMensagem.avisa("Selecione um item da lista");
+		 */
 	}
 
-	private void abrirCadastro(Lancamento entidade) {
-		FrmLancamentoPrevisao frm = SpringBootApp.getBean(FrmLancamentoPrevisao.class);
-		frm.setEntidade(entidade);
-		this.exibir(frm);
+	private void amortizar() {
+		/*
+		 * Lancamento entidade = (Lancamento) grid.getLinhaSelecionada(); if (entidade
+		 * != null) { FrmAmortizar frm = SpringBootApp.getBean(FrmAmortizar.class);
+		 * frm.setId(entidade.getId()); this.dialogo(frm); listar(); } else
+		 * SSMensagem.avisa("Selecione um item da lista");
+		 */
+	}
+
+	private void compensar() {
+		/*
+		 * Lancamento entidade = (Lancamento) grid.getLinhaSelecionada(); if (entidade
+		 * != null) { FrmCompensar frm = SpringBootApp.getBean(FrmCompensar.class);
+		 * frm.setId(entidade.getId()); this.dialogo(frm); listar(); } else
+		 * SSMensagem.avisa("Selecione um item da lista");
+		 */
+
+	}
+
+	private void compensarSelecionados() {
+		/*
+		 * if (cboConta.getValue() == null) {
+		 * SSMensagem.avisa("Favor selecione uma conta"); return; } if
+		 * (SSMensagem.pergunta("Confirma compensar os itens selecionados?")) { Object[]
+		 * itens = grid.getLinhasSelecionadas(); if (itens == null || itens.length == 0)
+		 * { SSMensagem.avisa("Nenhuma linha selecionada"); return; } Integer[] ids =
+		 * new Integer[itens.length]; for (int x = 0; x < itens.length; x++) {
+		 * Lancamento vo = (Lancamento) itens[x]; ids[x] = vo.getId(); }
+		 * service.compensarLancamento(new Date(), ids);
+		 * SSMensagem.informa("Lançamentos compensados com sucesso!!"); listar(); }
+		 */
 	}
 
 	private void listar() {
@@ -292,21 +357,20 @@ public class FrmLancamentos extends Formulario {
 			Natureza nat = (Natureza) cboNatureza.getValue();
 			Integer cId=conta==null?null:conta.getId();
 			Integer nId=nat==null?null:nat.getId();
-			lista = service.listarLancamentos(txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId );
-			if(lista.size()==0)
+			lista = service.listarPrevisoes(txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId);
+			if (lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
-			
+
 			grid.setValue(lista);
-			total = CfipUtil.lancamentos(lista);
+			total = CfipUtil.previsoes(lista);
 			txtSaldoAtual.setValue(total.getSaldo());
-			txtSaldoAtual.setComponenteCorFonte(total.getSaldo() < 0.0d ? Color.RED: Color.BLUE);
+			txtSaldoAtual.setComponenteCorFonte(total.getSaldo() < 0.0d ? Color.RED : Color.BLUE);
 			txtDespesas.setValue(total.getDebito());
 			txtReceitas.setValue(total.getCredito());
 		} catch (Exception e) {
 			e.printStackTrace();
-			SSMensagem.erro(e.getMessage());
+			// Mensagem.erro(e.getMessage());
 		}
 
 	}
-
 }

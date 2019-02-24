@@ -276,10 +276,10 @@ public class MDICfip extends MDI {
 		exibir((Formulario)SpringBootApp.getBean(FrmLancamentoTransferencia.class));
 	}
 	private void exibirProjecoes() {
-		//exibir((Formulario)SpringBootApp.getBean(FrmProjecoes.class));
+		exibir((Formulario)SpringBootApp.getBean(FrmProjecoes.class));
 	}
 	private void exibirMovimentacoes() {
-		//exibir((Formulario)SpringBootApp.getBean(FrmMovimentacoes.class));
+		exibir((Formulario)SpringBootApp.getBean(FrmMovimentacoes.class));
 	}
 	private void exibirLactoDespesaRapida() {
 		//exibir((Formulario)SpringBootApp.getBean(FrmLancamentoDespesaRapida.class));
@@ -297,7 +297,7 @@ public class MDICfip extends MDI {
 		exibir((Formulario) SpringBootApp.getBean(FrmLancamentos.class));
 	}
 	private void exibirConsultaPrevisoes() {
-		//exibir((Formulario)SpringBootApp.getBean(FrmPrevisoes.class));
+		exibir((Formulario)SpringBootApp.getBean(FrmPrevisoes.class));
 	}
 	private void exibirBackup() {
 		//exibir((Formulario)SpringBootApp.getBean(FrmBackup.class));

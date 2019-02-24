@@ -14,6 +14,9 @@ public interface ContaRepository extends JpaRepository<Conta, Integer> {
 	@Query("SELECT e FROM Conta e ORDER BY e.nome")
 	public List<Conta> listar();
 	
+	@Query("SELECT e FROM Conta e WHERE e.id= :id ORDER BY e.nome")
+	public List<Conta> listar(@Param("id")Integer id);
+	
 	@Query("SELECT e FROM Conta e WHERE e.nome = :nome ORDER BY e.nome")
 	public List<Conta> listar(@Param("nome")String nome);
 	
