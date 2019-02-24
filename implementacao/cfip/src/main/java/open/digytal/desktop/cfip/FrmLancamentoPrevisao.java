@@ -61,7 +61,6 @@ public class FrmLancamentoPrevisao extends Formulario {
 	private SSCaixaCombinacao cboNatureza = new SSCaixaCombinacao();
 	private SSCaixaCombinacao cboDestino = new SSCaixaCombinacao();
 	private SSCaixaCombinacao cboContato = new SSCaixaCombinacao();
-	private SSCaixaCombinacao cboFatura = new SSCaixaCombinacao();
 	private JCheckBox chkNovo = new JCheckBox("Novo?");
 	private JCheckBox chkRateio = new JCheckBox("Rateio Parcela?");
 	public FrmLancamentoPrevisao() {
@@ -75,14 +74,13 @@ public class FrmLancamentoPrevisao extends Formulario {
 		getRodape().add(chkNovo);
 		getRodape().add(cmdSalvar);
 		getRodape().add(cmdSair);
-		cboFatura.setRotulo("Fatura - Lote");
 		// IMPORTANTE
 		getConteudo().setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		GridBagLayout gbl_panelCampos = new GridBagLayout();
 		getConteudo().setLayout(gbl_panelCampos);
 
 		GridBagConstraints gbc_txtData = new GridBagConstraints();
-		gbc_txtData.gridwidth = 1;
+		gbc_txtData.gridwidth = 2;
 		gbc_txtData.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtData.anchor = GridBagConstraints.WEST;
 		gbc_txtData.insets = new Insets(3, 3, 0, 0);
@@ -90,16 +88,7 @@ public class FrmLancamentoPrevisao extends Formulario {
 		gbc_txtData.gridy = 0;
 		txtData.setColunas(8);
 		getConteudo().add(txtData, gbc_txtData);
-		
-		GridBagConstraints gbc_cboFatura = new GridBagConstraints();
-		gbc_cboFatura.gridwidth = 1;
-		gbc_cboFatura.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboFatura.anchor = GridBagConstraints.WEST;
-		gbc_cboFatura.insets = new Insets(3, 3, 0, 3);
-		gbc_cboFatura.gridx = 1;
-		gbc_cboFatura.gridy = 0;
 		txtData.setColunas(8);
-		getConteudo().add(cboFatura, gbc_cboFatura);
 		
 		GridBagConstraints gbc_cboConta = new GridBagConstraints();
 		gbc_cboConta.gridwidth = 2;
@@ -225,13 +214,7 @@ public class FrmLancamentoPrevisao extends Formulario {
 		        habilitarDestino();
 		    }
 		});
-		cboFatura.addActionListener (new ActionListener () {
-		    public void actionPerformed(ActionEvent e) {
-		        habilitarPrevisao();
-		    }
-		});
 		txtParcelas.setRotulo("Parcelas");
-		cboFatura.setEditavel(false);
 		inicializa();
 		
 	}
@@ -246,16 +229,6 @@ public class FrmLancamentoPrevisao extends Formulario {
 				txtValor.setComponenteCorFonte(Color.RED);
 		}
 	}
-	private void habilitarPrevisao() {
-		/*
-		 * Fatura fatura = (Fatura) cboFatura.getValue();
-		 * txtParcelas.setEditavel(fatura==null);
-		 * txtDataPrevisao.setEditavel(fatura==null);
-		 * 
-		 * if(fatura!=null) { txtDataPrevisao.setDataHora(fatura.getVencimento());
-		 * SSMensagem.avisa("Ao selecionar fatura, será gerada uma única parcela"); }
-		 */
-	} 
 	private void salvar() {
 		try {
 			entidade = new Lancamento();

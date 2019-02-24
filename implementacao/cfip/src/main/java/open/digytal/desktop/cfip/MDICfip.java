@@ -294,7 +294,7 @@ public class MDICfip extends MDI {
 		exibir((Formulario)SpringBootApp.getBean(FrmLancamentoPrevisao.class));
 	}
 	private void exibirConsultaLancamentos() {
-		//exibir((Formulario) SpringBootApp.getBean(FrmLancamentos.class));
+		exibir((Formulario) SpringBootApp.getBean(FrmLancamentos.class));
 	}
 	private void exibirConsultaPrevisoes() {
 		//exibir((Formulario)SpringBootApp.getBean(FrmPrevisoes.class));

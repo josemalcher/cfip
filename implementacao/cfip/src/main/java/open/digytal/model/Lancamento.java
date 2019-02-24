@@ -147,14 +147,16 @@ public class Lancamento {
 		copia.setTransferencia(true);
 		copia.setValor(valor);
 		copia.origem=this;
-		this.valor=this.valor * -1;
 		this.transferencia=true;
 		this.tipoMovimento=TipoMovimento.D;
 		return copia;
 	}
-	
+	public Double getValorMovimento() {
+		return tipoMovimento==TipoMovimento.D?valor * -1:valor;
+	}
 	@PrePersist
 	private void periodo() {
 		this.periodo = Integer.valueOf(Formatador.formatar(DataHora.ano(data),"0000") + Formatador.formatar(DataHora.mes(data),"00"));
+		this.valor=getValorMovimento();
 	}
 }
