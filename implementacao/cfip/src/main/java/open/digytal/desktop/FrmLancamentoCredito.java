@@ -1,6 +1,5 @@
-package open.digytal.desktop.cfip;
+package open.digytal.desktop;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -19,12 +18,14 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import open.digytal.SpringBootApp;
 import open.digytal.controller.LancamentoController;
 import open.digytal.model.Conta;
 import open.digytal.model.Lancamento;
 import open.digytal.model.Natureza;
 import open.digytal.model.TipoMovimento;
 import open.digytal.repository.ContaRepository;
+import open.digytal.repository.LancamentoRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.Formulario;
@@ -37,15 +38,15 @@ import open.digytal.util.desktop.ss.SSMensagem;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class FrmLancamentoTransferencia extends Formulario {
+public class FrmLancamentoCredito extends Formulario {
 	private SSCampoDataHora txtData = new SSCampoDataHora();
 	private SSCampoNumero txtValor = new SSCampoNumero();
+	private SSCampoNumero txtTxCambio = new SSCampoNumero();
 	private SSCampoTexto txtDescricao = new SSCampoTexto();
 
 	private SSBotao cmdSalvar = new SSBotao();
 	private SSBotao cmdSair = new SSBotao();
 	private Lancamento entidade;
-
 	@Autowired
 	private LancamentoController service;
 	@Autowired
@@ -54,20 +55,20 @@ public class FrmLancamentoTransferencia extends Formulario {
 	private NaturezaRepository naturezaService;
 	private SSCaixaCombinacao cboConta = new SSCaixaCombinacao();
 	private SSCaixaCombinacao cboNatureza = new SSCaixaCombinacao();
-	private SSCaixaCombinacao cboDestino = new SSCaixaCombinacao();
 	private JCheckBox chkNovo = new JCheckBox("Novo?");
 
-	public FrmLancamentoTransferencia() {
+	public FrmLancamentoCredito() {
 		init();
 	}
 
 	private void init() {
 		// HERANÇA
-		super.setTitulo("Transferência");
-		super.setDescricao("Transferências entre contas");
+		super.setTitulo("Receitas");
+		super.setDescricao("Lançamento de créditos e receitas");
 		getRodape().add(chkNovo);
 		getRodape().add(cmdSalvar);
 		getRodape().add(cmdSair);
+
 		// IMPORTANTE
 		JPanel panelCampos = super.getConteudo();
 		panelCampos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -75,60 +76,70 @@ public class FrmLancamentoTransferencia extends Formulario {
 		panelCampos.setLayout(gbl_panelCampos);
 
 		GridBagConstraints gbc_txtData = new GridBagConstraints();
+		gbc_txtData.gridwidth = 2;
 		gbc_txtData.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtData.anchor = GridBagConstraints.WEST;
-		gbc_txtData.insets = new Insets(5, 5, 0, 5);
+		gbc_txtData.anchor = GridBagConstraints.NORTHWEST;
+		gbc_txtData.insets = new Insets(3, 3, 3, 3);
 		gbc_txtData.gridx = 0;
 		gbc_txtData.gridy = 0;
-		txtData.setColunas(10);
+		txtData.setColunas(15);
 		panelCampos.add(txtData, gbc_txtData);
 
 		GridBagConstraints gbc_cboConta = new GridBagConstraints();
-		gbc_cboConta.insets = new Insets(5, 5, 0, 5);
-		gbc_cboConta.fill = GridBagConstraints.BOTH;
+		gbc_cboConta.anchor = GridBagConstraints.NORTHWEST;
+		gbc_cboConta.gridwidth = 2;
+		gbc_cboConta.insets = new Insets(3, 3, 3, 3);
+		gbc_cboConta.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cboConta.gridx = 0;
 		gbc_cboConta.gridy = 1;
 		cboConta.setRotulo("Conta");
 		panelCampos.add(cboConta, gbc_cboConta);
 
 		GridBagConstraints gbc_cboNatureza = new GridBagConstraints();
-		gbc_cboNatureza.insets = new Insets(5, 5, 0, 5);
-		gbc_cboNatureza.fill = GridBagConstraints.BOTH;
+		gbc_cboNatureza.anchor = GridBagConstraints.NORTHWEST;
+		gbc_cboNatureza.gridwidth = 2;
+		gbc_cboNatureza.insets = new Insets(3, 3, 3, 3);
+		gbc_cboNatureza.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cboNatureza.gridx = 0;
 		gbc_cboNatureza.gridy = 2;
-		cboNatureza.setRotulo("NaturezaService");
+		cboNatureza.setRotulo("Natureza");
 		panelCampos.add(cboNatureza, gbc_cboNatureza);
 
-		GridBagConstraints gbc_cboDestino = new GridBagConstraints();
-		gbc_cboDestino.insets = new Insets(5, 5, 0, 5);
-		gbc_cboDestino.fill = GridBagConstraints.BOTH;
-		gbc_cboDestino.gridx = 0;
-		gbc_cboDestino.gridy = 3;
-		cboDestino.setRotulo("Destino");
-		panelCampos.add(cboDestino, gbc_cboDestino);
-
 		GridBagConstraints gbc_txtValor = new GridBagConstraints();
+		gbc_txtValor.anchor = GridBagConstraints.NORTHWEST;
 		gbc_txtValor.weightx = 2.0;
-		gbc_txtValor.insets = new Insets(5, 5, 0, 5);
+		gbc_txtValor.insets = new Insets(3, 3, 3, 0);
 		gbc_txtValor.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtValor.gridx = 0;
-		gbc_txtValor.gridy = 4;
-		txtValor.setComponenteCorFonte(Color.RED);
+		gbc_txtValor.gridy = 3;
 		txtValor.setComponenteNegrito(true);
 		panelCampos.add(txtValor, gbc_txtValor);
+		
+		GridBagConstraints gbc_txtTx = new GridBagConstraints();
+		gbc_txtTx.insets = new Insets(3, 3, 3, 3);
+		gbc_txtTx.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtTx.gridx = 1;
+		gbc_txtTx.gridy = 3;
+		txtValor.setComponenteNegrito(true);
+		txtTxCambio.setColunas(6);
+		panelCampos.add(txtTxCambio, gbc_txtTx);
 
 		txtData.setRotulo("Data Registro");
-		txtValor.setColunas(10);
+		txtValor.setColunas(15);
 		txtValor.setRotulo("Valor");
 		txtValor.setFormato(Formato.MOEDA);
+		txtTxCambio.setRotulo("R$ Tx");
+		txtTxCambio.setFormato(Formato.MOEDA);
+		txtTxCambio.setComponenteNegrito(true);
 
 		GridBagConstraints gbc_txtDescricao = new GridBagConstraints();
-		gbc_txtDescricao.weighty = 1.0;
+		gbc_txtDescricao.gridwidth = 2;
 		gbc_txtDescricao.anchor = GridBagConstraints.NORTHWEST;
-		gbc_txtDescricao.insets = new Insets(5, 5, 0, 5);
+		gbc_txtDescricao.weighty = 1.0;
+		gbc_txtDescricao.insets = new Insets(3, 3, 3, 3);
 		gbc_txtDescricao.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtDescricao.gridx = 0;
-		gbc_txtDescricao.gridy = 5;
+		gbc_txtDescricao.gridy = 4;
 		txtDescricao.setColunas(15);
 		txtDescricao.setRotulo("Descrição");
 		panelCampos.add(txtDescricao, gbc_txtDescricao);
@@ -147,6 +158,7 @@ public class FrmLancamentoTransferencia extends Formulario {
 				sair();
 			}
 		});
+
 		inicializa();
 
 	}
@@ -155,13 +167,11 @@ public class FrmLancamentoTransferencia extends Formulario {
 		try {
 			entidade = new Lancamento();
 			entidade.setValor(txtValor.getDouble());
+			//entidade.getComplemento().setTaxaConversao(txtTxCambio.getDouble());
 			entidade.setDescricao(txtDescricao.getText());
 			Conta conta = (Conta) cboConta.getValue();
-			Conta destino = (Conta) cboDestino.getValue();
 			Natureza natureza = (Natureza) cboNatureza.getValue();
 			entidade.setConta(conta);
-			if (destino != null)
-				entidade.setDestino(destino);
 
 			entidade.setData(txtData.getDataHora());
 			entidade.setNatureza(natureza);
@@ -173,19 +183,11 @@ public class FrmLancamentoTransferencia extends Formulario {
 				SSMensagem.avisa("Dados incompletos");
 				return;
 			}
-			if (entidade.getTipoMovimento() == TipoMovimento.T && destino == null) {
-				SSMensagem.avisa("Dados incompletos");
-
-				return;
-			}
-			if (entidade.getConta() == entidade.getDestino()) {
-				SSMensagem.avisa("Origem e Destino são iguais");
-				return;
-			}
 			service.incluir(entidade);
-			SSMensagem.informa("Lançamento registrado com sucesso!!");
+			SSMensagem.informa("Receita registrada com sucesso!!");
 			novo();
 		} catch (Exception e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -202,6 +204,7 @@ public class FrmLancamentoTransferencia extends Formulario {
 		txtData.requestFocus();
 		txtData.setValue(new Date());
 		txtValor.setValue(0.0d);
+		txtTxCambio.setValue(0.0d);
 		txtData.setDataHora(new Date());
 		txtDescricao.setText("");
 	}
@@ -213,8 +216,6 @@ public class FrmLancamentoTransferencia extends Formulario {
 	public void carregar() {
 		List<Conta> contas = contaService.listar();
 		cboConta.setItens(contas, "nome");
-		cboDestino.setItens(contas, "nome");
-		cboNatureza.setItens(naturezaService.listar(TipoMovimento.T), "nomeSigla");
-
+		cboNatureza.setItens(naturezaService.listar(TipoMovimento.C), "nomeSigla");
 	}
 }

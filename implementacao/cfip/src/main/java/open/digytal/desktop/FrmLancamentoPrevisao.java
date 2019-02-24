@@ -1,4 +1,4 @@
-package open.digytal.desktop.cfip;
+package open.digytal.desktop;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;

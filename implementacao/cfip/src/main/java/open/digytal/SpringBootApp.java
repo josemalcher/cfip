@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import open.digytal.desktop.cfip.MDICfip;
+import open.digytal.desktop.MDICfip;
 import open.digytal.model.Categoria;
 import open.digytal.model.Conta;
 import open.digytal.model.Natureza;
