@@ -151,6 +151,20 @@ public class Lancamento {
 		this.tipoMovimento=TipoMovimento.D;
 		return copia;
 	}
+	public static Lancamento compensacao(Parcela parcela) {
+		Lancamento lancamento = parcela.getLancamento();
+		Lancamento copia = new Lancamento();
+		copia.setTransferencia(true);
+		copia.setDescricao("COMPENSACAO.DE: " + parcela.getDescricao());
+		copia.setTipoMovimento(lancamento.getTipoMovimento());
+		copia.setPrevisao(false);
+		copia.setConta(lancamento.getConta());
+		copia.setData(new Date());
+		copia.setNatureza(lancamento.getNatureza());
+		copia.setTransferencia(false);
+		copia.setValor(parcela.getValor());
+		return copia;
+	}
 	public Double getValorMovimento() {
 		valor = tipoMovimento==TipoMovimento.D?valor * -1:valor;
 		return valor;

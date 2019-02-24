@@ -77,5 +77,7 @@ public class Parcela {
 	public void setCompensacao(Date compensacao) {
 		this.compensacao = compensacao;
 	}
-	
+	public String getDescricao() {
+		return lancamento.getDescricao() + " PARC:" + numero + " DE:" + lancamento.getParcelamento().getConfiguracao();
+	}
 }

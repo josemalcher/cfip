@@ -296,7 +296,7 @@ public class FrmParcelas extends Formulario {
 		try {
 			Parcela p = (Parcela) grid.getLinhaSelecionada();
 			if (p != null) {
-				lblDesc.setText(p.getLancamento().getDescricao() + " (P:" +p.getNumero() + "DE:" + p.getLancamento().getParcelamento().getConfiguracao()+")");
+				lblDesc.setText(p.getDescricao());
 			}
 		} catch (java.lang.IndexOutOfBoundsException e) {
 			e.printStackTrace();
@@ -308,6 +308,7 @@ public class FrmParcelas extends Formulario {
 	}
 
 	private void prorrogar() {
+		SSMensagem.avisa("NÃO IMPLEMENTADO");
 		/*
 		 * Lancamento entidade = (Lancamento) grid.getLinhaSelecionada(); if (entidade
 		 * != null) { // FrmProrrogar frm = getBean(FrmProrrogar.class); FrmAtualizar
@@ -318,6 +319,7 @@ public class FrmParcelas extends Formulario {
 	}
 
 	private void amortizar() {
+		SSMensagem.avisa("NÃO IMPLEMENTADO");
 		/*
 		 * Lancamento entidade = (Lancamento) grid.getLinhaSelecionada(); if (entidade
 		 * != null) { FrmAmortizar frm = SpringBootApp.getBean(FrmAmortizar.class);
@@ -327,16 +329,19 @@ public class FrmParcelas extends Formulario {
 	}
 
 	private void compensar() {
-		/*
-		 * Lancamento entidade = (Lancamento) grid.getLinhaSelecionada(); if (entidade
-		 * != null) { FrmCompensar frm = SpringBootApp.getBean(FrmCompensar.class);
-		 * frm.setId(entidade.getId()); this.dialogo(frm); listar(); } else
-		 * SSMensagem.avisa("Selecione um item da lista");
-		 */
+		Parcela entidade = (Parcela) grid.getLinhaSelecionada();
+		if (entidade != null) {
+			FrmCompensar frm = SpringBootApp.getBean(FrmCompensar.class);
+			frm.setId(entidade.getId());
+			this.dialogo(frm);
+			listar();
+		} else
+			SSMensagem.avisa("Selecione um item da lista");
 
 	}
 
 	private void compensarSelecionados() {
+		SSMensagem.avisa("NÃO IMPLEMENTADO");
 		/*
 		 * if (cboConta.getValue() == null) {
 		 * SSMensagem.avisa("Favor selecione uma conta"); return; } if
