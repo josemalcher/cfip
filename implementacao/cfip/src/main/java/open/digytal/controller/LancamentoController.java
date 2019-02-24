@@ -30,7 +30,7 @@ public class LancamentoController {
 			Integer inicio=Integer.valueOf(intervalo[0].trim());
 			Integer fim = Integer.valueOf(intervalo[1].trim());
 			Integer parcelas = 1+(fim-inicio);
-			for (int numero = inicio; numero <= parcelas; numero++) {
+			for (int numero = inicio; numero <= fim; numero++) {
 				Parcela parcela = new Parcela();
 				parcela.setLancamento(lancamento);
 				parcela.setNumero(numero);
