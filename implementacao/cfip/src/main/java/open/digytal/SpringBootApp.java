@@ -50,8 +50,12 @@ public class SpringBootApp {
 			Conta carteira = new Conta();
 			carteira.setNome("CARTEIRA");
 		    carteira.setSigla("CTR");
-			carteira.setPropria(true);
+		    carteira.setPropria(true);
+			//TESTE
+		    carteira.setSaldoInicial(1000.0);
+		    carteira.setSaldoAtual(1000.0);
 			
+		    
 			Conta poupanca = new Conta();
 			poupanca.setNome("CONTA POUPANCA");
 			poupanca.setSigla("CPA");

@@ -34,6 +34,10 @@ public class Lancamento {
 	private Conta conta;
 	
 	@ManyToOne
+	@JoinColumn(name="cd_destino")
+	private Conta destino;
+	
+	@ManyToOne
 	@JoinColumn(name="cd_natureza",nullable=false)
 	private Natureza natureza;
 	
@@ -109,6 +113,23 @@ public class Lancamento {
 	}
 	public void setPrevisao(boolean previsao) {
 		this.previsao = previsao;
+	}
+	public Conta getDestino() {
+		return destino;
+	}
+	public void setDestino(Conta destino) {
+		this.destino = destino;
+	}
+	public Lancamento copia() {
+		Lancamento copia = new Lancamento();
+		copia.setTransferencia(true);
+		copia.setDescricao("TRANSF.DE: " + conta.getNome() + " - " + descricao + "(ORIGEM: " + id +")" );
+		copia.setTipoMovimento(TipoMovimento.C);
+		copia.setPrevisao(previsao);
+		copia.setConta(destino);
+		copia.setData(data);
+		copia.setNatureza(natureza);
+		return copia;
 	}
 	@PrePersist
 	private void periodo() {

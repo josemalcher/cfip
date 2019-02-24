@@ -273,7 +273,7 @@ public class MDICfip extends MDI {
 		//exibir((Formulario)SpringBootApp.getBean(FrmContatos.class));
 	}
 	private void exibirTransferencia() {
-		//exibir((Formulario)SpringBootApp.getBean(FrmLancamentoTransferencia.class));
+		exibir((Formulario)SpringBootApp.getBean(FrmLancamentoTransferencia.class));
 	}
 	private void exibirProjecoes() {
 		//exibir((Formulario)SpringBootApp.getBean(FrmProjecoes.class));
