@@ -34,6 +34,7 @@ import open.digytal.model.Natureza;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
+import open.digytal.util.Calendario;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;
 import open.digytal.util.desktop.Formulario;
@@ -88,7 +89,7 @@ public class FrmPrevisoes extends Formulario {
 		cboConta.setPreferredWidth(180);
 		cboNatureza.setPreferredWidth(150);
 		super.setTitulo("Consulta de Previsões");
-		super.setDescricao("Registro dos valores à pagar e à receber");
+		super.setDescricao("Registro dos valores previstos para compensação");
 		setAlinhamentoRodape(FlowLayout.LEFT);
 		getRodape().add(cmdCompensar);
 		getRodape().add(cmdAmortizar);
@@ -287,8 +288,9 @@ public class FrmPrevisoes extends Formulario {
 		cboNatureza.setPrimeiroElementoVazio(true);
 		cboConta.setItens(contaService.listar(), "nome");
 		cboNatureza.setItens(naturezaService.listar(), "nome");
-		txtDataDe.setDataHora(SSDataHora.primeiroDiaDoMes());
-		txtDataAte.setDataHora(SSDataHora.ultimoDiaDoMes());
+		int ano = SSDataHora.pegaAno(new Date());
+		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
+		txtDataAte.setDataHora(Calendario.data(31, 12, ano));
 
 	}
 

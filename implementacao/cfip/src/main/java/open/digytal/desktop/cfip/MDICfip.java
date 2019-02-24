@@ -90,7 +90,7 @@ public class MDICfip extends MDI {
 				exibirLactoReceita();
 			}
 		});
-
+		
 		JMenuItem mnPrevisoes = new JMenuItem("Previsões");
 		mnPrevisoes.setIcon(Imagem.png("previsao"));
 		mnPrevisoes.addActionListener(new ActionListener() {
@@ -139,6 +139,15 @@ public class MDICfip extends MDI {
 		});
 		mnConsultas.add(mnConsultaLancamentos);
 
+		JMenuItem mnConsultaParcelas = new JMenuItem("Parcelas");
+		mnConsultaParcelas.setIcon(Imagem.png("calendario10"));
+		mnConsultaParcelas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				exibirConsultaParcelas();
+			}
+		});
+		mnConsultas.add(mnConsultaParcelas);
+		
 		JMenuItem mnConsultaPrevisoes = new JMenuItem("Previsões");
 		mnConsultaPrevisoes.setIcon(Imagem.png("calendario10"));
 		mnConsultaPrevisoes.addActionListener(new ActionListener() {
@@ -146,7 +155,6 @@ public class MDICfip extends MDI {
 				exibirConsultaPrevisoes();
 			}
 		});
-
 		mnConsultas.add(mnConsultaPrevisoes);
 		
 		JMenuItem mnProjecoes = new JMenuItem("Projeções");
@@ -298,6 +306,9 @@ public class MDICfip extends MDI {
 	}
 	private void exibirConsultaPrevisoes() {
 		exibir((Formulario)SpringBootApp.getBean(FrmPrevisoes.class));
+	}
+	private void exibirConsultaParcelas() {
+		exibir((Formulario)SpringBootApp.getBean(FrmParcelas.class));
 	}
 	private void exibirBackup() {
 		//exibir((Formulario)SpringBootApp.getBean(FrmBackup.class));

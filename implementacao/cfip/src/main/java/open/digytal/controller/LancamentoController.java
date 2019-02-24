@@ -31,7 +31,7 @@ public class LancamentoController {
 	private EntityManager em;
 
 	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM Lancamento l WHERE l.previsao = :previsao AND l.data BETWEEN :inicio AND :fim ";
-
+	private final String SQL_PARCELA = "SELECT p FROM Parcela p WHERE p.vencimento BETWEEN :inicio AND :fim ";
 	private List<Lancamento> listarLancamentos(boolean previsao, Date inicio, Date fim, Integer conta,
 			Integer natureza) {
 		StringBuilder sql = new StringBuilder(SQL_LANCAMENTO_PREVISAO);
@@ -69,13 +69,34 @@ public class LancamentoController {
 		return lista;
 	}
 
-	// TELA DE LANCAMENTOS
 	public List<Lancamento> listarLancamentos(Date inicio, Date fim, Integer conta, Integer natureza) {
 		return listarLancamentos(false, inicio, fim, conta, natureza);
 	}
-	// TELA DE PREVISOES
 	public List<Lancamento> listarPrevisoes(Date inicio, Date fim, Integer conta, Integer natureza) {
 		return listarLancamentos(true, inicio, fim, conta, natureza);
+	}
+	public List<Parcela> listarParcelas(Date inicio, Date fim, Integer conta,Integer natureza) {
+		StringBuilder sql = new StringBuilder(SQL_PARCELA);
+
+		if (natureza != null && natureza > 0) {
+			sql.append(" AND p.lancamento.natureza.id=:natureza ");
+		}
+		if (conta != null && conta > 0) {
+			sql.append(" AND p.lancamento.conta.id=:conta ");
+		}
+		sql = sql.append(" ORDER BY p.vencimento");
+
+		TypedQuery<Parcela> query = em.createQuery(sql.toString(), Parcela.class);
+		query.setParameter("inicio", inicio);
+		query.setParameter("fim", fim);
+		if (natureza != null && natureza > 0)
+			query.setParameter("natureza", natureza);
+
+		if (conta != null && conta > 0)
+			query.setParameter("conta", conta);
+
+		List<Parcela> lista = query.getResultList();
+		return lista;
 	}
 	@Transactional
 	public void incluir(Lancamento lancamento) {

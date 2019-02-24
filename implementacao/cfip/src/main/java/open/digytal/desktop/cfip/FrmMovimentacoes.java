@@ -341,7 +341,7 @@ public class FrmMovimentacoes extends Formulario {
 			gridLancamento.setValue(lanctos);
 			totalLancto = CfipUtil.totais(lanctos);
 
-			previsoes = service.listarPrevisoes(txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
+			previsoes = null;//service.listarPrevisoes(txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
 			
 			if(lanctos.size()==0 &&  previsoes.size()==0)
 				SSMensagem.avisa("Nenhum dado encontrado");
