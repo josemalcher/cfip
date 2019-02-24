@@ -60,6 +60,9 @@ public class Calendario implements DataHoraConstants {
     public static Date rolar(Date data,int campo, int valor){
         return calcular(data,ROLAR,campo,valor);
     }
+    public static Date rolarMes(Date data,int valor){
+        return calcular(data,ROLAR,MES,valor);
+    }
     public static Date subtrair(Date data,int campo, int valor){
         return calcular(data,SUBTRAIR,campo,valor);
     }

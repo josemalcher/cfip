@@ -32,6 +32,7 @@ public class Parcela {
 	@Column(nullable=false)
 	private boolean compensada;
 	@Temporal(TemporalType.DATE)
+	@Column(nullable=true)
 	private Date compensacao;
 	public Integer getId() {
 		return id;
