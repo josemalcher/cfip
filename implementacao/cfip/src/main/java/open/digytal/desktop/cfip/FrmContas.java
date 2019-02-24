@@ -181,10 +181,11 @@ public class FrmContas extends Formulario {
 			SSMensagem.avisa("Selecione um item da lista");
 			return;
 		}
-		/*
-		 * FrmExtrato frm = SpringBootApp.getBean(FrmExtrato.class);
-		 * frm.setConta(entidade); frm.carregar(); this.exibirDialogo(frm);
-		 */
+		  FrmExtrato frm = SpringBootApp.getBean(FrmExtrato.class);
+		  frm.setConta(entidade); 
+		  frm.carregar();
+		  this.exibirDialogo(frm);
+		 
 	}
 	private void incluir() {
 		exibirCadastro(null);

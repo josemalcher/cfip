@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import open.digytal.util.Imagem;
 import open.digytal.util.TipoOperacao;
@@ -107,9 +108,8 @@ public abstract class Formulario extends JPanel {
 		JInternalFrame internal = new JInternalFrame(getTitulo());
 		internal.setFrameIcon(Imagem.png("app"));
 		internal.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-
-		internal.setVisible(true);
 		internal.setResizable(true);
+		internal.setVisible(true);
 		internal.setContentPane(frm);
 		internal.setSize(frm.getWidth(), frm.getHeight());
 		try {
@@ -214,8 +214,10 @@ public abstract class Formulario extends JPanel {
 	private static void criarDialogo(JPanel form) {
 		JDialog dialog = new JDialog();
 		dialog.setResizable(false);
+		
 		dialog.setUndecorated(true);
-		dialog.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+		//dialog.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+		
 		dialog.setModal(true);
 		dialog.setContentPane(form);
 		dialog.pack();

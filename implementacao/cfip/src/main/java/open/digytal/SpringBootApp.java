@@ -47,10 +47,20 @@ public class SpringBootApp {
 		ContaRepository cr = contexto.getBean(ContaRepository.class);
 		NaturezaRepository cn = contexto.getBean(NaturezaRepository.class);
 		if(cr.listar().isEmpty()) {
-			Conta conta = new Conta();
-			conta.setNome("BB 78595");
-			conta.setSigla("BB 78595");
-			conta.setPropria(true);
+			Conta carteira = new Conta();
+			carteira.setNome("CARTEIRA");
+		    carteira.setSigla("CTR");
+			carteira.setPropria(true);
+			
+			Conta poupanca = new Conta();
+			poupanca.setNome("CONTA POUPANCA");
+			poupanca.setSigla("CPA");
+			poupanca.setPropria(true);
+			
+			Conta corrente = new Conta();
+			corrente.setNome("CONTA CORRENTE");
+			corrente.setSigla("CCR");
+			corrente.setPropria(true);
 			
 			Natureza receita = new Natureza();
 			receita.setNome("RECEITA");
@@ -62,9 +72,18 @@ public class SpringBootApp {
 			despesa.setTipoMovimento(TipoMovimento.D);
 			despesa.setCategoria(Categoria.D);
 			
-			cr.save(conta);
+			Natureza transferencia = new Natureza();
+			transferencia.setNome("TRANSFERENCIA");
+			transferencia.setTipoMovimento(TipoMovimento.T);
+			transferencia.setCategoria(Categoria.T);
+			
+			cr.save(carteira);
+			cr.save(corrente);
+			cr.save(poupanca);
+			
 			cn.save(receita);
 			cn.save(despesa);
+			cn.save(transferencia);
 		}
 	}
 	static void init() {

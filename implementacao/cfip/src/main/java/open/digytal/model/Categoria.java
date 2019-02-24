@@ -19,6 +19,7 @@ public enum Categoria {
 	CO("CUSTO OPERACIONAL"),
 	O("OBRIGACOES"),
 	B("TRIBUTOS"),
+	Z("TRANSACOES"),
 	;
 	private String nome;
 	private Categoria(String nome) {

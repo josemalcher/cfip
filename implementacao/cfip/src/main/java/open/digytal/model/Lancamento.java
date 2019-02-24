@@ -53,6 +53,15 @@ public class Lancamento {
 	@Column(nullable=false)
 	private boolean previsao;
 	
+	@Column(nullable=false)
+	private boolean transferencia;
+	
+	public boolean isTransferencia() {
+		return transferencia;
+	}
+	public void setTransferencia(boolean transferencia) {
+		this.transferencia = transferencia;
+	}
 	public Integer getPeriodo() {
 		return periodo;
 	}
