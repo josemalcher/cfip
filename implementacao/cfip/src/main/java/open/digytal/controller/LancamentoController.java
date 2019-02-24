@@ -18,31 +18,21 @@ public class LancamentoController {
 	private LancamentoRepository repository;
 	@Transactional
 	public void incluir(Lancamento lancamento) {
+		Lancamento transferencia=null;
 		TipoMovimento tipoMovimento = lancamento.getTipoMovimento();
-		boolean transfere=TipoMovimento.T == tipoMovimento;
-		Double valor = tipoMovimento==TipoMovimento.C? lancamento.getValor() : lancamento.getValor() * -1;
-		
-		lancamento.setValor(valor);
-		lancamento.setTransferencia(transfere);
-		lancamento= repository.save(lancamento);
-		
-		if (transfere) {
-			lancamento.setTipoMovimento(TipoMovimento.D);
-			Lancamento transferencia = lancamento.copia();
-			transferencia.setValor(valor *-1);
+		//boolean transfere=tipoMovimento==TipoMovimento.T;
+		if (tipoMovimento==TipoMovimento.T) {
+			transferencia = lancamento.copia();
+			Conta destino = transferencia.getConta();
+			destino.setSaldoAtual(destino.getSaldoAtual() + transferencia.getValor());
+			contaRepository.save(destino);
 			repository.save(transferencia);
 		}
+		Conta conta = lancamento.getConta();
+		conta.setSaldoAtual(conta.getSaldoAtual() + lancamento.getValor());
+		contaRepository.save(conta);
 		
-		if (!lancamento.isPrevisao()) {
-			Conta conta = lancamento.getConta();
-			conta.setSaldoAtual(conta.getSaldoAtual() + valor);
-			contaRepository.save(conta);
-			if (transfere) {
-				Conta destino = lancamento.getDestino();
-				destino.setSaldoAtual(destino.getSaldoAtual() + (valor *-1));
-				contaRepository.save(destino);
-			}
-		}
+		lancamento= repository.save(lancamento);
 		
 	}
 }
