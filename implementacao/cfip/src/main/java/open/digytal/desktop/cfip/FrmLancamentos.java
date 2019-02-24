@@ -136,6 +136,7 @@ public class FrmLancamentos extends Formulario {
 		grid.getModeloColuna().setCampo(2, "natureza.nome");
 		grid.getModeloColuna().setCampo(3, "valor");
 		grid.getModeloColuna().setFormato(3, Formato.MOEDA);
+		
 		cmdIncluir.setText("Novo");
 		cmdFechar.setText("Fechar");
 		cmdBuscar.setText("Buscar");

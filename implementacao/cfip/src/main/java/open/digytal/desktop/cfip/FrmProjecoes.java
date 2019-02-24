@@ -10,6 +10,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -31,6 +32,7 @@ import open.digytal.model.Natureza;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
+import open.digytal.util.Calendario;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;
 import open.digytal.util.desktop.Formulario;
@@ -124,37 +126,48 @@ public class FrmProjecoes extends Formulario {
 		
 		gridContas.getModeloTabela().addColumn("Sigla");
 		gridContas.getModeloTabela().addColumn("Nome");
-		gridContas.getModeloTabela().addColumn("Saldo");
-		gridContas.getModeloColuna().getColumn(0).setPreferredWidth(130);
-		gridContas.getModeloColuna().getColumn(1).setPreferredWidth(335);
-		gridContas.getModeloColuna().getColumn(2).setPreferredWidth(100);
+		gridContas.getModeloTabela().addColumn("Saldo Inicial");
+		gridContas.getModeloTabela().addColumn("Saldo Atual");
+		gridContas.getModeloTabela().addColumn("Aplicação");
+		gridContas.getModeloColuna().getColumn(0).setPreferredWidth(80);
+		gridContas.getModeloColuna().getColumn(1).setPreferredWidth(150);
+		gridContas.getModeloColuna().getColumn(2).setPreferredWidth(70);
+		gridContas.getModeloColuna().getColumn(3).setPreferredWidth(70);
+		gridContas.getModeloColuna().getColumn(4).setPreferredWidth(70);
 		gridContas.getModeloColuna().setCampo(0, "sigla");
 		gridContas.getModeloColuna().setCampo(1, "nome");
-		gridContas.getModeloColuna().setCampo(2, "saldo");
+		gridContas.getModeloColuna().setCampo(2, "saldoInicial");
+		gridContas.getModeloColuna().setCampo(3, "saldoAtual");
+		gridContas.getModeloColuna().setCampo(4, "aplicacao");
 		gridContas.getModeloColuna().setFormato(2, Formato.MOEDA);
-		gridContas.getModeloColuna().definirPositivoNegativo(2);
-
+		gridContas.getModeloColuna().setFormato(3, Formato.MOEDA);
+		
+		// campos da tabela
 		gridLancamentos.getModeloTabela().addColumn("Data");
-		gridLancamentos.getModeloTabela().addColumn("Previsão");
+		gridLancamentos.getModeloTabela().addColumn("Parcelas");
 		gridLancamentos.getModeloTabela().addColumn("Conta");
-		gridLancamentos.getModeloTabela().addColumn("NaturezaService");
+		gridLancamentos.getModeloTabela().addColumn("Natureza");
 		gridLancamentos.getModeloTabela().addColumn("Valor");
-		
-		gridLancamentos.getModeloColuna().getColumn(0).setPreferredWidth(65);
-		gridLancamentos.getModeloColuna().getColumn(1).setPreferredWidth(65);
-		gridLancamentos.getModeloColuna().getColumn(2).setPreferredWidth(175);
-		gridLancamentos.getModeloColuna().getColumn(3).setPreferredWidth(160);
-		gridLancamentos.getModeloColuna().getColumn(4).setPreferredWidth(100);
-		
+		gridLancamentos.getModeloTabela().addColumn("Restante");
+
+		gridLancamentos.getModeloColuna().getColumn(0).setPreferredWidth(50);
+		gridLancamentos.getModeloColuna().getColumn(1).setPreferredWidth(55);
+		gridLancamentos.getModeloColuna().getColumn(2).setPreferredWidth(170);
+		gridLancamentos.getModeloColuna().getColumn(3).setPreferredWidth(120);
+		gridLancamentos.getModeloColuna().getColumn(4).setPreferredWidth(70);
+		gridLancamentos.getModeloColuna().getColumn(5).setPreferredWidth(100);
+
 		gridLancamentos.getModeloColuna().setCampo(0, "data");
 		gridLancamentos.getModeloColuna().setFormato(0, "dd/MM/yy");
-		gridLancamentos.getModeloColuna().setCampo(1, "quitacao");
-		gridLancamentos.getModeloColuna().setFormato(1, "dd/MM/yy");
+		gridLancamentos.getModeloColuna().setCampo(1, "parcelamento.configuracao");
 		gridLancamentos.getModeloColuna().setCampo(2, "conta.nome");
 		gridLancamentos.getModeloColuna().setCampo(3, "natureza.nome");
 		gridLancamentos.getModeloColuna().setCampo(4, "valor");
 		gridLancamentos.getModeloColuna().setFormato(4, Formato.MOEDA);
 		gridLancamentos.getModeloColuna().definirPositivoNegativo(4);
+		gridLancamentos.getModeloColuna().setCampo(5, "parcelamento.restante");
+		gridLancamentos.getModeloColuna().setFormato(5, Formato.MOEDA);
+		gridLancamentos.getModeloColuna().definirPositivoNegativo(5);
 		
 		cmdFechar.setText("Fechar");
 		cmdBuscar.setText("Buscar");
@@ -196,7 +209,7 @@ public class FrmProjecoes extends Formulario {
 		gbc_cboNatureza.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cboNatureza.gridx = 3;
 		gbc_cboNatureza.gridy = 0;
-		cboNatureza.setRotulo("NaturezaService");
+		cboNatureza.setRotulo("Natureza");
 		painelFiltro.add(cboNatureza, gbc_cboNatureza);
 		cmdBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -267,8 +280,9 @@ public class FrmProjecoes extends Formulario {
 		cboNatureza.setPrimeiroElementoVazio(true);
 		cboConta.setItens(contaService.listar(), "nome");
 		cboNatureza.setItens(naturezaService.listar(), "nome");
-		txtDataDe.setDataHora(SSDataHora.primeiroDiaDoMes());
-		txtDataAte.setDataHora(SSDataHora.ultimoDiaDoMes());
+		int ano = SSDataHora.pegaAno(new Date());
+		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
+		txtDataAte.setDataHora(Calendario.data(31, 12, ano));
 
 	}
 	private void exibirDescricao() {
@@ -295,11 +309,14 @@ public class FrmProjecoes extends Formulario {
 			Integer cId=conta==null?null:conta.getId();
 			Integer nId=nat==null?null:nat.getId();
 			
-			lista = null;//service.listarPrevisoes(txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId);
-			contas = contaService.listar(cId);
+			lista = service.listarPrevisoes(txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId);
+			if(cId==null)
+				contas = contaService.listar();
+			else
+				contas = contaService.listar(cId);
 			gridContas.setValue(contas);
 			gridLancamentos.setValue(lista);
-			totalLancamentos = CfipUtil.totais(lista);
+			totalLancamentos = CfipUtil.previsoes(lista);
 			if(contas.size()==0 &&  lista.size()==0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 

@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -34,6 +35,7 @@ import open.digytal.model.Natureza;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
+import open.digytal.util.Calendario;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;
 import open.digytal.util.desktop.Formulario;
@@ -223,26 +225,32 @@ public class FrmMovimentacoes extends Formulario {
 		gridLancamento.getModeloColuna().definirPositivoNegativo(3);
 
 		// campos da tabela
-		gridPrevisao.getModeloTabela().addColumn("Quitação");
+		gridPrevisao.getModeloTabela().addColumn("Data");
+		gridPrevisao.getModeloTabela().addColumn("Parcelas");
 		gridPrevisao.getModeloTabela().addColumn("Conta");
 		gridPrevisao.getModeloTabela().addColumn("Natureza");
-		gridPrevisao.getModeloTabela().addColumn("Contato");
 		gridPrevisao.getModeloTabela().addColumn("Valor");
-		
-		gridPrevisao.getModeloColuna().getColumn(0).setPreferredWidth(60);
-		gridPrevisao.getModeloColuna().getColumn(1).setPreferredWidth(160);
-		gridPrevisao.getModeloColuna().getColumn(2).setPreferredWidth(120);
-		gridPrevisao.getModeloColuna().getColumn(3).setPreferredWidth(130);
-		gridPrevisao.getModeloColuna().getColumn(4).setPreferredWidth(80);
-		
-		gridPrevisao.getModeloColuna().setCampo(0, "quitacao");
+		gridPrevisao.getModeloTabela().addColumn("Restante");
+
+		gridPrevisao.getModeloColuna().getColumn(0).setPreferredWidth(50);
+		gridPrevisao.getModeloColuna().getColumn(1).setPreferredWidth(55);
+		gridPrevisao.getModeloColuna().getColumn(2).setPreferredWidth(170);
+		gridPrevisao.getModeloColuna().getColumn(3).setPreferredWidth(120);
+		gridPrevisao.getModeloColuna().getColumn(4).setPreferredWidth(70);
+		gridPrevisao.getModeloColuna().getColumn(5).setPreferredWidth(100);
+
+		gridPrevisao.getModeloColuna().setCampo(0, "data");
 		gridPrevisao.getModeloColuna().setFormato(0, "dd/MM/yy");
-		gridPrevisao.getModeloColuna().setCampo(1, "conta.nome");
-		gridPrevisao.getModeloColuna().setCampo(2, "natureza.nome");
-		gridPrevisao.getModeloColuna().setCampo(3, "contato.nome");
+		gridPrevisao.getModeloColuna().setCampo(1, "parcelamento.configuracao");
+		gridPrevisao.getModeloColuna().setCampo(2, "conta.nome");
+		gridPrevisao.getModeloColuna().setCampo(3, "natureza.nome");
 		gridPrevisao.getModeloColuna().setCampo(4, "valor");
 		gridPrevisao.getModeloColuna().setFormato(4, Formato.MOEDA);
 		gridPrevisao.getModeloColuna().definirPositivoNegativo(4);
+		gridPrevisao.getModeloColuna().setCampo(5, "parcelamento.restante");
+		gridPrevisao.getModeloColuna().setFormato(5, Formato.MOEDA);
+		gridPrevisao.getModeloColuna().definirPositivoNegativo(5);
+
 
 		cmdFechar.setText("Fechar");
 		cmdBuscar.setText("Buscar");
@@ -291,23 +299,15 @@ public class FrmMovimentacoes extends Formulario {
 	}
 
 	private void exibirDescLancto() {
-		try {
-			Lancamento l = (Lancamento) gridLancamento.getLinhaSelecionada();
-			if (l != null) {
-				lblDescLancto.setText(l.getDescricao());
-			}
-		} catch (java.lang.IndexOutOfBoundsException e) {
-			// TODO: handle exception
+		Lancamento l = (Lancamento) gridLancamento.getLinhaSelecionada();
+		if (l != null) {
+			lblDescLancto.setText(l.getDescricao());
 		}
 	}
 	private void exibirDescPrevisao() {
-		try {
-			Lancamento l = (Lancamento) gridPrevisao.getLinhaSelecionada();
-			if (l != null) {
-				lblDescPrevisao.setText(l.getDescricao());
-			}
-		} catch (java.lang.IndexOutOfBoundsException e) {
-			// TODO: handle exception
+		Lancamento l = (Lancamento) gridPrevisao.getLinhaSelecionada();
+		if (l != null) {
+			lblDescPrevisao.setText(l.getDescricao());
 		}
 	}
 	@Override
@@ -317,8 +317,9 @@ public class FrmMovimentacoes extends Formulario {
 		
 		cboConta.setItens(contaService.listar(), "nome");
 		cboNatureza.setItens(naturezaService.listar(), "nome");
-		txtDataDe.setDataHora(SSDataHora.primeiroDiaDoMes());
-		txtDataAte.setDataHora(SSDataHora.ultimoDiaDoMes());
+		int ano = SSDataHora.pegaAno(new Date());
+		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
+		txtDataAte.setDataHora(Calendario.data(31, 12, ano));
 
 	}
 
@@ -339,15 +340,15 @@ public class FrmMovimentacoes extends Formulario {
 			lanctos = service.listarLancamentos(txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
 			
 			gridLancamento.setValue(lanctos);
-			totalLancto = CfipUtil.totais(lanctos);
+			totalLancto = CfipUtil.lancamentos(lanctos);
 
-			previsoes = null;//service.listarPrevisoes(txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
+			previsoes = service.listarPrevisoes(txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
 			
 			if(lanctos.size()==0 &&  previsoes.size()==0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 			
 			gridPrevisao.setValue(previsoes);
-			totalPrevisao = CfipUtil.totais(previsoes);
+			totalPrevisao = CfipUtil.previsoes(previsoes);
 
 			txtLSaldoAtual.setValue(totalLancto.getSaldo());
 			txtLSaldoAtual.setComponenteCorFonte(totalLancto.getSaldo() < 0.0d ? Color.RED : Color.BLUE);

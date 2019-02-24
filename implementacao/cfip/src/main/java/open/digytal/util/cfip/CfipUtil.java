@@ -30,21 +30,6 @@ public class CfipUtil {
         }
         return total;
     }
-    public static Total totais(List<Lancamento> lista) {
-        return totais(lista, false);
-    }
-    @Deprecated
-    public static Total totais(List<Lancamento> lista, boolean comTransferencia) {
-        Total total = new Total();
-        //FIXME:Como vc poderia melhorar este c�digo usando Lambda Java8 ?
-        for (Lancamento l : lista) {
-            //if (comTransferencia || !l.isTransferencia())
-            
-        	total.aplicar(l.getTipoMovimento() == TipoMovimento.C, l.getValor());
-        }
-        return total;
-    }
-
     public static Double contaTotais(List<Conta> lista) {
         Double total = 0.0d;
         //FIXME:Como vc poderia melhorar este c�digo usando Lambda Java8 ?

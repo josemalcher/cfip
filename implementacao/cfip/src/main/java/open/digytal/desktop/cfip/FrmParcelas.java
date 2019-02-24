@@ -35,6 +35,7 @@ import open.digytal.model.Parcela;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
+import open.digytal.util.Calendario;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;
 import open.digytal.util.desktop.Formulario;
@@ -285,8 +286,9 @@ public class FrmParcelas extends Formulario {
 		cboNatureza.setPrimeiroElementoVazio(true);
 		cboConta.setItens(contaService.listar(), "nome");
 		cboNatureza.setItens(naturezaService.listar(), "nome");
-		txtDataDe.setDataHora(SSDataHora.primeiroDiaDoMes());
-		txtDataAte.setDataHora(SSDataHora.ultimoDiaDoMes());
+		int ano = SSDataHora.pegaAno(new Date());
+		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
+		txtDataAte.setDataHora(Calendario.data(31, 12, ano));
 
 	}
 

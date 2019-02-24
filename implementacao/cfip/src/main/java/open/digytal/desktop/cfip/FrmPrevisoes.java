@@ -26,7 +26,6 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.SpringBootApp;
 import open.digytal.controller.LancamentoController;
 import open.digytal.model.Conta;
 import open.digytal.model.Lancamento;
@@ -52,10 +51,6 @@ import open.digytal.util.desktop.ss.util.SSDataHora;
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FrmPrevisoes extends Formulario {
 	// rodape
-	private SSBotao cmdCompensar = new SSBotao();
-	private SSBotao cmdSelecionados = new SSBotao();
-	private SSBotao cmdAmortizar = new SSBotao();
-	private SSBotao cmdProrrogar = new SSBotao();
 	private SSBotao cmdFechar = new SSBotao();
 	private SSBotao cmdBuscar = new SSBotao();
 	private SSGrade grid = new SSGrade();
@@ -73,7 +68,6 @@ public class FrmPrevisoes extends Formulario {
 	private SSCaixaCombinacao cboConta = new SSCaixaCombinacao();
 	private SSCaixaCombinacao cboNatureza = new SSCaixaCombinacao();
 	private JLabel lblDesc = new JLabel();
-
 	//
 	private Total total = new Total();
 	private SSCampoNumero txtDespesas = new SSCampoNumero();
@@ -91,10 +85,6 @@ public class FrmPrevisoes extends Formulario {
 		super.setTitulo("Consulta de Previsões");
 		super.setDescricao("Registro dos valores previstos para compensação");
 		setAlinhamentoRodape(FlowLayout.LEFT);
-		getRodape().add(cmdCompensar);
-		getRodape().add(cmdAmortizar);
-		getRodape().add(cmdProrrogar);
-		getRodape().add(cmdSelecionados);
 		getRodape().add(cmdFechar);
 		// implementando o conteudo do formulario
 		JPanel conteudo = super.getConteudo();
@@ -150,7 +140,6 @@ public class FrmPrevisoes extends Formulario {
 		grid.getModeloColuna().setFormato(0, "dd/MM/yy");
 		grid.getModeloColuna().setCampo(1, "parcelamento.configuracao");
 		grid.getModeloColuna().setCampo(2, "conta.nome");
-		// grid.getModeloColuna().setCampo(2, "sigla");
 		grid.getModeloColuna().setCampo(3, "natureza.nome");
 		grid.getModeloColuna().setCampo(4, "valor");
 		grid.getModeloColuna().setFormato(4, Formato.MOEDA);
@@ -159,23 +148,9 @@ public class FrmPrevisoes extends Formulario {
 		grid.getModeloColuna().setFormato(5, Formato.MOEDA);
 		grid.getModeloColuna().definirPositivoNegativo(5);
 
-		cmdCompensar.setText("Compensar");
-		cmdAmortizar.setText("Amortizar");
-		cmdProrrogar.setText("Atualizar");
-		cmdSelecionados.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				compensarSelecionados();
-			}
-		});
-		cmdSelecionados.setText("Selecionados");
-
 		cmdFechar.setText("Fechar");
 		cmdBuscar.setText("Buscar");
-		cmdCompensar.setIcone("dinheiro");
-		cmdProrrogar.setIcone("atualizar");
-		cmdAmortizar.setIcone("amortizar");
-		cmdSelecionados.setIcone("selecionados");
-
+		
 		GridBagConstraints gbc_txtDataDe = new GridBagConstraints();
 		gbc_txtDataDe.anchor = GridBagConstraints.NORTHWEST;
 		gbc_txtDataDe.insets = new Insets(5, 5, 5, 0);
@@ -226,22 +201,6 @@ public class FrmPrevisoes extends Formulario {
 				sair();
 			}
 		});
-		cmdCompensar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				compensar();
-			}
-		});
-		cmdAmortizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				amortizar();
-			}
-		});
-		cmdProrrogar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				prorrogar();
-			}
-		});
-
 		//
 		FlowLayout pnlSaldoLayout = new FlowLayout();
 		pnlSaldoLayout.setAlignment(FlowLayout.RIGHT);
@@ -291,65 +250,16 @@ public class FrmPrevisoes extends Formulario {
 		int ano = SSDataHora.pegaAno(new Date());
 		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
 		txtDataAte.setDataHora(Calendario.data(31, 12, ano));
-
 	}
-
 	private void exibirDescricao() {
-		try {
-			Lancamento l = (Lancamento) grid.getLinhaSelecionada();
-			if (l != null) {
-				lblDesc.setText(l.getDescricao());
-			}
-		} catch (java.lang.IndexOutOfBoundsException e) {
-			// TODO: handle exception
+		Lancamento l = (Lancamento) grid.getLinhaSelecionada();
+		if (l != null) {
+			lblDesc.setText(l.getDescricao());
 		}
 	}
 
 	private void sair() {
 		super.fechar();
-	}
-
-	private void prorrogar() {
-		/*
-		 * Lancamento entidade = (Lancamento) grid.getLinhaSelecionada(); if (entidade
-		 * != null) { // FrmProrrogar frm = getBean(FrmProrrogar.class); FrmAtualizar
-		 * frm = SpringBootApp.getBean(FrmAtualizar.class); frm.setId(entidade.getId());
-		 * this.dialogo(frm); listar(); } else
-		 * SSMensagem.avisa("Selecione um item da lista");
-		 */
-	}
-
-	private void amortizar() {
-		/*
-		 * Lancamento entidade = (Lancamento) grid.getLinhaSelecionada(); if (entidade
-		 * != null) { FrmAmortizar frm = SpringBootApp.getBean(FrmAmortizar.class);
-		 * frm.setId(entidade.getId()); this.dialogo(frm); listar(); } else
-		 * SSMensagem.avisa("Selecione um item da lista");
-		 */
-	}
-
-	private void compensar() {
-		/*
-		 * Lancamento entidade = (Lancamento) grid.getLinhaSelecionada(); if (entidade
-		 * != null) { FrmCompensar frm = SpringBootApp.getBean(FrmCompensar.class);
-		 * frm.setId(entidade.getId()); this.dialogo(frm); listar(); } else
-		 * SSMensagem.avisa("Selecione um item da lista");
-		 */
-
-	}
-
-	private void compensarSelecionados() {
-		/*
-		 * if (cboConta.getValue() == null) {
-		 * SSMensagem.avisa("Favor selecione uma conta"); return; } if
-		 * (SSMensagem.pergunta("Confirma compensar os itens selecionados?")) { Object[]
-		 * itens = grid.getLinhasSelecionadas(); if (itens == null || itens.length == 0)
-		 * { SSMensagem.avisa("Nenhuma linha selecionada"); return; } Integer[] ids =
-		 * new Integer[itens.length]; for (int x = 0; x < itens.length; x++) {
-		 * Lancamento vo = (Lancamento) itens[x]; ids[x] = vo.getId(); }
-		 * service.compensarLancamento(new Date(), ids);
-		 * SSMensagem.informa("Lançamentos compensados com sucesso!!"); listar(); }
-		 */
 	}
 
 	private void listar() {
