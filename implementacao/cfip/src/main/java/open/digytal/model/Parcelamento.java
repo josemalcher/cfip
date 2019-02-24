@@ -20,6 +20,8 @@ public class Parcelamento {
 	private String configuracao;
 	@Column(nullable=true)
 	private boolean rateio;
+	@Column(nullable=true)
+	private boolean quitado;
 	@Column(length=7,precision=2,nullable=true)
 	private Double restante;
 	@OneToMany(mappedBy="lancamento",cascade=CascadeType.PERSIST)
@@ -58,5 +60,11 @@ public class Parcelamento {
 	}
 	public void setRateio(boolean rateio) {
 		this.rateio = rateio;
+	}
+	public boolean isQuitado() {
+		return quitado;
+	}
+	public void setQuitado(boolean quitado) {
+		this.quitado = quitado;
 	}
 }

@@ -13,7 +13,6 @@ import open.digytal.model.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.LancamentoRepository;
 import open.digytal.util.Calendario;
-import open.digytal.util.DataHora;
 
 @Controller
 public class LancamentoController {
@@ -25,17 +24,25 @@ public class LancamentoController {
 	public void incluir(Lancamento lancamento) {
 		boolean previsao = lancamento.isPrevisao();
 		if(previsao) {
+			
 			Date vencimento = lancamento.getParcelamento().getVencimento();
 			String[] intervalo = lancamento.getParcelamento().getConfiguracao().split("-");
 			Integer inicio=Integer.valueOf(intervalo[0].trim());
 			Integer fim = Integer.valueOf(intervalo[1].trim());
 			Integer parcelas = 1+(fim-inicio);
+			Double valor=lancamento.getValor();
+			
+			if(lancamento.getParcelamento().isRateio())
+				valor=lancamento.getValor() / parcelas;
+			else {		
+				lancamento.setValor(valor * parcelas);
+				lancamento.getParcelamento().setRestante(lancamento.getValor());;
+			}
 			for (int numero = inicio; numero <= fim; numero++) {
 				Parcela parcela = new Parcela();
 				parcela.setLancamento(lancamento);
 				parcela.setNumero(numero);
 				parcela.setVencimento(vencimento);
-				Double valor=lancamento.getParcelamento().isRateio()?(lancamento.getValor() / parcelas):lancamento.getValor();
 				parcela.setValor(valor);
 				vencimento=Calendario.rolarMes(vencimento, 1);
 				lancamento.getParcelamento().addParcela(parcela);

@@ -63,7 +63,7 @@ public class FrmLancamentoPrevisao extends Formulario {
 	private SSCaixaCombinacao cboContato = new SSCaixaCombinacao();
 	private SSCaixaCombinacao cboFatura = new SSCaixaCombinacao();
 	private JCheckBox chkNovo = new JCheckBox("Novo?");
-	private JCheckBox chkRateio = new JCheckBox("Rateio?");
+	private JCheckBox chkRateio = new JCheckBox("Rateio Parcela?");
 	public FrmLancamentoPrevisao() {
 		init();
 	}
@@ -309,7 +309,15 @@ public class FrmLancamentoPrevisao extends Formulario {
 				SSMensagem.avisa("Origem e Destino são iguais");
 				return;
 			}
-			
+			if(chkRateio.isSelected()) {
+				if(!SSMensagem.confirma("Ao marcar a opção Rateio Parcela o valor total será dividido pelo número de parcelas.\nConfirma esta operação?")) {
+					return;
+				}
+			}else {
+				if(!SSMensagem.confirma("Ao desmarcar a opção Rateio Parcela o valor total será multiplicado pelo número de parcelas.\nConfirma esta operação?")) {
+					return;
+				}
+			}
 			service.incluir(entidade);
 			SSMensagem.informa("Lançamento registrado com sucesso!!");
 			novo();
