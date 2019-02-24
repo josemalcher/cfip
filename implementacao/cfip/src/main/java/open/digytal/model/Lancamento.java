@@ -152,11 +152,14 @@ public class Lancamento {
 		return copia;
 	}
 	public Double getValorMovimento() {
-		return tipoMovimento==TipoMovimento.D?valor * -1:valor;
+		valor = tipoMovimento==TipoMovimento.D?valor * -1:valor;
+		return valor;
 	}
 	@PrePersist
 	private void periodo() {
 		this.periodo = Integer.valueOf(Formatador.formatar(DataHora.ano(data),"0000") + Formatador.formatar(DataHora.mes(data),"00"));
-		this.valor=getValorMovimento();
+		if(this.isPrevisao()) {
+			this.parcelamento.setRestante(getValor());
+		}
 	}
 }

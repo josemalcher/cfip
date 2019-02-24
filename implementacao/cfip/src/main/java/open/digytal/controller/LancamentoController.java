@@ -86,13 +86,11 @@ public class LancamentoController {
 			Integer inicio = Integer.valueOf(intervalo[0].trim());
 			Integer fim = Integer.valueOf(intervalo[1].trim());
 			Integer parcelas = 1 + (fim - inicio);
-			Double valor = lancamento.getValor();
+			Double valor = lancamento.getValorMovimento();
 			if (lancamento.getParcelamento().isRateio())
 				valor = lancamento.getValor() / parcelas;
 			else {
 				lancamento.setValor(valor * parcelas);
-				lancamento.getParcelamento().setRestante(lancamento.getValor());
-				;
 			}
 			for (int numero = inicio; numero <= fim; numero++) {
 				Parcela parcela = new Parcela();
