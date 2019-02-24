@@ -18,8 +18,8 @@ public interface ContaRepository extends JpaRepository<Conta, Integer> {
 	public List<Conta> listar(@Param("nome")String nome);
 	
 	
-	@Query("SELECT e FROM Lancamento e WHERE e.data>= :data ORDER BY e.data")
-	public List<Lancamento> extrato(@Param("data")Date dataIncio);
+	@Query("SELECT e FROM Lancamento e WHERE e.conta= :conta AND e.data>= :data ORDER BY e.data")
+	public List<Lancamento> extrato(@Param("conta") Conta conta, @Param("data")Date dataIncio);
 	
 }
 

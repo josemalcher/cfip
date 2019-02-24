@@ -25,7 +25,9 @@ public class FrmConta extends Formulario {
 	private ContaRepository service;
 	private SSCampoTexto txtNome = new SSCampoTexto();
 	private SSCampoTexto txtSigla = new SSCampoTexto();
-	private SSCampoNumero txtSaldo = new SSCampoNumero();
+	private SSCampoNumero txtSaldoAtual = new SSCampoNumero();
+	private SSCampoNumero txtSaldoInicial = new SSCampoNumero();
+	
 	private JCheckBox chkAplicacao = new JCheckBox("Aplicação ?");
 	private JCheckBox chkPropria = new JCheckBox("Propria ?");
 	// bototes
@@ -45,11 +47,12 @@ public class FrmConta extends Formulario {
 
 		txtNome.setRotulo("Nome");
 		txtSigla.setRotulo("Sigla");
-		txtSaldo.setRotulo("Saldo");
-		txtSaldo.setEnabled(false);
+		txtSaldoAtual.setRotulo("Saldo Atual");
+		txtSaldoAtual.setEnabled(false);
 		cmdSalvar.setText("Salvar");
 		cmdFechar.setText("Fechar");
-		txtSaldo.setFormato(Formato.MOEDA);
+		txtSaldoAtual.setFormato(Formato.MOEDA);
+		txtSaldoInicial.setFormato(Formato.MOEDA);
 
 		//
 		GridBagConstraints gbc_txtNome = new GridBagConstraints();
@@ -63,8 +66,9 @@ public class FrmConta extends Formulario {
 
 		//
 		GridBagConstraints gbc_txtSigla = new GridBagConstraints();
+		gbc_txtSigla.gridwidth = 2;
 		gbc_txtSigla.anchor = GridBagConstraints.NORTHWEST;
-		gbc_txtSigla.insets = new Insets(3, 3, 0, 0);
+		gbc_txtSigla.insets = new Insets(3, 3, 0, 3);
 		gbc_txtSigla.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSigla.gridx = 0;
 		gbc_txtSigla.gridy = 1;
@@ -78,15 +82,15 @@ public class FrmConta extends Formulario {
 		gbc_txtPrevisto.insets = new Insets(3, 3, 3, 0);
 		gbc_txtPrevisto.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtPrevisto.gridx = 0;
-		gbc_txtPrevisto.gridy = 2;
-		getConteudo().add(txtSaldo, gbc_txtPrevisto);
+		gbc_txtPrevisto.gridy = 3;
+		getConteudo().add(txtSaldoAtual, gbc_txtPrevisto);
 		
 		GridBagConstraints gbc_chkAplicacao = new GridBagConstraints();
 		gbc_chkAplicacao.weighty = 1.0;
 		gbc_chkAplicacao.anchor = GridBagConstraints.SOUTHWEST;
 		gbc_chkAplicacao.fill = GridBagConstraints.HORIZONTAL;
 		gbc_chkAplicacao.gridx = 1;
-		gbc_chkAplicacao.gridy = 2;
+		gbc_chkAplicacao.gridy = 3;
 		getConteudo().add(chkAplicacao, gbc_chkAplicacao);
 		
 		GridBagConstraints gbc_chkPropria = new GridBagConstraints();
@@ -94,9 +98,19 @@ public class FrmConta extends Formulario {
 		gbc_chkPropria.anchor = GridBagConstraints.SOUTHWEST;
 		gbc_chkPropria.fill = GridBagConstraints.HORIZONTAL;
 		gbc_chkPropria.gridx = 1;
-		gbc_chkPropria.gridy = 1;
+		gbc_chkPropria.gridy = 2;
 		getConteudo().add(chkPropria, gbc_chkPropria);
 
+		GridBagConstraints gbc_txtSaldoInicial = new GridBagConstraints();
+		gbc_txtSaldoInicial.insets = new Insets(3, 3, 0, 0);
+		gbc_txtSaldoInicial.weighty = 1.0;
+		gbc_txtSaldoInicial.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_txtSaldoInicial.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSaldoInicial.gridx = 0;
+		gbc_txtSaldoInicial.gridy = 2;
+		txtSaldoInicial.setRotulo("Saldo Inicial");
+		getConteudo().add(txtSaldoInicial, gbc_txtSaldoInicial);
+		
 		// rodape
 		getRodape().add(cmdSalvar);
 		getRodape().add(cmdFechar);
@@ -125,7 +139,7 @@ public class FrmConta extends Formulario {
 			txtNome.requestFocus();
 			txtNome.setValue(entidade.getNome());
 			txtSigla.setText(entidade.getSigla());
-			txtSaldo.setValue(entidade.getSaldoInicial());
+			txtSaldoAtual.setValue(entidade.getSaldoInicial());
 			chkAplicacao.setSelected(entidade.isAplicacao());
 			chkPropria.setSelected(entidade.isPropria());
 		} catch (Exception e) {
@@ -148,13 +162,15 @@ public class FrmConta extends Formulario {
 			entidade.setSigla(txtSigla.getText());
 			entidade.setAplicacao(chkAplicacao.isSelected());
 			entidade.setPropria(chkPropria.isSelected());
-			
+			entidade.setSaldoInicial(txtSaldoInicial.getDouble());
 			if (entidade.getNome() == null || entidade.getNome().isEmpty() || entidade.getSigla() == null
 					|| entidade.getSigla().isEmpty()) {
 				SSMensagem.avisa("Dados incompletos");
 				return;
 			}
-			
+			if(entidade.getId()==null) {
+				entidade.setSaldoAtual(entidade.getSaldoInicial());
+			}
 			service.save(entidade);
 			
 			SSMensagem.informa("Conta registrada com sucesso!!");

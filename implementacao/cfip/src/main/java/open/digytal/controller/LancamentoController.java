@@ -18,21 +18,19 @@ public class LancamentoController {
 	private LancamentoRepository repository;
 	@Transactional
 	public void incluir(Lancamento lancamento) {
-		Lancamento transferencia=null;
-		boolean atualizaConta = !lancamento.isPrevisao();
-		if (lancamento.getTipoMovimento()==TipoMovimento.T) {
-			//A magia está aqui
-			transferencia = lancamento.copia();
+		boolean previsao = lancamento.isPrevisao();
+		if(previsao) {
 			
-			repository.save(transferencia);
-			if(atualizaConta) {
+		}else {
+			if (lancamento.getTipoMovimento()==TipoMovimento.T) {
+				//A magia está aqui
+				Lancamento transferencia=lancamento.copia();
+				repository.save(transferencia);
 				Conta destino = transferencia.getConta();
 				destino.setSaldoAtual(destino.getSaldoAtual() + transferencia.getValor());
 				contaRepository.save(destino);
 			}
-		}
-		repository.save(lancamento);
-		if(atualizaConta) {
+			repository.save(lancamento);
 			Conta conta = lancamento.getConta();
 			conta.setSaldoAtual(conta.getSaldoAtual() + lancamento.getValor());
 			contaRepository.save(conta);

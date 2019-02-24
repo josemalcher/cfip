@@ -64,6 +64,14 @@ public class Lancamento {
 	@Column(nullable=false)
 	private boolean transferencia;
 	
+	private Parcelamento parcelamento;
+	
+	public Lancamento() {
+		this.parcelamento = new Parcelamento();
+	}
+	public Parcelamento getParcelamento() {
+		return parcelamento;
+	}
 	public boolean isTransferencia() {
 		return transferencia;
 	}
