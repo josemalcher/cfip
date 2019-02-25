@@ -96,17 +96,16 @@ public class LancamentoController {
 		boolean previsao = lancamento.isPrevisao();
 		if (previsao) {
 			Date vencimento = lancamento.getParcelamento().getVencimento();
-			String[] intervalo = lancamento.getParcelamento().getConfiguracao().split("-");
-			Integer inicio = Integer.valueOf(intervalo[0].trim());
-			Integer fim = Integer.valueOf(intervalo[1].trim());
-			Integer parcelas = 1 + (fim - inicio);
+			Integer parimeiraParcela = lancamento.getParcelamento().getPrimeiraParcela();
+			Integer ultimaParcela = lancamento.getParcelamento().getUltimaParcela();
+			Integer parcelas = 1 + (ultimaParcela - parimeiraParcela);
 			Double valor = lancamento.getValorMovimento();
 			if (lancamento.getParcelamento().isRateio())
 				valor = lancamento.getValor() / parcelas;
 			else {
 				lancamento.setValor(valor * parcelas);
 			}
-			for (int numero = inicio; numero <= fim; numero++) {
+			for (int numero = parimeiraParcela; numero <= ultimaParcela; numero++) {
 				Parcela parcela = new Parcela();
 				parcela.setLancamento(lancamento);
 				parcela.setNumero(numero);
