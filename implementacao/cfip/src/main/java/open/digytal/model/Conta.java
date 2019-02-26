@@ -12,6 +12,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import open.digytal.util.Calendario;
+import open.digytal.util.DataHora;
+
 @Entity
 @Table(name="tb_conta")
 public class Conta implements Serializable {
@@ -24,9 +27,6 @@ public class Conta implements Serializable {
 	
 	@Column(length=10,nullable=false)
 	private String sigla;
-	
-	@Column(name="propria", length=1,nullable=false)
-	private boolean propria;
 	
 	@Column(name="aplicacao", length=1,nullable=false)
 	private boolean aplicacao;
@@ -41,11 +41,17 @@ public class Conta implements Serializable {
 	@Column(name="saldo_atual",length=8,precision=2,nullable=false)
 	private Double saldoAtual;
 	
+	@Column(name="cartao_credito", length=1,nullable=false)
+	private boolean cartaoCredito;
+	
+	@Column(name="dia_pagto", length=2,nullable=false)
+	private Integer diaPagamento;
+	
 	public Conta() {
-		this.propria = true;
 		this.saldoAtual=0.0d;
 		this.saldoInicial=0.0d;
 		this.dataInicial = new Date();
+		this.diaPagamento=0;
 	}
 	public Integer getId() {
 		return id;
@@ -59,12 +65,7 @@ public class Conta implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public boolean isPropria() {
-		return propria;
-	}
-	public void setPropria(boolean propria) {
-		this.propria = propria;
-	}
+	
 	public boolean isAplicacao() {
 		return aplicacao;
 	}
@@ -95,5 +96,35 @@ public class Conta implements Serializable {
 	public void setSaldoAtual(Double saldoAtual) {
 		this.saldoAtual = saldoAtual;
 	}
-	
+	public boolean isCartaoCredito() {
+		return cartaoCredito;
+	}
+	public void setCartaoCredito(boolean cartaoCredito) {
+		this.cartaoCredito = cartaoCredito;
+	}
+	public Integer getDiaPagamento() {
+		return diaPagamento;
+	}
+	public void setDiaPagamento(Integer diaPagamento) {
+		this.diaPagamento = diaPagamento;
+	}
+	public Date getDataPagamento() {
+		Date dataPagamento = Calendario.data(diaPagamento,DataHora.mes(),DataHora.ano());
+		if(!cartaoCredito)
+			return dataPagamento;
+		else {
+			int diaCompra = DataHora.dia();
+			int diaFechamento = diaPagamento -10;
+			if(diaCompra>diaFechamento)
+				return Calendario.adicionarMes(dataPagamento, 1);
+			else
+				return dataPagamento;
+		}
+	}
+	public static void main(String[] args) {
+		Conta c = new Conta();
+		c.setDiaPagamento(20);
+		c.setCartaoCredito(true);
+		System.out.println(c.getDataPagamento());
+	}
 }

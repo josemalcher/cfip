@@ -4,7 +4,7 @@ package open.digytal.util;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
+import static open.digytal.util.DataHora.*;
 public class Calendario implements DataHoraConstants {
     public static final int ADICIONAR=1;
     public static final int ROLAR=2;
@@ -20,6 +20,15 @@ public class Calendario implements DataHoraConstants {
     }
     public static Date dataHora(int dia, int mes, int ano, int hora, int minuto, int segundo){
         return calendario(dia,mes,ano,hora,minuto,segundo).getTime();
+    }
+    
+    public static Date data(){
+        Calendar instance = Calendar.getInstance();
+        instance.set(Calendar.HOUR_OF_DAY, 0);
+        instance.set(Calendar.MINUTE, 0);
+        instance.set(Calendar.SECOND, 0);
+        instance.set(Calendar.MILLISECOND, 0);
+        return instance.getTime();
     }
     public static Date data(int dia, int mes, int ano){
         return dataHora(dia,mes,ano,0,0,0);

@@ -29,12 +29,13 @@ public class FrmConta extends Formulario {
 	private SSCampoNumero txtSaldoInicial = new SSCampoNumero();
 	
 	private JCheckBox chkAplicacao = new JCheckBox("Aplicação ?");
-	private JCheckBox chkPropria = new JCheckBox("Propria ?");
+	private JCheckBox chkCartaoCredito = new JCheckBox("Cartão Credito?");
 	// bototes
 	private SSBotao cmdFechar = new SSBotao();
 	private SSBotao cmdSalvar = new SSBotao();
 	
 	private Conta entidade;
+	private final SSCampoNumero txtDiaPagamento = new SSCampoNumero();
 	
 	public FrmConta() {
 		init();
@@ -47,15 +48,13 @@ public class FrmConta extends Formulario {
 
 		txtNome.setRotulo("Nome");
 		txtSigla.setRotulo("Sigla");
-		txtSaldoAtual.setRotulo("Saldo Atual");
-		txtSaldoAtual.setEnabled(false);
 		cmdSalvar.setText("Salvar");
 		cmdFechar.setText("Fechar");
-		txtSaldoAtual.setFormato(Formato.MOEDA);
 		txtSaldoInicial.setFormato(Formato.MOEDA);
 
 		//
 		GridBagConstraints gbc_txtNome = new GridBagConstraints();
+		gbc_txtNome.weightx = 1.0;
 		gbc_txtNome.anchor = GridBagConstraints.NORTHWEST;
 		gbc_txtNome.gridwidth = 2;
 		gbc_txtNome.insets = new Insets(3, 3, 0, 3);
@@ -66,50 +65,66 @@ public class FrmConta extends Formulario {
 
 		//
 		GridBagConstraints gbc_txtSigla = new GridBagConstraints();
-		gbc_txtSigla.gridwidth = 2;
+		gbc_txtSigla.weightx = 1.0;
 		gbc_txtSigla.anchor = GridBagConstraints.NORTHWEST;
-		gbc_txtSigla.insets = new Insets(3, 3, 0, 3);
+		gbc_txtSigla.insets = new Insets(3, 3, 0, 0);
 		gbc_txtSigla.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSigla.gridx = 0;
 		gbc_txtSigla.gridy = 1;
 		getConteudo().add(txtSigla, gbc_txtSigla);
-
-		//
-		GridBagConstraints gbc_txtPrevisto = new GridBagConstraints();
-		gbc_txtPrevisto.weighty = 1.0;
-		gbc_txtPrevisto.anchor = GridBagConstraints.NORTHWEST;
-		gbc_txtPrevisto.weightx = 1.0;
-		gbc_txtPrevisto.insets = new Insets(3, 3, 3, 0);
-		gbc_txtPrevisto.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtPrevisto.gridx = 0;
-		gbc_txtPrevisto.gridy = 3;
-		getConteudo().add(txtSaldoAtual, gbc_txtPrevisto);
 		
 		GridBagConstraints gbc_chkAplicacao = new GridBagConstraints();
+		gbc_chkAplicacao.weightx = 1.0;
+		gbc_chkAplicacao.insets = new Insets(0, 3, 0, 3);
 		gbc_chkAplicacao.weighty = 1.0;
 		gbc_chkAplicacao.anchor = GridBagConstraints.SOUTHWEST;
 		gbc_chkAplicacao.fill = GridBagConstraints.HORIZONTAL;
 		gbc_chkAplicacao.gridx = 1;
-		gbc_chkAplicacao.gridy = 3;
+		gbc_chkAplicacao.gridy = 1;
 		getConteudo().add(chkAplicacao, gbc_chkAplicacao);
-		
-		GridBagConstraints gbc_chkPropria = new GridBagConstraints();
-		gbc_chkPropria.weighty = 1.0;
-		gbc_chkPropria.anchor = GridBagConstraints.SOUTHWEST;
-		gbc_chkPropria.fill = GridBagConstraints.HORIZONTAL;
-		gbc_chkPropria.gridx = 1;
-		gbc_chkPropria.gridy = 2;
-		getConteudo().add(chkPropria, gbc_chkPropria);
 
 		GridBagConstraints gbc_txtSaldoInicial = new GridBagConstraints();
 		gbc_txtSaldoInicial.insets = new Insets(3, 3, 0, 0);
 		gbc_txtSaldoInicial.weighty = 1.0;
-		gbc_txtSaldoInicial.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_txtSaldoInicial.anchor = GridBagConstraints.NORTHWEST;
 		gbc_txtSaldoInicial.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSaldoInicial.gridx = 0;
 		gbc_txtSaldoInicial.gridy = 2;
 		txtSaldoInicial.setRotulo("Saldo Inicial");
 		getConteudo().add(txtSaldoInicial, gbc_txtSaldoInicial);
+		txtSaldoAtual.setRotulo("Saldo Atual");
+		txtSaldoAtual.setEnabled(false);
+		txtSaldoAtual.setFormato(Formato.MOEDA);
+		
+		//
+		GridBagConstraints gbc_txtPrevisto = new GridBagConstraints();
+		gbc_txtPrevisto.weighty = 1.0;
+		gbc_txtPrevisto.anchor = GridBagConstraints.NORTHWEST;
+		gbc_txtPrevisto.insets = new Insets(3, 3, 0, 3);
+		gbc_txtPrevisto.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPrevisto.gridx = 1;
+		gbc_txtPrevisto.gridy = 2;
+		getConteudo().add(txtSaldoAtual, gbc_txtPrevisto);
+	
+		
+		GridBagConstraints gbc_chkCartaoCredito = new GridBagConstraints();
+		gbc_chkCartaoCredito.insets = new Insets(0, 3, 3, 0);
+		gbc_chkCartaoCredito.weighty = 1.0;
+		gbc_chkCartaoCredito.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_chkCartaoCredito.fill = GridBagConstraints.HORIZONTAL;
+		gbc_chkCartaoCredito.gridx = 0;
+		gbc_chkCartaoCredito.gridy = 3;
+		getConteudo().add(chkCartaoCredito, gbc_chkCartaoCredito);
+		
+		GridBagConstraints gbc_txtDiaPagamento = new GridBagConstraints();
+		gbc_txtDiaPagamento.weighty = 1.0;
+		gbc_txtDiaPagamento.anchor = GridBagConstraints.NORTHWEST;
+		gbc_txtDiaPagamento.insets = new Insets(3, 3, 3, 3);
+		gbc_txtDiaPagamento.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtDiaPagamento.gridx = 1;
+		gbc_txtDiaPagamento.gridy = 3;
+		txtDiaPagamento.setRotulo("Dia Pagamento");
+		getConteudo().add(txtDiaPagamento, gbc_txtDiaPagamento);
 		
 		// rodape
 		getRodape().add(cmdSalvar);
@@ -141,7 +156,8 @@ public class FrmConta extends Formulario {
 			txtSigla.setText(entidade.getSigla());
 			txtSaldoAtual.setValue(entidade.getSaldoInicial());
 			chkAplicacao.setSelected(entidade.isAplicacao());
-			chkPropria.setSelected(entidade.isPropria());
+			chkCartaoCredito.setSelected(entidade.isCartaoCredito());
+			txtDiaPagamento.setNumero(entidade.getDiaPagamento());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -161,8 +177,9 @@ public class FrmConta extends Formulario {
 			entidade.setNome(txtNome.getText());
 			entidade.setSigla(txtSigla.getText());
 			entidade.setAplicacao(chkAplicacao.isSelected());
-			entidade.setPropria(chkPropria.isSelected());
+			entidade.setCartaoCredito(chkCartaoCredito.isSelected());
 			entidade.setSaldoInicial(txtSaldoInicial.getDouble());
+			entidade.setDiaPagamento(txtDiaPagamento.getInteger());
 			if (entidade.getNome() == null || entidade.getNome().isEmpty() || entidade.getSigla() == null
 					|| entidade.getSigla().isEmpty()) {
 				SSMensagem.avisa("Dados incompletos");
