@@ -214,9 +214,20 @@ public class FrmLancamentoPrevisao extends Formulario {
 		        habilitarDestino();
 		    }
 		});
+		cboConta.addActionListener (new ActionListener () {
+		    public void actionPerformed(ActionEvent e) {
+		       dataVencimento();
+		    }
+		});
 		txtParcelas.setRotulo("Parcelas");
 		inicializa();
 		
+	}
+	private void dataVencimento() {
+		Conta conta = (Conta) cboConta.getValue();
+		if(conta!=null) {
+			txtDataPrevisao.setDataHora(conta.getDataPagamento());
+		}
 	}
 	private void habilitarDestino() {
 		Natureza natureza = (Natureza) cboNatureza.getValue();

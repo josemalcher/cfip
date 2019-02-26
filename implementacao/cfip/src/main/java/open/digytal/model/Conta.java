@@ -44,14 +44,16 @@ public class Conta implements Serializable {
 	@Column(name="cartao_credito", length=1,nullable=false)
 	private boolean cartaoCredito;
 	
-	@Column(name="dia_pagto", length=2,nullable=false)
+	@Column(name="dia_pagto", length=2)
 	private Integer diaPagamento;
+	
+	@Column(name="dia_fechto", length=2)
+	private Integer diaFechamento;
 	
 	public Conta() {
 		this.saldoAtual=0.0d;
 		this.saldoInicial=0.0d;
 		this.dataInicial = new Date();
-		this.diaPagamento=0;
 	}
 	public Integer getId() {
 		return id;
@@ -108,13 +110,19 @@ public class Conta implements Serializable {
 	public void setDiaPagamento(Integer diaPagamento) {
 		this.diaPagamento = diaPagamento;
 	}
+	public Integer getDiaFechamento() {
+		return diaFechamento;
+	}
+	public void setDiaFechamento(Integer diaFechamento) {
+		this.diaFechamento = diaFechamento;
+	}
 	public Date getDataPagamento() {
-		Date dataPagamento = Calendario.data(diaPagamento,DataHora.mes(),DataHora.ano());
+		Date dataLancamento = Calendario.data();
 		if(!cartaoCredito)
-			return dataPagamento;
+			return dataLancamento;
 		else {
-			int diaCompra = DataHora.dia();
-			int diaFechamento = diaPagamento -10;
+			Date dataPagamento = Calendario.data(diaPagamento,DataHora.mes(),DataHora.ano());
+			int diaCompra = DataHora.dia(dataLancamento);
 			if(diaCompra>diaFechamento)
 				return Calendario.adicionarMes(dataPagamento, 1);
 			else
@@ -124,6 +132,7 @@ public class Conta implements Serializable {
 	public static void main(String[] args) {
 		Conta c = new Conta();
 		c.setDiaPagamento(20);
+		c.setDiaFechamento(10);
 		c.setCartaoCredito(true);
 		System.out.println(c.getDataPagamento());
 	}

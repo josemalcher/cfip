@@ -57,16 +57,23 @@ public class SpringBootApp {
 			Conta poupanca = new Conta();
 			poupanca.setNome("CONTA POUPANCA");
 			poupanca.setSigla("CPA");
+			poupanca.setSaldoInicial(0.0);
+			poupanca.setSaldoAtual(0.0);
 			
 			Conta corrente = new Conta();
 			corrente.setNome("CONTA CORRENTE");
 			corrente.setSigla("CCR");
+			corrente.setSaldoInicial(0.0);
+			corrente.setSaldoAtual(0.0);
 			
 			Conta cartaoCredito = new Conta();
 			cartaoCredito.setNome("CARTAO DE CREDITO");
 			cartaoCredito.setSigla("CRD");
 			cartaoCredito.setCartaoCredito(true);
 			cartaoCredito.setDiaPagamento(20);
+			cartaoCredito.setDiaFechamento(10);
+			cartaoCredito.setSaldoInicial(1000.0);
+			cartaoCredito.setSaldoAtual(1000.0);
 			
 			Natureza receita = new Natureza();
 			receita.setNome("RECEITA");

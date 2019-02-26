@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,8 @@ import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCampoNumero;
 import open.digytal.util.desktop.ss.SSCampoTexto;
 import open.digytal.util.desktop.ss.SSMensagem;
+import javax.swing.border.TitledBorder;
+import java.awt.FlowLayout;
 
 @Component
 public class FrmConta extends Formulario {
@@ -28,14 +31,16 @@ public class FrmConta extends Formulario {
 	private SSCampoNumero txtSaldoAtual = new SSCampoNumero();
 	private SSCampoNumero txtSaldoInicial = new SSCampoNumero();
 	
+	private JPanel pnlCartaoCredito = new JPanel();
 	private JCheckBox chkAplicacao = new JCheckBox("Aplicação ?");
-	private JCheckBox chkCartaoCredito = new JCheckBox("Cartão Credito?");
+	private JCheckBox chkCartaoCredito = new JCheckBox("Sim");
 	// bototes
 	private SSBotao cmdFechar = new SSBotao();
 	private SSBotao cmdSalvar = new SSBotao();
 	
 	private Conta entidade;
 	private final SSCampoNumero txtDiaPagamento = new SSCampoNumero();
+	private final SSCampoNumero txtDiaFechamento = new SSCampoNumero();
 	
 	public FrmConta() {
 		init();
@@ -108,24 +113,26 @@ public class FrmConta extends Formulario {
 	
 		
 		GridBagConstraints gbc_chkCartaoCredito = new GridBagConstraints();
-		gbc_chkCartaoCredito.insets = new Insets(0, 3, 3, 0);
+		gbc_chkCartaoCredito.weightx = 1.0;
+		gbc_chkCartaoCredito.gridwidth = 2;
+		gbc_chkCartaoCredito.insets = new Insets(3, 3, 3, 3);
 		gbc_chkCartaoCredito.weighty = 1.0;
 		gbc_chkCartaoCredito.anchor = GridBagConstraints.SOUTHWEST;
 		gbc_chkCartaoCredito.fill = GridBagConstraints.HORIZONTAL;
 		gbc_chkCartaoCredito.gridx = 0;
 		gbc_chkCartaoCredito.gridy = 3;
-		getConteudo().add(chkCartaoCredito, gbc_chkCartaoCredito);
+		FlowLayout flowLayout = (FlowLayout) pnlCartaoCredito.getLayout();
+		flowLayout.setVgap(3);
+		flowLayout.setHgap(3);
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		pnlCartaoCredito.setBorder(new TitledBorder(null, "Cart\u00E3o de Cr\u00E9dito?", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		getConteudo().add(pnlCartaoCredito, gbc_chkCartaoCredito);
 		
-		GridBagConstraints gbc_txtDiaPagamento = new GridBagConstraints();
-		gbc_txtDiaPagamento.weighty = 1.0;
-		gbc_txtDiaPagamento.anchor = GridBagConstraints.NORTHWEST;
-		gbc_txtDiaPagamento.insets = new Insets(3, 3, 3, 3);
-		gbc_txtDiaPagamento.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtDiaPagamento.gridx = 1;
-		gbc_txtDiaPagamento.gridy = 3;
+		pnlCartaoCredito.add(chkCartaoCredito);
+		txtDiaFechamento.setRotulo("Dia Fechamento");
+		pnlCartaoCredito.add(txtDiaFechamento);
 		txtDiaPagamento.setRotulo("Dia Pagamento");
-		getConteudo().add(txtDiaPagamento, gbc_txtDiaPagamento);
-		
+		pnlCartaoCredito.add(txtDiaPagamento);
 		// rodape
 		getRodape().add(cmdSalvar);
 		getRodape().add(cmdFechar);
@@ -158,6 +165,7 @@ public class FrmConta extends Formulario {
 			chkAplicacao.setSelected(entidade.isAplicacao());
 			chkCartaoCredito.setSelected(entidade.isCartaoCredito());
 			txtDiaPagamento.setNumero(entidade.getDiaPagamento());
+			txtDiaFechamento.setNumero(entidade.getDiaFechamento());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -180,6 +188,7 @@ public class FrmConta extends Formulario {
 			entidade.setCartaoCredito(chkCartaoCredito.isSelected());
 			entidade.setSaldoInicial(txtSaldoInicial.getDouble());
 			entidade.setDiaPagamento(txtDiaPagamento.getInteger());
+			entidade.setDiaFechamento(txtDiaFechamento.getInteger());
 			if (entidade.getNome() == null || entidade.getNome().isEmpty() || entidade.getSigla() == null
 					|| entidade.getSigla().isEmpty()) {
 				SSMensagem.avisa("Dados incompletos");
