@@ -95,25 +95,17 @@ public class LancamentoController {
 	public void incluir(Lancamento lancamento) {
 		boolean previsao = lancamento.isPrevisao();
 		if (previsao) {
-			Date vencimento = lancamento.getParcelamento().getVencimento();
-			Integer parimeiraParcela = lancamento.getParcelamento().getPrimeiraParcela();
+			Date primeiroVencimento = lancamento.getParcelamento().getPrimeiroVencimento();
+			Integer primeiraParcela = lancamento.getParcelamento().getPrimeiraParcela();
 			Integer ultimaParcela = lancamento.getParcelamento().getUltimaParcela();
-			Integer parcelas = 1 + (ultimaParcela - parimeiraParcela);
+			Integer parcelas = 1 + (ultimaParcela - primeiraParcela);
 			Double valor = lancamento.getValorMovimento();
 			if (lancamento.getParcelamento().isRateio())
 				valor = lancamento.getValor() / parcelas;
 			else {
 				lancamento.setValor(valor * parcelas);
 			}
-			for (int numero = parimeiraParcela; numero <= ultimaParcela; numero++) {
-				Parcela parcela = new Parcela();
-				parcela.setLancamento(lancamento);
-				parcela.setNumero(numero);
-				parcela.setVencimento(vencimento);
-				parcela.setValor(valor);
-				vencimento = Calendario.rolarMes(vencimento, 1);
-				lancamento.getParcelamento().addParcela(parcela);
-			}
+			gerarParcelas(primeiroVencimento, valor, primeiraParcela, ultimaParcela, lancamento);
 		} else {
 			if (lancamento.getTipoMovimento() == TipoMovimento.T) {
 				Lancamento transferencia = lancamento.copia();
@@ -127,6 +119,17 @@ public class LancamentoController {
 			contaRepository.save(conta);
 		}
 		repository.save(lancamento);
+	}
+	private void gerarParcelas(Date vencimento,Double valor,Integer primeira, Integer ultima,Lancamento lancamento){
+		for (int numero = primeira; numero <= ultima; numero++) {
+			Parcela parcela = new Parcela();
+			parcela.setLancamento(lancamento);
+			parcela.setNumero(numero);
+			parcela.setVencimento(vencimento);
+			parcela.setValor(valor);
+			vencimento = Calendario.rolarMes(vencimento, 1);
+			lancamento.getParcelamento().addParcela(parcela);
+		}
 	}
 	@Transactional
 	public void compensarParcela(Parcela parcela, Date data) {

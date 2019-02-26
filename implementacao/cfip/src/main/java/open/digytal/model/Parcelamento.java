@@ -14,8 +14,8 @@ import javax.persistence.TemporalType;
 @Embeddable
 public class Parcelamento {
 	@Temporal(TemporalType.DATE)
-	@Column(nullable=true)
-	private Date vencimento;
+	@Column(nullable=true,name="dt_primeiro_vencto")
+	private Date primeiroVencimento;
 	@Column(length=4,nullable=true)
 	private Integer primeiraParcela;
 	@Column(length=4,nullable=true)
@@ -38,12 +38,11 @@ public class Parcelamento {
 	public void addParcela(Parcela parcela) {
 		parcelas.add(parcela);
 	}
-	
-	public Date getVencimento() {
-		return vencimento;
+	public Date getPrimeiroVencimento() {
+		return primeiroVencimento;
 	}
-	public void setVencimento(Date vencimento) {
-		this.vencimento = vencimento;
+	public void setPrimeiroVencimento(Date primeiroVencimento) {
+		this.primeiroVencimento = primeiroVencimento;
 	}
 	public Double getRestante() {
 		return restante;

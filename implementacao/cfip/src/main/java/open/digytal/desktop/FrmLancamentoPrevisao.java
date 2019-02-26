@@ -253,13 +253,13 @@ public class FrmLancamentoPrevisao extends Formulario {
 			*/
 			entidade.setData(txtData.getDataHora());
 			entidade.setPrevisao(true);
-			entidade.getParcelamento().setVencimento(txtDataPrevisao.getDataHora());
+			entidade.getParcelamento().setPrimeiroVencimento(txtDataPrevisao.getDataHora());
 			entidade.setNatureza(natureza);
 			entidade.setTipoMovimento(natureza.getTipoMovimento());
 			entidade.getParcelamento().setRateio(chkRateio.isSelected());
 			if(entidade.getConta()==null || entidade.getNatureza() == null 
 			|| entidade.getData() == null || entidade.getValor() == null || 
-			entidade.getDescricao()==null || entidade.getParcelamento().getVencimento() == null ||  entidade.getDescricao().isEmpty()) {
+			entidade.getDescricao()==null || entidade.getParcelamento().getPrimeiroVencimento() == null ||  entidade.getDescricao().isEmpty()) {
 				SSMensagem.avisa("Dados incompletos");
 				return;
 			}
@@ -272,8 +272,10 @@ public class FrmLancamentoPrevisao extends Formulario {
 				return;
 			}
 			if(txtParcelas.getText()!= null) {
-				entidade.getParcelamento().setConfiguracao(txtParcelas.getText());
-				
+				Integer primeira = Integer.valueOf(txtParcelas.getText().split("-")[0].trim());
+				Integer ultima = Integer.valueOf(txtParcelas.getText().split("-")[1].trim());
+				entidade.getParcelamento().setPrimeiraParcela(primeira);
+				entidade.getParcelamento().setUltimaParcela(ultima);
 			}else {
 				SSMensagem.avisa("Dados incompletos");
 				return;
