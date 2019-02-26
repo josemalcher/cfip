@@ -46,7 +46,7 @@ public class SpringBootApp {
 	static void validaConta() {
 		ContaRepository cr = contexto.getBean(ContaRepository.class);
 		NaturezaRepository cn = contexto.getBean(NaturezaRepository.class);
-		if(cr.listar().isEmpty()) {
+		if(cr.listarContas().isEmpty()) {
 			Conta carteira = new Conta();
 			carteira.setNome("CARTEIRA");
 		    carteira.setSigla("CTR");

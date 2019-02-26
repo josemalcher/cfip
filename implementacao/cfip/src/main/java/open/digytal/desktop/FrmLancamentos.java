@@ -264,7 +264,7 @@ public class FrmLancamentos extends Formulario {
 	public void carregar() {
 		cboConta.setPrimeiroElementoVazio(true);
 		cboNatureza.setPrimeiroElementoVazio(true); 
-		cboConta.setItens(contaService.listar(), "nome");
+		cboConta.setItens(contaService.listarContas(), "nome");
 		cboNatureza.setItens(naturezaService.listar(), "nome");
 
 		txtDataDe.setDataHora(new Date());

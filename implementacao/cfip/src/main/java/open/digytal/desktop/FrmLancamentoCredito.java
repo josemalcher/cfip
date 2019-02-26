@@ -214,7 +214,7 @@ public class FrmLancamentoCredito extends Formulario {
 	}
 
 	public void carregar() {
-		List<Conta> contas = contaService.listar();
+		List<Conta> contas = contaService.listarContas();
 		cboConta.setItens(contas, "nome");
 		cboNatureza.setItens(naturezaService.listar(TipoMovimento.C), "nomeSigla");
 	}

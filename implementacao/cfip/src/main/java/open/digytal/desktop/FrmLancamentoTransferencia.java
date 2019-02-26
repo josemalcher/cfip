@@ -211,7 +211,7 @@ public class FrmLancamentoTransferencia extends Formulario {
 	}
 
 	public void carregar() {
-		List<Conta> contas = contaService.listar();
+		List<Conta> contas = contaService.listarContas();
 		cboConta.setItens(contas, "nome");
 		cboDestino.setItens(contas, "nome");
 		cboNatureza.setItens(naturezaService.listar(TipoMovimento.T), "nomeSigla");

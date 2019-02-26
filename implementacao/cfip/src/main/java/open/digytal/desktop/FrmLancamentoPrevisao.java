@@ -331,7 +331,7 @@ public class FrmLancamentoPrevisao extends Formulario {
 		super.fechar();
 	}
 	public void carregar() {
-		List<Conta> contas = contaService.listar();
+		List<Conta> contas = contaService.listarCartoesCredito();
 		cboConta.setItens( contas,"nome");
 		cboDestino.setItens( contas,"nome");
 		cboNatureza.setItens( naturezaService.listar(),"nomeSigla");

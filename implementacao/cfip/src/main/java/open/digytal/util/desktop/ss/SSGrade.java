@@ -43,6 +43,7 @@ public class SSGrade extends JTable {
         setAutoCreateColumnsFromModel(true);
         setTipoSelecao(SSTipoSelecao.SELECAO_UNICA);
         setAutoResizeMode(SSGrade.AUTO_RESIZE_OFF);
+        setAutoCreateRowSorter(true);
         //setBackground(UIManager.getColor("control"));        
        
     }

@@ -278,7 +278,7 @@ public class FrmProjecoes extends Formulario {
 	public void carregar() {
 		cboConta.setPrimeiroElementoVazio(true);
 		cboNatureza.setPrimeiroElementoVazio(true);
-		cboConta.setItens(contaService.listar(), "nome");
+		cboConta.setItens(contaService.listarContas(), "nome");
 		cboNatureza.setItens(naturezaService.listar(), "nome");
 		int ano = SSDataHora.pegaAno(new Date());
 		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
@@ -311,7 +311,7 @@ public class FrmProjecoes extends Formulario {
 			
 			lista = service.listarPrevisoes(txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId);
 			if(cId==null)
-				contas = contaService.listar();
+				contas = contaService.listarContas();
 			else
 				contas = contaService.listar(cId);
 			gridContas.setValue(contas);

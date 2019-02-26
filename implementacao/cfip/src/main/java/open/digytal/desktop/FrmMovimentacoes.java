@@ -315,7 +315,7 @@ public class FrmMovimentacoes extends Formulario {
 		cboConta.setPrimeiroElementoVazio(true);
 		cboNatureza.setPrimeiroElementoVazio(true);
 		
-		cboConta.setItens(contaService.listar(), "nome");
+		cboConta.setItens(contaService.listarContas(), "nome");
 		cboNatureza.setItens(naturezaService.listar(), "nome");
 		int ano = SSDataHora.pegaAno(new Date());
 		txtDataDe.setDataHora(Calendario.data(1, 1, ano));

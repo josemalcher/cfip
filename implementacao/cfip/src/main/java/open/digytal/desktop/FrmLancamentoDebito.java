@@ -186,7 +186,7 @@ public class FrmLancamentoDebito extends Formulario {
 		super.fechar();
 	}
 	public void carregar() {
-		List<Conta> contas = contaService.listar();
+		List<Conta> contas = contaService.listarContas();
 		cboConta.setItens( contas,"nome");
 		cboNatureza.setItens( naturezaService.listar(TipoMovimento.D),"nomeSigla");
 		
