@@ -61,9 +61,6 @@ public class Lancamento {
 	@Column(nullable=false)
 	private boolean previsao;
 	
-	@Column(nullable=false)
-	private boolean transferencia;
-	
 	private Parcelamento parcelamento;
 	
 	public Lancamento() {
@@ -72,12 +69,7 @@ public class Lancamento {
 	public Parcelamento getParcelamento() {
 		return parcelamento;
 	}
-	public boolean isTransferencia() {
-		return transferencia;
-	}
-	public void setTransferencia(boolean transferencia) {
-		this.transferencia = transferencia;
-	}
+
 	public Integer getPeriodo() {
 		return periodo;
 	}
@@ -137,31 +129,26 @@ public class Lancamento {
 	}
 	public Lancamento transferencia() {
 		Lancamento copia = new Lancamento();
-		copia.setTransferencia(true);
 		copia.setDescricao("TRANSF.DE: " + conta.getNome() + " - " + descricao);
 		copia.setTipoMovimento(TipoMovimento.C);
 		copia.setPrevisao(previsao);
 		copia.setConta(destino);
 		copia.setData(data);
 		copia.setNatureza(natureza);
-		copia.setTransferencia(true);
 		copia.setValor(valor);
 		copia.origem=this;
-		this.transferencia=true;
 		this.tipoMovimento=TipoMovimento.D;
 		return copia;
 	}
 	public static Lancamento compensacao(Parcela parcela) {
 		Lancamento lancamento = parcela.getLancamento();
 		Lancamento copia = new Lancamento();
-		copia.setTransferencia(true);
 		copia.setDescricao("COMPENSACAO.DE: " + parcela.getDescricao());
 		copia.setTipoMovimento(lancamento.getTipoMovimento());
 		copia.setPrevisao(false);
 		copia.setConta(lancamento.getConta());
 		copia.setData(new Date());
 		copia.setNatureza(lancamento.getNatureza());
-		copia.setTransferencia(false);
 		copia.setValor(parcela.getValor());
 		return copia;
 	}
@@ -169,8 +156,11 @@ public class Lancamento {
 	private void periodo() {
 		this.periodo = Integer.valueOf(Formatador.formatar(DataHora.ano(data),"0000") + Formatador.formatar(DataHora.mes(data),"00"));
 		this.valor = tipoMovimento==TipoMovimento.D?valor * -1:valor;
-		if(this.isPrevisao()) {
+		if(this.isPrevisao() || this.getConta().isCartaoCredito()) {
 			this.parcelamento.setRestante(getValor());
 		}
+	}
+	public void atualizarRestante(Double valor) {
+		getParcelamento().setRestante(getParcelamento().getRestante() - valor);
 	}
 }

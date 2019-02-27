@@ -244,7 +244,6 @@ public class FrmLancamentoPrevisao extends Formulario {
 		try {
 			entidade = new Lancamento();
 			entidade.setValor(txtValor.getDouble());
-			entidade.getParcelamento().setRestante(txtValor.getDouble());
 			entidade.setDescricao(txtDescricao.getText());
 			Conta conta = (Conta) cboConta.getValue();
 			Conta destino = (Conta) cboDestino.getValue();

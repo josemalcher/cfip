@@ -102,6 +102,6 @@ public class Parcela {
 	@PrePersist
 	private void periodo() {
 		this.periodo = Integer.valueOf(Formatador.formatar(DataHora.ano(vencimento),"0000") + Formatador.formatar(DataHora.mes(vencimento),"00"));
-		
+		this.valor = lancamento.getTipoMovimento()==TipoMovimento.D?valor * -1:valor;
 	}
 }

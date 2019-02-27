@@ -96,6 +96,10 @@ public class LancamentoController {
 		Conta conta = lancamento.getConta();
 		conta.atualizarSaldo(lancamento);
 		contaRepository.save(conta);
+		if(lancamento.getNatureza().getTipoMovimento().isTranferencia()) {
+			Lancamento transferencia=lancamento.transferencia();
+			repository.save(transferencia);
+		}
 		if(lancamento.isPrevisao() || lancamento.getConta().isCartaoCredito()) {
 			Double valor = lancamento.getValor();
 			if (lancamento.getParcelamento().isRateio())
@@ -109,6 +113,8 @@ public class LancamentoController {
 	}
 	
 	private Lancamento gerarParcelas(Lancamento lancamento, Double valorParcela){
+		if(lancamento.getConta().isCartaoCredito())
+			lancamento.setPrevisao(false);
 		Date vencimento = lancamento.getParcelamento().getPrimeiroVencimento();
 		for (int numero = lancamento.getParcelamento().getPrimeiraParcela(); numero <= lancamento.getParcelamento().getUltimaParcela(); numero++) {
 			Parcela parcela = new Parcela();
@@ -125,21 +131,18 @@ public class LancamentoController {
 	public void compensarParcela(Parcela parcela, Date data) {
 		parcela.setCompensada(true);
 		parcela.setCompensacao(data);
-		
+		parcelaRepository.save(parcela);
 		if(!parcela.getLancamento().getConta().isCartaoCredito()) {
 			Lancamento novoLancamento = Lancamento.compensacao(parcela);
 			repository.save(novoLancamento);
-			
 			Conta conta = novoLancamento.getConta();
 			conta.setSaldoAtual(conta.getSaldoAtual() + parcela.getValor());
 			contaRepository.save(conta);
 		}
-		
 		Lancamento lancamento = parcela.getLancamento();
-		lancamento.getParcelamento().setRestante(lancamento.getParcelamento().getRestante() + parcela.getValor());
-
+		lancamento.getParcelamento().setRestante(lancamento.getParcelamento().getRestante() - parcela.getValor());
 		repository.save(lancamento);
-		parcelaRepository.save(parcela);
+		
 	}
 	
 }
