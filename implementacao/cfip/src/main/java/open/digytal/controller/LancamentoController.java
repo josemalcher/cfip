@@ -106,6 +106,11 @@ public class LancamentoController {
 				lancamento.setValor(valor * parcelas);
 			}
 			gerarParcelas(primeiroVencimento, valor, primeiraParcela, ultimaParcela, lancamento);
+			if(lancamento.getConta().isCartaoCredito()) {
+				Conta conta = lancamento.getConta();
+				conta.setSaldoAtual(conta.getSaldoAtual() + lancamento.getValor());
+				contaRepository.save(conta);
+			}
 		} else {
 			if (lancamento.getTipoMovimento() == TipoMovimento.T) {
 				Lancamento transferencia = lancamento.copia();
@@ -120,6 +125,7 @@ public class LancamentoController {
 		}
 		repository.save(lancamento);
 	}
+	
 	private void gerarParcelas(Date vencimento,Double valor,Integer primeira, Integer ultima,Lancamento lancamento){
 		for (int numero = primeira; numero <= ultima; numero++) {
 			Parcela parcela = new Parcela();
