@@ -110,6 +110,7 @@ public class LancamentoController {
 				Conta conta = lancamento.getConta();
 				conta.setSaldoAtual(conta.getSaldoAtual() + lancamento.getValor());
 				contaRepository.save(conta);
+				lancamento.setPrevisao(false);
 			}
 		} else {
 			if (lancamento.getTipoMovimento() == TipoMovimento.T) {
@@ -122,6 +123,7 @@ public class LancamentoController {
 			Conta conta = lancamento.getConta();
 			conta.setSaldoAtual(conta.getSaldoAtual() + lancamento.getValorMovimento());
 			contaRepository.save(conta);
+			
 		}
 		repository.save(lancamento);
 	}
@@ -141,15 +143,19 @@ public class LancamentoController {
 	public void compensarParcela(Parcela parcela, Date data) {
 		parcela.setCompensada(true);
 		parcela.setCompensacao(data);
-		Lancamento novoLancamento = Lancamento.compensacao(parcela);
-		Conta conta = novoLancamento.getConta();
-		conta.setSaldoAtual(conta.getSaldoAtual() + parcela.getValor());
-
+		
+		if(!parcela.getLancamento().getConta().isCartaoCredito()) {
+			Lancamento novoLancamento = Lancamento.compensacao(parcela);
+			repository.save(novoLancamento);
+			
+			Conta conta = novoLancamento.getConta();
+			conta.setSaldoAtual(conta.getSaldoAtual() + parcela.getValor());
+			contaRepository.save(conta);
+		}
+		
 		Lancamento lancamento = parcela.getLancamento();
-		lancamento.getParcelamento().setRestante(lancamento.getParcelamento().getRestante() - parcela.getValor());
+		lancamento.getParcelamento().setRestante(lancamento.getParcelamento().getRestante() + parcela.getValor());
 
-		contaRepository.save(conta);
-		repository.save(novoLancamento);
 		repository.save(lancamento);
 		parcelaRepository.save(parcela);
 	}
