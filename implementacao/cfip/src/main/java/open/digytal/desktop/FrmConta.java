@@ -9,6 +9,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.model.Conta;
@@ -23,6 +25,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.FlowLayout;
 
 @Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)	
 public class FrmConta extends Formulario {
 	@Autowired
 	private ContaRepository service;
@@ -161,11 +164,13 @@ public class FrmConta extends Formulario {
 			txtNome.requestFocus();
 			txtNome.setValue(entidade.getNome());
 			txtSigla.setText(entidade.getSigla());
-			txtSaldoAtual.setValue(entidade.getSaldoInicial());
+			txtSaldoAtual.setValue(entidade.getSaldoAtual());
+			txtSaldoInicial.setValue(entidade.getSaldoInicial());
 			chkAplicacao.setSelected(entidade.isAplicacao());
 			chkCartaoCredito.setSelected(entidade.isCartaoCredito());
 			txtDiaPagamento.setNumero(entidade.getDiaPagamento());
 			txtDiaFechamento.setNumero(entidade.getDiaFechamento());
+			txtSaldoInicial.setEnabled(entidade.getId()==null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

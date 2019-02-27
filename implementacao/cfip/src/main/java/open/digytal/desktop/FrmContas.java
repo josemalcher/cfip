@@ -161,7 +161,7 @@ public class FrmContas extends Formulario {
 		try {
 			String nome = txtFiltro.getText();
 			if (SSValidacao.vazio(nome)) {
-				lista = service.listarContas();
+				lista = service.listarTodas();
 
 			} else {
 				lista = service.listar(nome);

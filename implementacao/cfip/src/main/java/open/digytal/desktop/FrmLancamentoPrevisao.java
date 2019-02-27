@@ -105,7 +105,7 @@ public class FrmLancamentoPrevisao extends Formulario {
 		gbc_cboNatureza.fill = GridBagConstraints.BOTH;
 		gbc_cboNatureza.gridx = 0;
 		gbc_cboNatureza.gridy = 2;
-		cboNatureza.setRotulo("NaturezaService");
+		cboNatureza.setRotulo("Natureza");
 		getConteudo().add(cboNatureza, gbc_cboNatureza);
 		
 		GridBagConstraints gbc_cboDestino = new GridBagConstraints();
@@ -253,6 +253,11 @@ public class FrmLancamentoPrevisao extends Formulario {
 			if(destino!=null)
 				entidade.setDestino(destino);
 			
+			
+			if(conta.isCartaoCredito() && (natureza.getTipoMovimento()!=TipoMovimento.D)) {
+				SSMensagem.avisa("Cartão de Crédito só permite débito");
+				return;
+			}
 			/*
 			 * Contato contato = (Contato) cboContato.getValue(); if(contato!=null)
 			 * entidade.setContato(contato);
@@ -331,7 +336,7 @@ public class FrmLancamentoPrevisao extends Formulario {
 		super.fechar();
 	}
 	public void carregar() {
-		List<Conta> contas = contaService.listarCartoesCredito();
+		List<Conta> contas = contaService.listarTodas();
 		cboConta.setItens( contas,"nome");
 		cboDestino.setItens( contas,"nome");
 		cboNatureza.setItens( naturezaService.listar(),"nomeSigla");
