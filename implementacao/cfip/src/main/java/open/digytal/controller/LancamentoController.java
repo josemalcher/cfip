@@ -93,13 +93,17 @@ public class LancamentoController {
 	}
 	@Transactional
 	public void incluir(Lancamento lancamento) {
-		Conta conta = lancamento.getConta();
-		conta.atualizarSaldo(lancamento);
-		contaRepository.save(conta);
 		if(lancamento.getNatureza().getTipoMovimento().isTranferencia()) {
 			Lancamento transferencia=lancamento.transferencia();
 			repository.save(transferencia);
+			Conta destino = transferencia.getConta();
+			destino.atualizarSaldo(transferencia);
+			contaRepository.save(destino);
+			
 		}
+		Conta conta = lancamento.getConta();
+		conta.atualizarSaldo(lancamento);
+		contaRepository.save(conta);
 		if(lancamento.isPrevisao() || lancamento.getConta().isCartaoCredito()) {
 			Double valor = lancamento.getValor();
 			if (lancamento.getParcelamento().isRateio())
