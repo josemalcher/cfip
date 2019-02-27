@@ -74,5 +74,8 @@ public class Parcelamento {
 	public void setUltimaParcela(Integer ultimaParcela) {
 		this.ultimaParcela = ultimaParcela;
 	}
+	public Integer getNumeroParcelas() {
+		return 1 + (ultimaParcela - primeiraParcela);
+	}
 	
 }

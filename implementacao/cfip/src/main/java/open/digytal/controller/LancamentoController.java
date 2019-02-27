@@ -93,51 +93,33 @@ public class LancamentoController {
 	}
 	@Transactional
 	public void incluir(Lancamento lancamento) {
-		boolean previsao = lancamento.isPrevisao();
-		if (previsao) {
-			Date primeiroVencimento = lancamento.getParcelamento().getPrimeiroVencimento();
-			Integer primeiraParcela = lancamento.getParcelamento().getPrimeiraParcela();
-			Integer ultimaParcela = lancamento.getParcelamento().getUltimaParcela();
-			Integer parcelas = 1 + (ultimaParcela - primeiraParcela);
+		Conta conta = lancamento.getConta();
+		conta.atualizarSaldo(lancamento);
+		contaRepository.save(conta);
+		if(lancamento.isPrevisao() || lancamento.getConta().isCartaoCredito()) {
 			Double valor = lancamento.getValor();
 			if (lancamento.getParcelamento().isRateio())
-				valor = lancamento.getValor() / parcelas;
+				valor = lancamento.getValor() / lancamento.getParcelamento().getNumeroParcelas();
 			else {
-				lancamento.setValor(valor * parcelas);
+				lancamento.setValor(valor * lancamento.getParcelamento().getNumeroParcelas());
 			}
-			gerarParcelas(primeiroVencimento, valor, primeiraParcela, ultimaParcela, lancamento);
-			if(lancamento.getConta().isCartaoCredito()) {
-				Conta conta = lancamento.getConta();
-				conta.setSaldoAtual(conta.getSaldoAtual() + lancamento.getValor());
-				contaRepository.save(conta);
-				lancamento.setPrevisao(false);
-			}
-		} else {
-			if (lancamento.getTipoMovimento() == TipoMovimento.T) {
-				Lancamento transferencia = lancamento.transferencia();
-				repository.save(transferencia);
-				Conta destino = transferencia.getConta();
-				destino.setSaldoAtual(destino.getSaldoAtual() + transferencia.getValor());
-				contaRepository.save(destino);
-			}
-			Conta conta = lancamento.getConta();
-			conta.setSaldoAtual(conta.getSaldoAtual() + lancamento.getValorMovimento());
-			contaRepository.save(conta);
-			
+			lancamento= gerarParcelas(lancamento, valor);
 		}
 		repository.save(lancamento);
 	}
 	
-	private void gerarParcelas(Date vencimento,Double valor,Integer primeira, Integer ultima,Lancamento lancamento){
-		for (int numero = primeira; numero <= ultima; numero++) {
+	private Lancamento gerarParcelas(Lancamento lancamento, Double valorParcela){
+		Date vencimento = lancamento.getParcelamento().getPrimeiroVencimento();
+		for (int numero = lancamento.getParcelamento().getPrimeiraParcela(); numero <= lancamento.getParcelamento().getUltimaParcela(); numero++) {
 			Parcela parcela = new Parcela();
 			parcela.setLancamento(lancamento);
 			parcela.setNumero(numero);
 			parcela.setVencimento(vencimento);
-			parcela.setValor(valor);
+			parcela.setValor(valorParcela);
 			vencimento = Calendario.rolarMes(vencimento, 1);
 			lancamento.getParcelamento().addParcela(parcela);
 		}
+		return lancamento;
 	}
 	@Transactional
 	public void compensarParcela(Parcela parcela, Date data) {

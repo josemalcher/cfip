@@ -130,7 +130,10 @@ public class Conta implements Serializable {
 		}
 	}
 	public void atualizarSaldo(Lancamento lancamento) {
-		this.saldoAtual = saldoAtual + (lancamento.getTipoMovimento()==TipoMovimento.D?lancamento.getValor() * -1:lancamento.getValor());
+		Double valor = lancamento.getValor();
+		if(lancamento.isPrevisao() && (!lancamento.getConta().isCartaoCredito()))
+			valor=0.0d;
+		this.saldoAtual = saldoAtual + (lancamento.getTipoMovimento()==TipoMovimento.D?valor * -1:valor);
 	}
 	public static void main(String[] args) {
 		Conta c = new Conta();
