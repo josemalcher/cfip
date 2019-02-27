@@ -135,7 +135,7 @@ public class Lancamento {
 	public Lancamento getOrigem() {
 		return origem;
 	}
-	public Lancamento copia() {
+	public Lancamento transferencia() {
 		Lancamento copia = new Lancamento();
 		copia.setTransferencia(true);
 		copia.setDescricao("TRANSF.DE: " + conta.getNome() + " - " + descricao);
@@ -165,13 +165,10 @@ public class Lancamento {
 		copia.setValor(parcela.getValor());
 		return copia;
 	}
-	public Double getValorMovimento() {
-		valor = tipoMovimento==TipoMovimento.D?valor * -1:valor;
-		return valor;
-	}
 	@PrePersist
 	private void periodo() {
 		this.periodo = Integer.valueOf(Formatador.formatar(DataHora.ano(data),"0000") + Formatador.formatar(DataHora.mes(data),"00"));
+		this.valor = tipoMovimento==TipoMovimento.D?valor * -1:valor;
 		if(this.isPrevisao()) {
 			this.parcelamento.setRestante(getValor());
 		}

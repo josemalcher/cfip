@@ -129,6 +129,9 @@ public class Conta implements Serializable {
 				return dataPagamento;
 		}
 	}
+	public void atualizarSaldo(Lancamento lancamento) {
+		this.saldoAtual = saldoAtual + (lancamento.getTipoMovimento()==TipoMovimento.D?lancamento.getValor() * -1:lancamento.getValor());
+	}
 	public static void main(String[] args) {
 		Conta c = new Conta();
 		c.setDiaPagamento(20);

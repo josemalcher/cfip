@@ -99,7 +99,7 @@ public class LancamentoController {
 			Integer primeiraParcela = lancamento.getParcelamento().getPrimeiraParcela();
 			Integer ultimaParcela = lancamento.getParcelamento().getUltimaParcela();
 			Integer parcelas = 1 + (ultimaParcela - primeiraParcela);
-			Double valor = lancamento.getValorMovimento();
+			Double valor = lancamento.getValor();
 			if (lancamento.getParcelamento().isRateio())
 				valor = lancamento.getValor() / parcelas;
 			else {
@@ -114,7 +114,7 @@ public class LancamentoController {
 			}
 		} else {
 			if (lancamento.getTipoMovimento() == TipoMovimento.T) {
-				Lancamento transferencia = lancamento.copia();
+				Lancamento transferencia = lancamento.transferencia();
 				repository.save(transferencia);
 				Conta destino = transferencia.getConta();
 				destino.setSaldoAtual(destino.getSaldoAtual() + transferencia.getValor());
