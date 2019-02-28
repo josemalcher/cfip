@@ -320,7 +320,7 @@ public class FrmProjecoes extends Formulario {
 			if(contas.size()==0 &&  lista.size()==0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 
-			Double saldo = CfipUtil.contaTotais(contas);
+			Double saldo = CfipUtil.totalContas(contas);
 			txtSaldoContas.setValue(saldo);
 			saldo=saldo + totalLancamentos.getSaldo();
 			txtSaldoAtual.setValue(saldo);

@@ -156,9 +156,7 @@ public class Lancamento {
 	private void periodo() {
 		this.periodo = Integer.valueOf(Formatador.formatar(DataHora.ano(data),"0000") + Formatador.formatar(DataHora.mes(data),"00"));
 		this.valor = tipoMovimento==TipoMovimento.D?valor * -1:valor;
-		if(this.isPrevisao() || this.getConta().isCartaoCredito()) {
-			this.parcelamento.setRestante(getValor());
-		}
+		this.parcelamento.setRestante(getValor());
 	}
 	public void atualizarRestante(Double valor) {
 		getParcelamento().setRestante(getParcelamento().getRestante() - valor);

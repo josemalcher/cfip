@@ -12,6 +12,13 @@ public class CfipUtil {
 	public static Total lancamentos(List<Lancamento> lista) {
 		Total total = new Total();
         for (Lancamento l : lista) {
+        	total.aplicar(l.getTipoMovimento() == TipoMovimento.C, l.getParcelamento().getRestante());
+        }
+        return total;
+    }
+	public static Total extrato(List<Lancamento> lista) {
+		Total total = new Total();
+        for (Lancamento l : lista) {
         	total.aplicar(l.getTipoMovimento() == TipoMovimento.C, l.getValor());
         }
         return total;
@@ -30,9 +37,8 @@ public class CfipUtil {
         }
         return total;
     }
-    public static Double contaTotais(List<Conta> lista) {
+    public static Double totalContas(List<Conta> lista) {
         Double total = 0.0d;
-        //FIXME:Como vc poderia melhorar este c�digo usando Lambda Java8 ?
         for (Conta c : lista) {
             total = total + c.getSaldoInicial();
         }

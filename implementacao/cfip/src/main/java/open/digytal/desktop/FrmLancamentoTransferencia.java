@@ -96,7 +96,7 @@ public class FrmLancamentoTransferencia extends Formulario {
 		gbc_cboNatureza.fill = GridBagConstraints.BOTH;
 		gbc_cboNatureza.gridx = 0;
 		gbc_cboNatureza.gridy = 2;
-		cboNatureza.setRotulo("NaturezaService");
+		cboNatureza.setRotulo("Natureza");
 		panelCampos.add(cboNatureza, gbc_cboNatureza);
 
 		GridBagConstraints gbc_cboDestino = new GridBagConstraints();
