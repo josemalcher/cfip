@@ -319,13 +319,15 @@ public class FrmParcelas extends Formulario {
 	}
 
 	private void amortizar() {
-		SSMensagem.avisa("NÃO IMPLEMENTADO");
-		/*
-		 * Lancamento entidade = (Lancamento) grid.getLinhaSelecionada(); if (entidade
-		 * != null) { FrmAmortizar frm = SpringBootApp.getBean(FrmAmortizar.class);
-		 * frm.setId(entidade.getId()); this.dialogo(frm); listar(); } else
-		 * SSMensagem.avisa("Selecione um item da lista");
-		 */
+		Parcela entidade = (Parcela) grid.getLinhaSelecionada();
+		if (entidade != null) {
+			FrmAmortizar frm = SpringBootApp.getBean(FrmAmortizar.class);
+			frm.setId(entidade.getId());
+			this.dialogo(frm);
+			listar();
+		} else
+			SSMensagem.avisa("Selecione um item da lista");
+
 	}
 
 	private void compensar() {

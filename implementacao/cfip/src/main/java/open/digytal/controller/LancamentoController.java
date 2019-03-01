@@ -132,9 +132,18 @@ public class LancamentoController {
 		return lancamento;
 	}
 	@Transactional
+	public void amortizarParcela(Parcela parcela, Date data,Double valor) {
+		compensarAmortizarParcela(parcela, data, valor);
+	}
+	@Transactional
 	public void compensarParcela(Parcela parcela, Date data) {
+		compensarAmortizarParcela(parcela, data, parcela.getValor());
+	}
+	@Transactional
+	private void compensarAmortizarParcela(Parcela parcela, Date data, Double valor) {
 		Lancamento lancamento = parcela.getLancamento();
-		parcela.setCompensada(true);
+		parcela.setCompensada(parcela.getValor()==valor);
+		parcela.setValor(parcela.getValor() - valor);
 		parcela.setCompensacao(data);
 		parcelaRepository.save(parcela);
 		if(!parcela.getLancamento().getConta().isCartaoCredito()) {
@@ -143,10 +152,10 @@ public class LancamentoController {
 			*/
 			lancamento.setPrevisao(false);
 			Conta conta = lancamento.getConta();
-			conta.setSaldoAtual(conta.getSaldoAtual() + parcela.getValor());
+			conta.setSaldoAtual(conta.getSaldoAtual() + valor);
 			contaRepository.save(conta);
 		}
-		lancamento.getParcelamento().setRestante(lancamento.getParcelamento().getRestante() - parcela.getValor());
+		lancamento.getParcelamento().setRestante(lancamento.getParcelamento().getRestante() - valor);
 		repository.save(lancamento);
 		
 	}
