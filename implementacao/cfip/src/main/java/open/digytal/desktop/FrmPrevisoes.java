@@ -123,30 +123,33 @@ public class FrmPrevisoes extends Formulario {
 
 		// campos da tabela
 		grid.getModeloTabela().addColumn("Data");
-		grid.getModeloTabela().addColumn("Parcelas");
+		grid.getModeloTabela().addColumn("P. Inicial");
+		grid.getModeloTabela().addColumn("P. Final");
 		grid.getModeloTabela().addColumn("Conta");
 		grid.getModeloTabela().addColumn("Natureza");
 		grid.getModeloTabela().addColumn("Valor");
 		grid.getModeloTabela().addColumn("Restante");
 
 		grid.getModeloColuna().getColumn(0).setPreferredWidth(50);
-		grid.getModeloColuna().getColumn(1).setPreferredWidth(55);
-		grid.getModeloColuna().getColumn(2).setPreferredWidth(170);
-		grid.getModeloColuna().getColumn(3).setPreferredWidth(120);
-		grid.getModeloColuna().getColumn(4).setPreferredWidth(70);
-		grid.getModeloColuna().getColumn(5).setPreferredWidth(100);
+		grid.getModeloColuna().getColumn(1).setPreferredWidth(50);
+		grid.getModeloColuna().getColumn(2).setPreferredWidth(50);
+		grid.getModeloColuna().getColumn(3).setPreferredWidth(160);
+		grid.getModeloColuna().getColumn(4).setPreferredWidth(115);
+		grid.getModeloColuna().getColumn(5).setPreferredWidth(70);
+		grid.getModeloColuna().getColumn(6).setPreferredWidth(100);
 
 		grid.getModeloColuna().setCampo(0, "data");
 		grid.getModeloColuna().setFormato(0, "dd/MM/yy");
-		grid.getModeloColuna().setCampo(1, "parcelamento.configuracao");
-		grid.getModeloColuna().setCampo(2, "conta.nome");
-		grid.getModeloColuna().setCampo(3, "natureza.nome");
-		grid.getModeloColuna().setCampo(4, "valor");
-		grid.getModeloColuna().setFormato(4, Formato.MOEDA);
-		grid.getModeloColuna().definirPositivoNegativo(4);
-		grid.getModeloColuna().setCampo(5, "parcelamento.restante");
+		grid.getModeloColuna().setCampo(1, "parcelamento.primeiraParcela");
+		grid.getModeloColuna().setCampo(2, "parcelamento.ultimaParcela");
+		grid.getModeloColuna().setCampo(3, "conta.nome");
+		grid.getModeloColuna().setCampo(4, "natureza.nome");
+		grid.getModeloColuna().setCampo(5, "valor");
 		grid.getModeloColuna().setFormato(5, Formato.MOEDA);
 		grid.getModeloColuna().definirPositivoNegativo(5);
+		grid.getModeloColuna().setCampo(6, "parcelamento.restante");
+		grid.getModeloColuna().setFormato(6, Formato.MOEDA);
+		grid.getModeloColuna().definirPositivoNegativo(6);
 
 		cmdFechar.setText("Fechar");
 		cmdBuscar.setText("Buscar");

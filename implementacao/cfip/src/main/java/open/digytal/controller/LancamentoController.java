@@ -133,17 +133,19 @@ public class LancamentoController {
 	}
 	@Transactional
 	public void compensarParcela(Parcela parcela, Date data) {
+		Lancamento lancamento = parcela.getLancamento();
 		parcela.setCompensada(true);
 		parcela.setCompensacao(data);
 		parcelaRepository.save(parcela);
 		if(!parcela.getLancamento().getConta().isCartaoCredito()) {
-			Lancamento novoLancamento = Lancamento.compensacao(parcela);
+			/*Lancamento novoLancamento = Lancamento.compensacao(parcela);
 			repository.save(novoLancamento);
-			Conta conta = novoLancamento.getConta();
+			*/
+			lancamento.setPrevisao(false);
+			Conta conta = lancamento.getConta();
 			conta.setSaldoAtual(conta.getSaldoAtual() + parcela.getValor());
 			contaRepository.save(conta);
 		}
-		Lancamento lancamento = parcela.getLancamento();
 		lancamento.getParcelamento().setRestante(lancamento.getParcelamento().getRestante() - parcela.getValor());
 		repository.save(lancamento);
 		

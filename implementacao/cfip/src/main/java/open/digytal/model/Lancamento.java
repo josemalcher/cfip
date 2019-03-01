@@ -144,12 +144,12 @@ public class Lancamento {
 		Lancamento lancamento = parcela.getLancamento();
 		Lancamento copia = new Lancamento();
 		copia.setDescricao("COMPENSACAO.DE: " + parcela.getDescricao());
-		copia.setTipoMovimento(lancamento.getTipoMovimento());
 		copia.setPrevisao(false);
 		copia.setConta(lancamento.getConta());
 		copia.setData(new Date());
 		copia.setNatureza(lancamento.getNatureza());
 		copia.setValor(parcela.getValor());
+		copia.setTipoMovimento(TipoMovimento.C==lancamento.getTipoMovimento()?TipoMovimento.D:TipoMovimento.C);
 		return copia;
 	}
 	@PrePersist
