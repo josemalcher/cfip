@@ -85,7 +85,7 @@ public abstract class MDI extends JFrame {
 
         this.setIconImage(Imagem.png("app").getImage());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(new Rectangle(1024, 800));
+        setBounds(new Rectangle(650, 650));
         setLocationRelativeTo(null);
 
         imgFundo = Imagem.png("fundo");
