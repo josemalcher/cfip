@@ -36,7 +36,7 @@ public class LancamentoController {
 	//https://www.baeldung.com/spring-data-jpa-query
 
 	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM Lancamento l WHERE (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
-	private final String SQL_PARCELA = "SELECT p FROM Parcela p WHERE p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
+	private final String SQL_PARCELA_FATURA = "SELECT p FROM Parcela p WHERE p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
 	private List<Lancamento> listarLancamentos(boolean previsao, Date inicio, Date fim, Integer conta,
 			Integer natureza) {
 		StringBuilder sql = new StringBuilder(SQL_LANCAMENTO_PREVISAO);
@@ -79,7 +79,13 @@ public class LancamentoController {
 		return listarLancamentos(true, inicio, fim, conta, natureza);
 	}
 	public List<Parcela> listarParcelas(Date inicio, Date fim, Integer conta,Integer natureza) {
-		StringBuilder sql = new StringBuilder(SQL_PARCELA);
+		return listarParcelas(false, inicio, fim, conta, natureza);
+	}
+	public List<Parcela> listarFaturas(Date inicio, Date fim, Integer conta,Integer natureza) {
+		return listarParcelas(true, inicio, fim, conta, natureza);
+	}
+	private List<Parcela> listarParcelas(boolean cc,Date inicio, Date fim, Integer conta,Integer natureza) {
+		StringBuilder sql = new StringBuilder(SQL_PARCELA_FATURA);
 
 		if (natureza != null && natureza > 0) {
 			sql.append(" AND p.lancamento.natureza.id=:natureza ");
@@ -92,6 +98,7 @@ public class LancamentoController {
 		TypedQuery<Parcela> query = em.createQuery(sql.toString(), Parcela.class);
 		query.setParameter("inicio", inicio);
 		query.setParameter("fim", fim);
+		query.setParameter("cc", cc);
 		if (natureza != null && natureza > 0)
 			query.setParameter("natureza", natureza);
 
