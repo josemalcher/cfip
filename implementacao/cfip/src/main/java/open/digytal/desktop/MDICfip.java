@@ -140,7 +140,7 @@ public class MDICfip extends MDI {
 		mnConsultas.add(mnConsultaLancamentos);
 
 		JMenuItem mnConsultaParcelas = new JMenuItem("Parcelas");
-		mnConsultaParcelas.setIcon(Imagem.png("calendario10"));
+		mnConsultaParcelas.setIcon(Imagem.png("parcelas"));
 		mnConsultaParcelas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				exibirConsultaParcelas();

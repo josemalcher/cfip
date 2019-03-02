@@ -94,8 +94,8 @@ public class FrmParcelas extends Formulario {
 		setAlinhamentoRodape(FlowLayout.LEFT);
 		getRodape().add(cmdCompensar);
 		getRodape().add(cmdAmortizar);
-		getRodape().add(cmdProrrogar);
-		getRodape().add(cmdSelecionados);
+		//getRodape().add(cmdProrrogar);
+		//getRodape().add(cmdSelecionados);
 		getRodape().add(cmdFechar);
 		// implementando o conteudo do formulario
 		JPanel conteudo = super.getConteudo();

@@ -2,6 +2,7 @@ package open.digytal.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,8 +32,10 @@ public class LancamentoController {
 
 	@PersistenceContext
 	private EntityManager em;
+	
+	//https://www.baeldung.com/spring-data-jpa-query
 
-	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM Lancamento l WHERE l.previsao = :previsao AND l.data BETWEEN :inicio AND :fim ";
+	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM Lancamento l WHERE (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
 	private final String SQL_PARCELA = "SELECT p FROM Parcela p WHERE p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
 	private List<Lancamento> listarLancamentos(boolean previsao, Date inicio, Date fim, Integer conta,
 			Integer natureza) {
@@ -57,7 +60,14 @@ public class LancamentoController {
 			query.setParameter("conta", conta);
 
 		List<Lancamento> lista = query.getResultList();
-		return lista;
+		if(previsao)
+			return lista;
+		else {
+			List<Lancamento> lancamentos = lista.stream()
+					  .filter(l -> !l.getConta().isCartaoCredito())
+					  .collect(Collectors.toList());
+			return lancamentos;
+		}
 	}
 	public Parcela buscarParcela(Integer id) {
 		return em.find(Parcela.class, id);
@@ -133,6 +143,9 @@ public class LancamentoController {
 	}
 	@Transactional
 	public void amortizarParcela(Parcela parcela, Date data,Double valor) {
+		if(valor<0)
+			valor = valor *-1;
+		valor=parcela.getLancamento().getTipoMovimento()==TipoMovimento.C?valor:valor * -1;
 		compensarAmortizarParcela(parcela, data, valor);
 	}
 	@Transactional
@@ -144,12 +157,9 @@ public class LancamentoController {
 		Lancamento lancamento = parcela.getLancamento();
 		parcela.setCompensada(parcela.getValor()==valor);
 		parcela.setValor(parcela.getValor() - valor);
-		parcela.setCompensacao(data);
+		parcela.setCompensacao(parcela.isCompensada()?data:null);
 		parcelaRepository.save(parcela);
 		if(!parcela.getLancamento().getConta().isCartaoCredito()) {
-			/*Lancamento novoLancamento = Lancamento.compensacao(parcela);
-			repository.save(novoLancamento);
-			*/
 			lancamento.setPrevisao(false);
 			Conta conta = lancamento.getConta();
 			conta.setSaldoAtual(conta.getSaldoAtual() + valor);

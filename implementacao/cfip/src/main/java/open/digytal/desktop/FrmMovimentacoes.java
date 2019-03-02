@@ -210,11 +210,13 @@ public class FrmMovimentacoes extends Formulario {
 		gridLancamento.getModeloTabela().addColumn("Conta");
 		gridLancamento.getModeloTabela().addColumn("Natureza");
 		gridLancamento.getModeloTabela().addColumn("Valor");
-		
-		gridLancamento.getModeloColuna().getColumn(0).setPreferredWidth(55);
-		gridLancamento.getModeloColuna().getColumn(1).setPreferredWidth(205);
-		gridLancamento.getModeloColuna().getColumn(2).setPreferredWidth(205);
+		gridLancamento.getModeloTabela().addColumn("Restante");
+
+		gridLancamento.getModeloColuna().getColumn(0).setPreferredWidth(50);
+		gridLancamento.getModeloColuna().getColumn(1).setPreferredWidth(170);
+		gridLancamento.getModeloColuna().getColumn(2).setPreferredWidth(170);
 		gridLancamento.getModeloColuna().getColumn(3).setPreferredWidth(80);
+		gridLancamento.getModeloColuna().getColumn(4).setPreferredWidth(80);
 		
 		gridLancamento.getModeloColuna().setCampo(0, "data");
 		gridLancamento.getModeloColuna().setFormato(0, "dd/MM/yy");
@@ -223,33 +225,33 @@ public class FrmMovimentacoes extends Formulario {
 		gridLancamento.getModeloColuna().setCampo(3, "valor");
 		gridLancamento.getModeloColuna().setFormato(3, Formato.MOEDA);
 		gridLancamento.getModeloColuna().definirPositivoNegativo(3);
+		gridLancamento.getModeloColuna().setCampo(4, "parcelamento.restante");
+		gridLancamento.getModeloColuna().setFormato(4, Formato.MOEDA);
+		gridLancamento.getModeloColuna().definirPositivoNegativo(4);
 
 		// campos da tabela
 		gridPrevisao.getModeloTabela().addColumn("Data");
-		gridPrevisao.getModeloTabela().addColumn("Parcelas");
 		gridPrevisao.getModeloTabela().addColumn("Conta");
 		gridPrevisao.getModeloTabela().addColumn("Natureza");
 		gridPrevisao.getModeloTabela().addColumn("Valor");
 		gridPrevisao.getModeloTabela().addColumn("Restante");
 
 		gridPrevisao.getModeloColuna().getColumn(0).setPreferredWidth(50);
-		gridPrevisao.getModeloColuna().getColumn(1).setPreferredWidth(55);
+		gridPrevisao.getModeloColuna().getColumn(1).setPreferredWidth(170);
 		gridPrevisao.getModeloColuna().getColumn(2).setPreferredWidth(170);
-		gridPrevisao.getModeloColuna().getColumn(3).setPreferredWidth(120);
-		gridPrevisao.getModeloColuna().getColumn(4).setPreferredWidth(70);
-		gridPrevisao.getModeloColuna().getColumn(5).setPreferredWidth(100);
-
+		gridPrevisao.getModeloColuna().getColumn(3).setPreferredWidth(80);
+		gridPrevisao.getModeloColuna().getColumn(4).setPreferredWidth(80);
+		
 		gridPrevisao.getModeloColuna().setCampo(0, "data");
 		gridPrevisao.getModeloColuna().setFormato(0, "dd/MM/yy");
-		gridPrevisao.getModeloColuna().setCampo(1, "parcelamento.configuracao");
-		gridPrevisao.getModeloColuna().setCampo(2, "conta.nome");
-		gridPrevisao.getModeloColuna().setCampo(3, "natureza.nome");
-		gridPrevisao.getModeloColuna().setCampo(4, "valor");
+		gridPrevisao.getModeloColuna().setCampo(1, "conta.nome");
+		gridPrevisao.getModeloColuna().setCampo(2, "natureza.nome");
+		gridPrevisao.getModeloColuna().setCampo(3, "valor");
+		gridPrevisao.getModeloColuna().setFormato(3, Formato.MOEDA);
+		gridPrevisao.getModeloColuna().definirPositivoNegativo(3);
+		gridPrevisao.getModeloColuna().setCampo(4, "parcelamento.restante");
 		gridPrevisao.getModeloColuna().setFormato(4, Formato.MOEDA);
 		gridPrevisao.getModeloColuna().definirPositivoNegativo(4);
-		gridPrevisao.getModeloColuna().setCampo(5, "parcelamento.restante");
-		gridPrevisao.getModeloColuna().setFormato(5, Formato.MOEDA);
-		gridPrevisao.getModeloColuna().definirPositivoNegativo(5);
 
 
 		cmdFechar.setText("Fechar");

@@ -125,7 +125,6 @@ public class FrmAmortizar extends Formulario {
 	private void salvar() {
 		if(SSMensagem.pergunta("Confirma compensar este lançamento ?")) {
 			Double valor=txtValor.getDouble();
-			valor=entidade.getLancamento().getTipoMovimento()==TipoMovimento.C?valor:valor * -1;
 			service.amortizarParcela(entidade,txtData.getDataHora(),valor);
 			SSMensagem.informa("Lançamento compensado com sucesso!!");
 			super.fechar();

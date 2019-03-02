@@ -130,7 +130,7 @@ public class FrmProjecoes extends Formulario {
 		gridContas.getModeloTabela().addColumn("Saldo Atual");
 		gridContas.getModeloTabela().addColumn("Aplicação");
 		gridContas.getModeloColuna().getColumn(0).setPreferredWidth(80);
-		gridContas.getModeloColuna().getColumn(1).setPreferredWidth(150);
+		gridContas.getModeloColuna().getColumn(1).setPreferredWidth(180);
 		gridContas.getModeloColuna().getColumn(2).setPreferredWidth(70);
 		gridContas.getModeloColuna().getColumn(3).setPreferredWidth(70);
 		gridContas.getModeloColuna().getColumn(4).setPreferredWidth(70);
@@ -144,30 +144,27 @@ public class FrmProjecoes extends Formulario {
 		
 		// campos da tabela
 		gridLancamentos.getModeloTabela().addColumn("Data");
-		gridLancamentos.getModeloTabela().addColumn("Parcelas");
 		gridLancamentos.getModeloTabela().addColumn("Conta");
 		gridLancamentos.getModeloTabela().addColumn("Natureza");
 		gridLancamentos.getModeloTabela().addColumn("Valor");
 		gridLancamentos.getModeloTabela().addColumn("Restante");
 
 		gridLancamentos.getModeloColuna().getColumn(0).setPreferredWidth(50);
-		gridLancamentos.getModeloColuna().getColumn(1).setPreferredWidth(55);
-		gridLancamentos.getModeloColuna().getColumn(2).setPreferredWidth(170);
-		gridLancamentos.getModeloColuna().getColumn(3).setPreferredWidth(120);
-		gridLancamentos.getModeloColuna().getColumn(4).setPreferredWidth(70);
-		gridLancamentos.getModeloColuna().getColumn(5).setPreferredWidth(100);
+		gridLancamentos.getModeloColuna().getColumn(1).setPreferredWidth(180);
+		gridLancamentos.getModeloColuna().getColumn(2).setPreferredWidth(180);
+		gridLancamentos.getModeloColuna().getColumn(3).setPreferredWidth(80);
+		gridLancamentos.getModeloColuna().getColumn(4).setPreferredWidth(80);
 
 		gridLancamentos.getModeloColuna().setCampo(0, "data");
 		gridLancamentos.getModeloColuna().setFormato(0, "dd/MM/yy");
-		gridLancamentos.getModeloColuna().setCampo(1, "parcelamento.configuracao");
-		gridLancamentos.getModeloColuna().setCampo(2, "conta.nome");
-		gridLancamentos.getModeloColuna().setCampo(3, "natureza.nome");
-		gridLancamentos.getModeloColuna().setCampo(4, "valor");
+		gridLancamentos.getModeloColuna().setCampo(1, "conta.nome");
+		gridLancamentos.getModeloColuna().setCampo(2, "natureza.nome");
+		gridLancamentos.getModeloColuna().setCampo(3, "valor");
+		gridLancamentos.getModeloColuna().setFormato(3, Formato.MOEDA);
+		gridLancamentos.getModeloColuna().definirPositivoNegativo(3);
+		gridLancamentos.getModeloColuna().setCampo(4, "parcelamento.restante");
 		gridLancamentos.getModeloColuna().setFormato(4, Formato.MOEDA);
 		gridLancamentos.getModeloColuna().definirPositivoNegativo(4);
-		gridLancamentos.getModeloColuna().setCampo(5, "parcelamento.restante");
-		gridLancamentos.getModeloColuna().setFormato(5, Formato.MOEDA);
-		gridLancamentos.getModeloColuna().definirPositivoNegativo(5);
 		
 		cmdFechar.setText("Fechar");
 		cmdBuscar.setText("Buscar");
