@@ -29,7 +29,6 @@ import org.springframework.stereotype.Component;
 import open.digytal.SpringBootApp;
 import open.digytal.controller.LancamentoController;
 import open.digytal.model.Conta;
-import open.digytal.model.Lancamento;
 import open.digytal.model.Natureza;
 import open.digytal.model.Parcela;
 import open.digytal.model.Total;
@@ -54,9 +53,6 @@ import open.digytal.util.desktop.ss.util.SSDataHora;
 public class FrmFaturas extends Formulario {
 	// rodape
 	private SSBotao cmdCompensar = new SSBotao();
-	private SSBotao cmdSelecionados = new SSBotao();
-	private SSBotao cmdAmortizar = new SSBotao();
-	private SSBotao cmdProrrogar = new SSBotao();
 	private SSBotao cmdFechar = new SSBotao();
 	private SSBotao cmdBuscar = new SSBotao();
 	private SSGrade grid = new SSGrade();
@@ -89,13 +85,10 @@ public class FrmFaturas extends Formulario {
 	private void init() {
 		cboConta.setPreferredWidth(180);
 		cboNatureza.setPreferredWidth(150);
-		super.setTitulo("Consulta de Parcelas");
-		super.setDescricao("Registro dos valores à pagar e à receber");
+		super.setTitulo("Fatura - Parcelas");
+		super.setDescricao("Registro dos lancamentos de cartões de crédito");
 		setAlinhamentoRodape(FlowLayout.LEFT);
 		getRodape().add(cmdCompensar);
-		getRodape().add(cmdAmortizar);
-		//getRodape().add(cmdProrrogar);
-		//getRodape().add(cmdSelecionados);
 		getRodape().add(cmdFechar);
 		// implementando o conteudo do formulario
 		JPanel conteudo = super.getConteudo();
@@ -133,7 +126,9 @@ public class FrmFaturas extends Formulario {
 		painelFiltro.add(cmdBuscar, gbcBuscar);
 
 		// campos da tabela
+		grid.setEditaveis(4, 5);
 		grid.setCheckbox(true);
+
 		grid.getModeloTabela().addColumn("Vencto");
 		grid.getModeloTabela().addColumn("Parcela");
 		grid.getModeloTabela().addColumn("Conta");
@@ -157,23 +152,11 @@ public class FrmFaturas extends Formulario {
 		grid.getModeloColuna().setFormato(4, Formato.MOEDA);
 		grid.getModeloColuna().definirPositivoNegativo(4);
 		grid.getModeloColuna().setCampo(5, "compensada");
-		
-		cmdCompensar.setText("Compensar");
-		cmdAmortizar.setText("Amortizar");
-		cmdProrrogar.setText("Atualizar");
-		cmdSelecionados.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				compensarSelecionados();
-			}
-		});
-		cmdSelecionados.setText("Selecionados");
 
+		cmdCompensar.setText("Compensar");
 		cmdFechar.setText("Fechar");
 		cmdBuscar.setText("Buscar");
 		cmdCompensar.setIcone("dinheiro");
-		cmdProrrogar.setIcone("atualizar");
-		cmdAmortizar.setIcone("amortizar");
-		cmdSelecionados.setIcone("selecionados");
 
 		GridBagConstraints gbc_txtDataDe = new GridBagConstraints();
 		gbc_txtDataDe.anchor = GridBagConstraints.NORTHWEST;
@@ -230,18 +213,7 @@ public class FrmFaturas extends Formulario {
 				compensar();
 			}
 		});
-		cmdAmortizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				amortizar();
-			}
-		});
-		cmdProrrogar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				prorrogar();
-			}
-		});
 
-		//
 		FlowLayout pnlSaldoLayout = new FlowLayout();
 		pnlSaldoLayout.setAlignment(FlowLayout.RIGHT);
 		JPanel pnlSaldo = new JPanel(pnlSaldoLayout);
@@ -308,21 +280,11 @@ public class FrmFaturas extends Formulario {
 		super.fechar();
 	}
 
-	private void prorrogar() {
-		SSMensagem.avisa("NÃO IMPLEMENTADO");
-		/*
-		 * Lancamento entidade = (Lancamento) grid.getLinhaSelecionada(); if (entidade
-		 * != null) { // FrmProrrogar frm = getBean(FrmProrrogar.class); FrmAtualizar
-		 * frm = SpringBootApp.getBean(FrmAtualizar.class); frm.setId(entidade.getId());
-		 * this.dialogo(frm); listar(); } else
-		 * SSMensagem.avisa("Selecione um item da lista");
-		 */
-	}
+	private void compensar() {
 
-	private void amortizar() {
 		Parcela entidade = (Parcela) grid.getLinhaSelecionada();
 		if (entidade != null) {
-			FrmAmortizar frm = SpringBootApp.getBean(FrmAmortizar.class);
+			FrmCompensar frm = SpringBootApp.getBean(FrmCompensar.class);
 			frm.setId(entidade.getId());
 			this.dialogo(frm);
 			listar();
@@ -331,40 +293,14 @@ public class FrmFaturas extends Formulario {
 
 	}
 
-	private void compensar() {
-		/*
-		 * Parcela entidade = (Parcela) grid.getLinhaSelecionada(); if (entidade !=
-		 * null) { FrmCompensar frm = SpringBootApp.getBean(FrmCompensar.class);
-		 * frm.setId(entidade.getId()); this.dialogo(frm); listar(); } else
-		 * SSMensagem.avisa("Selecione um item da lista");
-		 */
-		Parcela entidade = (Parcela) grid.getLinhaSelecionada();
-		SSMensagem.avisa(""+entidade.isCompensada());
-	}
-
-	private void compensarSelecionados() {
-		SSMensagem.avisa("NÃO IMPLEMENTADO");
-		/*
-		 * if (cboConta.getValue() == null) {
-		 * SSMensagem.avisa("Favor selecione uma conta"); return; } if
-		 * (SSMensagem.pergunta("Confirma compensar os itens selecionados?")) { Object[]
-		 * itens = grid.getLinhasSelecionadas(); if (itens == null || itens.length == 0)
-		 * { SSMensagem.avisa("Nenhuma linha selecionada"); return; } Integer[] ids =
-		 * new Integer[itens.length]; for (int x = 0; x < itens.length; x++) {
-		 * Lancamento vo = (Lancamento) itens[x]; ids[x] = vo.getId(); }
-		 * service.compensarLancamento(new Date(), ids);
-		 * SSMensagem.informa("Lançamentos compensados com sucesso!!"); listar(); }
-		 */
-	}
-
 	private void listar() {
 		List<Parcela> lista = new ArrayList<Parcela>();
 		try {
 			Conta conta = (Conta) cboConta.getValue();
 			Natureza nat = (Natureza) cboNatureza.getValue();
-			Integer cId=conta==null?null:conta.getId();
-			Integer nId=nat==null?null:nat.getId();
-			lista = service.listarParcelas(txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId);
+			Integer cId = conta == null ? null : conta.getId();
+			Integer nId = nat == null ? null : nat.getId();
+			lista = service.listarFaturas(txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, nId);
 			if (lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 

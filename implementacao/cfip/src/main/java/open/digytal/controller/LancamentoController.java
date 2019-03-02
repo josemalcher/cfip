@@ -40,7 +40,6 @@ public class LancamentoController {
 	private List<Lancamento> listarLancamentos(boolean previsao, Date inicio, Date fim, Integer conta,
 			Integer natureza) {
 		StringBuilder sql = new StringBuilder(SQL_LANCAMENTO_PREVISAO);
-
 		if (natureza != null && natureza > 0) {
 			sql.append(" AND l.natureza.id=:natureza ");
 		}
@@ -149,31 +148,35 @@ public class LancamentoController {
 		return lancamento;
 	}
 	@Transactional
-	public void amortizarParcela(Parcela parcela, Date data,Double valor) {
-		if(valor<0)
-			valor = valor *-1;
-		valor=parcela.getLancamento().getTipoMovimento()==TipoMovimento.C?valor:valor * -1;
-		compensarAmortizarParcela(parcela, data, valor);
-	}
-	@Transactional
-	public void compensarParcela(Parcela parcela, Date data) {
-		compensarAmortizarParcela(parcela, data, parcela.getValor());
-	}
-	@Transactional
-	private void compensarAmortizarParcela(Parcela parcela, Date data, Double valor) {
-		Lancamento lancamento = parcela.getLancamento();
-		parcela.setCompensada(parcela.getValor()==valor);
-		parcela.setValor(parcela.getValor() - valor);
-		parcela.setCompensacao(parcela.isCompensada()?data:null);
-		parcelaRepository.save(parcela);
-		if(!parcela.getLancamento().getConta().isCartaoCredito()) {
-			lancamento.setPrevisao(false);
-			Conta conta = lancamento.getConta();
-			conta.setSaldoAtual(conta.getSaldoAtual() + valor);
-			contaRepository.save(conta);
+	public void compensarParcela(Date data, Parcela ... parcelas) {
+		StringBuilder str = new StringBuilder();
+		Lancamento lancamento =null;
+		for(Parcela parcela: parcelas) {
+			str.append(" " + parcela.getNumero());
+			Double valor=parcela.getAmortizado();
+			if(valor==null)
+				valor=parcela.getValor();
+			if(valor<0)
+				valor = valor *-1;
+			valor=parcela.getLancamento().getTipoMovimento()==TipoMovimento.C?valor:valor * -1;
+			
+			if(lancamento==null)
+				lancamento = parcela.getLancamento();
+			
+			parcela.setValor(parcela.getValor() - valor);
+			parcela.setCompensacao(parcela.isCompensada()?data:null);
+			parcela.setCompensada(parcela.getValor().equals(0.0d));
+			parcelaRepository.save(parcela);
+			if(!parcela.getLancamento().getConta().isCartaoCredito()) {
+				Conta conta = lancamento.getConta();
+				conta.setSaldoAtual(conta.getSaldoAtual() + valor);
+				contaRepository.save(conta);
+			}
+			lancamento.getParcelamento().setRestante(lancamento.getParcelamento().getRestante() - valor);
+			repository.save(lancamento);
+			Lancamento compensacao = lancamento.compensacao(valor,str.toString());
+			repository.save(compensacao);
 		}
-		lancamento.getParcelamento().setRestante(lancamento.getParcelamento().getRestante() - valor);
-		repository.save(lancamento);
 		
 	}
 	

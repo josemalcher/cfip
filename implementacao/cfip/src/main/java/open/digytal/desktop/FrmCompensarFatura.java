@@ -32,7 +32,7 @@ import open.digytal.util.desktop.ss.SSMensagem;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)	
-public class FrmCompensar extends Formulario {
+public class FrmCompensarFatura extends Formulario {
 	private SSCampoDataHora txtData = new SSCampoDataHora();
 	private SSCampoNumero txtValor = new SSCampoNumero();
 	private JTextArea txtDescricao = new JTextArea();
@@ -43,7 +43,7 @@ public class FrmCompensar extends Formulario {
 	@Autowired
 	private LancamentoController service;
 	
-	public FrmCompensar() {
+	public FrmCompensarFatura() {
 		init();
 	}
 	private void init() {
@@ -125,7 +125,7 @@ public class FrmCompensar extends Formulario {
 	}
 	private void salvar() {
 		if(SSMensagem.pergunta("Confirma compensar este lançamento ?")) {
-			service.compensarParcela(txtData.getDataHora(),entidade);
+			//service.compensarParcela(entidade,txtData.getDataHora());
 			SSMensagem.informa("Lançamento compensado com sucesso!!");
 			super.fechar();
 		}

@@ -58,14 +58,6 @@ public class MDICfip extends MDI {
 			}
 		});
 		
-		JMenuItem mntmFatura = new JMenuItem("Fatura");
-		mntmFatura.setIcon(Imagem.png("fatura"));
-		mntmFatura.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {
-				//exibirFatura();
-			}
-		});
-		//mnCadastros.add(mntmFatura);
 		mnCadastros.add(mntmContato);
 		
 
@@ -121,11 +113,10 @@ public class MDICfip extends MDI {
 		mnFaturas.setIcon(Imagem.png("fatura"));
 		mnFaturas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				//exibirFaturas();
+				exibirConsultaFaturas();
 			}
 		});
-		mnLancamentos.add(mnFaturas);
-
+		
 		JMenu mnConsultas = new JMenu("Consultas");
 		mnConsultas.setIcon(Imagem.png("2consultas"));
 		
@@ -138,7 +129,8 @@ public class MDICfip extends MDI {
 			}
 		});
 		mnConsultas.add(mnConsultaLancamentos);
-
+		mnConsultas.add(mnFaturas);
+		
 		JMenuItem mnConsultaParcelas = new JMenuItem("Parcelas");
 		mnConsultaParcelas.setIcon(Imagem.png("parcelas"));
 		mnConsultaParcelas.addActionListener(new ActionListener() {
@@ -309,6 +301,9 @@ public class MDICfip extends MDI {
 	}
 	private void exibirConsultaParcelas() {
 		exibir((Formulario)SpringBootApp.getBean(FrmParcelas.class));
+	}
+	private void exibirConsultaFaturas() {
+		exibir((Formulario)SpringBootApp.getBean(FrmFaturas.class));
 	}
 	private void exibirBackup() {
 		//exibir((Formulario)SpringBootApp.getBean(FrmBackup.class));

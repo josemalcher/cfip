@@ -140,23 +140,25 @@ public class Lancamento {
 		this.tipoMovimento=TipoMovimento.D;
 		return copia;
 	}
-	public static Lancamento compensacao(Parcela parcela) {
-		Lancamento lancamento = parcela.getLancamento();
+	public Lancamento compensacao(Double amortizado, String parcela) {
 		Lancamento copia = new Lancamento();
-		copia.setDescricao("COMPENSACAO.DE: " + parcela.getDescricao());
+		copia.setDescricao("COMP LANC : " + getDescricao() + " Parc N°" + parcela);
 		copia.setPrevisao(false);
-		copia.setConta(lancamento.getConta());
+		copia.setConta(getConta());
 		copia.setData(new Date());
-		copia.setNatureza(lancamento.getNatureza());
-		copia.setValor(parcela.getValor());
-		copia.setTipoMovimento(TipoMovimento.C==lancamento.getTipoMovimento()?TipoMovimento.D:TipoMovimento.C);
+		copia.setNatureza(getNatureza());
+		if(amortizado<0)
+			amortizado = amortizado *-1;
+		copia.setValor(amortizado);
+		copia.setTipoMovimento(getTipoMovimento());
 		return copia;
 	}
 	@PrePersist
 	private void periodo() {
-		this.periodo = Integer.valueOf(Formatador.formatar(DataHora.ano(data),"0000") + Formatador.formatar(DataHora.mes(data),"00"));
 		this.valor = tipoMovimento==TipoMovimento.D?valor * -1:valor;
-		this.parcelamento.setRestante(getValor());
+		this.parcelamento.setRestante(previsao? getValor():0.0d);
+		this.periodo = Integer.valueOf(Formatador.formatar(DataHora.ano(data),"0000") + Formatador.formatar(DataHora.mes(data),"00"));
+		
 	}
 	public void atualizarRestante(Double valor) {
 		getParcelamento().setRestante(getParcelamento().getRestante() - valor);

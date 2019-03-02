@@ -95,8 +95,8 @@ public class FrmParcelas extends Formulario {
 		setAlinhamentoRodape(FlowLayout.LEFT);
 		getRodape().add(cmdCompensar);
 		getRodape().add(cmdAmortizar);
-		//getRodape().add(cmdProrrogar);
-		//getRodape().add(cmdSelecionados);
+		// getRodape().add(cmdProrrogar);
+		// getRodape().add(cmdSelecionados);
 		getRodape().add(cmdFechar);
 		// implementando o conteudo do formulario
 		JPanel conteudo = super.getConteudo();
@@ -132,26 +132,20 @@ public class FrmParcelas extends Formulario {
 		gbcBuscar.gridx = 4;
 		gbcBuscar.gridy = 0;
 		painelFiltro.add(cmdBuscar, gbcBuscar);
-		
-		SSModeloTabela model = new SSModeloTabela();
-		grid.setModel(model);
+
 		// campos da tabela
-		grid.setEditaveis(4,5);
-		grid.setCheckbox(true);
 		grid.getModeloTabela().addColumn("Vencto");
 		grid.getModeloTabela().addColumn("Parcela");
 		grid.getModeloTabela().addColumn("Conta");
 		grid.getModeloTabela().addColumn("Natureza");
 		grid.getModeloTabela().addColumn("Valor");
-		grid.getModeloTabela().addColumn("Paga?");
-
+		
 		grid.getModeloColuna().getColumn(0).setPreferredWidth(50);
 		grid.getModeloColuna().getColumn(1).setPreferredWidth(55);
 		grid.getModeloColuna().getColumn(2).setPreferredWidth(170);
 		grid.getModeloColuna().getColumn(3).setPreferredWidth(120);
 		grid.getModeloColuna().getColumn(4).setPreferredWidth(70);
-		grid.getModeloColuna().getColumn(5).setPreferredWidth(100);
-
+		
 		grid.getModeloColuna().setCampo(0, "vencimento");
 		grid.getModeloColuna().setFormato(0, "dd/MM/yy");
 		grid.getModeloColuna().setCampo(1, "numero");
@@ -160,7 +154,6 @@ public class FrmParcelas extends Formulario {
 		grid.getModeloColuna().setCampo(4, "valor");
 		grid.getModeloColuna().setFormato(4, Formato.MOEDA);
 		grid.getModeloColuna().definirPositivoNegativo(4);
-		grid.getModeloColuna().setCampo(5, "compensada");
 		
 		cmdCompensar.setText("Compensar");
 		cmdAmortizar.setText("Amortizar");
@@ -336,15 +329,15 @@ public class FrmParcelas extends Formulario {
 	}
 
 	private void compensar() {
-		/*
-		 * Parcela entidade = (Parcela) grid.getLinhaSelecionada(); if (entidade !=
-		 * null) { FrmCompensar frm = SpringBootApp.getBean(FrmCompensar.class);
-		 * frm.setId(entidade.getId()); this.dialogo(frm); listar(); } else
-		 * SSMensagem.avisa("Selecione um item da lista");
-		 */
-		grid.updateItem("valor", "compensada");
+
 		Parcela entidade = (Parcela) grid.getLinhaSelecionada();
-		SSMensagem.avisa(""+entidade.getValor() + " paga " + entidade.isCompensada());
+		if (entidade != null) {
+			FrmCompensar frm = SpringBootApp.getBean(FrmCompensar.class);
+			frm.setId(entidade.getId());
+			this.dialogo(frm);
+			listar();
+		} else
+			SSMensagem.avisa("Selecione um item da lista");
 	}
 
 	private void compensarSelecionados() {
@@ -367,9 +360,9 @@ public class FrmParcelas extends Formulario {
 		try {
 			Conta conta = (Conta) cboConta.getValue();
 			Natureza nat = (Natureza) cboNatureza.getValue();
-			Integer cId=conta==null?null:conta.getId();
-			Integer nId=nat==null?null:nat.getId();
-			lista = service.listarParcelas(txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId);
+			Integer cId = conta == null ? null : conta.getId();
+			Integer nId = nat == null ? null : nat.getId();
+			lista = service.listarParcelas(txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, nId);
 			if (lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 			grid.setValue(lista);
