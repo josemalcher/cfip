@@ -6,12 +6,14 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -244,7 +246,6 @@ public class FrmLancamentoPrevisao extends Formulario {
 		try {
 			entidade = new Lancamento();
 			entidade.setValor(txtValor.getDouble());
-			entidade.setDescricao(txtDescricao.getText());
 			Conta conta = (Conta) cboConta.getValue();
 			Conta destino = (Conta) cboDestino.getValue();
 			Natureza natureza = (Natureza) cboNatureza.getValue();
@@ -266,6 +267,7 @@ public class FrmLancamentoPrevisao extends Formulario {
 			if(fat!=null)
 				entidade.setFatura(fat.getId());
 			*/
+			entidade.setDescricao(txtDescricao.getText() + " PARC.: " + txtParcelas.getText());
 			entidade.setData(txtData.getDataHora());
 			entidade.setPrevisao(true);
 			entidade.getParcelamento().setPrimeiroVencimento(txtDataPrevisao.getDataHora());
@@ -339,5 +341,9 @@ public class FrmLancamentoPrevisao extends Formulario {
 		cboConta.setItens( contas,"nome");
 		cboDestino.setItens( contas,"nome");
 		cboNatureza.setItens( naturezaService.listar(),"nomeSigla");
+	}
+	public static void main(String[] args) {
+		int m = (int) (100.0%3);
+		System.out.println(m);
 	}
 }

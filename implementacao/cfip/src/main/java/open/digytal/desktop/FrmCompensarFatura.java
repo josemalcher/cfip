@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,9 +23,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.Lancamento;
 import open.digytal.model.Parcela;
-import open.digytal.model.TipoMovimento;
 import open.digytal.util.Formatador;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.Formulario;
@@ -38,7 +38,7 @@ public class FrmCompensarFatura extends Formulario {
 	private SSCampoDataHora txtData = new SSCampoDataHora();
 	private SSCampoNumero txtValor = new SSCampoNumero();
 	private JTextArea txtDescricao = new JTextArea();
-	private Parcela[] entidades;
+	private Parcela[] selecionadas;
 	private SSBotao cmdSalvar = new SSBotao();
 	private SSBotao cmdSair = new SSBotao();
 	private Double valor=0.0;
@@ -126,19 +126,19 @@ public class FrmCompensarFatura extends Formulario {
 		txtValor.setValue(0.0d);
 	}
 	private void salvar() {
-		if(SSMensagem.pergunta("Confirma compensar este lançamento ?")) {
-			//service.compensarParcela(entidade,txtData.getDataHora());
+		if(SSMensagem.pergunta("Confirma compensar a fatura ?")) {
+			service.compensarParcela(txtData.getDataHora(), selecionadas);
 			SSMensagem.informa("Lançamento compensado com sucesso!!");
 			super.fechar();
 		}
 		
 	}
-	public void setParcelas(Parcela... parcelas) {
-		this.entidades=parcelas;
+	public void setParcelas(List<Parcela> parcelas) {
+		List<Parcela> selecionadas = parcelas.stream().filter(p -> p.isSelecionada()).collect(Collectors.toList());
+		selecionadas.forEach(item->valor=valor+item.getAmortizado());
+		this.selecionadas = selecionadas.toArray(new Parcela[selecionadas.size()]);
 		txtData.setDataHora(new Date());
 		txtValor.setRotulo("R$ FATURA");
-		
-		Arrays.asList(entidades).forEach(item->valor=valor+item.getAmortizado());
 		txtValor.setValue(valor);
 		txtDescricao.setText("PAGTO FATURA " + Formatador.formatar(new Date()));
 		txtData.setComponenteCorFonte(Color.RED);

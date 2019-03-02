@@ -1,5 +1,6 @@
 package open.digytal.controller;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -121,19 +122,22 @@ public class LancamentoController {
 		Conta conta = lancamento.getConta();
 		conta.atualizarSaldo(lancamento);
 		contaRepository.save(conta);
+		int resto=0;
 		if(lancamento.isPrevisao() || lancamento.getConta().isCartaoCredito()) {
 			Double valor = lancamento.getValor();
-			if (lancamento.getParcelamento().isRateio())
-				valor = lancamento.getValor() / lancamento.getParcelamento().getNumeroParcelas();
+			if (lancamento.getParcelamento().isRateio()) {
+				valor = new Double(new Double( lancamento.getValor() / lancamento.getParcelamento().getNumeroParcelas()).intValue());
+				resto=(int) (lancamento.getValor() % lancamento.getParcelamento().getNumeroParcelas());
+			}
 			else {
 				lancamento.setValor(valor * lancamento.getParcelamento().getNumeroParcelas());
 			}
-			lancamento= gerarParcelas(lancamento, valor);
+			lancamento= gerarParcelas(lancamento, valor,resto);
 		}
 		repository.save(lancamento);
 	}
 	
-	private Lancamento gerarParcelas(Lancamento lancamento, Double valorParcela){
+	private Lancamento gerarParcelas(Lancamento lancamento, Double valorParcela, int resto){
 		if(lancamento.getConta().isCartaoCredito())
 			lancamento.setPrevisao(false);
 		Date vencimento = lancamento.getParcelamento().getPrimeiroVencimento();
@@ -142,7 +146,7 @@ public class LancamentoController {
 			parcela.setLancamento(lancamento);
 			parcela.setNumero(numero);
 			parcela.setVencimento(vencimento);
-			parcela.setValor(valorParcela);
+			parcela.setValor(valorParcela+(numero==1?resto:0));
 			vencimento = Calendario.rolarMes(vencimento, 1);
 			lancamento.getParcelamento().addParcela(parcela);
 		}

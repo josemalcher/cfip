@@ -156,7 +156,7 @@ public class Lancamento {
 	@PrePersist
 	private void periodo() {
 		this.valor = tipoMovimento==TipoMovimento.D?valor * -1:valor;
-		this.parcelamento.setRestante(previsao? getValor():0.0d);
+		this.parcelamento.setRestante(previsao || conta.isCartaoCredito()? getValor():0.0d);
 		this.periodo = Integer.valueOf(Formatador.formatar(DataHora.ano(data),"0000") + Formatador.formatar(DataHora.mes(data),"00"));
 		
 	}
