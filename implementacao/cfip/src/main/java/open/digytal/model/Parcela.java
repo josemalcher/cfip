@@ -14,6 +14,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import open.digytal.util.DataHora;
 import open.digytal.util.Formatador;
@@ -48,6 +49,14 @@ public class Parcela {
 	@Temporal(TemporalType.DATE)
 	@Column(nullable=true)
 	private Date compensacao;
+	
+	
+	@Transient
+	private Double amortizado;
+	
+	@Transient
+	private boolean selecionada;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -103,5 +112,17 @@ public class Parcela {
 	private void periodo() {
 		this.periodo = Integer.valueOf(Formatador.formatar(DataHora.ano(vencimento),"0000") + Formatador.formatar(DataHora.mes(vencimento),"00"));
 		this.valor = lancamento.getTipoMovimento()==TipoMovimento.D?valor * -1:valor;
+	}
+	public void setSelecionada(boolean selecionada) {
+		this.selecionada = selecionada;
+	}
+	public void setAmortizado(Double amortizado) {
+		this.amortizado = amortizado;
+	}
+	public boolean isSelecionada() {
+		return selecionada;
+	}
+	public Double getAmortizado() {
+		return amortizado;
 	}
 }

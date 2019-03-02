@@ -176,8 +176,10 @@ public class SSConversao {
             return (Double)valor;
         else if (valor instanceof Float)
             return duplo(flutuante(valor));
-        else
-            return Double.valueOf(valor.toString());
+        else {
+        	String numero = valor.toString().replace(",", ".");
+        	return Double.valueOf(numero);
+        }
     }
 
     public static boolean booleano(int valor){

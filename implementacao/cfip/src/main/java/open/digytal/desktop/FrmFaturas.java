@@ -46,13 +46,12 @@ import open.digytal.util.desktop.ss.SSCampoNumero;
 import open.digytal.util.desktop.ss.SSGrade;
 import open.digytal.util.desktop.ss.SSMensagem;
 import open.digytal.util.desktop.ss.SSPosicaoRotulo;
-import open.digytal.util.desktop.ss.tabela.SSModeloTabela;
 import open.digytal.util.desktop.ss.tabela.SSTipoSelecao;
 import open.digytal.util.desktop.ss.util.SSDataHora;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class FrmParcelas extends Formulario {
+public class FrmFaturas extends Formulario {
 	// rodape
 	private SSBotao cmdCompensar = new SSBotao();
 	private SSBotao cmdSelecionados = new SSBotao();
@@ -83,7 +82,7 @@ public class FrmParcelas extends Formulario {
 	private SSCampoNumero txtSaldoAtual = new SSCampoNumero();
 	//
 
-	public FrmParcelas() {
+	public FrmFaturas() {
 		init();
 	}
 
@@ -132,11 +131,8 @@ public class FrmParcelas extends Formulario {
 		gbcBuscar.gridx = 4;
 		gbcBuscar.gridy = 0;
 		painelFiltro.add(cmdBuscar, gbcBuscar);
-		
-		SSModeloTabela model = new SSModeloTabela();
-		grid.setModel(model);
+
 		// campos da tabela
-		grid.setEditaveis(4,5);
 		grid.setCheckbox(true);
 		grid.getModeloTabela().addColumn("Vencto");
 		grid.getModeloTabela().addColumn("Parcela");
@@ -342,9 +338,8 @@ public class FrmParcelas extends Formulario {
 		 * frm.setId(entidade.getId()); this.dialogo(frm); listar(); } else
 		 * SSMensagem.avisa("Selecione um item da lista");
 		 */
-		grid.updateItem("valor", "compensada");
 		Parcela entidade = (Parcela) grid.getLinhaSelecionada();
-		SSMensagem.avisa(""+entidade.getValor() + " paga " + entidade.isCompensada());
+		SSMensagem.avisa(""+entidade.isCompensada());
 	}
 
 	private void compensarSelecionados() {
@@ -372,6 +367,7 @@ public class FrmParcelas extends Formulario {
 			lista = service.listarParcelas(txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId);
 			if (lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
+
 			grid.setValue(lista);
 			total = CfipUtil.parcelas(lista);
 			txtSaldoAtual.setValue(total.getSaldo());

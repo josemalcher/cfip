@@ -71,7 +71,7 @@ public class SSModeloColuna extends DefaultTableColumnModel {
     public void setCampo(int coluna, String campo) {
         setCampo(getColumn(coluna), campo);
     }
-    
+   
     public void setCampo(TableColumn coluna, String campo) {        
         campos = definirValorVetor(campos, coluna.getModelIndex(), campo);        
     }
@@ -167,7 +167,7 @@ class CustomRenderer extends DefaultTableCellRenderer
     {
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         
-    	if(value.toString().startsWith("-"))
+    	if(value!=null && value.toString().startsWith("-"))
             setForeground(Color.RED);
     	else
     		setForeground(Color.BLUE);
