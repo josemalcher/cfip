@@ -133,6 +133,7 @@ public class FrmParcelas extends Formulario {
 		painelFiltro.add(cmdBuscar, gbcBuscar);
 
 		// campos da tabela
+		grid.setCheckbox(true);
 		grid.getModeloTabela().addColumn("Vencto");
 		grid.getModeloTabela().addColumn("Parcela");
 		grid.getModeloTabela().addColumn("Conta");
@@ -331,15 +332,14 @@ public class FrmParcelas extends Formulario {
 	}
 
 	private void compensar() {
+		/*
+		 * Parcela entidade = (Parcela) grid.getLinhaSelecionada(); if (entidade !=
+		 * null) { FrmCompensar frm = SpringBootApp.getBean(FrmCompensar.class);
+		 * frm.setId(entidade.getId()); this.dialogo(frm); listar(); } else
+		 * SSMensagem.avisa("Selecione um item da lista");
+		 */
 		Parcela entidade = (Parcela) grid.getLinhaSelecionada();
-		if (entidade != null) {
-			FrmCompensar frm = SpringBootApp.getBean(FrmCompensar.class);
-			frm.setId(entidade.getId());
-			this.dialogo(frm);
-			listar();
-		} else
-			SSMensagem.avisa("Selecione um item da lista");
-
+		SSMensagem.avisa(""+entidade.isCompensada());
 	}
 
 	private void compensarSelecionados() {

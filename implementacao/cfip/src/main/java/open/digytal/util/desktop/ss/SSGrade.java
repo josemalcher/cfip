@@ -1,16 +1,6 @@
 package open.digytal.util.desktop.ss;
 
-import open.digytal.util.desktop.ss.tabela.SSModeloColuna;
-import open.digytal.util.desktop.ss.tabela.SSModeloTabela;
-import open.digytal.util.desktop.ss.tabela.SSTipoSelecao;
-import open.digytal.util.desktop.ss.util.SSFormatador;
-import open.digytal.util.desktop.ss.util.SSReflexao;
-import open.digytal.util.desktop.ss.util.SSTexto;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import java.awt.*;
+import java.awt.Dimension;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -18,8 +8,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+
+import open.digytal.util.desktop.ss.tabela.SSModeloColuna;
+import open.digytal.util.desktop.ss.tabela.SSModeloTabela;
+import open.digytal.util.desktop.ss.tabela.SSTipoSelecao;
+import open.digytal.util.desktop.ss.util.SSFormatador;
+import open.digytal.util.desktop.ss.util.SSReflexao;
+import open.digytal.util.desktop.ss.util.SSTexto;
 
 
 /**
@@ -37,15 +44,27 @@ public class SSGrade extends JTable {
     private Object value;
     private SSTipoSelecao tipoSelecao;
     private int quantidadeLinhasVisiveis = 15;
-    
+    private boolean checkbox;
+    private List<Class> types;
+    public void setCheckbox(boolean checkbox) {
+		this.checkbox = checkbox;
+	}
     public SSGrade() {                        
         super(new SSModeloTabela(), new SSModeloColuna());
         setAutoCreateColumnsFromModel(true);
         setTipoSelecao(SSTipoSelecao.SELECAO_UNICA);
         setAutoResizeMode(SSGrade.AUTO_RESIZE_OFF);
-        setAutoCreateRowSorter(true);
+        //setAutoCreateRowSorter(true);
         //setBackground(UIManager.getColor("control"));        
-       
+        types = new ArrayList<Class>();
+    }
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        return types.get(columnIndex);
+    }
+    public boolean isCellEditable(int row, int col) {
+    	if (col == types.indexOf(Boolean.class)) return true;
+        return false;
     }
     
     public SSModeloTabela getModeloTabela() {
@@ -139,7 +158,6 @@ public class SSGrade extends JTable {
         
         if (getValue() == null)
             return;
-        
         for (Object registro : (List)value) {
             linha = new Vector();
             modeloTabela.addRow(linha);
@@ -149,12 +167,11 @@ public class SSGrade extends JTable {
                 nomeCampo = modeloColuna.getCampo(coluna);
                 try {
                     valor = SSReflexao.buscarValorCampoRecursivo(registro, nomeCampo);
-                
                     formato = modeloColuna.getFormato(coluna);
                     
                     if (formato == null && valor != null) {
                         if (valor instanceof Boolean)
-                            valor = (Boolean.TRUE.equals(valor)? "Sim": "Não");
+                            valor = checkbox? valor:(Boolean.TRUE.equals(valor)? "Sim": "Não");
                         else if (valor instanceof Double)
                             valor = NumberFormat.getNumberInstance().format(valor);
                         else if (valor instanceof Date)
@@ -172,6 +189,10 @@ public class SSGrade extends JTable {
                                     
                     linha.add(valor);
                     modeloTabela.setValueAt(valor, indexLinha, coluna.getModelIndex());
+                    
+                    if(types.size()<modeloColuna.getColumnCount()) {
+                    	types.add(valor.getClass());
+                    }
                 }catch(Exception ee) {
                     System.err.println(ee);
                 }
@@ -347,4 +368,5 @@ public class SSGrade extends JTable {
 			getModeloColuna().getColumn(col++).setPreferredWidth(largura);	
 		}
 	}
+    
 }
