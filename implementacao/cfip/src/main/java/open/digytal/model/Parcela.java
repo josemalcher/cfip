@@ -50,7 +50,6 @@ public class Parcela {
 	@Column(nullable=true)
 	private Date compensacao;
 	
-	
 	@Transient
 	private Double amortizado;
 	

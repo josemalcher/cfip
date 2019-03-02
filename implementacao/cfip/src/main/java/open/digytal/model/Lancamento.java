@@ -142,7 +142,7 @@ public class Lancamento {
 	}
 	public Lancamento compensacao(Double amortizado, String parcela) {
 		Lancamento copia = new Lancamento();
-		copia.setDescricao("COMP LANC : " + getDescricao() + " Parc N°" + parcela);
+		copia.setDescricao("COMP: " + getDescricao() + " Parc N°" + parcela + " Origem: " + this.getId());
 		copia.setPrevisao(false);
 		copia.setConta(getConta());
 		copia.setData(new Date());

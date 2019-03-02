@@ -77,6 +77,7 @@ public class FrmFaturas extends Formulario {
 	private SSCampoNumero txtReceitas = new SSCampoNumero();
 	private SSCampoNumero txtSaldoAtual = new SSCampoNumero();
 	//
+	private List<Parcela> lista = new ArrayList<Parcela>();
 
 	public FrmFaturas() {
 		init();
@@ -126,7 +127,7 @@ public class FrmFaturas extends Formulario {
 		painelFiltro.add(cmdBuscar, gbcBuscar);
 
 		// campos da tabela
-		grid.setEditaveis(4, 5);
+		grid.setEditaveis(5, 6);
 		grid.setCheckbox(true);
 
 		grid.getModeloTabela().addColumn("Vencto");
@@ -134,7 +135,8 @@ public class FrmFaturas extends Formulario {
 		grid.getModeloTabela().addColumn("Conta");
 		grid.getModeloTabela().addColumn("Natureza");
 		grid.getModeloTabela().addColumn("Valor");
-		grid.getModeloTabela().addColumn("Paga?");
+		grid.getModeloTabela().addColumn("Amortizado");
+		grid.getModeloTabela().addColumn("Selecione");
 
 		grid.getModeloColuna().getColumn(0).setPreferredWidth(50);
 		grid.getModeloColuna().getColumn(1).setPreferredWidth(55);
@@ -142,6 +144,7 @@ public class FrmFaturas extends Formulario {
 		grid.getModeloColuna().getColumn(3).setPreferredWidth(120);
 		grid.getModeloColuna().getColumn(4).setPreferredWidth(70);
 		grid.getModeloColuna().getColumn(5).setPreferredWidth(100);
+		grid.getModeloColuna().getColumn(6).setPreferredWidth(100);
 
 		grid.getModeloColuna().setCampo(0, "vencimento");
 		grid.getModeloColuna().setFormato(0, "dd/MM/yy");
@@ -151,7 +154,11 @@ public class FrmFaturas extends Formulario {
 		grid.getModeloColuna().setCampo(4, "valor");
 		grid.getModeloColuna().setFormato(4, Formato.MOEDA);
 		grid.getModeloColuna().definirPositivoNegativo(4);
-		grid.getModeloColuna().setCampo(5, "compensada");
+		
+		grid.getModeloColuna().setCampo(5, "amortizado");
+		grid.getModeloColuna().setFormato(5, Formato.MOEDA);
+		
+		grid.getModeloColuna().setCampo(6, "selecionada");
 
 		cmdCompensar.setText("Compensar");
 		cmdFechar.setText("Fechar");
@@ -281,20 +288,19 @@ public class FrmFaturas extends Formulario {
 	}
 
 	private void compensar() {
-
-		Parcela entidade = (Parcela) grid.getLinhaSelecionada();
-		if (entidade != null) {
-			FrmCompensar frm = SpringBootApp.getBean(FrmCompensar.class);
-			frm.setId(entidade.getId());
-			this.dialogo(frm);
-			listar();
-		} else
-			SSMensagem.avisa("Selecione um item da lista");
+		grid.updateItem("valor","selecionada");
+		lista.forEach(item->System.out.println(item.isSelecionada() + " " + item.getAmortizado()));
+		/*
+		 * Parcela entidade = (Parcela) grid.getLinhaSelecionada(); if (entidade !=
+		 * null) { FrmCompensar frm = SpringBootApp.getBean(FrmCompensar.class);
+		 * frm.setId(entidade.getId()); this.dialogo(frm); listar(); } else
+		 * SSMensagem.avisa("Selecione um item da lista");
+		 */
 
 	}
 
 	private void listar() {
-		List<Parcela> lista = new ArrayList<Parcela>();
+		
 		try {
 			Conta conta = (Conta) cboConta.getValue();
 			Natureza nat = (Natureza) cboNatureza.getValue();

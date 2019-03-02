@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.swing.JPanel;
@@ -23,6 +24,7 @@ import open.digytal.controller.LancamentoController;
 import open.digytal.model.Lancamento;
 import open.digytal.model.Parcela;
 import open.digytal.model.TipoMovimento;
+import open.digytal.util.Formatador;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
@@ -36,10 +38,10 @@ public class FrmCompensarFatura extends Formulario {
 	private SSCampoDataHora txtData = new SSCampoDataHora();
 	private SSCampoNumero txtValor = new SSCampoNumero();
 	private JTextArea txtDescricao = new JTextArea();
-	
+	private Parcela[] entidades;
 	private SSBotao cmdSalvar = new SSBotao();
 	private SSBotao cmdSair = new SSBotao();
-	private Parcela entidade;
+	private Double valor=0.0;
 	@Autowired
 	private LancamentoController service;
 	
@@ -131,20 +133,19 @@ public class FrmCompensarFatura extends Formulario {
 		}
 		
 	}
-	public void setId(Integer id) {
-		entidade = service.buscarParcela(id);
-		if(entidade!=null) {
-			TipoMovimento mov=entidade.getLancamento().getTipoMovimento();
-			txtData.setDataHora(new Date());
-			txtValor.setRotulo(mov.getNome() + " - R$ Valor");
-			txtValor.setValue(entidade.getValor());
-			txtDescricao.setText(mov.getNome() + "\n" + entidade.getDescricao());
-			if(mov == TipoMovimento.D) {
-				txtData.setComponenteCorFonte(Color.RED);
-				txtValor.setComponenteCorFonte(Color.RED);
-				txtDescricao.setForeground(Color.RED);
-			}
-		}
+	public void setParcelas(Parcela... parcelas) {
+		this.entidades=parcelas;
+		txtData.setDataHora(new Date());
+		txtValor.setRotulo("R$ FATURA");
+		
+		Arrays.asList(entidades).forEach(item->valor=valor+item.getAmortizado());
+		txtValor.setValue(valor);
+		txtDescricao.setText("PAGTO FATURA " + Formatador.formatar(new Date()));
+		txtData.setComponenteCorFonte(Color.RED);
+		txtValor.setComponenteCorFonte(Color.RED);
+		txtDescricao.setForeground(Color.RED);
+		
+		
 	}
 	private void sair() {
 		super.fechar();

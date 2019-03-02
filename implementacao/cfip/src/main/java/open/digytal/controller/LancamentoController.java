@@ -105,6 +105,7 @@ public class LancamentoController {
 			query.setParameter("conta", conta);
 
 		List<Parcela> lista = query.getResultList();
+		lista.forEach(item->item.setAmortizado(item.getValor()));
 		return lista;
 	}
 	@Transactional
@@ -150,7 +151,6 @@ public class LancamentoController {
 	@Transactional
 	public void compensarParcela(Date data, Parcela ... parcelas) {
 		StringBuilder str = new StringBuilder();
-		Lancamento lancamento =null;
 		for(Parcela parcela: parcelas) {
 			str.append(" " + parcela.getNumero());
 			Double valor=parcela.getAmortizado();
@@ -160,9 +160,8 @@ public class LancamentoController {
 				valor = valor *-1;
 			valor=parcela.getLancamento().getTipoMovimento()==TipoMovimento.C?valor:valor * -1;
 			
-			if(lancamento==null)
-				lancamento = parcela.getLancamento();
-			
+			Lancamento lancamento = parcela.getLancamento();
+
 			parcela.setValor(parcela.getValor() - valor);
 			parcela.setCompensacao(parcela.isCompensada()?data:null);
 			parcela.setCompensada(parcela.getValor().equals(0.0d));
@@ -171,12 +170,13 @@ public class LancamentoController {
 				Conta conta = lancamento.getConta();
 				conta.setSaldoAtual(conta.getSaldoAtual() + valor);
 				contaRepository.save(conta);
+				Lancamento compensacao = lancamento.compensacao(valor,str.toString());
+				repository.save(compensacao);
 			}
 			lancamento.getParcelamento().setRestante(lancamento.getParcelamento().getRestante() - valor);
 			repository.save(lancamento);
-			Lancamento compensacao = lancamento.compensacao(valor,str.toString());
-			repository.save(compensacao);
 		}
+		
 		
 	}
 	
