@@ -1,5 +1,7 @@
 package open.digytal;
 
+import java.util.Objects;
+
 import javax.swing.UIManager;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +18,6 @@ import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.desktop.DesktopApp;
 
 @SpringBootApplication
-//@EnableJpaRepositories
 public class SpringBootApp {
 	static ConfigurableApplicationContext contexto;
 	public static void main(String[] args) {
@@ -31,12 +32,16 @@ public class SpringBootApp {
 	}
 	private static void init(String[] args) {
 		DesktopApp.exibirSplash();
+		String FILE_URL=Objects.toString(System.getProperty("db.url"),"file:/digytal/cfip/database/cfipdb");
+		System.out.println("Iniciando o HSQLDB em " + FILE_URL);
+		final String[] dbArg = {"--database.0", FILE_URL, "--dbname.0", "cfipdb","--port","5454"};
+		org.hsqldb.server.Server.main(dbArg);
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(SpringBootApp.class);
 		builder.headless(false);
 		//Todos os componentes estão configurados para um PROFILE
 		//builder.profiles(Controle.JPA);
 		contexto = builder.run(args);
-		validaConta();
+		//validaConta();
 		DesktopApp.fecharSplash();
 		MDICfip mdi = SpringBootApp.getBean(MDICfip.class);
 		mdi.exibirSessao();

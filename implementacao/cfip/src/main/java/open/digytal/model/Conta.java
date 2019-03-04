@@ -25,7 +25,7 @@ public class Conta implements Serializable {
 	@Column(length=50,nullable=false)
 	private String nome;
 	
-	@Column(length=10,nullable=false)
+	@Column(length=15,nullable=false)
 	private String sigla;
 	
 	@Column(name="aplicacao", length=1,nullable=false)
