@@ -75,15 +75,11 @@ public class Hash {
 		return code;
 	}
 
-	public static void main(String[] args) {
-		Hash hash = null;
-		int current = 48654865;
-		System.out.println("******* BASE 48 *********");
-		for (int next = 1; next <= 30; next++) {
-			hash = new Hash();
-			hash.base48(current);
-			System.out.println(hash.getId() + "--" + hash.getIntNext());
-			current = hash.getIntNext();
-		}
-	}
+	/*
+	 * public static void main(String[] args) { Hash hash = null; int current =
+	 * 48654865; System.out.println("******* BASE 48 *********"); for (int next = 1;
+	 * next <= 30; next++) { hash = new Hash(); hash.base48(current);
+	 * System.out.println(hash.getId() + "--" + hash.getIntNext()); current =
+	 * hash.getIntNext(); } }
+	 */
 }

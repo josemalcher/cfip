@@ -135,11 +135,9 @@ public class Conta implements Serializable {
 			valor=0.0d;
 		this.saldoAtual = saldoAtual + (lancamento.getTipoMovimento()==TipoMovimento.D?valor * -1:valor);
 	}
-	public static void main(String[] args) {
-		Conta c = new Conta();
-		c.setDiaPagamento(20);
-		c.setDiaFechamento(10);
-		c.setCartaoCredito(true);
-		System.out.println(c.getDataPagamento());
-	}
+	/*
+	 * public static void main(String[] args) { Conta c = new Conta();
+	 * c.setDiaPagamento(20); c.setDiaFechamento(10); c.setCartaoCredito(true);
+	 * System.out.println(c.getDataPagamento()); }
+	 */
 }

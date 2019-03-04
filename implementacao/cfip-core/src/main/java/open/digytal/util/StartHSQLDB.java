@@ -4,10 +4,10 @@ import org.hsqldb.util.DatabaseManagerSwing;
 
 public class StartHSQLDB {
 	static String FILE_URL="file:/digytal/cfip/database/cfipdb";
-	public static void main(String[] args) {
-		//local();		
-		server();
-	}
+
+	/*
+	 * public static void main(String[] args) { //local(); server(); }
+	 */
 	static void local() {
 		final String[] dbArgs = { "--user", "sa", "--password", "", "--url", "jdbc:hsqldb:" +FILE_URL };
 		DatabaseManagerSwing.main(dbArgs);
