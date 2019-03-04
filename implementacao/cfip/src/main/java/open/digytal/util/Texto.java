@@ -87,8 +87,12 @@ public class Texto {
 		return null;
 	}
     public static void main(String[] args) throws  Exception {
-        String[] testes= {"login","testes","contas"};
+       /* String[] testes= {"login","testes","contas"};
         
-        System.out.println(concatenar("/", testes));
+        System.out.println(concatenar("/", testes));*/
+    	
+    	String var="SUBI NO ONIBUS";
+    	System.out.println(new StringBuilder(var).reverse());
+    	
     }
 }
