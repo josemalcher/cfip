@@ -154,9 +154,7 @@ public class LancamentoController {
 	}
 	@Transactional
 	public void compensarParcela(Date data, Parcela ... parcelas) {
-		StringBuilder str = new StringBuilder();
 		for(Parcela parcela: parcelas) {
-			str.append(" " + parcela.getNumero());
 			Double valor=parcela.getAmortizado();
 			if(valor==null)
 				valor=parcela.getValor();
@@ -174,7 +172,7 @@ public class LancamentoController {
 				Conta conta = lancamento.getConta();
 				conta.setSaldoAtual(conta.getSaldoAtual() + valor);
 				contaRepository.save(conta);
-				Lancamento compensacao = lancamento.compensacao(valor,str.toString());
+				Lancamento compensacao = lancamento.compensacao(valor,parcela.getNumero());
 				repository.save(compensacao);
 			}
 			lancamento.getParcelamento().setRestante(lancamento.getParcelamento().getRestante() - valor);

@@ -140,7 +140,7 @@ public class Lancamento {
 		this.tipoMovimento=TipoMovimento.D;
 		return copia;
 	}
-	public Lancamento compensacao(Double amortizado, String parcela) {
+	public Lancamento compensacao(Double amortizado, int parcela) {
 		Lancamento copia = new Lancamento();
 		copia.setDescricao("COMP: " + getDescricao() + " Parc N°" + parcela + " Origem: " + this.getId());
 		copia.setPrevisao(false);
