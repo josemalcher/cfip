@@ -1,0 +1,118 @@
+CARTEIRA SALDO INICIAL 1.000
+DEBITO: 200       
+CREDITO: 55,25
+TRANSFERENCIA : 325,78 PARA POUPANCA - OK
+
+CARTEIRA SALDO INICIAL 1.000
+PREVISAO DEBITO 75,25
+PAGAMENTO DA PREVISAO
+VER RESTANTE DO LANCAMENTO - OK
+
+
+CARTÃO DE CREDITO SALDO INICIAL 1.000
+COMPRA DE 100 X 3 = 33,33
+PAGAMENTO DE UMA PARCELA
+RESTANTE DO LANCAMENTO 66,67
+
+
+
+## PROFILE
+## spring.profiles.active=JPA
+
+## DATA SOURCE
+spring.jpa.hibernate.ddl-auto:update
+spring.jpa.hibernate.naming_strategy:org.hibernate.cfg.ImprovedNamingStrategy
+spring.jpa.database: HSQL
+spring.jpa.show-sql: true
+spring.datasource.url=jdbc:hsqldb:file:/digytal/cfip/database/cfipdb
+spring.datasource.username=sa
+spring.datasource.password=
+spring.datasource.driverClassName=org.hsqldb.jdbcDriver
+
+
+
+
+import org.hsqldb.util.DatabaseManagerSwing;
+
+public class StartHSQLDB {
+	static String FILE_URL="file:/digytal/cfip/database/cfipdb";
+	public static void main(String[] args) {
+		local();		
+		//server();
+	}
+	static void local() {
+		final String[] dbArgs = { "--user", "sa", "--password", "", "--url", "jdbc:hsqldb:" +FILE_URL };
+		DatabaseManagerSwing.main(dbArgs);
+		
+	}
+	static void server() {
+		final String[] dbArg = {"--database.0", FILE_URL, "--dbname.0", "database","--port","5454"};
+		org.hsqldb.server.Server.main(dbArg);
+		/*final String[] dbArgsServer = { "--url", "jdbc:hsqldb:hsql://localhost:5454/database" };
+		DatabaseManagerSwing.main(dbArgsServer);*/
+	}	
+}
+
+mvn install:install-file -Dfile=sqljdbc42.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.0 -Dpackaging=jar
+
+public enum Categoria {
+	ALIMENTACAO("ALIMENTACAO"),
+	/*
+	 * REMUNERACAO("Remuneração"), DESPESA("Despesa"), HABITACAO("Habitação"),
+	 * FAMILIA("Família"), SAUDE("Saúde"), EDUCACAO("Educação"), HIGIENE("Higiene"),
+	 * ESPORTE("Esporte"), LAZER("Lazer"), VIAGEM("Viagem"),
+	 * COMUNICACAO("Comunicação"), TRANSPORTE("Transporte"),
+	 * PATRIMONIO("Patrimônio"), INVESTIMENTO("Investimento"),
+	 * CUSTO_FIXO("Custo Fixo"), CUSTO_OPERACIONAL("Custo Operacional"),
+	 * OBRIGACOES("Obrigações"), TRIBUTOS("Tributos"), TRANSACOES("Transações")
+	 */
+	;
+	
+	private String nome;
+	private Categoria(String nome) {
+		this.nome=nome;
+	}
+	public String getNome() {
+		return nome;
+	}
+	public String getUpper() {
+		return nome.toUpperCase();
+	}
+}
+
+@Transactional
+	public void incluir(Lancamento lancamento) {
+		boolean previsao = lancamento.isPrevisao();
+		if (previsao) {
+			Date primeiroVencimento = lancamento.getParcelamento().getPrimeiroVencimento();
+			Integer primeiraParcela = lancamento.getParcelamento().getPrimeiraParcela();
+			Integer ultimaParcela = lancamento.getParcelamento().getUltimaParcela();
+			Integer parcelas = 1 + (ultimaParcela - primeiraParcela);
+			Double valor = lancamento.getValor();
+			if (lancamento.getParcelamento().isRateio())
+				valor = lancamento.getValor() / parcelas;
+			else {
+				lancamento.setValor(valor * parcelas);
+			}
+			gerarParcelas(primeiroVencimento, valor, primeiraParcela, ultimaParcela, lancamento);
+			if(lancamento.getConta().isCartaoCredito()) {
+				Conta conta = lancamento.getConta();
+				conta.setSaldoAtual(conta.getSaldoAtual() + lancamento.getValor());
+				contaRepository.save(conta);
+				lancamento.setPrevisao(false);
+			}
+		} else {
+			if (lancamento.getTipoMovimento() == TipoMovimento.T) {
+				Lancamento transferencia = lancamento.transferencia();
+				repository.save(transferencia);
+				Conta destino = transferencia.getConta();
+				destino.setSaldoAtual(destino.getSaldoAtual() + transferencia.getValor());
+				contaRepository.save(destino);
+			}
+			Conta conta = lancamento.getConta();
+			conta.setSaldoAtual(conta.getSaldoAtual() + lancamento.getValorMovimento());
+			contaRepository.save(conta);
+			
+		}
+		repository.save(lancamento);
+	}
