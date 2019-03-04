@@ -88,7 +88,7 @@ public abstract class MDI extends JFrame {
         setBounds(new Rectangle(650, 650));
         setLocationRelativeTo(null);
 
-        imgFundo = Imagem.png("fundo");
+        imgFundo = Imagem.jpg("fundo");
         imagemFundo.setIcon(imgFundo);
         areaTrabalho.add(imagemFundo);
         areaTrabalho.setBackground(Color.LIGHT_GRAY);
