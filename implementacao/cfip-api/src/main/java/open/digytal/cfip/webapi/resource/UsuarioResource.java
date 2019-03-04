@@ -25,16 +25,12 @@ public class UsuarioResource {
 	private UsuarioRepository dao;
 	
 
-	@GetMapping("/new")
-	public void novo() {
-		Usuario user = new Usuario();
-		user.setLogin("admin");
-		user.setNome("ADMINISTRADOR");
-		user.setEmail("admin@admin.com.br");
-		String encode = encoder.encode("pass");
-		user.setSenha(encode);
-		dao.save(user);
-	}
+	/*
+	 * @GetMapping("/new") public void novo() { Usuario user = new Usuario();
+	 * user.setLogin("admin"); user.setNome("ADMINISTRADOR");
+	 * user.setEmail("admin@admin.com.br"); String encode = encoder.encode("pass");
+	 * user.setSenha(encode); dao.save(user); }
+	 */
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
