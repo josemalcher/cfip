@@ -1,4 +1,4 @@
-package open.digytal.cfip.webapi.controller;
+package open.digytal.cfip.webapi.resource;
 
 import java.util.List;
 
@@ -17,8 +17,7 @@ import open.digytal.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("/usuarios")
-
-public class UsuarioController {
+public class UsuarioResource {
 	@Autowired
 	private PasswordEncoder encoder;
 	
@@ -32,10 +31,8 @@ public class UsuarioController {
 		user.setLogin("admin");
 		user.setNome("ADMINISTRADOR");
 		user.setEmail("admin@admin.com.br");
-		
 		String encode = encoder.encode("pass");
 		user.setSenha(encode);
-		System.out.println(encode);
 		dao.save(user);
 	}
 
