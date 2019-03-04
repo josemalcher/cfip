@@ -38,7 +38,7 @@ public class UsuarioResource {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	public List<Usuario> clientes() {
+	public List<Usuario> listar() {
 		return dao.findAll();
 	}
 	@PostMapping
