@@ -29,11 +29,9 @@ import org.springframework.stereotype.Component;
 import open.digytal.SpringBootApp;
 import open.digytal.controller.LancamentoController;
 import open.digytal.model.Conta;
-import open.digytal.model.Natureza;
 import open.digytal.model.Parcela;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
-import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.Calendario;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;
@@ -61,14 +59,11 @@ public class FrmFaturas extends Formulario {
 	@Autowired
 	private ContaRepository contaService;
 	@Autowired
-	private NaturezaRepository naturezaService;
-	@Autowired
 	private LancamentoController service;
 
 	private SSCampoDataHora txtDataDe = new SSCampoDataHora();
 	private SSCampoDataHora txtDataAte = new SSCampoDataHora();
 	private SSCaixaCombinacao cboConta = new SSCaixaCombinacao();
-	private SSCaixaCombinacao cboNatureza = new SSCaixaCombinacao();
 	private JLabel lblDesc = new JLabel();
 
 	//
@@ -84,8 +79,7 @@ public class FrmFaturas extends Formulario {
 	}
 
 	private void init() {
-		cboConta.setPreferredWidth(180);
-		cboNatureza.setPreferredWidth(150);
+		cboConta.setPreferredWidth(200);
 		super.setTitulo("Fatura - Parcelas");
 		super.setDescricao("Registro dos lancamentos de cartões de crédito");
 		setAlinhamentoRodape(FlowLayout.LEFT);
@@ -104,7 +98,7 @@ public class FrmFaturas extends Formulario {
 		lblDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDesc.setFont(new Font("Tahoma", Font.BOLD, 9));
 		lblDesc.setForeground(Color.BLUE);
-		lblDesc.setText("SEGURE A TECLA Ctrl PARA SELECIONAR MAIS DE UMA LINHA");
+		lblDesc.setText("MARQUE AS PARCELAS QUE DESEJA REALIZAR O PAGAMENTO");
 		pnlDesc.add(lblDesc, BorderLayout.NORTH);
 		pnlDesc.add(scroll, BorderLayout.CENTER);
 		conteudo.add(pnlDesc, BorderLayout.CENTER);
@@ -195,15 +189,6 @@ public class FrmFaturas extends Formulario {
 		cboConta.setRotulo("Conta");
 		painelFiltro.add(cboConta, gbc_cboConta);
 
-		GridBagConstraints gbc_cboNatureza = new GridBagConstraints();
-		gbc_cboNatureza.anchor = GridBagConstraints.NORTHWEST;
-		gbc_cboNatureza.weightx = 1.0;
-		gbc_cboNatureza.insets = new Insets(5, 5, 5, 0);
-		gbc_cboNatureza.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboNatureza.gridx = 3;
-		gbc_cboNatureza.gridy = 0;
-		cboNatureza.setRotulo("Natureza");
-		painelFiltro.add(cboNatureza, gbc_cboNatureza);
 		cmdBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				listar();
@@ -262,14 +247,10 @@ public class FrmFaturas extends Formulario {
 
 	@Override
 	public void carregar() {
-		cboConta.setPrimeiroElementoVazio(true);
-		cboNatureza.setPrimeiroElementoVazio(true);
-		cboConta.setItens(contaService.listarContas(), "nome");
-		cboNatureza.setItens(naturezaService.listar(), "nome");
+		cboConta.setItens(contaService.listarCartoesCredito(), "nome");
 		int ano = SSDataHora.pegaAno(new Date());
 		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
 		txtDataAte.setDataHora(Calendario.data(31, 12, ano));
-
 	}
 
 	private void exibirDescricao() {
@@ -306,10 +287,8 @@ public class FrmFaturas extends Formulario {
 
 		try {
 			Conta conta = (Conta) cboConta.getValue();
-			Natureza nat = (Natureza) cboNatureza.getValue();
 			Integer cId = conta == null ? null : conta.getId();
-			Integer nId = nat == null ? null : nat.getId();
-			lista = service.listarFaturas(txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, nId);
+			lista = service.listarFaturas(txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, null);
 			if (lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 
