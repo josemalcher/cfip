@@ -15,7 +15,6 @@ public class JWTUtil {
 		String JWT = Jwts.builder().setSubject(username)
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 				.signWith(SignatureAlgorithm.HS512, SECRET).compact();
-		System.out.println(JWT);
 		return JWT;
 	}
 }

@@ -17,7 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import open.digytal.model.Usuario;
+import open.digytal.cfip.webapi.vo.Login;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	
@@ -30,12 +30,12 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 		
-		Usuario credentials = new ObjectMapper().readValue(request.getInputStream(), Usuario.class);
+		Login credentials = new ObjectMapper().readValue(request.getInputStream(), Login.class);
 		
 		return getAuthenticationManager().authenticate(
 				new UsernamePasswordAuthenticationToken(
-						credentials.getLogin(), 
-						credentials.getSenha(), 
+						credentials.getUsername(), 
+						credentials.getPassword(), 
 						Collections.emptyList()
 						)
 				);
