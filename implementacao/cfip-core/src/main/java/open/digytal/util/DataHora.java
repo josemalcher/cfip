@@ -46,24 +46,23 @@ public class DataHora implements DataHoraConstants {
 	public static int periodo(Date data) {
 		return Integer.valueOf(Formatador.formatar(DataHora.ano(data),"0000") + Formatador.formatar(DataHora.mes(data),"00"));
 	}
-	public static void main(String[] args) {
-		GregorianCalendar gc = new GregorianCalendar(1984,5,30,6,37,25);
-		gc.set(AM_PM, Calendar.AM);
-		Date data = gc.getTime();
-		String format = "%-15s:%d";
-		System.out.println(data);
-
-		System.out.println("DATA");
-		System.out.println(String.format(format,"DIA",dia(data)) );
-		System.out.println(String.format(format,"MES",mes(data)) );
-		System.out.println(String.format(format,"ANO",ano(data)) );
-		System.out.println(String.format(format,"PERIODO",periodo(data)) );
-
-		System.out.println("HORA");
-		System.out.println(String.format(format,"HORA",hora(data)) );
-		System.out.println(String.format(format,"MINUTO",minuto(data)) );
-		System.out.println(String.format(format,"SEGUNDO",segundo(data)) );
-
-	}
+	/*
+	 * public static void main(String[] args) { GregorianCalendar gc = new
+	 * GregorianCalendar(1984,5,30,6,37,25); gc.set(AM_PM, Calendar.AM); Date data =
+	 * gc.getTime(); String format = "%-15s:%d"; System.out.println(data);
+	 * 
+	 * System.out.println("DATA");
+	 * System.out.println(String.format(format,"DIA",dia(data)) );
+	 * System.out.println(String.format(format,"MES",mes(data)) );
+	 * System.out.println(String.format(format,"ANO",ano(data)) );
+	 * System.out.println(String.format(format,"PERIODO",periodo(data)) );
+	 * 
+	 * System.out.println("HORA");
+	 * System.out.println(String.format(format,"HORA",hora(data)) );
+	 * System.out.println(String.format(format,"MINUTO",minuto(data)) );
+	 * System.out.println(String.format(format,"SEGUNDO",segundo(data)) );
+	 * 
+	 * }
+	 */
 	
 }

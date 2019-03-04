@@ -1,4 +1,4 @@
-package open.digytal.cfip.webapi;
+package open.digytal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
