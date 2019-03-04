@@ -31,7 +31,7 @@ public class SpringBootApp {
 	}
 	private static void init(String[] args) {
 		DesktopApp.exibirSplash();
-		String FILE_URL=Objects.toString(System.getProperty("db.url"),"file:/digytal/cfip/database/cfipdb");
+		String FILE_URL=Objects.toString(System.getProperty("db.url"),"file:/opendigytal/cfip/database/cfipdb");
 		System.out.println("Iniciando o HSQLDB em " + FILE_URL);
 		final String[] dbArg = {"--database.0", FILE_URL, "--dbname.0", "cfipdb","--port","5454"};
 		org.hsqldb.server.Server.main(dbArg);
@@ -42,9 +42,10 @@ public class SpringBootApp {
 		MDICfip mdi = SpringBootApp.getBean(MDICfip.class);
 		mdi.exibirSessao();
 		mdi.setVisible(true);
+		validaConta();
 
 	}
-	static void validaConta() {
+	private static void validaConta() {
 		ContaRepository cr = contexto.getBean(ContaRepository.class);
 		NaturezaRepository cn = contexto.getBean(NaturezaRepository.class);
 		if(cr.listarContas().isEmpty()) {
