@@ -1,4 +1,4 @@
-package jwt.security;
+package open.digytal.cfip.webapi.security;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -17,7 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jwt.entity.Usuario;
+import open.digytal.model.Usuario;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	
@@ -34,8 +34,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		
 		return getAuthenticationManager().authenticate(
 				new UsernamePasswordAuthenticationToken(
-						credentials.getUsername(), 
-						credentials.getPassword(), 
+						credentials.getLogin(), 
+						credentials.getSenha(), 
 						Collections.emptyList()
 						)
 				);

@@ -1,4 +1,4 @@
-package jwt.security;
+package open.digytal.cfip.webapi.security;
 
 import java.util.Collections;
 import java.util.Date;

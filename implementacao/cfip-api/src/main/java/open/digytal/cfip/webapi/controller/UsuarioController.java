@@ -1,4 +1,4 @@
-package jwt.controller;
+package open.digytal.cfip.webapi.controller;
 
 import java.util.List;
 
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import jwt.entity.Usuario;
-import jwt.repository.UsuarioRepository;
+import open.digytal.model.Usuario;
+import open.digytal.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("/usuarios")
-//https://springframework.guru/spring-requestmapping-annotation/
+
 public class UsuarioController {
 	@Autowired
 	private PasswordEncoder encoder;
@@ -29,9 +29,12 @@ public class UsuarioController {
 	@GetMapping("/new")
 	public void novo() {
 		Usuario user = new Usuario();
-		user.setUsername("admin");
+		user.setLogin("admin");
+		user.setNome("ADMINISTRADOR");
+		user.setEmail("admin@admin.com.br");
+		
 		String encode = encoder.encode("pass");
-		user.setPassword(encode);
+		user.setSenha(encode);
 		System.out.println(encode);
 		dao.save(user);
 	}
