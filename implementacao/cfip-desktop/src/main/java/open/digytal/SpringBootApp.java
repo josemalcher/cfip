@@ -1,4 +1,5 @@
-﻿import java.util.Objects;
+﻿package open.digytal;
+import java.util.Objects;
 
 import javax.swing.UIManager;
 
@@ -36,10 +37,7 @@ public class SpringBootApp {
 		org.hsqldb.server.Server.main(dbArg);
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(SpringBootApp.class);
 		builder.headless(false);
-		//Todos os componentes estão configurados para um PROFILE
-		//builder.profiles(Controle.JPA);
 		contexto = builder.run(args);
-		//validaConta();
 		DesktopApp.fecharSplash();
 		MDICfip mdi = SpringBootApp.getBean(MDICfip.class);
 		mdi.exibirSessao();
