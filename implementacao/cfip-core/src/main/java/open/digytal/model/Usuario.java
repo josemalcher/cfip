@@ -28,7 +28,7 @@ public class Usuario {
 	@Column(length=70)
     private String email;
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "tb_user_roles", joinColumns = @JoinColumn(name = "login"), inverseJoinColumns = @JoinColumn(name = "role"))
+	@JoinTable(name = "tb_user_roles", joinColumns = @JoinColumn(name = "login",nullable=false), inverseJoinColumns = @JoinColumn(name = "nome",nullable=false))
 	private Set<Role> roles = new HashSet<>();
 	
 	public void setRoles(Set<Role> roles) {

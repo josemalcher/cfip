@@ -123,9 +123,7 @@ public class SpringBootApp {
 			String encode = encoder.encode("pass");
 			user.setSenha(encode);
 			Role role = rr.findByNome(Roles.ROLE_USER.name());
-	        if(user.getRoles().isEmpty())
-	        	user.setRoles(Collections.singleton(role));
-	        
+	        user.setRoles(Collections.singleton(role));
 			ur.save(user);
 		}
 	}

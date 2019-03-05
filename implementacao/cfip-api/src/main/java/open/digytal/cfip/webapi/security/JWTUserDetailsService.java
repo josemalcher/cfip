@@ -30,7 +30,7 @@ public class JWTUserDetailsService implements UserDetailsService {
     private UserDetails jwtUser(String username) {
     	 Optional<Usuario> usuario = this.repository.findByLogin(username);
     	 if(usuario.isPresent()) {
-    		 return  new JWTUser(username, usuario.get().getSenha());
+    		 return  new User.JWTUser(usuario.get());
     	 }else return null;
     }
 }

@@ -75,7 +75,7 @@ public class Parcelamento {
 		this.ultimaParcela = ultimaParcela;
 	}
 	public Integer getNumeroParcelas() {
-		return 1 + (ultimaParcela - primeiraParcela);
+		return 1 + ((ultimaParcela==null?0:ultimaParcela) - (primeiraParcela==null?0:primeiraParcela));
 	}
 	
 }

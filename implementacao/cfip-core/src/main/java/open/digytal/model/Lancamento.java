@@ -3,6 +3,7 @@ package open.digytal.model;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -61,6 +62,7 @@ public class Lancamento {
 	@Column(nullable=false)
 	private boolean previsao;
 	
+	@Embedded
 	private Parcelamento parcelamento;
 	
 	public Lancamento() {
