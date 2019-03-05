@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class JWTApplication {
 	//https://www.callicoder.com/spring-boot-spring-security-jwt-mysql-react-app-part-1/
 	////https://springframework.guru/spring-requestmapping-annotation/
+	//https://www.baeldung.com/spring-data-jpa-query
 	public static void main(String[] args) {
 		SpringApplication.run(JWTApplication.class, args);
 	}

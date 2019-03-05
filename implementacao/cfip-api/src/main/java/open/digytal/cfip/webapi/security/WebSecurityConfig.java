@@ -45,8 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			// filtra requisições de login
 			.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),UsernamePasswordAuthenticationFilter.class)
 			// filtra outras requisições para verificar a presença do JWT no header
-			.addFilterBefore(new JWTFilter(),
-	                UsernamePasswordAuthenticationFilter.class);
+			.addFilterBefore(new JWTFilter(),UsernamePasswordAuthenticationFilter.class);
 	}
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth)
@@ -61,8 +60,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	    authProvider.setPasswordEncoder(encoder);
 	    return authProvider;
 	}
-	
-	
 	/*@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// cria uma conta default

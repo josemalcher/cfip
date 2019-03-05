@@ -253,7 +253,7 @@ public class FrmExtrato extends Formulario {
 			List<Lancamento> lista = null;
 			try {
 				
-				lista = service.extrato(conta, conta.getDataInicial());
+				lista = service.extrato(conta.getId(), conta.getDataInicial());
 				if(lista==null || lista.size()==0)
 					SSMensagem.avisa("Nenhum dado encontrado");
 

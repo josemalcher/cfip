@@ -1,12 +1,23 @@
 package open.digytal.model;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import open.digytal.model.acesso.Role;
+import open.digytal.model.acesso.Roles;
 
 @Entity
 @Table(name = "tb_usuario")
-public class Usuario {// implements UserDetails {
+public class Usuario {
 	@Id
 	@Column(length=15)
     private String login;
@@ -16,6 +27,16 @@ public class Usuario {// implements UserDetails {
     private String nome;
 	@Column(length=70)
     private String email;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "tb_user_roles", joinColumns = @JoinColumn(name = "login"), inverseJoinColumns = @JoinColumn(name = "role"))
+	private Set<Role> roles = new HashSet<>();
+	
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	public Set<Role> getRoles() {
+		return roles;
+	}
 	public String getLogin() {
 		return login;
 	}

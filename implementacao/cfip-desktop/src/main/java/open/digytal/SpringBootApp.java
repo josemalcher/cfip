@@ -1,4 +1,5 @@
 ﻿package open.digytal;
+import java.util.Collections;
 import java.util.Objects;
 
 import javax.swing.UIManager;
@@ -6,14 +7,22 @@ import javax.swing.UIManager;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import open.digytal.desktop.MDICfip;
 import open.digytal.model.Categoria;
 import open.digytal.model.Conta;
 import open.digytal.model.Natureza;
 import open.digytal.model.TipoMovimento;
+import open.digytal.model.Usuario;
+import open.digytal.model.acesso.Role;
+import open.digytal.model.acesso.Roles;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
+import open.digytal.repository.RoleRepository;
+import open.digytal.repository.UsuarioRepository;
 import open.digytal.util.desktop.DesktopApp;
 
 @SpringBootApplication
@@ -48,6 +57,9 @@ public class SpringBootApp {
 	private static void validaConta() {
 		ContaRepository cr = contexto.getBean(ContaRepository.class);
 		NaturezaRepository cn = contexto.getBean(NaturezaRepository.class);
+		UsuarioRepository ur=contexto.getBean(UsuarioRepository.class);
+		RoleRepository rr=contexto.getBean(RoleRepository.class);
+		PasswordEncoder encoder =contexto.getBean(PasswordEncoder.class);
 		if(cr.listarContas().isEmpty()) {
 			Conta carteira = new Conta();
 			carteira.setNome("CARTEIRA");
@@ -100,6 +112,21 @@ public class SpringBootApp {
 			cn.save(receita);
 			cn.save(despesa);
 			cn.save(transferencia);
+			for(Roles role: Roles.values()) {
+        		rr.save(new Role( role.name()));
+	        }
+			
+			Usuario user = new Usuario();
+			user.setLogin("admin");
+			user.setNome("ADMINISTRADOR");
+			user.setEmail("admin@admin.com.br");
+			String encode = encoder.encode("pass");
+			user.setSenha(encode);
+			Role role = rr.findByNome(Roles.ROLE_USER.name());
+	        if(user.getRoles().isEmpty())
+	        	user.setRoles(Collections.singleton(role));
+	        
+			ur.save(user);
 		}
 	}
 	static void init() {
@@ -109,5 +136,8 @@ public class SpringBootApp {
 	public static <T> T getBean(Class classe) {
 		return (T) contexto.getBean(classe);
 	}
-	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
+	}
 }
