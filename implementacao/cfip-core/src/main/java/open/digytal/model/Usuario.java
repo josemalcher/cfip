@@ -1,8 +1,7 @@
 package open.digytal.model;
-import java.util.Collections;
+
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,9 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
 import open.digytal.model.acesso.Role;
-import open.digytal.model.acesso.Roles;
 
 @Entity
 @Table(name = "tb_usuario")

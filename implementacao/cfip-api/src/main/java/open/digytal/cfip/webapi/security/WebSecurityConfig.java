@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -21,8 +22,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private PasswordEncoder encoder;
 	
-	private static final String[] AUTH_WHITELIST = {
-            // -- swagger ui
+	
+	
+	private static final String[] SWAGGER_WHITELIST = {
             "/v2/api-docs",
             "/swagger-resources",
             "/swagger-resources/**",
@@ -30,16 +32,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/configuration/security",
             "/swagger-ui.html",
             "/webjars/**"
-            // other public endpoints of your API may be appended to this array
     };
 	
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		
 		httpSecurity.cors().and().csrf().disable().authorizeRequests()
-			.antMatchers("/usuarios/new").permitAll()
-			.antMatchers(AUTH_WHITELIST).permitAll()
+			.antMatchers(SWAGGER_WHITELIST).permitAll()
 			.antMatchers(HttpMethod.POST, "/login").permitAll()
+			.antMatchers(HttpMethod.POST, "/usuarios").permitAll()
+			//.antMatchers("/contas/**").hasRole("ADMIN")
 			.anyRequest().authenticated()
 			.and()
 			// filtra requisições de login

@@ -27,7 +27,6 @@ public class UsuarioResource {
 	public List<Usuario> listar() {
 		return dao.findAll();
 	}
-
 	@PostMapping
 	public void incluir(@RequestBody Usuario usuario) {
 		usuario.setSenha(encoder.encode(usuario.getSenha()));
