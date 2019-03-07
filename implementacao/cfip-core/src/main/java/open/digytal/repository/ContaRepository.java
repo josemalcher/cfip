@@ -14,7 +14,7 @@ public interface ContaRepository extends JpaRepository<Conta, Integer> {
 	@Query("SELECT e FROM Conta e WHERE e.login= :login AND e.cartaoCredito=false ORDER BY e.nome")
 	public List<Conta> listarContas(@Param("login")String login);
 	
-	@Query("SELECT e FROM Conta WHERE e.login= :login e ORDER BY e.nome")
+	@Query("SELECT e FROM Conta e WHERE e.login= :login ORDER BY e.nome")
 	public List<Conta> listarTodas(@Param("login")String login);
 	
 	@Query("SELECT e FROM Conta e WHERE e.login= :login AND e.cartaoCredito=true ORDER BY e.nome")

@@ -10,7 +10,7 @@ import open.digytal.model.Natureza;
 import open.digytal.model.TipoMovimento;
 
 public interface NaturezaRepository extends JpaRepository<Natureza, Integer> {
-	@Query("SELECT e FROM Natureza WHERE e.login= :login e ORDER BY e.nome")
+	@Query("SELECT e FROM Natureza e WHERE e.login= :login ORDER BY e.nome")
 	List<Natureza> listarTodas(@Param("login")String login);
 	
 	@Query("SELECT e FROM Natureza e WHERE e.login= :login AND e.nome = :nome ORDER BY e.nome")

@@ -33,8 +33,8 @@ public class FrmLogin extends Login {
 			Usuario usuario = service.findByLogin(getLogin());
 			if (usuario==null) {
 				SSMensagem.avisa("Usuário não localizado");
-				//FrmUsuario frm = SpringBootApp.getBean(FrmUsuario.class);
-				//frm.setVisible(true);
+				FrmUsuario frm = SpringBootApp.getBean(FrmUsuario.class);
+				frm.setVisible(true);
 			} else if (!service.validarSenha(getSenha(), usuario.getSenha())) {
 				SSMensagem.avisa("Senha inválida");
 			} else {
