@@ -25,19 +25,25 @@ import open.digytal.webapi.secutiry.JwtSession;
 public class ContaResource {
 	@Autowired
 	private ContaRepository repository;
+	@ApiImplicitParams({
+	    @ApiImplicitParam(name = "nome", value = "Nome",defaultValue="", required = false, dataType = "string")
+	  })
 	@PreAuthorize(Roles.PRE_USER)
-	@GetMapping
-	public List<Conta> listarTodas(){
-		return repository.listarTodas(JwtSession.getLogin());
+	@GetMapping(value="/{nome}")
+	public List<Conta> todas(@PathVariable("nome") String nome){
+		if(nome==null || nome.trim().isEmpty() || nome.equals("undefined")) //undefined - swagger
+			return repository.listarTodas(JwtSession.getLogin());
+		else
+			return repository.listar(JwtSession.getLogin(),nome);
 	}
 	@PreAuthorize(Roles.PRE_USER)
-	@GetMapping(value="/naocredito")
-	public List<Conta> listarContas(){
+	@GetMapping(value="/correntepoupanca")
+	public List<Conta> contasCorrentePoupanca(){
 		return repository.listarContas(JwtSession.getLogin());
 	}
 	@PreAuthorize(Roles.PRE_USER)
-	@GetMapping(value="/credito")
-	public List<Conta> listarCartaoCredito(){
+	@GetMapping(value="/cartaocredito")
+	public List<Conta> contasCartaoCredito(){
 		return repository.listarCartoesCredito(JwtSession.getLogin());
 	}
 	@ApiImplicitParams({
