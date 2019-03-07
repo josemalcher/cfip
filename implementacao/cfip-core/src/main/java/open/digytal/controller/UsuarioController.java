@@ -46,7 +46,7 @@ public class UsuarioController {
         	if(role==null) {
     			role = new Role(r.name());
     			role=roleRepository.save(role);
-    			if(r==Roles.ROLE_USER)
+    			if(r==Roles.USER)
     				roleUser=role;
         	}
         }

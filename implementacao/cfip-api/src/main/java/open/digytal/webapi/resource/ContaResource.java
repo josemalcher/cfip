@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import open.digytal.model.Conta;
 import open.digytal.model.Lancamento;
+import open.digytal.model.acesso.Roles;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Formatador;
 import open.digytal.webapi.secutiry.JwtSession;
@@ -23,14 +25,17 @@ import open.digytal.webapi.secutiry.JwtSession;
 public class ContaResource {
 	@Autowired
 	private ContaRepository repository;
+	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping
 	public List<Conta> listarTodas(){
 		return repository.listarTodas(JwtSession.getLogin());
 	}
+	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/naocredito")
 	public List<Conta> listarContas(){
 		return repository.listarContas(JwtSession.getLogin());
 	}
+	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/credito")
 	public List<Conta> listarCartaoCredito(){
 		return repository.listarCartoesCredito(JwtSession.getLogin());
@@ -39,6 +44,7 @@ public class ContaResource {
 	    @ApiImplicitParam(name = "id", value = "ID Conta", required = true, dataType = "int"),
 	    @ApiImplicitParam(name = "dataInicio", value = "Data ddMMyy", required = true, dataType = "date")
 	  })
+	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/extrato/{id}/{dataInicio}")
 	public List<Lancamento> extrato(@PathVariable("id") Integer id, @PathVariable("dataInicio") @DateTimeFormat(pattern = Formatador.DATA_API) Date dataInicio){
 		List<Lancamento> extrato = repository.extrato(id, dataInicio);
