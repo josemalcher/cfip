@@ -124,6 +124,7 @@ public class FrmNatureza extends Formulario {
 	}
 	private void atribuir() {
 		try {
+			txtDescricao.setText(entidade.getDescricao());
 			txtNome.setValue(entidade.getNome());
 			txtDescricao.setText(entidade.getNome());
 			cboTipoMovto.setValue(entidade.getTipoMovimento());
@@ -139,8 +140,8 @@ public class FrmNatureza extends Formulario {
 	}
 	private void salvar() {
 		try {
+			entidade.setDescricao(txtDescricao.getText());
 			entidade.setNome(txtNome.getText());
-			entidade.setNome(txtDescricao.getText());
 			entidade.setTipoMovimento((TipoMovimento) cboTipoMovto.getValue());
 			entidade.setCategoria((Categoria) cboCategoria.getValue());
 			entidade.setLogin(DesktopApp.getLogin());
@@ -149,7 +150,7 @@ public class FrmNatureza extends Formulario {
 				SSMensagem.avisa("Dados incompletos");
 				return;
 			}
-			if(entidade.getTipoMovimento().isTranferencia()) {
+			if(entidade.getTipoMovimento().isTranferencia() &&  entidade.getTipoMovimento()==TipoMovimento.T) {
 				SSMensagem.avisa("Não é possível alterar a natureza TRANSFERENCIA");
 				return;
 			}

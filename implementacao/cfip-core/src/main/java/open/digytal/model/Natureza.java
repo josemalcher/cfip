@@ -21,6 +21,9 @@ public class Natureza implements Serializable {
 	@Column(nullable=false, length=50)
 	private String nome;
 	
+	@Column(length=50)
+	private String descricao;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name="tipo_mov_id",nullable=false,length=30)
 	private TipoMovimento tipoMovimento;
@@ -63,7 +66,12 @@ public class Natureza implements Serializable {
 	public String getNomeSigla() {
 		return  nome + " (" + getTipoSigla() + ")";
 	}
-	
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 	@Override
 	public String toString() {
 		return "Natureza [id=" + id + ", nome=" + nome + ", tipoMovimento=" + tipoMovimento + ", categoria=" + categoria

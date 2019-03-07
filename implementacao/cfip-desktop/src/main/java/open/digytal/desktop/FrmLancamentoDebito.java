@@ -38,29 +38,31 @@ import open.digytal.util.desktop.ss.SSCampoTexto;
 import open.digytal.util.desktop.ss.SSMensagem;
 
 @Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)	
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FrmLancamentoDebito extends Formulario {
 	private SSCampoDataHora txtData = new SSCampoDataHora();
 	private SSCampoNumero txtValor = new SSCampoNumero();
 	private SSCampoTexto txtDescricao = new SSCampoTexto();
-	
+
 	private SSBotao cmdSalvar = new SSBotao();
 	private SSBotao cmdSair = new SSBotao();
 	private Lancamento entidade;
-	
+
 	@Autowired
 	private LancamentoController service;
 	@Autowired
 	private ContaRepository contaService;
 	@Autowired
 	private NaturezaRepository naturezaService;
-	
+
 	private final SSCaixaCombinacao cboConta = new SSCaixaCombinacao();
 	private final SSCaixaCombinacao cboNatureza = new SSCaixaCombinacao();
 	private JCheckBox chkNovo = new JCheckBox("Novo?");
+
 	public FrmLancamentoDebito() {
 		init();
 	}
+
 	private void init() {
 		// HERANÇA
 		super.setTitulo("Despesa");
@@ -68,7 +70,7 @@ public class FrmLancamentoDebito extends Formulario {
 		getRodape().add(chkNovo);
 		getRodape().add(cmdSalvar);
 		getRodape().add(cmdSair);
-		
+
 		// IMPORTANTE
 		JPanel panelCampos = super.getConteudo();
 		panelCampos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -83,7 +85,7 @@ public class FrmLancamentoDebito extends Formulario {
 		gbc_txtData.gridy = 0;
 		txtData.setColunas(15);
 		panelCampos.add(txtData, gbc_txtData);
-		
+
 		GridBagConstraints gbc_cboConta = new GridBagConstraints();
 		gbc_cboConta.insets = new Insets(5, 5, 0, 5);
 		gbc_cboConta.fill = GridBagConstraints.BOTH;
@@ -91,13 +93,13 @@ public class FrmLancamentoDebito extends Formulario {
 		gbc_cboConta.gridy = 1;
 		cboConta.setRotulo("Conta");
 		panelCampos.add(cboConta, gbc_cboConta);
-		
+
 		GridBagConstraints gbc_cboNatureza = new GridBagConstraints();
 		gbc_cboNatureza.insets = new Insets(5, 5, 0, 5);
 		gbc_cboNatureza.fill = GridBagConstraints.BOTH;
 		gbc_cboNatureza.gridx = 0;
 		gbc_cboNatureza.gridy = 2;
-		cboNatureza.setRotulo("NaturezaService");
+		cboNatureza.setRotulo("Natureza");
 		panelCampos.add(cboNatureza, gbc_cboNatureza);
 
 		GridBagConstraints gbc_txtValor = new GridBagConstraints();
@@ -114,7 +116,7 @@ public class FrmLancamentoDebito extends Formulario {
 		txtValor.setColunas(15);
 		txtValor.setRotulo("Valor");
 		txtValor.setFormato(Formato.MOEDA);
-		
+
 		GridBagConstraints gbc_txtDescricao = new GridBagConstraints();
 		gbc_txtDescricao.anchor = GridBagConstraints.NORTHWEST;
 		gbc_txtDescricao.weighty = 1.0;
@@ -125,9 +127,9 @@ public class FrmLancamentoDebito extends Formulario {
 		txtDescricao.setColunas(15);
 		txtDescricao.setRotulo("Descrição");
 		panelCampos.add(txtDescricao, gbc_txtDescricao);
-		
+
 		cmdSair.setText("Cancelar");
-		
+
 		cmdSalvar.setText("Confirmar");
 		// Listners = Comandos = Eventos
 		cmdSalvar.addActionListener(new ActionListener() {
@@ -142,6 +144,7 @@ public class FrmLancamentoDebito extends Formulario {
 		});
 		inicializa();
 	}
+
 	private void salvar() {
 		try {
 			entidade = new Lancamento();
@@ -150,13 +153,14 @@ public class FrmLancamentoDebito extends Formulario {
 			Conta conta = (Conta) cboConta.getValue();
 			Natureza natureza = (Natureza) cboNatureza.getValue();
 			entidade.setConta(conta);
-			
+
 			entidade.setData(txtData.getDataHora());
 			entidade.setNatureza(natureza);
 			entidade.setTipoMovimento(natureza.getTipoMovimento());
-			
-			if(entidade.getConta()==null || entidade.getNatureza() == null 
-			|| entidade.getData() == null || entidade.getValor() == null || entidade.getDescricao()==null || entidade.getDescricao().isEmpty()) {
+
+			if (entidade.getConta() == null || entidade.getNatureza() == null || entidade.getData() == null
+					|| entidade.getValor() == null || entidade.getDescricao() == null
+					|| entidade.getDescricao().isEmpty()) {
 				SSMensagem.avisa("Dados incompletos");
 				return;
 			}
@@ -169,12 +173,12 @@ public class FrmLancamentoDebito extends Formulario {
 	}
 
 	private void novo() {
-		if(chkNovo.isSelected()) {
+		if (chkNovo.isSelected()) {
 			inicializa();
-		}else
+		} else
 			super.fechar();
 	}
-	
+
 	private void inicializa() {
 		entidade = new Lancamento();
 		txtData.requestFocus();
@@ -183,13 +187,15 @@ public class FrmLancamentoDebito extends Formulario {
 		txtData.setDataHora(new Date());
 		txtDescricao.setText("");
 	}
+
 	private void sair() {
 		super.fechar();
 	}
+
 	public void carregar() {
 		List<Conta> contas = contaService.listarContas(DesktopApp.getLogin());
-		cboConta.setItens( contas,"nome");
-		cboNatureza.setItens( naturezaService.listar(DesktopApp.getLogin(),TipoMovimento.D),"nomeSigla");
-		
+		cboConta.setItens(contas, "nome");
+		cboNatureza.setItens(naturezaService.listar(DesktopApp.getLogin(), TipoMovimento.D), "nomeSigla");
+
 	}
 }
