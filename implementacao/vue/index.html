@@ -23,8 +23,11 @@
 		  },
 		  mounted () {
 		axios
-			.get('https://viacep.com.br/ws/05359001/json/')
-			.then(response => (this.info = response))
+			.get('http://www.boxsolutions.com.br/cfip-web-api/contas/undefined',{
+				headers: {
+			Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnc28iLCJzY29wZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE1NTE5OTIyOTIsImV4cCI6MTU1MjAxMDI5Mn0.q7_5AouaQSg4eYpPjcaEiECkYkXMwTVd5vo4TuwQ6xo'
+			}
+			}).then(response => (this.info = response))
 		}
 		})
 	</script>
