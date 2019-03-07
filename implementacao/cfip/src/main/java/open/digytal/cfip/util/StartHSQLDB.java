@@ -3,7 +3,7 @@ package open.digytal.cfip.util;
 import org.hsqldb.util.DatabaseManagerSwing;
 
 public class StartHSQLDB {
-	static String FILE_URL="file:/digytal/cfip/database/cfipdb";
+	static String FILE_URL="file:/opendigytal/cfip/database/cfipdb";
 	public static void main(String[] args) {
 		//local();		
 		server();
