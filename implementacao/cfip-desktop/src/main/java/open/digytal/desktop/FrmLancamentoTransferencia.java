@@ -27,6 +27,7 @@ import open.digytal.model.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.Formato;
+import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCaixaCombinacao;
@@ -211,10 +212,10 @@ public class FrmLancamentoTransferencia extends Formulario {
 	}
 
 	public void carregar() {
-		List<Conta> contas = contaService.listarTodas();
+		List<Conta> contas = contaService.listarTodas(DesktopApp.getLogin());
 		cboConta.setItens(contas, "nome");
 		cboDestino.setItens(contas, "nome");
-		cboNatureza.setItens(naturezaService.listar(TipoMovimento.T), "nomeSigla");
+		cboNatureza.setItens(naturezaService.listar(DesktopApp.getLogin(),TipoMovimento.T), "nomeSigla");
 
 	}
 }

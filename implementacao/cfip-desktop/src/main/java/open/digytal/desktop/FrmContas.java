@@ -22,6 +22,7 @@ import open.digytal.SpringBootApp;
 import open.digytal.model.Conta;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Formato;
+import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCampoTexto;
@@ -161,10 +162,10 @@ public class FrmContas extends Formulario {
 		try {
 			String nome = txtFiltro.getText();
 			if (SSValidacao.vazio(nome)) {
-				lista = service.listarTodas();
+				lista = service.listarTodas(DesktopApp.getLogin());
 
 			} else {
-				lista = service.listar(nome);
+				lista = service.listar(DesktopApp.getLogin(),nome);
 			}
 			if(lista.size()==0)
 				SSMensagem.avisa("Nenhum dado encontrado");

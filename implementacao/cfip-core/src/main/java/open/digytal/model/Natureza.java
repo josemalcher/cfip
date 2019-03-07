@@ -29,6 +29,16 @@ public class Natureza implements Serializable {
 	@Column(name="categoria_id",length=50)
 	private Categoria categoria;
 	
+	@Column(name="login", length=20)
+	private String login;
+	
+	public String getLogin() {
+		return login;
+	}
+	public void setLogin(String login) {
+		this.login = login;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

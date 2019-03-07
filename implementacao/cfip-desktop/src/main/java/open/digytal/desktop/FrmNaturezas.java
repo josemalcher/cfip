@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import open.digytal.SpringBootApp;
 import open.digytal.model.Natureza;
 import open.digytal.repository.NaturezaRepository;
+import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCampoTexto;
@@ -141,10 +142,10 @@ public class FrmNaturezas extends Formulario {
 		try {
 			String nome = txtFiltro.getText();
 			if (SSValidacao.vazio(nome)) {
-				lista = service.listar();
+				lista = service.listarTodas(DesktopApp.getLogin());
 
 			} else {
-				lista = service.listar(nome);
+				lista = service.listar(DesktopApp.getLogin(),nome);
 			}
 			if(lista.size()==0)
 				SSMensagem.avisa("Nenhum dado encontrado");

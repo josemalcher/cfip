@@ -38,6 +38,7 @@ import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.Calendario;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;
+import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCaixaCombinacao;
@@ -282,8 +283,8 @@ public class FrmParcelas extends Formulario {
 	public void carregar() {
 		cboConta.setPrimeiroElementoVazio(true);
 		cboNatureza.setPrimeiroElementoVazio(true);
-		cboConta.setItens(contaService.listarContas(), "nome");
-		cboNatureza.setItens(naturezaService.listar(), "nome");
+		cboConta.setItens(contaService.listarContas(DesktopApp.getLogin()), "nome");
+		cboNatureza.setItens(naturezaService.listarTodas(DesktopApp.getLogin()), "nome");
 		int ano = SSDataHora.pegaAno(new Date());
 		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
 		txtDataAte.setDataHora(Calendario.data(31, 12, ano));

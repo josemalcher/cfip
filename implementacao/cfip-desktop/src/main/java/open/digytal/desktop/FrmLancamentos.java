@@ -36,6 +36,7 @@ import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;
+import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCaixaCombinacao;
@@ -268,8 +269,8 @@ public class FrmLancamentos extends Formulario {
 	public void carregar() {
 		cboConta.setPrimeiroElementoVazio(true);
 		cboNatureza.setPrimeiroElementoVazio(true); 
-		cboConta.setItens(contaService.listarContas(), "nome");
-		cboNatureza.setItens(naturezaService.listar(), "nome");
+		cboConta.setItens(contaService.listarContas(DesktopApp.getLogin()), "nome");
+		cboNatureza.setItens(naturezaService.listarTodas(DesktopApp.getLogin()), "nome");
 
 		txtDataDe.setDataHora(new Date());
 		txtDataAte.setDataHora(new Date());

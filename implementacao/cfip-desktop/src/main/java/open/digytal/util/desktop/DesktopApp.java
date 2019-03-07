@@ -2,7 +2,7 @@ package open.digytal.util.desktop;
 
 public class DesktopApp {
 	private static Splash splash;
-
+	private static String login;
 	public static void exibirSplash() {
 		splash = new Splash();
 		splash.setVisible(true);
@@ -12,14 +12,11 @@ public class DesktopApp {
 		if (splash != null)
 			splash.dispose();
 	}
-	/*
-	 * public static Sessao getSessao() { return sessao; }
-	 */
-
-	/*
-	 * public static void configurarSessao(Credencial credencial) { sessao = new
-	 * Sessao(); sessao.setLogin(credencial.getUsuario().getLogin());
-	 * sessao.setUsuario(credencial.getUsuario().getNome()); }
-	 */
+	public static void setLogin(String novoLogin) {
+		login = novoLogin;
+	}
+	public static String getLogin() {
+		return login;
+	}
 
 }

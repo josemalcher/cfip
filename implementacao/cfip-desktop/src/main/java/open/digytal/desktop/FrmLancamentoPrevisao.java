@@ -29,6 +29,7 @@ import open.digytal.model.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.Formato;
+import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCaixaCombinacao;
@@ -337,10 +338,10 @@ public class FrmLancamentoPrevisao extends Formulario {
 		super.fechar();
 	}
 	public void carregar() {
-		List<Conta> contas = contaService.listarTodas();
+		List<Conta> contas = contaService.listarTodas(DesktopApp.getLogin());
 		cboConta.setItens( contas,"nome");
 		cboDestino.setItens( contas,"nome");
-		cboNatureza.setItens( naturezaService.listar(),"nomeSigla");
+		cboNatureza.setItens( naturezaService.listarTodas(DesktopApp.getLogin()),"nomeSigla");
 	}
 	public static void main(String[] args) {
 		int m = (int) (100.0%3);

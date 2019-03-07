@@ -50,6 +50,15 @@ public class Conta implements Serializable {
 	@Column(name="dia_fechto", length=2)
 	private Integer diaFechamento;
 	
+	@Column(name="login", length=20)
+	private String login;
+	
+	public String getLogin() {
+		return login;
+	}
+	public void setLogin(String login) {
+		this.login = login;
+	}
 	public Conta() {
 		this.saldoAtual=0.0d;
 		this.saldoInicial=0.0d;

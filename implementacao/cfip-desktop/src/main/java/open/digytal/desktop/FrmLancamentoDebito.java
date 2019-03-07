@@ -28,6 +28,7 @@ import open.digytal.repository.ContaRepository;
 import open.digytal.repository.LancamentoRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.Formato;
+import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCaixaCombinacao;
@@ -186,9 +187,9 @@ public class FrmLancamentoDebito extends Formulario {
 		super.fechar();
 	}
 	public void carregar() {
-		List<Conta> contas = contaService.listarContas();
+		List<Conta> contas = contaService.listarContas(DesktopApp.getLogin());
 		cboConta.setItens( contas,"nome");
-		cboNatureza.setItens( naturezaService.listar(TipoMovimento.D),"nomeSigla");
+		cboNatureza.setItens( naturezaService.listar(DesktopApp.getLogin(),TipoMovimento.D),"nomeSigla");
 		
 	}
 }
