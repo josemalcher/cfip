@@ -1,7 +1,6 @@
 package open.digytal.controller;
 
 import java.util.Collections;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -34,10 +33,7 @@ public class UsuarioController {
 	@Autowired
 	private PasswordEncoder encoder;
 	public Usuario findByLogin(String login){
-		Optional<Usuario> find = repository.findByLogin(login); 
-		if(find.isPresent())
-			return find.get();
-		else return null;
+		return repository.findByLogin(login); 
 	}
 	public boolean validarSenha(String senhaInformada, String senhaCriptografada) {
 		return encoder.matches(senhaInformada, senhaCriptografada);

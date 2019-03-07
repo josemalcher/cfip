@@ -48,7 +48,7 @@ public class SwaggerConfig {
 		docket
 		.globalOperationParameters(params)
 		.select()
-		.apis(RequestHandlerSelectors.basePackage("open.digytal.cfip.webapi.resource"))
+		.apis(RequestHandlerSelectors.basePackage("open.digytal.webapi.resource"))
 		.paths(PathSelectors.any())
 		.build()
 		.apiInfo(this.informacoesApi().build())

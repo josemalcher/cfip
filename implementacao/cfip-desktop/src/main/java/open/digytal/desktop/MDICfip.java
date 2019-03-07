@@ -9,7 +9,7 @@ import javax.swing.JSeparator;
 
 import org.springframework.stereotype.Component;
 
-import open.digytal.SpringBootApp;
+import open.digytal.CfipDesktopApp;
 import open.digytal.util.Imagem;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.MDI;
@@ -264,46 +264,46 @@ public class MDICfip extends MDI {
 		//exibir((Formulario)SpringBootApp.getBean(FrmDespesasRapidas.class));
 	}
 	private void exibirConta() {
-		exibir((Formulario)SpringBootApp.getBean(FrmContas.class));
+		exibir((Formulario)CfipDesktopApp.getBean(FrmContas.class));
 	}
 	private void exibirNatureza() {
-		exibir((Formulario)SpringBootApp.getBean(FrmNaturezas.class));
+		exibir((Formulario)CfipDesktopApp.getBean(FrmNaturezas.class));
 	}
 	private void exibirContatos() {
 		//exibir((Formulario)SpringBootApp.getBean(FrmContatos.class));
 	}
 	private void exibirTransferencia() {
-		exibir((Formulario)SpringBootApp.getBean(FrmLancamentoTransferencia.class));
+		exibir((Formulario)CfipDesktopApp.getBean(FrmLancamentoTransferencia.class));
 	}
 	private void exibirProjecoes() {
-		exibir((Formulario)SpringBootApp.getBean(FrmProjecoes.class));
+		exibir((Formulario)CfipDesktopApp.getBean(FrmProjecoes.class));
 	}
 	private void exibirMovimentacoes() {
-		exibir((Formulario)SpringBootApp.getBean(FrmMovimentacoes.class));
+		exibir((Formulario)CfipDesktopApp.getBean(FrmMovimentacoes.class));
 	}
 	private void exibirLactoDespesaRapida() {
 		//exibir((Formulario)SpringBootApp.getBean(FrmLancamentoDespesaRapida.class));
 	}
 	private void exibirLactoReceita() {
-		exibir((Formulario)SpringBootApp.getBean(FrmLancamentoCredito.class));
+		exibir((Formulario)CfipDesktopApp.getBean(FrmLancamentoCredito.class));
 	}
 	private void exibirLanctoDespesa() {
-		exibir((Formulario)SpringBootApp.getBean(FrmLancamentoDebito.class));
+		exibir((Formulario)CfipDesktopApp.getBean(FrmLancamentoDebito.class));
 	}
 	private void exibirLanctoPrevisao() {
-		exibir((Formulario)SpringBootApp.getBean(FrmLancamentoPrevisao.class));
+		exibir((Formulario)CfipDesktopApp.getBean(FrmLancamentoPrevisao.class));
 	}
 	private void exibirConsultaLancamentos() {
-		exibir((Formulario) SpringBootApp.getBean(FrmLancamentos.class));
+		exibir((Formulario) CfipDesktopApp.getBean(FrmLancamentos.class));
 	}
 	private void exibirConsultaPrevisoes() {
-		exibir((Formulario)SpringBootApp.getBean(FrmPrevisoes.class));
+		exibir((Formulario)CfipDesktopApp.getBean(FrmPrevisoes.class));
 	}
 	private void exibirConsultaParcelas() {
-		exibir((Formulario)SpringBootApp.getBean(FrmParcelas.class));
+		exibir((Formulario)CfipDesktopApp.getBean(FrmParcelas.class));
 	}
 	private void exibirConsultaFaturas() {
-		exibir((Formulario)SpringBootApp.getBean(FrmFaturas.class));
+		exibir((Formulario)CfipDesktopApp.getBean(FrmFaturas.class));
 	}
 	private void exibirBackup() {
 		//exibir((Formulario)SpringBootApp.getBean(FrmBackup.class));

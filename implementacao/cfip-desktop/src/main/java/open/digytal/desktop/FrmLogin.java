@@ -8,7 +8,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.SpringBootApp;
+import open.digytal.CfipDesktopApp;
 import open.digytal.controller.UsuarioController;
 import open.digytal.model.Usuario;
 import open.digytal.util.desktop.DesktopApp;
@@ -33,13 +33,13 @@ public class FrmLogin extends Login {
 			Usuario usuario = service.findByLogin(getLogin());
 			if (usuario==null) {
 				SSMensagem.avisa("Usuário não localizado");
-				FrmUsuario frm = SpringBootApp.getBean(FrmUsuario.class);
+				FrmUsuario frm = CfipDesktopApp.getBean(FrmUsuario.class);
 				frm.setVisible(true);
 			} else if (!service.validarSenha(getSenha(), usuario.getSenha())) {
 				SSMensagem.avisa("Senha inválida");
 			} else {
 				DesktopApp.setLogin(usuario.getLogin());;
-				MDICfip mdi = SpringBootApp.getBean(MDICfip.class);
+				MDICfip mdi = CfipDesktopApp.getBean(MDICfip.class);
 				mdi.exibirSessao();
 				mdi.setVisible(true);
 				this.dispose();

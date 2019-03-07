@@ -18,7 +18,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.SpringBootApp;
+import open.digytal.CfipDesktopApp;
 import open.digytal.model.Conta;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Formato;
@@ -182,7 +182,7 @@ public class FrmContas extends Formulario {
 			SSMensagem.avisa("Selecione um item da lista");
 			return;
 		}
-		  FrmExtrato frm = SpringBootApp.getBean(FrmExtrato.class);
+		  FrmExtrato frm = CfipDesktopApp.getBean(FrmExtrato.class);
 		  frm.setConta(entidade); 
 		  frm.carregar();
 		  this.exibirDialogo(frm);
@@ -201,7 +201,7 @@ public class FrmContas extends Formulario {
 	}
 	private void exibirCadastro(Conta entidade) {
 		//FrmConta frm = new FrmConta();
-		Formulario frm = SpringBootApp.getBean(FrmConta.class);
+		Formulario frm = CfipDesktopApp.getBean(FrmConta.class);
 		frm.setEntidade(entidade);
 		this.exibir(frm);
 	}

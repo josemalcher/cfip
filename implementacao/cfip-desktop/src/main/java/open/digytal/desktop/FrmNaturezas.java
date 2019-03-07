@@ -18,7 +18,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.SpringBootApp;
+import open.digytal.CfipDesktopApp;
 import open.digytal.model.Natureza;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.desktop.DesktopApp;
@@ -168,7 +168,7 @@ public class FrmNaturezas extends Formulario {
 		exibirCadastro(entidade);
 	}
 	private void exibirCadastro(Natureza entidade) {
-		Formulario frm = SpringBootApp.getBean(FrmNatureza.class);
+		Formulario frm = CfipDesktopApp.getBean(FrmNatureza.class);
 		frm.setEntidade(entidade);
 		this.exibir(frm);
 	}

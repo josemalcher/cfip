@@ -16,7 +16,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.SpringBootApp;
+import open.digytal.CfipDesktopApp;
 import open.digytal.model.Categoria;
 import open.digytal.model.Natureza;
 import open.digytal.model.TipoMovimento;

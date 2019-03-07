@@ -26,7 +26,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.SpringBootApp;
+import open.digytal.CfipDesktopApp;
 import open.digytal.controller.LancamentoController;
 import open.digytal.model.Conta;
 import open.digytal.model.Lancamento;
@@ -320,7 +320,7 @@ public class FrmParcelas extends Formulario {
 	private void amortizar() {
 		Parcela entidade = (Parcela) grid.getLinhaSelecionada();
 		if (entidade != null) {
-			FrmAmortizar frm = SpringBootApp.getBean(FrmAmortizar.class);
+			FrmAmortizar frm = CfipDesktopApp.getBean(FrmAmortizar.class);
 			frm.setId(entidade.getId());
 			this.dialogo(frm);
 			listar();
@@ -333,7 +333,7 @@ public class FrmParcelas extends Formulario {
 
 		Parcela entidade = (Parcela) grid.getLinhaSelecionada();
 		if (entidade != null) {
-			FrmCompensar frm = SpringBootApp.getBean(FrmCompensar.class);
+			FrmCompensar frm = CfipDesktopApp.getBean(FrmCompensar.class);
 			frm.setId(entidade.getId());
 			this.dialogo(frm);
 			listar();
