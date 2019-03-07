@@ -27,7 +27,7 @@ public class CfipDesktopApp {
 	}
 
 	private static void init(String[] args) {
-		DesktopApp.exibirSplash();
+		//DesktopApp.exibirSplash();
 		String FILE_URL = Objects.toString(System.getProperty("db.url"), "file:/opendigytal/cfip/database/cfipdb");
 		System.out.println("Iniciando o HSQLDB em " + FILE_URL);
 		final String[] dbArg = { "--database.0", FILE_URL, "--dbname.0", "cfipdb", "--port", "5454" };
@@ -36,7 +36,7 @@ public class CfipDesktopApp {
 		builder.headless(false);
 		contexto = builder.run(args);
 		Login login = CfipDesktopApp.getBean(Login.class);
-		login.exibir();
+		//login.exibir();
 		
 	}
 

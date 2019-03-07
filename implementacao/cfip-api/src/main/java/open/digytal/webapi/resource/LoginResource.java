@@ -35,6 +35,6 @@ public class LoginResource {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final String token = jwtTokenUtil.generateToken(authentication);
-        return ResponseEntity.ok(new JwtToken("Bearer " + token));
+        return ResponseEntity.ok(new JwtToken(token));
     }
 }
