@@ -40,7 +40,7 @@ public class CfipUtil {
     public static Double totalContas(List<Conta> lista) {
         Double total = 0.0d;
         for (Conta c : lista) {
-            total = total + c.getSaldoInicial();
+            total = total + c.getSaldoAtual();
         }
         return total;
     }
