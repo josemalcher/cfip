@@ -1,4 +1,4 @@
-package open.digytal.cfip.webapi.resource;
+package open.digytal.webapi.resource;
 
 import java.util.List;
 

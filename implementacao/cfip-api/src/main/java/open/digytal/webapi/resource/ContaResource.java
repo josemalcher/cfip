@@ -1,4 +1,4 @@
-package open.digytal.cfip.webapi.resource;
+package open.digytal.webapi.resource;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +16,7 @@ import open.digytal.model.Conta;
 import open.digytal.model.Lancamento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Formatador;
+import open.digytal.webapi.secutiry.JwtSession;
 
 @RestController
 @RequestMapping("/contas")
@@ -24,15 +25,15 @@ public class ContaResource {
 	private ContaRepository repository;
 	@GetMapping
 	public List<Conta> listarTodas(){
-		return repository.listarTodas();
+		return repository.listarTodas(JwtSession.getLogin());
 	}
 	@GetMapping(value="/naocredito")
 	public List<Conta> listarContas(){
-		return repository.listarContas();
+		return repository.listarContas(JwtSession.getLogin());
 	}
 	@GetMapping(value="/credito")
 	public List<Conta> listarCartaoCredito(){
-		return repository.listarCartoesCredito();
+		return repository.listarCartoesCredito(JwtSession.getLogin());
 	}
 	@ApiImplicitParams({
 	    @ApiImplicitParam(name = "id", value = "ID Conta", required = true, dataType = "int"),

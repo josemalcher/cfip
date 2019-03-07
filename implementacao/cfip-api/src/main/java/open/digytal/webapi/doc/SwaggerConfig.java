@@ -1,4 +1,4 @@
-package open.digytal.cfip.webapi.doc;
+package open.digytal.webapi.doc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
