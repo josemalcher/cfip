@@ -7,7 +7,7 @@
 	<groupId>open.digytal</groupId>
 	<artifactId>cfip-api</artifactId>
 	<version>1.0</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>CFIP - Api</name>
 	<description>API Rest da aplicação CFIP</description>
@@ -65,12 +65,13 @@
 			<version>2.9.2</version>
 		</dependency>
 
-		<!-- WAR FILE -->
+		<!-- WAR FILE 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		-->
 	</dependencies>
 
 	<build>

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 @EnableAutoConfiguration
-public class CfipWebApiApplication extends SpringBootServletInitializer { // extends War File
+public class CfipWebApiApplication { // extends SpringBootServletInitializer  extends War File
 	//https://www.callicoder.com/spring-boot-spring-security-jwt-mysql-react-app-part-1/
 	////https://springframework.guru/spring-requestmapping-annotation/
 	//https://www.baeldung.com/spring-data-jpa-query
