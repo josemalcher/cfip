@@ -289,7 +289,7 @@ public class FrmFaturas extends Formulario {
 		try {
 			Conta conta = (Conta) cboConta.getValue();
 			Integer cId = conta == null ? null : conta.getId();
-			lista = service.listarFaturas(txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, null);
+			lista = service.listarFaturas(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, null);
 			if (lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 

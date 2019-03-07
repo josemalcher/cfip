@@ -340,12 +340,12 @@ public class FrmMovimentacoes extends Formulario {
 			Natureza nat = (Natureza) cboNatureza.getValue();
 			Integer cId=conta==null?0:conta.getId();
 			Integer nId=nat==null?0:nat.getId();
-			lanctos = service.listarLancamentos(txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
+			lanctos = service.listarLancamentos(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
 			
 			gridLancamento.setValue(lanctos);
 			totalLancto = CfipUtil.lancamentos(lanctos);
 
-			previsoes = service.listarPrevisoes(txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
+			previsoes = service.listarPrevisoes(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
 			
 			if(lanctos.size()==0 &&  previsoes.size()==0)
 				SSMensagem.avisa("Nenhum dado encontrado");

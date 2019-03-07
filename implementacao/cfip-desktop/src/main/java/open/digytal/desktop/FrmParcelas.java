@@ -363,7 +363,7 @@ public class FrmParcelas extends Formulario {
 			Natureza nat = (Natureza) cboNatureza.getValue();
 			Integer cId = conta == null ? null : conta.getId();
 			Integer nId = nat == null ? null : nat.getId();
-			lista = service.listarParcelas(txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, nId);
+			lista = service.listarParcelas(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, nId);
 			if (lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 			grid.setValue(lista);

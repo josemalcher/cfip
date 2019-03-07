@@ -21,6 +21,7 @@ import open.digytal.model.Categoria;
 import open.digytal.model.Natureza;
 import open.digytal.model.TipoMovimento;
 import open.digytal.repository.NaturezaRepository;
+import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCaixaCombinacao;
@@ -142,7 +143,7 @@ public class FrmNatureza extends Formulario {
 			entidade.setNome(txtDescricao.getText());
 			entidade.setTipoMovimento((TipoMovimento) cboTipoMovto.getValue());
 			entidade.setCategoria((Categoria) cboCategoria.getValue());
-
+			entidade.setLogin(DesktopApp.getLogin());
 			if (entidade.getNome() == null || entidade.getNome().isEmpty() || entidade.getNome() == null
 					|| entidade.getNome().isEmpty() || entidade.getTipoMovimento() == null || entidade.getCategoria() ==null) {
 				SSMensagem.avisa("Dados incompletos");

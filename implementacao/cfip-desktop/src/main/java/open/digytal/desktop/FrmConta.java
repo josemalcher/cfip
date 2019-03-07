@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import open.digytal.model.Conta;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Formato;
+import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCampoNumero;
@@ -194,6 +195,7 @@ public class FrmConta extends Formulario {
 			entidade.setSaldoInicial(txtSaldoInicial.getDouble());
 			entidade.setDiaPagamento(txtDiaPagamento.getInteger());
 			entidade.setDiaFechamento(txtDiaFechamento.getInteger());
+			entidade.setLogin(DesktopApp.getLogin());
 			if (entidade.getNome() == null || entidade.getNome().isEmpty() || entidade.getSigla() == null
 					|| entidade.getSigla().isEmpty()) {
 				SSMensagem.avisa("Dados incompletos");

@@ -273,7 +273,7 @@ public class FrmPrevisoes extends Formulario {
 			Natureza nat = (Natureza) cboNatureza.getValue();
 			Integer cId=conta==null?null:conta.getId();
 			Integer nId=nat==null?null:nat.getId();
-			lista = service.listarPrevisoes(txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId);
+			lista = service.listarPrevisoes(DesktopApp.getLogin(), txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId);
 			if (lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 

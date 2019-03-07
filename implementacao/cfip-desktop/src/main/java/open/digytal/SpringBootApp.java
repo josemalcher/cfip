@@ -36,7 +36,7 @@ public class SpringBootApp {
 		builder.headless(false);
 		contexto = builder.run(args);
 		Login login = SpringBootApp.getBean(Login.class);
-		login.setVisible(true);
+		login.exibir();
 	}
 
 	public static <T> T getBean(Class classe) {

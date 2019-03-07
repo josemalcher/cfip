@@ -35,9 +35,9 @@ public class LancamentoController {
 	
 	//https://www.baeldung.com/spring-data-jpa-query
 
-	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM Lancamento l WHERE (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
-	private final String SQL_PARCELA_FATURA = "SELECT p FROM Parcela p WHERE p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
-	private List<Lancamento> listarLancamentos(boolean previsao, Date inicio, Date fim, Integer conta,
+	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM Lancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
+	private final String SQL_PARCELA_FATURA = "SELECT p FROM Parcela p WHERE p.lancamento.conta.login=:login AND p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
+	private List<Lancamento> listarLancamentos(boolean previsao,String login, Date inicio, Date fim, Integer conta,
 			Integer natureza) {
 		StringBuilder sql = new StringBuilder(SQL_LANCAMENTO_PREVISAO);
 		if (natureza != null && natureza > 0) {
@@ -52,6 +52,7 @@ public class LancamentoController {
 		query.setParameter("inicio", inicio);
 		query.setParameter("fim", fim);
 		query.setParameter("previsao", previsao);
+		query.setParameter("login", login);
 		if (natureza != null && natureza > 0)
 			query.setParameter("natureza", natureza);
 
@@ -71,19 +72,19 @@ public class LancamentoController {
 	public Parcela buscarParcela(Integer id) {
 		return em.find(Parcela.class, id);
 	}
-	public List<Lancamento> listarLancamentos(Date inicio, Date fim, Integer conta, Integer natureza) {
-		return listarLancamentos(false, inicio, fim, conta, natureza);
+	public List<Lancamento> listarLancamentos(String login, Date inicio,Date fim, Integer conta, Integer natureza) {
+		return listarLancamentos(false,login, inicio, fim, conta, natureza);
 	}
-	public List<Lancamento> listarPrevisoes(Date inicio, Date fim, Integer conta, Integer natureza) {
-		return listarLancamentos(true, inicio, fim, conta, natureza);
+	public List<Lancamento> listarPrevisoes(String login, Date inicio,Date fim, Integer conta, Integer natureza) {
+		return listarLancamentos(true,login, inicio, fim, conta, natureza);
 	}
-	public List<Parcela> listarParcelas(Date inicio, Date fim, Integer conta,Integer natureza) {
-		return listarParcelas(false, inicio, fim, conta, natureza);
+	public List<Parcela> listarParcelas(String login, Date inicio, Date fim, Integer conta,Integer natureza) {
+		return listarParcelas(false, login, inicio, fim, conta, natureza);
 	}
-	public List<Parcela> listarFaturas(Date inicio, Date fim, Integer conta,Integer natureza) {
-		return listarParcelas(true, inicio, fim, conta, natureza);
+	public List<Parcela> listarFaturas(String login, Date inicio, Date fim, Integer conta,Integer natureza) {
+		return listarParcelas(true, login, inicio, fim, conta, natureza);
 	}
-	private List<Parcela> listarParcelas(boolean cc,Date inicio, Date fim, Integer conta,Integer natureza) {
+	private List<Parcela> listarParcelas(boolean cc,String login, Date inicio, Date fim, Integer conta,Integer natureza) {
 		StringBuilder sql = new StringBuilder(SQL_PARCELA_FATURA);
 
 		if (natureza != null && natureza > 0) {
@@ -98,6 +99,7 @@ public class LancamentoController {
 		query.setParameter("inicio", inicio);
 		query.setParameter("fim", fim);
 		query.setParameter("cc", cc);
+		query.setParameter("login", login);
 		if (natureza != null && natureza > 0)
 			query.setParameter("natureza", natureza);
 
