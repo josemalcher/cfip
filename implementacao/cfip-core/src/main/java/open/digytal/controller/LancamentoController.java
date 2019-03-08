@@ -40,8 +40,8 @@ public class LancamentoController {
 	
 	//https://www.baeldung.com/spring-data-jpa-query
 
-	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM Lancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
-	private final String SQL_PARCELA_FATURA = "SELECT p FROM Parcela p WHERE p.lancamento.conta.login=:login AND p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
+	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM EntidadeLancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
+	private final String SQL_PARCELA_FATURA = "SELECT p FROM EntidadeParcela p WHERE p.lancamento.conta.login=:login AND p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
 	private List<EntidadeLancamento> listarLancamentos(boolean previsao,String login, Date inicio, Date fim, Integer conta,
 			Integer natureza) {
 		StringBuilder sql = new StringBuilder(SQL_LANCAMENTO_PREVISAO);
