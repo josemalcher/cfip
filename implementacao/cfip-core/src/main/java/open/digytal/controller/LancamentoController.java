@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +17,10 @@ import open.digytal.model.EntidadeConta;
 import open.digytal.model.EntidadeLancamento;
 import open.digytal.model.EntidadeParcela;
 import open.digytal.model.TipoMovimento;
+import open.digytal.model.vo.Lancamento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.LancamentoRepository;
+import open.digytal.repository.NaturezaRepository;
 import open.digytal.repository.ParcelaRepository;
 import open.digytal.util.Calendario;
 
@@ -25,6 +28,8 @@ import open.digytal.util.Calendario;
 public class LancamentoController {
 	@Autowired
 	private ContaRepository contaRepository;
+	@Autowired
+	private NaturezaRepository naturezaRepository;
 	@Autowired
 	private ParcelaRepository parcelaRepository;
 	@Autowired
@@ -109,6 +114,14 @@ public class LancamentoController {
 		List<EntidadeParcela> lista = query.getResultList();
 		lista.forEach(item->item.setAmortizado(item.getValor()));
 		return lista;
+	}
+	public void incluir(Lancamento objeto) {
+		EntidadeLancamento entidade = new EntidadeLancamento();
+		BeanUtils.copyProperties(objeto, entidade);
+		BeanUtils.copyProperties(objeto.getParcelamento(), entidade.getParcelamento());
+		entidade.setConta(contaRepository.findById(objeto.getConta()).get());
+		entidade.setNatureza(naturezaRepository.findById(objeto.getNatureza()).get());
+		incluir(entidade);
 	}
 	@Transactional
 	public void incluir(EntidadeLancamento lancamento) {

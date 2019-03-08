@@ -68,8 +68,4 @@ public class Lancamento {
 	public Parcelamento getParcelamento() {
 		return parcelamento;
 	}
-	public void setParcelamento(Parcelamento parcelamento) {
-		this.parcelamento = parcelamento;
-	}
-	
 }
