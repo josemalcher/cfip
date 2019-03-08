@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -11,10 +12,11 @@ import org.springframework.stereotype.Controller;
 import open.digytal.model.Categoria;
 import open.digytal.model.EntidadeConta;
 import open.digytal.model.EntidadeNatureza;
-import open.digytal.model.TipoMovimento;
 import open.digytal.model.EntidadeUsuario;
+import open.digytal.model.TipoMovimento;
 import open.digytal.model.acesso.Role;
 import open.digytal.model.acesso.Roles;
+import open.digytal.model.vo.Usuario;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.repository.RoleRepository;
@@ -37,6 +39,12 @@ public class UsuarioController {
 	}
 	public boolean validarSenha(String senhaInformada, String senhaCriptografada) {
 		return encoder.matches(senhaInformada, senhaCriptografada);
+	}
+	public void incluir(Usuario usuario ) {
+		EntidadeUsuario entidade = new EntidadeUsuario();
+		BeanUtils.copyProperties(usuario, entidade);
+		entidade.setSenha(encoder.encode(usuario.getSenha()));
+		incluir(entidade);
 	}
 	@Transactional
     public EntidadeUsuario incluir(EntidadeUsuario usuario) {
