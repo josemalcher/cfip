@@ -20,9 +20,9 @@ public class EntidadeParcelamento {
 	private Integer primeiraParcela;
 	@Column(length=4,nullable=true)
 	private Integer ultimaParcela;
-	@Column(nullable=true)
+	@Column(nullable=false)
 	private boolean rateio;
-	@Column(nullable=true)
+	@Column(nullable=false)
 	private boolean quitado;
 	@Column(length=7,precision=2,nullable=true)
 	private Double restante;
