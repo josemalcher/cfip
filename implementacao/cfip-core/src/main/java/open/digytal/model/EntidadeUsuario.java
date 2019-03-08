@@ -14,7 +14,7 @@ import open.digytal.model.acesso.Role;
 
 @Entity
 @Table(name = "tb_usuario")
-public class Usuario {
+public class EntidadeUsuario {
 	@Id
 	@Column(length=15)
     private String login;

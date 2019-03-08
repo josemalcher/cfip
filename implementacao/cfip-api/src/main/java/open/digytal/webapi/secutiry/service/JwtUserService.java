@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import open.digytal.model.Usuario;
+import open.digytal.model.EntidadeUsuario;
 import open.digytal.repository.UsuarioRepository;
 
 
@@ -21,7 +21,7 @@ public class JwtUserService implements UserDetailsService{
 	private UsuarioRepository repository;
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Usuario user = repository.findByLogin(username);
+		EntidadeUsuario user = repository.findByLogin(username);
 		if(user == null){
 			throw new UsernameNotFoundException("Usuário não existe");
 		}
@@ -29,7 +29,7 @@ public class JwtUserService implements UserDetailsService{
 		return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getSenha(), roles);
 	}
 
-	private Set<SimpleGrantedAuthority> getAuthority(Usuario user) {
+	private Set<SimpleGrantedAuthority> getAuthority(EntidadeUsuario user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 		user.getRoles().forEach(role -> {
 			authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getNome()));

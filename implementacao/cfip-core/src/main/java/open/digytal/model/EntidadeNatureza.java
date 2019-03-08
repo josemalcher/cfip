@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="tb_natureza")
-public class Natureza implements Serializable {
+public class EntidadeNatureza implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
@@ -92,7 +92,7 @@ public class Natureza implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Natureza other = (Natureza) obj;
+		EntidadeNatureza other = (EntidadeNatureza) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

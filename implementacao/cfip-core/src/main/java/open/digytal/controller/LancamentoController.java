@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
-import open.digytal.model.Conta;
-import open.digytal.model.Lancamento;
-import open.digytal.model.Parcela;
+import open.digytal.model.EntidadeConta;
+import open.digytal.model.EntidadeLancamento;
+import open.digytal.model.EntidadeParcela;
 import open.digytal.model.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.LancamentoRepository;
@@ -37,7 +37,7 @@ public class LancamentoController {
 
 	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM Lancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
 	private final String SQL_PARCELA_FATURA = "SELECT p FROM Parcela p WHERE p.lancamento.conta.login=:login AND p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
-	private List<Lancamento> listarLancamentos(boolean previsao,String login, Date inicio, Date fim, Integer conta,
+	private List<EntidadeLancamento> listarLancamentos(boolean previsao,String login, Date inicio, Date fim, Integer conta,
 			Integer natureza) {
 		StringBuilder sql = new StringBuilder(SQL_LANCAMENTO_PREVISAO);
 		if (natureza != null && natureza > 0) {
@@ -48,7 +48,7 @@ public class LancamentoController {
 		}
 		sql = sql.append(" ORDER BY l.data");
 
-		TypedQuery<Lancamento> query = em.createQuery(sql.toString(), Lancamento.class);
+		TypedQuery<EntidadeLancamento> query = em.createQuery(sql.toString(), EntidadeLancamento.class);
 		query.setParameter("inicio", inicio);
 		query.setParameter("fim", fim);
 		query.setParameter("previsao", previsao);
@@ -59,32 +59,32 @@ public class LancamentoController {
 		if (conta != null && conta > 0)
 			query.setParameter("conta", conta);
 
-		List<Lancamento> lista = query.getResultList();
+		List<EntidadeLancamento> lista = query.getResultList();
 		if(previsao)
 			return lista;
 		else {
-			List<Lancamento> lancamentos = lista.stream()
+			List<EntidadeLancamento> lancamentos = lista.stream()
 					  .filter(l -> !l.getConta().isCartaoCredito())
 					  .collect(Collectors.toList());
 			return lancamentos;
 		}
 	}
-	public Parcela buscarParcela(Integer id) {
-		return em.find(Parcela.class, id);
+	public EntidadeParcela buscarParcela(Integer id) {
+		return em.find(EntidadeParcela.class, id);
 	}
-	public List<Lancamento> listarLancamentos(String login, Date inicio,Date fim, Integer conta, Integer natureza) {
+	public List<EntidadeLancamento> listarLancamentos(String login, Date inicio,Date fim, Integer conta, Integer natureza) {
 		return listarLancamentos(false,login, inicio, fim, conta, natureza);
 	}
-	public List<Lancamento> listarPrevisoes(String login, Date inicio,Date fim, Integer conta, Integer natureza) {
+	public List<EntidadeLancamento> listarPrevisoes(String login, Date inicio,Date fim, Integer conta, Integer natureza) {
 		return listarLancamentos(true,login, inicio, fim, conta, natureza);
 	}
-	public List<Parcela> listarParcelas(String login, Date inicio, Date fim, Integer conta,Integer natureza) {
+	public List<EntidadeParcela> listarParcelas(String login, Date inicio, Date fim, Integer conta,Integer natureza) {
 		return listarParcelas(false, login, inicio, fim, conta, natureza);
 	}
-	public List<Parcela> listarFaturas(String login, Date inicio, Date fim, Integer conta,Integer natureza) {
+	public List<EntidadeParcela> listarFaturas(String login, Date inicio, Date fim, Integer conta,Integer natureza) {
 		return listarParcelas(true, login, inicio, fim, conta, natureza);
 	}
-	private List<Parcela> listarParcelas(boolean cc,String login, Date inicio, Date fim, Integer conta,Integer natureza) {
+	private List<EntidadeParcela> listarParcelas(boolean cc,String login, Date inicio, Date fim, Integer conta,Integer natureza) {
 		StringBuilder sql = new StringBuilder(SQL_PARCELA_FATURA);
 
 		if (natureza != null && natureza > 0) {
@@ -95,7 +95,7 @@ public class LancamentoController {
 		}
 		sql = sql.append(" ORDER BY p.vencimento");
 
-		TypedQuery<Parcela> query = em.createQuery(sql.toString(), Parcela.class);
+		TypedQuery<EntidadeParcela> query = em.createQuery(sql.toString(), EntidadeParcela.class);
 		query.setParameter("inicio", inicio);
 		query.setParameter("fim", fim);
 		query.setParameter("cc", cc);
@@ -106,21 +106,21 @@ public class LancamentoController {
 		if (conta != null && conta > 0)
 			query.setParameter("conta", conta);
 
-		List<Parcela> lista = query.getResultList();
+		List<EntidadeParcela> lista = query.getResultList();
 		lista.forEach(item->item.setAmortizado(item.getValor()));
 		return lista;
 	}
 	@Transactional
-	public void incluir(Lancamento lancamento) {
+	public void incluir(EntidadeLancamento lancamento) {
 		if(lancamento.getNatureza().getTipoMovimento().isTranferencia()) {
-			Lancamento transferencia=lancamento.transferencia();
+			EntidadeLancamento transferencia=lancamento.transferencia();
 			repository.save(transferencia);
-			Conta destino = transferencia.getConta();
+			EntidadeConta destino = transferencia.getConta();
 			destino.atualizarSaldo(transferencia);
 			contaRepository.save(destino);
 			
 		}
-		Conta conta = lancamento.getConta();
+		EntidadeConta conta = lancamento.getConta();
 		conta.atualizarSaldo(lancamento);
 		contaRepository.save(conta);
 		int resto=0;
@@ -138,12 +138,12 @@ public class LancamentoController {
 		repository.save(lancamento);
 	}
 	
-	private Lancamento gerarParcelas(Lancamento lancamento, Double valorParcela, int resto){
+	private EntidadeLancamento gerarParcelas(EntidadeLancamento lancamento, Double valorParcela, int resto){
 		if(lancamento.getConta().isCartaoCredito())
 			lancamento.setPrevisao(false);
 		Date vencimento = lancamento.getParcelamento().getPrimeiroVencimento();
 		for (int numero = lancamento.getParcelamento().getPrimeiraParcela(); numero <= lancamento.getParcelamento().getUltimaParcela(); numero++) {
-			Parcela parcela = new Parcela();
+			EntidadeParcela parcela = new EntidadeParcela();
 			parcela.setLancamento(lancamento);
 			parcela.setNumero(numero);
 			parcela.setVencimento(vencimento);
@@ -154,8 +154,8 @@ public class LancamentoController {
 		return lancamento;
 	}
 	@Transactional
-	public void compensarParcela(Date data, Parcela ... parcelas) {
-		for(Parcela parcela: parcelas) {
+	public void compensarParcela(Date data, EntidadeParcela ... parcelas) {
+		for(EntidadeParcela parcela: parcelas) {
 			Double valor=parcela.getAmortizado();
 			if(valor==null)
 				valor=parcela.getValor();
@@ -163,17 +163,17 @@ public class LancamentoController {
 				valor = valor *-1;
 			valor=parcela.getLancamento().getTipoMovimento()==TipoMovimento.C?valor:valor * -1;
 			
-			Lancamento lancamento = parcela.getLancamento();
+			EntidadeLancamento lancamento = parcela.getLancamento();
 
 			parcela.setValor(parcela.getValor() - valor);
 			parcela.setCompensacao(parcela.isCompensada()?data:null);
 			parcela.setCompensada(parcela.getValor().equals(0.0d));
 			parcelaRepository.save(parcela);
 			if(!parcela.getLancamento().getConta().isCartaoCredito()) {
-				Conta conta = lancamento.getConta();
+				EntidadeConta conta = lancamento.getConta();
 				conta.setSaldoAtual(conta.getSaldoAtual() + valor);
 				contaRepository.save(conta);
-				Lancamento compensacao = lancamento.compensacao(valor,parcela.getNumero());
+				EntidadeLancamento compensacao = lancamento.compensacao(valor,parcela.getNumero());
 				repository.save(compensacao);
 			}
 			lancamento.getParcelamento().setRestante(lancamento.getParcelamento().getRestante() - valor);

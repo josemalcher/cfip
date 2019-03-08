@@ -21,7 +21,7 @@ import open.digytal.util.DataHora;
 import open.digytal.util.Formatador;
 @Entity
 @Table(name="tb_lancamento")
-public class Lancamento {
+public class EntidadeLancamento {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
@@ -32,19 +32,19 @@ public class Lancamento {
 	
 	@ManyToOne
 	@JoinColumn(name="cd_conta",nullable=false)
-	private Conta conta;
+	private EntidadeConta conta;
 	
 	@ManyToOne
 	@JoinColumn(name="cd_destino")
-	private Conta destino;
+	private EntidadeConta destino;
 	
 	@ManyToOne
 	@JoinColumn(name="cd_origem")
-	private Lancamento origem;
+	private EntidadeLancamento origem;
 	
 	@ManyToOne
 	@JoinColumn(name="cd_natureza",nullable=false)
-	private Natureza natureza;
+	private EntidadeNatureza natureza;
 	
 	@Column(nullable=false)
 	private String descricao;
@@ -63,28 +63,28 @@ public class Lancamento {
 	private boolean previsao;
 	
 	@Embedded
-	private Parcelamento parcelamento;
+	private EntidadeParcelamento parcelamento;
 	
-	public Lancamento() {
-		this.parcelamento = new Parcelamento();
+	public EntidadeLancamento() {
+		this.parcelamento = new EntidadeParcelamento();
 	}
-	public Parcelamento getParcelamento() {
+	public EntidadeParcelamento getParcelamento() {
 		return parcelamento;
 	}
 
 	public Integer getPeriodo() {
 		return periodo;
 	}
-	public Conta getConta() {
+	public EntidadeConta getConta() {
 		return conta;
 	}
-	public void setConta(Conta conta) {
+	public void setConta(EntidadeConta conta) {
 		this.conta = conta;
 	}
-	public Natureza getNatureza() {
+	public EntidadeNatureza getNatureza() {
 		return natureza;
 	}
-	public void setNatureza(Natureza natureza) {
+	public void setNatureza(EntidadeNatureza natureza) {
 		this.natureza = natureza;
 	}
 	public Date getData() {
@@ -120,17 +120,17 @@ public class Lancamento {
 	public void setPrevisao(boolean previsao) {
 		this.previsao = previsao;
 	}
-	public Conta getDestino() {
+	public EntidadeConta getDestino() {
 		return destino;
 	}
-	public void setDestino(Conta destino) {
+	public void setDestino(EntidadeConta destino) {
 		this.destino = destino;
 	}
-	public Lancamento getOrigem() {
+	public EntidadeLancamento getOrigem() {
 		return origem;
 	}
-	public Lancamento transferencia() {
-		Lancamento copia = new Lancamento();
+	public EntidadeLancamento transferencia() {
+		EntidadeLancamento copia = new EntidadeLancamento();
 		copia.setDescricao("TRANSF.DE: " + conta.getNome() + " - " + descricao);
 		copia.setTipoMovimento(TipoMovimento.C);
 		copia.setPrevisao(previsao);
@@ -142,8 +142,8 @@ public class Lancamento {
 		this.tipoMovimento=TipoMovimento.D;
 		return copia;
 	}
-	public Lancamento compensacao(Double amortizado, int parcela) {
-		Lancamento copia = new Lancamento();
+	public EntidadeLancamento compensacao(Double amortizado, int parcela) {
+		EntidadeLancamento copia = new EntidadeLancamento();
 		copia.setDescricao("COMP: " + getDescricao() + " Parc N°" + parcela + " Origem: " + this.getId());
 		copia.setPrevisao(false);
 		copia.setConta(getConta());

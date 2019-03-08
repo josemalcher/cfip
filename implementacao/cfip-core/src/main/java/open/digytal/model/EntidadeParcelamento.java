@@ -12,7 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Embeddable
-public class Parcelamento {
+public class EntidadeParcelamento {
 	@Temporal(TemporalType.DATE)
 	@Column(nullable=true,name="dt_primeiro_vencto")
 	private Date primeiroVencimento;
@@ -27,15 +27,15 @@ public class Parcelamento {
 	@Column(length=7,precision=2,nullable=true)
 	private Double restante;
 	@OneToMany(mappedBy="lancamento",cascade=CascadeType.PERSIST)
-	private List<Parcela> parcelas;
+	private List<EntidadeParcela> parcelas;
 	
-	public Parcelamento() {
-		this.parcelas=new ArrayList<Parcela>();
+	public EntidadeParcelamento() {
+		this.parcelas=new ArrayList<EntidadeParcela>();
 	}
-	public List<Parcela> getParcelas() {
+	public List<EntidadeParcela> getParcelas() {
 		return parcelas;
 	}
-	public void addParcela(Parcela parcela) {
+	public void addParcela(EntidadeParcela parcela) {
 		parcelas.add(parcela);
 	}
 	public Date getPrimeiroVencimento() {

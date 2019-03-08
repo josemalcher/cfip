@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import open.digytal.model.Conta;
-import open.digytal.model.Lancamento;
+import open.digytal.model.EntidadeConta;
+import open.digytal.model.EntidadeLancamento;
 import open.digytal.model.acesso.Roles;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Formatador;
@@ -30,7 +30,7 @@ public class ContaResource {
 	  })
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/{nome}")
-	public List<Conta> todas(@PathVariable("nome") String nome){
+	public List<EntidadeConta> todas(@PathVariable("nome") String nome){
 		if(nome==null || nome.trim().isEmpty() || nome.equals("undefined")) //undefined - swagger
 			return repository.listarTodas(JwtSession.getLogin());
 		else
@@ -38,12 +38,12 @@ public class ContaResource {
 	}
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/correntepoupanca")
-	public List<Conta> contasCorrentePoupanca(){
+	public List<EntidadeConta> contasCorrentePoupanca(){
 		return repository.listarContas(JwtSession.getLogin());
 	}
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/cartaocredito")
-	public List<Conta> contasCartaoCredito(){
+	public List<EntidadeConta> contasCartaoCredito(){
 		return repository.listarCartoesCredito(JwtSession.getLogin());
 	}
 	@ApiImplicitParams({
@@ -52,8 +52,8 @@ public class ContaResource {
 	  })
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/extrato/{id}/{dataInicio}")
-	public List<Lancamento> extrato(@PathVariable("id") Integer id, @PathVariable("dataInicio") @DateTimeFormat(pattern = Formatador.DATA_API) Date dataInicio){
-		List<Lancamento> extrato = repository.extrato(id, dataInicio);
+	public List<EntidadeLancamento> extrato(@PathVariable("id") Integer id, @PathVariable("dataInicio") @DateTimeFormat(pattern = Formatador.DATA_API) Date dataInicio){
+		List<EntidadeLancamento> extrato = repository.extrato(id, dataInicio);
 		return extrato;
 	}
 }

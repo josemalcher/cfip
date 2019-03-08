@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import open.digytal.controller.UsuarioController;
-import open.digytal.model.Usuario;
+import open.digytal.model.EntidadeUsuario;
 import open.digytal.webapi.secutiry.model.NovoUsuario;
 
 @RestController
@@ -22,7 +22,7 @@ public class UsuarioResource {
 	
 	@PostMapping
 	public void incluir(@RequestBody NovoUsuario usuario) {
-		Usuario entidade = new Usuario();
+		EntidadeUsuario entidade = new EntidadeUsuario();
 		entidade.setNome(usuario.getNome());
 		entidade.setLogin(usuario.getLogin());
 		entidade.setEmail(usuario.getEmail());

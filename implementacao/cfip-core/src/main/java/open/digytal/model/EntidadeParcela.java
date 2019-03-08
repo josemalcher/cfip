@@ -21,14 +21,14 @@ import open.digytal.util.Formatador;
 
 @Entity
 @Table(name="tb_parcela")
-public class Parcela {
+public class EntidadeParcela {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="cd_lancto")
-	private Lancamento lancamento;
+	private EntidadeLancamento lancamento;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(nullable=false)
@@ -62,10 +62,10 @@ public class Parcela {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Lancamento getLancamento() {
+	public EntidadeLancamento getLancamento() {
 		return lancamento;
 	}
-	public void setLancamento(Lancamento lancamento) {
+	public void setLancamento(EntidadeLancamento lancamento) {
 		this.lancamento = lancamento;
 	}
 	public Date getVencimento() {
