@@ -13,7 +13,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.model.Conta;
+import open.digytal.model.EntidadeConta;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.DesktopApp;
@@ -42,7 +42,7 @@ public class FrmConta extends Formulario {
 	private SSBotao cmdFechar = new SSBotao();
 	private SSBotao cmdSalvar = new SSBotao();
 	
-	private Conta entidade;
+	private EntidadeConta entidade;
 	private final SSCampoNumero txtDiaPagamento = new SSCampoNumero();
 	private final SSCampoNumero txtDiaFechamento = new SSCampoNumero();
 	
@@ -154,7 +154,7 @@ public class FrmConta extends Formulario {
 	}
 	@Override
 	public void setEntidade(Object conta) {
-		this.entidade=(Conta) conta;
+		this.entidade=(EntidadeConta) conta;
 		if(entidade==null) 
 			novo();
 		else
@@ -177,8 +177,7 @@ public class FrmConta extends Formulario {
 		}
 	}
 	private void novo() {
-		entidade = new Conta();
-		atribuir();
+		entidade = new EntidadeConta();
 	}
 	private void sair() {
 		super.cancelar();
@@ -186,7 +185,7 @@ public class FrmConta extends Formulario {
 	private void salvar() {
 		try {
 			if (entidade == null) {
-				entidade = new Conta();
+				entidade = new EntidadeConta();
 			}
 			entidade.setNome(txtNome.getText());
 			entidade.setSigla(txtSigla.getText());
@@ -206,7 +205,7 @@ public class FrmConta extends Formulario {
 			}
 			service.save(entidade);
 			
-			SSMensagem.informa("Conta registrada com sucesso!!");
+			SSMensagem.informa("EntidadeConta registrada com sucesso!!");
 			novo();
 		} catch (Exception e) {
 			e.printStackTrace();

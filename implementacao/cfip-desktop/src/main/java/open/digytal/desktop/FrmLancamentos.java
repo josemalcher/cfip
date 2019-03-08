@@ -28,9 +28,9 @@ import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.Conta;
-import open.digytal.model.Lancamento;
-import open.digytal.model.Natureza;
+import open.digytal.model.EntidadeConta;
+import open.digytal.model.EntidadeLancamento;
+import open.digytal.model.EntidadeNatureza;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
@@ -256,7 +256,7 @@ public class FrmLancamentos extends Formulario {
 
 	private void exibirDescricao() {
 		try {
-			Lancamento l = (Lancamento) grid.getLinhaSelecionada();
+			EntidadeLancamento l = (EntidadeLancamento) grid.getLinhaSelecionada();
 			if (l != null) {
 				lblDesc.setText(l.getDescricao());
 			}
@@ -285,17 +285,17 @@ public class FrmLancamentos extends Formulario {
 		abrirCadastro(null);
 	}
 
-	private void abrirCadastro(Lancamento entidade) {
+	private void abrirCadastro(EntidadeLancamento entidade) {
 		FrmLancamentoPrevisao frm = CfipDesktopApp.getBean(FrmLancamentoPrevisao.class);
 		frm.setEntidade(entidade);
 		this.exibir(frm);
 	}
 
 	private void listar() {
-		List<Lancamento> lista = new ArrayList<Lancamento>();
+		List<EntidadeLancamento> lista = new ArrayList<EntidadeLancamento>();
 		try {
-			Conta conta = (Conta) cboConta.getValue();
-			Natureza nat = (Natureza) cboNatureza.getValue();
+			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
+			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
 			Integer cId=conta==null?null:conta.getId();
 			Integer nId=nat==null?null:nat.getId();
 			lista = service.listarLancamentos(DesktopApp.getLogin(), txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId );

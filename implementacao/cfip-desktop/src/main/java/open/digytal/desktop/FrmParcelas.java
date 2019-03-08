@@ -28,10 +28,10 @@ import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.Conta;
-import open.digytal.model.Lancamento;
-import open.digytal.model.Natureza;
-import open.digytal.model.Parcela;
+import open.digytal.model.EntidadeConta;
+import open.digytal.model.EntidadeLancamento;
+import open.digytal.model.EntidadeNatureza;
+import open.digytal.model.EntidadeParcela;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
@@ -293,7 +293,7 @@ public class FrmParcelas extends Formulario {
 
 	private void exibirDescricao() {
 		try {
-			Parcela p = (Parcela) grid.getLinhaSelecionada();
+			EntidadeParcela p = (EntidadeParcela) grid.getLinhaSelecionada();
 			if (p != null) {
 				lblDesc.setText(p.getDescricao());
 			}
@@ -318,7 +318,7 @@ public class FrmParcelas extends Formulario {
 	}
 
 	private void amortizar() {
-		Parcela entidade = (Parcela) grid.getLinhaSelecionada();
+		EntidadeParcela entidade = (EntidadeParcela) grid.getLinhaSelecionada();
 		if (entidade != null) {
 			FrmAmortizar frm = CfipDesktopApp.getBean(FrmAmortizar.class);
 			frm.setId(entidade.getId());
@@ -331,7 +331,7 @@ public class FrmParcelas extends Formulario {
 
 	private void compensar() {
 
-		Parcela entidade = (Parcela) grid.getLinhaSelecionada();
+		EntidadeParcela entidade = (EntidadeParcela) grid.getLinhaSelecionada();
 		if (entidade != null) {
 			FrmCompensar frm = CfipDesktopApp.getBean(FrmCompensar.class);
 			frm.setId(entidade.getId());
@@ -357,10 +357,10 @@ public class FrmParcelas extends Formulario {
 	}
 
 	private void listar() {
-		List<Parcela> lista = new ArrayList<Parcela>();
+		List<EntidadeParcela> lista = new ArrayList<EntidadeParcela>();
 		try {
-			Conta conta = (Conta) cboConta.getValue();
-			Natureza nat = (Natureza) cboNatureza.getValue();
+			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
+			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
 			Integer cId = conta == null ? null : conta.getId();
 			Integer nId = nat == null ? null : nat.getId();
 			lista = service.listarParcelas(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, nId);

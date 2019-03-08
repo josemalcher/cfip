@@ -20,8 +20,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.Lancamento;
-import open.digytal.model.Parcela;
+import open.digytal.model.EntidadeLancamento;
+import open.digytal.model.EntidadeParcela;
 import open.digytal.model.TipoMovimento;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.Formulario;
@@ -39,7 +39,7 @@ public class FrmCompensar extends Formulario {
 	
 	private SSBotao cmdSalvar = new SSBotao();
 	private SSBotao cmdSair = new SSBotao();
-	private Parcela entidade;
+	private EntidadeParcela entidade;
 	@Autowired
 	private LancamentoController service;
 	

@@ -22,9 +22,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.Conta;
-import open.digytal.model.Lancamento;
-import open.digytal.model.Natureza;
+import open.digytal.model.EntidadeConta;
+import open.digytal.model.EntidadeLancamento;
+import open.digytal.model.EntidadeNatureza;
 import open.digytal.model.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
@@ -50,7 +50,7 @@ public class FrmLancamentoPrevisao extends Formulario {
 	
 	private SSBotao cmdSalvar = new SSBotao();
 	private SSBotao cmdSair = new SSBotao();
-	private Lancamento entidade;
+	private EntidadeLancamento entidade;
 	
 	@Autowired
 	private LancamentoController service;
@@ -227,13 +227,13 @@ public class FrmLancamentoPrevisao extends Formulario {
 		
 	}
 	private void dataVencimento() {
-		Conta conta = (Conta) cboConta.getValue();
+		EntidadeConta conta = (EntidadeConta) cboConta.getValue();
 		if(conta!=null) {
 			txtDataPrevisao.setDataHora(conta.getDataPagamento());
 		}
 	}
 	private void habilitarDestino() {
-		Natureza natureza = (Natureza) cboNatureza.getValue();
+		EntidadeNatureza natureza = (EntidadeNatureza) cboNatureza.getValue();
 		if(natureza!=null) {
 			cboDestino.setValue(null);
 			cboDestino.setEnabled(natureza!=null && natureza.getTipoMovimento().isTranferencia());
@@ -245,11 +245,11 @@ public class FrmLancamentoPrevisao extends Formulario {
 	}
 	private void salvar() {
 		try {
-			entidade = new Lancamento();
+			entidade = new EntidadeLancamento();
 			entidade.setValor(txtValor.getDouble());
-			Conta conta = (Conta) cboConta.getValue();
-			Conta destino = (Conta) cboDestino.getValue();
-			Natureza natureza = (Natureza) cboNatureza.getValue();
+			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
+			EntidadeConta destino = (EntidadeConta) cboDestino.getValue();
+			EntidadeNatureza natureza = (EntidadeNatureza) cboNatureza.getValue();
 			entidade.setConta(conta);
 			if(destino!=null)
 				entidade.setDestino(destino);
@@ -327,7 +327,7 @@ public class FrmLancamentoPrevisao extends Formulario {
 	}
 	
 	private void inicializa() {
-		entidade = new Lancamento();
+		entidade = new EntidadeLancamento();
 		txtData.requestFocus();
 		txtData.setValue(new Date());
 		txtValor.setValue(0.0d);
@@ -338,7 +338,7 @@ public class FrmLancamentoPrevisao extends Formulario {
 		super.fechar();
 	}
 	public void carregar() {
-		List<Conta> contas = contaService.listarTodas(DesktopApp.getLogin());
+		List<EntidadeConta> contas = contaService.listarTodas(DesktopApp.getLogin());
 		cboConta.setItens( contas,"nome");
 		cboDestino.setItens( contas,"nome");
 		cboNatureza.setItens( naturezaService.listarTodas(DesktopApp.getLogin()),"nomeSigla");

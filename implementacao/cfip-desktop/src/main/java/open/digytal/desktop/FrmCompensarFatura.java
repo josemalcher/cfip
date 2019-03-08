@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.Parcela;
+import open.digytal.model.EntidadeParcela;
 import open.digytal.util.Formatador;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.Formulario;
@@ -38,7 +38,7 @@ public class FrmCompensarFatura extends Formulario {
 	private SSCampoDataHora txtData = new SSCampoDataHora();
 	private SSCampoNumero txtValor = new SSCampoNumero();
 	private JTextArea txtDescricao = new JTextArea();
-	private Parcela[] selecionadas;
+	private EntidadeParcela[] selecionadas;
 	private SSBotao cmdSalvar = new SSBotao();
 	private SSBotao cmdSair = new SSBotao();
 	private Double valor=0.0;
@@ -133,10 +133,10 @@ public class FrmCompensarFatura extends Formulario {
 		}
 		
 	}
-	public void setParcelas(List<Parcela> parcelas) {
-		List<Parcela> selecionadas = parcelas.stream().filter(p -> p.isSelecionada()).collect(Collectors.toList());
+	public void setParcelas(List<EntidadeParcela> parcelas) {
+		List<EntidadeParcela> selecionadas = parcelas.stream().filter(p -> p.isSelecionada()).collect(Collectors.toList());
 		selecionadas.forEach(item->valor=valor+item.getAmortizado());
-		this.selecionadas = selecionadas.toArray(new Parcela[selecionadas.size()]);
+		this.selecionadas = selecionadas.toArray(new EntidadeParcela[selecionadas.size()]);
 		txtData.setDataHora(new Date());
 		txtValor.setRotulo("R$ FATURA");
 		txtValor.setValue(valor);

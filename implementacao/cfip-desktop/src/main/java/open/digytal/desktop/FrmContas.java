@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
-import open.digytal.model.Conta;
+import open.digytal.model.EntidadeConta;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.DesktopApp;
@@ -158,7 +158,7 @@ public class FrmContas extends Formulario {
 		super.fechar();
 	}
 	private void listar() {
-		List<Conta> lista = new ArrayList<Conta>();
+		List<EntidadeConta> lista = new ArrayList<EntidadeConta>();
 		try {
 			String nome = txtFiltro.getText();
 			if (SSValidacao.vazio(nome)) {
@@ -177,7 +177,7 @@ public class FrmContas extends Formulario {
 		}
 	}
 	private void extrato() {
-		Conta entidade= (Conta) tabela.getLinhaSelecionada();
+		EntidadeConta entidade= (EntidadeConta) tabela.getLinhaSelecionada();
 		if(entidade==null) {
 			SSMensagem.avisa("Selecione um item da lista");
 			return;
@@ -192,15 +192,15 @@ public class FrmContas extends Formulario {
 		exibirCadastro(null);
 	}
 	private void alterar() {
-		Conta entidade= (Conta) tabela.getLinhaSelecionada();
+		EntidadeConta entidade= (EntidadeConta) tabela.getLinhaSelecionada();
 		if(entidade==null) {
 			SSMensagem.avisa("Selecione um item da lista");
 			return;
 		}
 		exibirCadastro(entidade);
 	}
-	private void exibirCadastro(Conta entidade) {
-		//FrmConta frm = new FrmConta();
+	private void exibirCadastro(EntidadeConta entidade) {
+		//FrmConta frEntidadeContaew FrmConta();
 		Formulario frm = CfipDesktopApp.getBean(FrmConta.class);
 		frm.setEntidade(entidade);
 		this.exibir(frm);

@@ -29,9 +29,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.Conta;
-import open.digytal.model.Lancamento;
-import open.digytal.model.Natureza;
+import open.digytal.model.EntidadeConta;
+import open.digytal.model.EntidadeLancamento;
+import open.digytal.model.EntidadeNatureza;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
@@ -302,13 +302,13 @@ public class FrmMovimentacoes extends Formulario {
 	}
 
 	private void exibirDescLancto() {
-		Lancamento l = (Lancamento) gridLancamento.getLinhaSelecionada();
+		EntidadeLancamento l = (EntidadeLancamento) gridLancamento.getLinhaSelecionada();
 		if (l != null) {
 			lblDescLancto.setText(l.getDescricao());
 		}
 	}
 	private void exibirDescPrevisao() {
-		Lancamento l = (Lancamento) gridPrevisao.getLinhaSelecionada();
+		EntidadeLancamento l = (EntidadeLancamento) gridPrevisao.getLinhaSelecionada();
 		if (l != null) {
 			lblDescPrevisao.setText(l.getDescricao());
 		}
@@ -331,13 +331,13 @@ public class FrmMovimentacoes extends Formulario {
 	}
 
 	private void listar() {
-		List<Lancamento> lanctos = new ArrayList<Lancamento>();
-		List<Lancamento> previsoes = new ArrayList<Lancamento>();
+		List<EntidadeLancamento> lanctos = new ArrayList<EntidadeLancamento>();
+		List<EntidadeLancamento> previsoes = new ArrayList<EntidadeLancamento>();
 
 		try {
 			// lista = dao.listarOldLancamentos(getUsuarioId());
-			Conta conta = (Conta) cboConta.getValue();
-			Natureza nat = (Natureza) cboNatureza.getValue();
+			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
+			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
 			Integer cId=conta==null?0:conta.getId();
 			Integer nId=nat==null?0:nat.getId();
 			lanctos = service.listarLancamentos(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);

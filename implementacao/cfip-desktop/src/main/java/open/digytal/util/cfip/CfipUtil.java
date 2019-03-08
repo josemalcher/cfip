@@ -9,7 +9,7 @@ import open.digytal.model.TipoMovimento;
 import open.digytal.model.Total;
 
 public class CfipUtil {
-	public static Total EntidadeLancamentos(List<EntidadeLancamento> lista) {
+	public static Total lancamentos(List<EntidadeLancamento> lista) {
 		Total total = new Total();
         for (EntidadeLancamento l : lista) {
         	total.aplicar(l.getTipoMovimento() == TipoMovimento.C, l.getParcelamento().getRestante());
@@ -30,7 +30,7 @@ public class CfipUtil {
         }
         return total;
     }
-	public static Total EntidadeParcelas(List<EntidadeParcela> lista) {
+	public static Total parcelas(List<EntidadeParcela> lista) {
 		Total total = new Total();
         for (EntidadeParcela p : lista) {
         	total.aplicar(p.getLancamento().getTipoMovimento() == TipoMovimento.C, p.getValor());

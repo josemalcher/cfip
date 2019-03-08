@@ -9,7 +9,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -25,9 +24,8 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.CfipDesktopApp;
-import open.digytal.model.Conta;
-import open.digytal.model.Lancamento;
+import open.digytal.model.EntidadeConta;
+import open.digytal.model.EntidadeLancamento;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Formato;
@@ -54,7 +52,7 @@ public class FrmExtrato extends Formulario {
 	@Autowired
 	private ContaRepository service;
 	
-	private Conta conta;
+	private EntidadeConta conta;
 	private SSCampoTexto txtConta = new SSCampoTexto();
 	private SSCampoNumero txtSaldoInicial = new SSCampoNumero();
 	private JLabel lblDesc = new JLabel();
@@ -222,13 +220,13 @@ public class FrmExtrato extends Formulario {
 	}
 
 	
-	public void setConta(Conta conta) {
+	public void setConta(EntidadeConta conta) {
 		this.conta = conta;
 		listar();
 	}
 	private void exibirDescricao() {
 		try {
-			Lancamento l = (Lancamento) grid.getLinhaSelecionada();
+			EntidadeLancamento l = (EntidadeLancamento) grid.getLinhaSelecionada();
 			if (l != null) {
 				lblDesc.setText(l.getDescricao());
 			}
@@ -250,7 +248,7 @@ public class FrmExtrato extends Formulario {
 			txtSaldoAtual.setValue(conta.getSaldoAtual());
 			txtSaldoAtual.setComponenteCorFonte(conta.getSaldoAtual() < 0.0d ? Color.RED : Color.BLUE);
 			
-			List<Lancamento> lista = null;
+			List<EntidadeLancamento> lista = null;
 			try {
 				
 				lista = service.extrato(conta.getId(), conta.getDataInicial());

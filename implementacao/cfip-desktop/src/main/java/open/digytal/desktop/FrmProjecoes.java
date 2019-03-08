@@ -26,9 +26,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.Conta;
-import open.digytal.model.Lancamento;
-import open.digytal.model.Natureza;
+import open.digytal.model.EntidadeConta;
+import open.digytal.model.EntidadeLancamento;
+import open.digytal.model.EntidadeNatureza;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
@@ -285,7 +285,7 @@ public class FrmProjecoes extends Formulario {
 	}
 	private void exibirDescricao() {
 		try {
-			Lancamento l = (Lancamento) gridLancamentos.getLinhaSelecionada();
+			EntidadeLancamento l = (EntidadeLancamento) gridLancamentos.getLinhaSelecionada();
 			if (l != null) {
 				lblDesc.setText(l.getDescricao());
 			}
@@ -299,11 +299,11 @@ public class FrmProjecoes extends Formulario {
 	
 
 	private void listar() {
-		List<Lancamento> lista = new ArrayList<Lancamento>();
-		List<Conta> contas = new ArrayList<Conta>();
+		List<EntidadeLancamento> lista = new ArrayList<EntidadeLancamento>();
+		List<EntidadeConta> contas = new ArrayList<EntidadeConta>();
 		try {
-			Conta conta = (Conta) cboConta.getValue();
-			Natureza nat = (Natureza) cboNatureza.getValue();
+			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
+			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
 			Integer cId=conta==null?null:conta.getId();
 			Integer nId=nat==null?null:nat.getId();
 			

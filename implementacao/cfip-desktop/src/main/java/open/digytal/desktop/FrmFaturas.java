@@ -28,8 +28,8 @@ import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.Conta;
-import open.digytal.model.Parcela;
+import open.digytal.model.EntidadeConta;
+import open.digytal.model.EntidadeParcela;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Calendario;
@@ -73,7 +73,7 @@ public class FrmFaturas extends Formulario {
 	private SSCampoNumero txtReceitas = new SSCampoNumero();
 	private SSCampoNumero txtSaldoAtual = new SSCampoNumero();
 	//
-	private List<Parcela> lista = new ArrayList<Parcela>();
+	private List<EntidadeParcela> lista = new ArrayList<EntidadeParcela>();
 
 	public FrmFaturas() {
 		init();
@@ -256,7 +256,7 @@ public class FrmFaturas extends Formulario {
 
 	private void exibirDescricao() {
 		try {
-			Parcela p = (Parcela) grid.getLinhaSelecionada();
+			EntidadeParcela p = (EntidadeParcela) grid.getLinhaSelecionada();
 			if (p != null) {
 				lblDesc.setText(p.getDescricao());
 			}
@@ -287,7 +287,7 @@ public class FrmFaturas extends Formulario {
 	private void listar() {
 
 		try {
-			Conta conta = (Conta) cboConta.getValue();
+			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
 			Integer cId = conta == null ? null : conta.getId();
 			lista = service.listarFaturas(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, null);
 			if (lista.size() == 0)

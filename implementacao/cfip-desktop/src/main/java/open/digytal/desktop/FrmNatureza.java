@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
 import open.digytal.model.Categoria;
-import open.digytal.model.Natureza;
+import open.digytal.model.EntidadeNatureza;
 import open.digytal.model.TipoMovimento;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.desktop.DesktopApp;
@@ -33,7 +33,7 @@ import open.digytal.util.desktop.ss.SSMensagem;
 public class FrmNatureza extends Formulario {
 	@Autowired
 	private NaturezaRepository service;
-	private Natureza entidade;
+	private EntidadeNatureza entidade;
 	
 	private SSCampoTexto txtNome = new SSCampoTexto();
 	private SSBotao cmdSalvar = new SSBotao();
@@ -116,7 +116,7 @@ public class FrmNatureza extends Formulario {
 	}
 	//public void setEntidade(NaturezaService entidade) {
 	public void setEntidade(Object entidade) {
-		this.entidade = (Natureza) entidade;
+		this.entidade = (EntidadeNatureza) entidade;
 		if (entidade != null)
 			atribuir();
 		else
@@ -135,7 +135,7 @@ public class FrmNatureza extends Formulario {
 		}
 	}
 	private void criar() {
-		entidade = new Natureza();
+		entidade = new EntidadeNatureza();
 		atribuir();
 	}
 	private void salvar() {

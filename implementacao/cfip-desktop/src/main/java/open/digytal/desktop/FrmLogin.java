@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
 import open.digytal.controller.UsuarioController;
-import open.digytal.model.Usuario;
+import open.digytal.model.EntidadeUsuario;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Login;
 import open.digytal.util.desktop.ss.SSMensagem;
@@ -30,7 +30,7 @@ public class FrmLogin extends Login {
 
 	private void logarAction() {
 		try {
-			Usuario usuario = service.findByLogin(getLogin());
+			EntidadeUsuario usuario = service.findByLogin(getLogin());
 			if (usuario==null) {
 				SSMensagem.avisa("Usuário não localizado");
 				FrmUsuario frm = CfipDesktopApp.getBean(FrmUsuario.class);
