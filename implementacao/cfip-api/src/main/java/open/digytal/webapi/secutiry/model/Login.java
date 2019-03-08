@@ -1,6 +1,6 @@
-package open.digytal.webapi.secutiry;
+package open.digytal.webapi.secutiry.model;
 
-public class JwtLogin {
+public class Login {
     private String username;
     private String password;
     public String getUsername() {

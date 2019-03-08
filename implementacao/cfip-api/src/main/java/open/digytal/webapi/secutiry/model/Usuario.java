@@ -1,6 +1,6 @@
 package open.digytal.webapi.secutiry.model;
 
-public class NovoUsuario {
+public class Usuario {
 	private String login;
 	private String senha;
 	private String nome;

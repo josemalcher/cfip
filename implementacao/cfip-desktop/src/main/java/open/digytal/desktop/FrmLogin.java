@@ -12,12 +12,12 @@ import open.digytal.CfipDesktopApp;
 import open.digytal.controller.UsuarioController;
 import open.digytal.model.EntidadeUsuario;
 import open.digytal.util.desktop.DesktopApp;
-import open.digytal.util.desktop.Login;
+import open.digytal.util.desktop.LoginPanel;
 import open.digytal.util.desktop.ss.SSMensagem;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class FrmLogin extends Login {
+public class FrmLogin extends LoginPanel {
 	@Autowired
 	private UsuarioController service;
 	public FrmLogin() {

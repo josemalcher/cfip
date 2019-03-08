@@ -19,15 +19,14 @@ import open.digytal.util.desktop.ss.SSCabecalho;
 import open.digytal.util.desktop.ss.SSCampoSenha;
 import open.digytal.util.desktop.ss.SSCampoTexto;
 
-public class Login extends JFrame {
-
+public class LoginPanel extends JFrame {
     private JPanel pnlLogin = new JPanel();
     private SSBotao btOk = new SSBotao();
     private SSBotao btSair = new SSBotao();
     private SSCampoTexto txtLogin = new SSCampoTexto();
     private SSCampoSenha txtSenha = new SSCampoSenha();
 
-    public Login() {
+    public LoginPanel() {
        // this.setIconImage(Imagem.pngImage("app"));
     	setTitle("LOGIN");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
