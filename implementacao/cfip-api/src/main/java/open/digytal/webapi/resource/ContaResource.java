@@ -8,8 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -20,8 +18,8 @@ import open.digytal.repository.ContaRepository;
 import open.digytal.util.Formatador;
 import open.digytal.webapi.secutiry.JwtSession;
 
-@RestController
-@RequestMapping("/contas")
+//@RestController
+//@RequestMapping("/contas")
 public class ContaResource {
 	@Autowired
 	private ContaRepository repository;
