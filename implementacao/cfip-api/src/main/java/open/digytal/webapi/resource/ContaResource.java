@@ -56,4 +56,8 @@ public class ContaResource {
 		List<EntidadeLancamento> extrato = repository.extrato(id, dataInicio);
 		return extrato;
 	}
+	@GetMapping(value="/teste")
+	public List<EntidadeConta> teste(){
+		return repository.listarTodas("gso");
+	}
 }

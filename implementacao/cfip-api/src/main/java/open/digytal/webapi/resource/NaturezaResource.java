@@ -17,7 +17,7 @@ import open.digytal.repository.NaturezaRepository;
 import open.digytal.webapi.secutiry.JwtSession;
 
 @RestController
-@RequestMapping("/contas")
+@RequestMapping("/naturezas")
 public class NaturezaResource {
 	@Autowired
 	private NaturezaRepository repository;

@@ -12,7 +12,7 @@
   <body>
     <div id="app">
 		{{ message }}
-		{{ info.data }}
+		{{ info}}
 	</div>
 	<script>
 		var app = new Vue({
@@ -22,15 +22,19 @@
 			info: null
 		  },
 		  mounted () {
-		axios
-			.get('http://www.boxsolutions.com.br/cfip-web-api/contas/undefined',{
+			axios.get('http://localhost:8080/contas/teste').then(response => (this.info = response))
+		}
+		})
+		
+		/*.get('http://localhost:8080/contas/teste',{
 				headers: {
 			Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnc28iLCJzY29wZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE1NTE5OTIyOTIsImV4cCI6MTU1MjAxMDI5Mn0.q7_5AouaQSg4eYpPjcaEiECkYkXMwTVd5vo4TuwQ6xo'
 			}
 			}).then(response => (this.info = response))
-		}
-		})
+			*/
 	</script>
   </body>
   
 </html>
+
+
