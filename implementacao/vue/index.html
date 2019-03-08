@@ -22,16 +22,16 @@
 			info: null
 		  },
 		  mounted () {
-			axios.get('http://localhost:8080/contas/teste').then(response => (this.info = response))
-		}
-		})
-		
-		/*.get('http://localhost:8080/contas/teste',{
+			//axios.get('http://localhost:8080/contas/teste').then(response => (this.info = response))
+			
+			axios.get('http://localhost:8080/contas/CORR',{
 				headers: {
-			Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnc28iLCJzY29wZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE1NTE5OTIyOTIsImV4cCI6MTU1MjAxMDI5Mn0.q7_5AouaQSg4eYpPjcaEiECkYkXMwTVd5vo4TuwQ6xo'
+			Authorization: ''
 			}
 			}).then(response => (this.info = response))
-			*/
+			
+			}
+		})
 	</script>
   </body>
   
