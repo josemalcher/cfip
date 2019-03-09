@@ -2,11 +2,9 @@ package open.digytal.model.acesso;
 
 public class Usuario {
 	private String login;
-	private String senha;
 	private String nome;
 	private String email;
-	
-	
+	private String senha;
 	public Usuario(String login, String nome, String email,String senha) {
 		super();
 		this.login = login;

@@ -6,5 +6,5 @@ import open.digytal.model.acesso.Usuario;
 import open.digytal.util.Filtro;
 
 public interface UsuarioService extends Services<Usuario> {
-	public List<Usuario> listar(Filtro... filtros);
+	
 }
