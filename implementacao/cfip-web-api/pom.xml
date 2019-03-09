@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>open.digytal</groupId>
-	<artifactId>cfip-api</artifactId>
+	<artifactId>cfip-web-api</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
