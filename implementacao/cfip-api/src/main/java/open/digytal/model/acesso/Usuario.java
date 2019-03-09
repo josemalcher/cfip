@@ -1,4 +1,4 @@
-package open.digytal.webapi.secutiry.model;
+package open.digytal.model.acesso;
 
 public class Usuario {
 	private String login;

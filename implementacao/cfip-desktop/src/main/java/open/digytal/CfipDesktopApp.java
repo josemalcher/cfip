@@ -10,8 +10,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import open.digytal.controller.LancamentoController;
+import open.digytal.model.Lancamento;
 import open.digytal.model.TipoMovimento;
-import open.digytal.model.vo.Lancamento;
 import open.digytal.util.desktop.LoginPanel;
 
 @SpringBootApplication

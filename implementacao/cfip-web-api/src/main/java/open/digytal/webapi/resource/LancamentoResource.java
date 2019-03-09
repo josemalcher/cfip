@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.vo.Lancamento;
+import open.digytal.model.Lancamento;
 
 @RestController
 @RequestMapping("/lancamentos")

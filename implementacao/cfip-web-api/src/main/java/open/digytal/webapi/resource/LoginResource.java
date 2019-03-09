@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import open.digytal.model.vo.Login;
+import open.digytal.model.acesso.Login;
 import open.digytal.webapi.secutiry.JwtToken;
 import open.digytal.webapi.secutiry.JwtTokenProvider;
 
