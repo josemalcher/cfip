@@ -9,17 +9,20 @@ import javax.persistence.PersistenceContext;
 import open.digytal.service.Services;
 import open.digytal.util.Filtro;
 
-public class Controllers<T> implements Services<T> {
+public abstract class  Controllers<T> implements Services<T>  {
 	@PersistenceContext
 	private EntityManager em;
 	private Class entityClass;
-
 	public Controllers() {
-		ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-		this.entityClass = (Class<T>) genericSuperclass.getActualTypeArguments()[0];
+		this.entityClass = (Class<T>) ((ParameterizedType) 
+			      getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
+	
+	/*public Controllers(Class entityClass) {
+		this.entityClass=entityClass;
+	}*/
 
-	@Override
+	//@Override
 	public <T> List<T> listar(Filtro... filtros) {
 		System.out.println(entityClass);
 		return null;

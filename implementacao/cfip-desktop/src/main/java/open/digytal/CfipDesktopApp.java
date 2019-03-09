@@ -10,9 +10,11 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import open.digytal.controller.LancamentoController;
+import open.digytal.controller.UsuarioGController;
 import open.digytal.model.Lancamento;
 import open.digytal.model.TipoMovimento;
-import open.digytal.util.desktop.LoginPanel;
+import open.digytal.service.UsuarioService;
+import open.digytal.util.Filtros;
 
 @SpringBootApplication
 public class CfipDesktopApp {
@@ -35,9 +37,15 @@ public class CfipDesktopApp {
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(CfipDesktopApp.class);
 		builder.headless(false);
 		contexto = builder.run(args);
-		LoginPanel login = CfipDesktopApp.getBean(LoginPanel.class);
+		generic();
+		/*LoginPanel login = CfipDesktopApp.getBean(LoginPanel.class);
 		login.exibir();
-		//incluirLancamento();
+		*///incluirLancamento();
+	}
+	private static void generic() {
+		UsuarioService service = contexto.getBean(UsuarioService.class);
+		service.listar(Filtros.onde("A", "A"));
+		System.exit(0);;
 	}
 	private static void incluirLancamento() {
 		Lancamento objeto = new Lancamento();
