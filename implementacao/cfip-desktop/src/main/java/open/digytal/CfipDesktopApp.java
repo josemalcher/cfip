@@ -1,7 +1,6 @@
 ﻿package open.digytal;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 import javax.swing.UIManager;
@@ -11,12 +10,10 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import open.digytal.controller.LancamentoController;
-import open.digytal.controller.UsuarioGController;
 import open.digytal.model.Lancamento;
 import open.digytal.model.TipoMovimento;
 import open.digytal.model.acesso.Usuario;
 import open.digytal.service.UsuarioService;
-import open.digytal.util.Filtros;
 
 @SpringBootApplication
 public class CfipDesktopApp {
@@ -46,7 +43,16 @@ public class CfipDesktopApp {
 	}
 	private static void generic() {
 		UsuarioService service = contexto.getBean(UsuarioService.class);
-		List<Usuario> lista= service.listar(Filtros.onde("login", "gso"));
+		//List<Usuario> lista= service.listar(Filtros.onde("login", "gso"));
+		Usuario user = service.buscar("login");
+		if(user==null) {
+			user = new Usuario();
+			user.setLogin("gso");
+			user.setSenha("gso");
+			user.setEmail("gso@gso.com.br");
+			user.setNome("GLEYSON SAMPAIO");
+			service.incluir(user);
+		}
 		System.exit(0);;
 	}
 	private static void incluirLancamento() {

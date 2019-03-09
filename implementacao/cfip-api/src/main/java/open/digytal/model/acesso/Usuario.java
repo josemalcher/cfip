@@ -1,10 +1,13 @@
 package open.digytal.model.acesso;
 
 public class Usuario {
-	private String login;
-	private String nome;
-	private String email;
-	private String senha;
+	protected String login;
+	protected String nome;
+	protected String email;
+	protected String senha;
+	public Usuario() {
+		
+	}
 	public Usuario(String login, String nome, String email,String senha) {
 		super();
 		this.login = login;
