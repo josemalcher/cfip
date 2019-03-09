@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import open.digytal.model.acesso.Role;
+import open.digytal.model.acesso.EntidadeRole;
 
 @Entity
 @Table(name = "tb_usuario")
@@ -26,12 +26,12 @@ public class EntidadeUsuario {
     private String email;
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "tb_user_roles", joinColumns = @JoinColumn(name = "login",nullable=false), inverseJoinColumns = @JoinColumn(name = "nome",nullable=false))
-	private Set<Role> roles = new HashSet<>();
+	private Set<EntidadeRole> roles = new HashSet<>();
 	
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(Set<EntidadeRole> roles) {
 		this.roles = roles;
 	}
-	public Set<Role> getRoles() {
+	public Set<EntidadeRole> getRoles() {
 		return roles;
 	}
 	public String getLogin() {

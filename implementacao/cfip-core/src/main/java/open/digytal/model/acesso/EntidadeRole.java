@@ -4,14 +4,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_role")
-public class Role {
+public class EntidadeRole {
 	@Id
 	@Column(length = 20)
 	private String nome;
-	public Role() {
+	public EntidadeRole() {
 
 	}
-	public Role(String nome) {
+	public EntidadeRole(String nome) {
 		this.nome = nome;
 	}
 

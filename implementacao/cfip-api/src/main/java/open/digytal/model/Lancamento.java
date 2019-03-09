@@ -1,4 +1,4 @@
-package open.digytal.model.vo;
+package open.digytal.model;
 
 import java.util.Date;
 

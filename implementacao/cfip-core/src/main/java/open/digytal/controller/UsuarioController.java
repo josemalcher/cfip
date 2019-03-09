@@ -14,9 +14,9 @@ import open.digytal.model.EntidadeConta;
 import open.digytal.model.EntidadeNatureza;
 import open.digytal.model.EntidadeUsuario;
 import open.digytal.model.TipoMovimento;
-import open.digytal.model.acesso.Role;
+import open.digytal.model.Usuario;
+import open.digytal.model.acesso.EntidadeRole;
 import open.digytal.model.acesso.Roles;
-import open.digytal.model.vo.Usuario;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.repository.RoleRepository;
@@ -48,11 +48,11 @@ public class UsuarioController {
 	}
 	@Transactional
     public EntidadeUsuario incluir(EntidadeUsuario usuario) {
-		Role roleUser = null;
+		EntidadeRole roleUser = null;
 		for(Roles r: Roles.values()) {
-        	Role role = roleRepository.findByNome(r.name());
+        	EntidadeRole role = roleRepository.findByNome(r.name());
         	if(role==null) {
-    			role = new Role(r.name());
+    			role = new EntidadeRole(r.name());
     			role=roleRepository.save(role);
     			if(r==Roles.USER)
     				roleUser=role;
