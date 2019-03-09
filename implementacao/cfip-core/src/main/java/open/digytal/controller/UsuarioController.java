@@ -21,9 +21,11 @@ import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.repository.RoleRepository;
 import open.digytal.repository.UsuarioRepository;
+import open.digytal.repository.persistence.Controllers;
+import open.digytal.service.UsuarioService;
 
 @Controller
-public class UsuarioController {
+public class UsuarioController extends Controllers<Usuario> implements UsuarioService {
 	@Autowired
 	private UsuarioRepository repository;
 	@Autowired
@@ -40,7 +42,8 @@ public class UsuarioController {
 	public boolean validarSenha(String senhaInformada, String senhaCriptografada) {
 		return encoder.matches(senhaInformada, senhaCriptografada);
 	}
-	public void incluir(Usuario usuario ) {
+	@Override
+	public Usuario incluir(Usuario usuario ) {
 		EntidadeUsuario entidade = new EntidadeUsuario();
 		BeanUtils.copyProperties(usuario, entidade);
 		entidade.setSenha(encoder.encode(usuario.getSenha()));

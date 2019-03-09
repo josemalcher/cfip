@@ -17,17 +17,29 @@ public abstract class Controllers<T> implements Services<T> {
 	@PersistenceContext
 	protected EntityManager em;
 	private Class<T> classe;
-	private String entidade;
+	private Class<T> entidade;
 
 	public Controllers() {
-		this.classe = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-		this.entidade = classe.getPackage().getName() + ".Entidade"+classe.getSimpleName();
+		try {
+			this.classe = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+			this.entidade =  (Class<T>) Class.forName(classe.getPackage().getName() + ".Entidade"+classe.getSimpleName());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
-	
+	@Override
+	public <T> T buscar(Object id) {
+		return (T) em.find(getEntidade(), id);
+	}
+	@Override
+	public <T> T incluir(T entidade) {
+		em.persist(entidade);
+		return null;
+	}
 	public Class<T> getClasse() {
 		return classe;
 	}
-	public String getEntidade() {
+	public Class<T> getEntidade() {
 		return entidade;
 	}
 	
@@ -46,9 +58,11 @@ public abstract class Controllers<T> implements Services<T> {
 		sb.append(getClasse().getName());
 		sb.append(fields());
 		sb.append("FROM ");
-		sb.append(getEntidade() + " e ");
+		sb.append(getEntidade().getName() + " e ");
 		Query query = em.createQuery(sb.toString());
 		return query.getResultList();
 	}
+	
+	
 
 }
