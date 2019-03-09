@@ -42,13 +42,12 @@ public class UsuarioController extends Controllers<Usuario> implements UsuarioSe
 	public boolean validarSenha(String senhaInformada, String senhaCriptografada) {
 		return encoder.matches(senhaInformada, senhaCriptografada);
 	}
-	@Override
-	public Usuario incluir(Usuario usuario ) {
-		EntidadeUsuario entidade = new EntidadeUsuario();
-		BeanUtils.copyProperties(usuario, entidade);
-		entidade.setSenha(encoder.encode(usuario.getSenha()));
-		incluir(entidade);
+	@Transactional
+	public void incluir(Usuario usuario ) {
+		usuario.setSenha(encoder.encode(usuario.getSenha()));
+		incluirVo(usuario);
 	}
+	
 	@Transactional
     public EntidadeUsuario incluir(EntidadeUsuario usuario) {
 		EntidadeRole roleUser = null;

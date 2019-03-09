@@ -8,8 +8,10 @@ import java.util.StringJoiner;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
-import open.digytal.model.acesso.Usuario;
+import org.springframework.beans.BeanUtils;
+
 import open.digytal.service.Services;
 import open.digytal.util.Filtro;
 
@@ -31,9 +33,16 @@ public abstract class Controllers<T> implements Services<T> {
 	public <T> T buscar(Object id) {
 		return (T) em.find(getEntidade(), id);
 	}
+	@Transactional
 	@Override
-	public <T> T incluir(T entidade) {
-		em.persist(entidade);
+	public <T> T incluirVo(T classe) {
+		try {
+			Object entity = entidade.newInstance();
+			BeanUtils.copyProperties(classe, entity);
+			em.persist(entity);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	public Class<T> getClasse() {
