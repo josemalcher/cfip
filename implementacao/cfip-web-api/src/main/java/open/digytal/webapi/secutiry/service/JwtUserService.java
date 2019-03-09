@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import open.digytal.model.EntidadeUsuario;
+import open.digytal.model.acesso.EntidadeUsuario;
 import open.digytal.repository.UsuarioRepository;
 
 
