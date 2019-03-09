@@ -33,18 +33,13 @@ public abstract class Controllers<T> implements Services<T> {
 	public <T> T buscar(Object id) {
 		return (T) em.find(getEntidade(), id);
 	}
-	@Transactional
-	@Override
-	public <T> T incluirVo(T classe) {
-		try {
-			Object entity = entidade.newInstance();
-			BeanUtils.copyProperties(classe, entity);
-			em.persist(entity);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+
+	/*
+	 * @Transactional public <T> T incluirVo(T classe) { try { Object entity =
+	 * entidade.newInstance(); BeanUtils.copyProperties(classe, entity);
+	 * em.persist(entity); } catch (Exception e) { e.printStackTrace(); } return
+	 * null; }
+	 */
 	public Class<T> getClasse() {
 		return classe;
 	}
