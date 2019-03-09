@@ -21,8 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import open.digytal.controller.UsuarioController;
-import open.digytal.model.EntidadeUsuario;
-import open.digytal.repository.ContaRepository;
+import open.digytal.model.acesso.EntidadeUsuario;
 import open.digytal.util.Imagem;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCabecalho;

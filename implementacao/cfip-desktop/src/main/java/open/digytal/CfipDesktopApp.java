@@ -44,7 +44,7 @@ public class CfipDesktopApp {
 	}
 	private static void generic() {
 		UsuarioService service = contexto.getBean(UsuarioService.class);
-		service.listar(Filtros.onde("A", "A"));
+		service.listar(Filtros.onde("login", "gso"));
 		System.exit(0);;
 	}
 	private static void incluirLancamento() {

@@ -5,5 +5,6 @@ import java.util.List;
 import open.digytal.util.Filtro;
 
 public interface Services <T> {
-	<T> List<T> listar( Filtro... filtros) ;
+	List<T> listar( List<Filtro> filtros) ;
+	List<T> listar( Filtro... filtros) ;
 }

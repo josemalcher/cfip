@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
 import open.digytal.controller.UsuarioController;
-import open.digytal.model.EntidadeUsuario;
+import open.digytal.model.acesso.EntidadeUsuario;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.LoginPanel;
 import open.digytal.util.desktop.ss.SSMensagem;
