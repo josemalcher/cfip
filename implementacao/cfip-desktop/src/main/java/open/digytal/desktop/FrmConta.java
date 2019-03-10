@@ -205,8 +205,10 @@ public class FrmConta extends Formulario {
 			if(entidade.getId()==null) {
 				entidade.setSaldoAtual(entidade.getSaldoInicial());
 			}
-			service.incluir(entidade);
-			
+			if(entidade.getId()==null)
+				service.incluir(entidade);
+			else
+				service.alterar(entidade);
 			SSMensagem.informa("Conta registrada com sucesso!!");
 			novo();
 		} catch (Exception e) {

@@ -311,7 +311,7 @@ public class FrmProjecoes extends Formulario {
 			if(cId==null)
 				contas = contaService.listarContas(DesktopApp.getLogin());
 			else
-				contas = contaService.listar(cId);
+				//contas = contaService.listar(cId);
 			gridContas.setValue(contas);
 			gridLancamentos.setValue(lista);
 			totalLancamentos = CfipUtil.previsoes(lista);

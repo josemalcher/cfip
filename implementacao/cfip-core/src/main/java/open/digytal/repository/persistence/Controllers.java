@@ -38,6 +38,11 @@ public abstract class Controllers<T> implements Services<T> {
 	}
 	@Override
 	@Transactional
+	public <T> T alterar(T entidade) {
+		return (T) em.merge(entidade);
+	}
+	@Override
+	@Transactional
 	public <T> T incluir(T classe){
 		Object instancia=null;
 		try {

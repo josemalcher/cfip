@@ -212,9 +212,10 @@ public class FrmLancamentoTransferencia extends Formulario {
 	}
 
 	public void carregar() {
-		List<EntidadeConta> contas = contaService.listarTodas(DesktopApp.getLogin());
-		cboConta.setItens(contas, "nome");
-		cboDestino.setItens(contas, "nome");
+		/*
+		 * List<EntidadeConta> contas = contaService.listarTodas(DesktopApp.getLogin());
+		 * cboConta.setItens(contas, "nome"); cboDestino.setItens(contas, "nome");
+		 */
 		cboNatureza.setItens(naturezaService.listar(DesktopApp.getLogin(),TipoMovimento.T), "nomeSigla");
 
 	}
