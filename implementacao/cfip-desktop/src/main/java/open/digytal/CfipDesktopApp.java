@@ -17,6 +17,8 @@ import open.digytal.model.TipoMovimento;
 import open.digytal.model.acesso.Usuario;
 import open.digytal.service.UsuarioService;
 import open.digytal.util.Filtros;
+import open.digytal.util.desktop.DesktopApp;
+import open.digytal.util.desktop.LoginPanel;
 
 @SpringBootApplication
 public class CfipDesktopApp {
@@ -26,25 +28,30 @@ public class CfipDesktopApp {
 		try {
 			String lf = UIManager.getSystemLookAndFeelClassName();
 			UIManager.setLookAndFeel(lf);
-			init(args);
+			initApp(args);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
 		}
 	}
 
-	private static void init(String[] args) {
+	private static void initMain(String[] args) {
 		base();
-		//DesktopApp.exibirSplash();
+		SpringApplicationBuilder builder = new SpringApplicationBuilder(CfipDesktopApp.class);
+		contexto = builder.run(args);
+		persistencia();
+	}
+	private static void initApp(String[] args) {
+		base();
+		DesktopApp.exibirSplash();
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(CfipDesktopApp.class);
 		builder.headless(false);
 		contexto = builder.run(args);
-		generic();
-		/*LoginPanel login = CfipDesktopApp.getBean(LoginPanel.class);
+		LoginPanel login = CfipDesktopApp.getBean(LoginPanel.class);
 		login.exibir();
-		*///incluirLancamento();
+		
 	}
-	private static void generic() {
+	private static void persistencia() {
 		UsuarioService service = contexto.getBean(UsuarioService.class);
 		Usuario user = service.buscar("teste");
 		if(user==null) {

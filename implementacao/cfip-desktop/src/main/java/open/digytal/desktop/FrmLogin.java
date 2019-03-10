@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
-import open.digytal.controller.UsuarioController;
-import open.digytal.model.acesso.EntidadeUsuario;
+import open.digytal.model.acesso.Usuario;
+import open.digytal.service.UsuarioService;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.LoginPanel;
 import open.digytal.util.desktop.ss.SSMensagem;
@@ -19,7 +19,7 @@ import open.digytal.util.desktop.ss.SSMensagem;
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FrmLogin extends LoginPanel {
 	@Autowired
-	private UsuarioController service;
+	private UsuarioService service;
 	public FrmLogin() {
 		super.logar(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -30,7 +30,7 @@ public class FrmLogin extends LoginPanel {
 
 	private void logarAction() {
 		try {
-			EntidadeUsuario usuario = service.findByLogin(getLogin());
+			Usuario usuario = service.buscar(getLogin());
 			if (usuario==null) {
 				SSMensagem.avisa("Usuário não localizado");
 				FrmUsuario frm = CfipDesktopApp.getBean(FrmUsuario.class);

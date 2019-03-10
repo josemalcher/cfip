@@ -20,8 +20,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import open.digytal.controller.UsuarioController;
 import open.digytal.model.acesso.EntidadeUsuario;
+import open.digytal.model.acesso.Usuario;
+import open.digytal.service.UsuarioService;
 import open.digytal.util.Imagem;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCabecalho;
@@ -39,11 +40,9 @@ public class FrmUsuario extends JFrame { //extends FrmPerfil {
     private SSCampoSenha txtSenha = new SSCampoSenha();
     private final SSCampoTexto txtNome = new SSCampoTexto();
     private final SSCampoSenha txtRepeteSenha = new SSCampoSenha();
-    private EntidadeUsuario usuario;
+    private Usuario usuario;
     @Autowired
-    private UsuarioController service;
-    @Autowired
-	private PasswordEncoder encoder;
+    private UsuarioService service;
     public FrmUsuario() {
         init();
     }
@@ -178,7 +177,7 @@ public class FrmUsuario extends JFrame { //extends FrmPerfil {
             usuario = new EntidadeUsuario();
             usuario.setEmail(txtEmail.getText());
             usuario.setNome(txtNome.getText());
-            usuario.setSenha(encoder.encode(txtSenha.getText()));
+            usuario.setSenha(txtSenha.getText());
             usuario.setLogin(txtLogin.getText());
             service.incluir(usuario);
             SSMensagem.informa("Usuario registrado com sucesso\nAcesse o sistema");
