@@ -30,7 +30,7 @@ import open.digytal.CfipDesktopApp;
 import open.digytal.controller.LancamentoController;
 import open.digytal.model.EntidadeConta;
 import open.digytal.model.EntidadeLancamento;
-import open.digytal.model.EntidadeNatureza;
+import open.digytal.model.Natureza;
 import open.digytal.model.EntidadeParcela;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
@@ -360,7 +360,7 @@ public class FrmParcelas extends Formulario {
 		List<EntidadeParcela> lista = new ArrayList<EntidadeParcela>();
 		try {
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
-			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
+			Natureza nat = (Natureza) cboNatureza.getValue();
 			Integer cId = conta == null ? null : conta.getId();
 			Integer nId = nat == null ? null : nat.getId();
 			lista = service.listarParcelas(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, nId);

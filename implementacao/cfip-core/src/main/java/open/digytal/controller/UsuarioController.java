@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import open.digytal.model.Categoria;
 import open.digytal.model.EntidadeConta;
 import open.digytal.model.EntidadeNatureza;
+import open.digytal.model.Natureza;
 import open.digytal.model.TipoMovimento;
 import open.digytal.model.acesso.EntidadeRole;
 import open.digytal.model.acesso.EntidadeUsuario;

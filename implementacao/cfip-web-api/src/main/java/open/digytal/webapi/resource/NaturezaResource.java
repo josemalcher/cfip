@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import open.digytal.model.EntidadeNatureza;
+import open.digytal.model.Natureza;
 import open.digytal.model.acesso.Roles;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.webapi.secutiry.JwtSession;
@@ -26,7 +26,7 @@ public class NaturezaResource {
 	  })
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/{nome}")
-	public List<EntidadeNatureza> todas(@PathVariable("nome") String nome){
+	public List<Natureza> todas(@PathVariable("nome") String nome){
 		if(nome==null || nome.trim().isEmpty() || nome.equals("undefined")) //undefined - swagger
 			return repository.listarTodas(JwtSession.getLogin());
 		else

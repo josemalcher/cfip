@@ -26,9 +26,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.controller.LancamentoController;
+import open.digytal.model.Conta;
 import open.digytal.model.EntidadeConta;
 import open.digytal.model.EntidadeLancamento;
-import open.digytal.model.EntidadeNatureza;
+import open.digytal.model.Natureza;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
@@ -300,10 +301,10 @@ public class FrmProjecoes extends Formulario {
 
 	private void listar() {
 		List<EntidadeLancamento> lista = new ArrayList<EntidadeLancamento>();
-		List<EntidadeConta> contas = new ArrayList<EntidadeConta>();
+		List<Conta> contas = new ArrayList<Conta>();
 		try {
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
-			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
+			Natureza nat = (Natureza) cboNatureza.getValue();
 			Integer cId=conta==null?null:conta.getId();
 			Integer nId=nat==null?null:nat.getId();
 			
@@ -311,7 +312,7 @@ public class FrmProjecoes extends Formulario {
 			if(cId==null)
 				contas = contaService.listarContas(DesktopApp.getLogin());
 			else
-				//contas = contaService.listar(cId);
+				contas = contaService.listar(cId);
 			gridContas.setValue(contas);
 			gridLancamentos.setValue(lista);
 			totalLancamentos = CfipUtil.previsoes(lista);

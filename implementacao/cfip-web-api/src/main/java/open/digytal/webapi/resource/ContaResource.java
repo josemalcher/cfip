@@ -8,18 +8,20 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import open.digytal.model.EntidadeConta;
+import open.digytal.model.Conta;
 import open.digytal.model.EntidadeLancamento;
 import open.digytal.model.acesso.Roles;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Formatador;
 import open.digytal.webapi.secutiry.JwtSession;
 
-//@RestController
-//@RequestMapping("/contas")
+@RestController
+@RequestMapping("/contas")
 public class ContaResource {
 	@Autowired
 	private ContaRepository repository;
@@ -28,7 +30,7 @@ public class ContaResource {
 	  })
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/{nome}")
-	public List<EntidadeConta> todas(@PathVariable("nome") String nome){
+	public List<Conta> todas(@PathVariable("nome") String nome){
 		if(nome==null || nome.trim().isEmpty() || nome.equals("undefined")) //undefined - swagger
 			return repository.listarTodas(JwtSession.getLogin());
 		else
@@ -36,12 +38,12 @@ public class ContaResource {
 	}
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/correntepoupanca")
-	public List<EntidadeConta> contasCorrentePoupanca(){
+	public List<Conta> contasCorrentePoupanca(){
 		return repository.listarContas(JwtSession.getLogin());
 	}
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/cartaocredito")
-	public List<EntidadeConta> contasCartaoCredito(){
+	public List<Conta> contasCartaoCredito(){
 		return repository.listarCartoesCredito(JwtSession.getLogin());
 	}
 	@ApiImplicitParams({
@@ -55,7 +57,7 @@ public class ContaResource {
 		return extrato;
 	}
 	@GetMapping(value="/teste")
-	public List<EntidadeConta> teste(){
+	public List<Conta> teste(){
 		return repository.listarTodas("gso");
 	}
 }

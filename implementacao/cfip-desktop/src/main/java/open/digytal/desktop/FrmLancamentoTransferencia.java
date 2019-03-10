@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 import open.digytal.controller.LancamentoController;
 import open.digytal.model.EntidadeConta;
 import open.digytal.model.EntidadeLancamento;
-import open.digytal.model.EntidadeNatureza;
+import open.digytal.model.Natureza;
 import open.digytal.model.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
@@ -159,7 +159,7 @@ public class FrmLancamentoTransferencia extends Formulario {
 			entidade.setDescricao(txtDescricao.getText());
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
 			EntidadeConta destino = (EntidadeConta) cboDestino.getValue();
-			EntidadeNatureza natureza = (EntidadeNatureza) cboNatureza.getValue();
+			Natureza natureza = (Natureza) cboNatureza.getValue();
 			entidade.setConta(conta);
 			if (destino != null)
 				entidade.setDestino(destino);

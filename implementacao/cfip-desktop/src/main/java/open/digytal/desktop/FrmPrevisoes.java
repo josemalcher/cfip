@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 import open.digytal.controller.LancamentoController;
 import open.digytal.model.EntidadeConta;
 import open.digytal.model.EntidadeLancamento;
-import open.digytal.model.EntidadeNatureza;
+import open.digytal.model.Natureza;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
@@ -270,7 +270,7 @@ public class FrmPrevisoes extends Formulario {
 		List<EntidadeLancamento> lista = new ArrayList<EntidadeLancamento>();
 		try {
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
-			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
+			Natureza nat = (Natureza) cboNatureza.getValue();
 			Integer cId=conta==null?null:conta.getId();
 			Integer nId=nat==null?null:nat.getId();
 			lista = service.listarPrevisoes(DesktopApp.getLogin(), txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId);

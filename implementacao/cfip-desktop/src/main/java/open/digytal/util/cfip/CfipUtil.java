@@ -2,6 +2,7 @@ package open.digytal.util.cfip;
 
 import java.util.List;
 
+import open.digytal.model.Conta;
 import open.digytal.model.EntidadeConta;
 import open.digytal.model.EntidadeLancamento;
 import open.digytal.model.EntidadeParcela;
@@ -37,9 +38,9 @@ public class CfipUtil {
         }
         return total;
     }
-    public static Double totalContas(List<EntidadeConta> lista) {
+    public static Double totalContas(List<Conta> lista) {
         Double total = 0.0d;
-        for (EntidadeConta c : lista) {
+        for (Conta c : lista) {
             total = total + c.getSaldoAtual();
         }
         return total;

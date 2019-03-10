@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 import open.digytal.controller.LancamentoController;
 import open.digytal.model.EntidadeConta;
 import open.digytal.model.EntidadeLancamento;
-import open.digytal.model.EntidadeNatureza;
+import open.digytal.model.Natureza;
 import open.digytal.model.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
@@ -337,7 +337,7 @@ public class FrmMovimentacoes extends Formulario {
 		try {
 			// lista = dao.listarOldLancamentos(getUsuarioId());
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
-			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
+			Natureza nat = (Natureza) cboNatureza.getValue();
 			Integer cId=conta==null?0:conta.getId();
 			Integer nId=nat==null?0:nat.getId();
 			lanctos = service.listarLancamentos(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);

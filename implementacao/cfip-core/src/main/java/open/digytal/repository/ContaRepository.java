@@ -13,13 +13,13 @@ import open.digytal.model.EntidadeLancamento;
 
 public interface ContaRepository extends JpaRepository<EntidadeConta, Integer> {
 	@Query("SELECT e FROM EntidadeConta e WHERE e.login= :login AND e.cartaoCredito=false ORDER BY e.nome")
-	public List<EntidadeConta> listarContas(@Param("login")String login);
+	public List<Conta> listarContas(@Param("login")String login);
 	
 	@Query("SELECT e FROM EntidadeConta e WHERE e.login= :login ORDER BY e.nome")
 	public List<Conta> listarTodas(@Param("login")String login);
 	
 	@Query("SELECT e FROM EntidadeConta e WHERE e.login= :login AND e.cartaoCredito=true ORDER BY e.nome")
-	public List<EntidadeConta> listarCartoesCredito(@Param("login")String login);
+	public List<Conta> listarCartoesCredito(@Param("login")String login);
 	
 	@Query("SELECT e FROM EntidadeConta e WHERE e.id= :id ORDER BY e.nome")
 	public List<Conta> listar(@Param("id")Integer id);

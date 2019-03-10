@@ -81,11 +81,11 @@ public class EntidadeLancamento {
 	public void setConta(EntidadeConta conta) {
 		this.conta = conta;
 	}
-	public EntidadeNatureza getNatureza() {
+	public Natureza getNatureza() {
 		return natureza;
 	}
-	public void setNatureza(EntidadeNatureza natureza) {
-		this.natureza = natureza;
+	public void setNatureza(Natureza natureza) {
+		this.natureza = (EntidadeNatureza) natureza;
 	}
 	public Date getData() {
 		return data;
