@@ -1,6 +1,5 @@
 package open.digytal.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,120 +10,99 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import open.digytal.util.Calendario;
 import open.digytal.util.DataHora;
 
 @Entity
 @Table(name="tb_conta")
-public class EntidadeConta implements Serializable {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id;
-	
-	@Column(length=50,nullable=false)
-	private String nome;
-	
-	@Column(length=10,nullable=false)
-	private String sigla;
-	
-	@Column(name="aplicacao", length=1,nullable=false)
-	private boolean aplicacao;
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="dt_inicial",nullable=false)
-	private Date dataInicial;
-	
-	@Column(name="saldo_inicial",length=8,precision=2,nullable=false)
-	private Double saldoInicial;
-	
-	@Column(name="saldo_atual",length=8,precision=2,nullable=false)
-	private Double saldoAtual;
-	
-	@Column(name="cartao_credito", length=1,nullable=false)
-	private boolean cartaoCredito;
-	
-	@Column(name="dia_pagto", length=2)
-	private Integer diaPagamento;
-	
-	@Column(name="dia_fechto", length=2)
-	private Integer diaFechamento;
-	
-	@Column(name="login", length=20)
-	private String login;
-	
-	public String getLogin() {
-		return login;
-	}
-	public void setLogin(String login) {
-		this.login = login;
-	}
+public class EntidadeConta extends Conta  {
 	public EntidadeConta() {
 		this.saldoAtual=0.0d;
 		this.saldoInicial=0.0d;
 		this.dataInicial = new Date();
 	}
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Integer getId() {
 		return id;
 	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	@Column(length=50,nullable=false)
 	public String getNome() {
 		return nome;
+	}
+	@Column(length=10,nullable=false)
+	public String getSigla() {
+		return sigla;
+	}
+	@Column(name="aplicacao", length=1,nullable=false)
+	public boolean isAplicacao() {
+		return aplicacao;
+	}
+	@Temporal(TemporalType.DATE)
+	@Column(name="dt_inicial",nullable=false)
+	public Date getDataInicial() {
+		return dataInicial;
+	}
+	@Column(name="saldo_inicial",length=8,precision=2,nullable=false)
+	public Double getSaldoInicial() {
+		return saldoInicial;
+	}
+	@Column(name="saldo_atual",length=8,precision=2,nullable=false)
+	public Double getSaldoAtual() {
+		return saldoAtual;
+	}
+	@Column(name="cartao_credito", length=1,nullable=false)
+	public boolean isCartaoCredito() {
+		return cartaoCredito;
+	}
+	@Column(name="dia_pagto", length=2)
+	public Integer getDiaPagamento() {
+		return diaPagamento;
+	}
+	@Column(name="dia_fechto", length=2)
+	public Integer getDiaFechamento() {
+		return diaFechamento;
+	}
+	@Column(name="login", length=20)
+	public String getLogin() {
+		return login;
+	}
+	public void setId(Integer id) {
+		this.id=id;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	public boolean isAplicacao() {
-		return aplicacao;
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
 	}
 	public void setAplicacao(boolean aplicacao) {
 		this.aplicacao = aplicacao;
 	}
-	public String getSigla() {
-		return sigla;
-	}
-	public void setSigla(String sigla) {
-		this.sigla = sigla;
-	}
-	public Date getDataInicial() {
-		return dataInicial;
-	}
 	public void setDataInicial(Date dataInicial) {
 		this.dataInicial = dataInicial;
-	}
-	public Double getSaldoInicial() {
-		return saldoInicial;
 	}
 	public void setSaldoInicial(Double saldoInicial) {
 		this.saldoInicial = saldoInicial;
 	}
-	public Double getSaldoAtual() {
-		return saldoAtual;
-	}
 	public void setSaldoAtual(Double saldoAtual) {
 		this.saldoAtual = saldoAtual;
-	}
-	public boolean isCartaoCredito() {
-		return cartaoCredito;
 	}
 	public void setCartaoCredito(boolean cartaoCredito) {
 		this.cartaoCredito = cartaoCredito;
 	}
-	public Integer getDiaPagamento() {
-		return diaPagamento;
-	}
 	public void setDiaPagamento(Integer diaPagamento) {
 		this.diaPagamento = diaPagamento;
-	}
-	public Integer getDiaFechamento() {
-		return diaFechamento;
 	}
 	public void setDiaFechamento(Integer diaFechamento) {
 		this.diaFechamento = diaFechamento;
 	}
+	public void setLogin(String login) {
+		this.login = login;
+	}
+	@Transient
 	public Date getDataPagamento() {
 		Date dataLancamento = Calendario.data();
 		if(!cartaoCredito)
@@ -144,9 +122,5 @@ public class EntidadeConta implements Serializable {
 			valor=0.0d;
 		this.saldoAtual = saldoAtual + (lancamento.getTipoMovimento()==TipoMovimento.D?valor * -1:valor);
 	}
-	/*
-	 * public static void main(String[] args) { Conta c = new Conta();
-	 * c.setDiaPagamento(20); c.setDiaFechamento(10); c.setCartaoCredito(true);
-	 * System.out.println(c.getDataPagamento()); }
-	 */
+	
 }

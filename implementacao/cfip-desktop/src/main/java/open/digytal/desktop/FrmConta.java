@@ -1,5 +1,6 @@
 package open.digytal.desktop;
 
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -7,14 +8,16 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import open.digytal.model.Conta;
 import open.digytal.model.EntidadeConta;
-import open.digytal.repository.ContaRepository;
+import open.digytal.service.ContaService;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
@@ -22,14 +25,12 @@ import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCampoNumero;
 import open.digytal.util.desktop.ss.SSCampoTexto;
 import open.digytal.util.desktop.ss.SSMensagem;
-import javax.swing.border.TitledBorder;
-import java.awt.FlowLayout;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)	
 public class FrmConta extends Formulario {
 	@Autowired
-	private ContaRepository service;
+	private ContaService service;
 	private SSCampoTexto txtNome = new SSCampoTexto();
 	private SSCampoTexto txtSigla = new SSCampoTexto();
 	private SSCampoNumero txtSaldoAtual = new SSCampoNumero();
@@ -42,7 +43,7 @@ public class FrmConta extends Formulario {
 	private SSBotao cmdFechar = new SSBotao();
 	private SSBotao cmdSalvar = new SSBotao();
 	
-	private EntidadeConta entidade;
+	private Conta entidade;
 	private final SSCampoNumero txtDiaPagamento = new SSCampoNumero();
 	private final SSCampoNumero txtDiaFechamento = new SSCampoNumero();
 	
@@ -177,7 +178,8 @@ public class FrmConta extends Formulario {
 		}
 	}
 	private void novo() {
-		entidade = new EntidadeConta();
+		entidade = new Conta();
+		atribuir();
 	}
 	private void sair() {
 		super.cancelar();
@@ -185,7 +187,7 @@ public class FrmConta extends Formulario {
 	private void salvar() {
 		try {
 			if (entidade == null) {
-				entidade = new EntidadeConta();
+				entidade = new Conta();
 			}
 			entidade.setNome(txtNome.getText());
 			entidade.setSigla(txtSigla.getText());
@@ -203,9 +205,9 @@ public class FrmConta extends Formulario {
 			if(entidade.getId()==null) {
 				entidade.setSaldoAtual(entidade.getSaldoInicial());
 			}
-			service.save(entidade);
+			service.incluir(entidade);
 			
-			SSMensagem.informa("EntidadeConta registrada com sucesso!!");
+			SSMensagem.informa("Conta registrada com sucesso!!");
 			novo();
 		} catch (Exception e) {
 			e.printStackTrace();
