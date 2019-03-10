@@ -23,38 +23,64 @@ public abstract class Controllers<T> implements Services<T> {
 
 	public Controllers() {
 		try {
-			this.classe = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-			this.entidade =  (Class<T>) Class.forName(classe.getPackage().getName() + ".Entidade"+classe.getSimpleName());
+			this.classe = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
+					.getActualTypeArguments()[0];
+			this.entidade = (Class<T>) Class
+					.forName(classe.getPackage().getName() + ".Entidade" + classe.getSimpleName());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public <T> T buscar(Object id) {
 		return (T) em.find(getEntidade(), id);
 	}
+	@Override
+	@Transactional
+	public <T> T incluir(T classe){
+		Object instancia=null;
+		try {
+			instancia = entidade.newInstance();
+			BeanUtils.copyProperties(classe, instancia);
+			em.persist(instancia);
+			em.flush();
+			em.refresh(instancia);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return (T) instancia;
+	}
+	@Transactional
+	protected <T> T incluirVo(T classe) {
+		try {
+			Object entity = entidade.newInstance();
+			BeanUtils.copyProperties(classe, entity);
+			em.persist(entity);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
-	/*
-	 * @Transactional public <T> T incluirVo(T classe) { try { Object entity =
-	 * entidade.newInstance(); BeanUtils.copyProperties(classe, entity);
-	 * em.persist(entity); } catch (Exception e) { e.printStackTrace(); } return
-	 * null; }
-	 */
 	public Class<T> getClasse() {
 		return classe;
 	}
+
 	public Class<T> getEntidade() {
 		return entidade;
 	}
-	
+
 	private String fields() {
 		StringJoiner joiner = new StringJoiner(",", " (", ") ");
 		Field[] fields = getClasse().getDeclaredFields();
 		for (Field f : fields) {
-	        joiner.add(" e."+ f.getName() );
-	    }
+			joiner.add(" e." + f.getName());
+		}
 		return joiner.toString();
 	}
+
 	@Override
 	public List listar(Filtro... filtros) {
 		StringBuilder sb = new StringBuilder();
@@ -66,7 +92,5 @@ public abstract class Controllers<T> implements Services<T> {
 		Query query = em.createQuery(sb.toString());
 		return query.getResultList();
 	}
-	
-	
 
 }

@@ -1,10 +1,12 @@
 ﻿package open.digytal;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.swing.UIManager;
 
+import org.hsqldb.util.DatabaseManagerSwing;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -14,6 +16,7 @@ import open.digytal.model.Lancamento;
 import open.digytal.model.TipoMovimento;
 import open.digytal.model.acesso.Usuario;
 import open.digytal.service.UsuarioService;
+import open.digytal.util.Filtros;
 
 @SpringBootApplication
 public class CfipDesktopApp {
@@ -43,15 +46,17 @@ public class CfipDesktopApp {
 	}
 	private static void generic() {
 		UsuarioService service = contexto.getBean(UsuarioService.class);
-		//List<Usuario> lista= service.listar(Filtros.onde("login", "gso"));
-		Usuario user = service.buscar("login");
+		Usuario user = service.buscar("teste");
 		if(user==null) {
 			user = new Usuario();
-			user.setLogin("gso");
-			user.setSenha("gso");
+			user.setLogin("teste");
+			user.setSenha("teste");
 			user.setEmail("gso@gso.com.br");
 			user.setNome("GLEYSON SAMPAIO");
 			service.incluir(user);
+		}else {
+			List<Usuario> lista= service.listar(Filtros.onde("nome", "GLEYSON"));
+			lista.forEach(i->{System.out.println(i);});
 		}
 		System.exit(0);;
 	}
@@ -77,7 +82,7 @@ public class CfipDesktopApp {
 		org.hsqldb.server.Server.main(dbArg);
 		
 		final String[] serveArgs = { "--user", "sa", "--password", "", "--url", "jdbc:hsqldb:hsql://localhost:5454/cfipdb"};
-		//DatabaseManagerSwing.main(serveArgs);
+		DatabaseManagerSwing.main(serveArgs);
 	}
 	public static <T> T getBean(Class classe) {
 		return (T) contexto.getBean(classe);
