@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import open.digytal.model.Conta;
 import open.digytal.model.Natureza;
 import open.digytal.model.acesso.Roles;
 import open.digytal.repository.NaturezaRepository;
@@ -31,6 +32,10 @@ public class NaturezaResource {
 			return repository.listarTodas(JwtSession.getLogin());
 		else
 			return repository.listar(JwtSession.getLogin(),nome);
+	}
+	@GetMapping(value="/teste")
+	public List<Natureza> teste(){
+		return repository.listarTodas("gso");
 	}
 	
 }
