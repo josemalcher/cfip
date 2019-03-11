@@ -11,6 +11,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import open.digytal.model.Lancamentos;
+import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.LoginPanel;
@@ -35,8 +36,14 @@ public class CfipDesktopApp {
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(CfipDesktopApp.class);
 		contexto = builder.run(args);
 		LancamentoService service = contexto.getBean(LancamentoService.class);
-		List<Lancamentos> lista = service.listar("gso", 1, 4);
+		List<Lancamentos> lista = service.listarVo("gso", 1, 4);
 		lista.forEach(i->{System.out.println(i);});
+		
+		
+		List<EntidadeLancamento> lista1 = service.listarEntidade("gso", 1, 4);
+		lista1.forEach(i->{System.out.println(i.getConta().getNome());});
+		
+		
 		//persistencia();
 	}
 	private static void initApp(String[] args) {

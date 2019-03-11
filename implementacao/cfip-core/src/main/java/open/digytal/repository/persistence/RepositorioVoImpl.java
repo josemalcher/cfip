@@ -13,11 +13,14 @@ import javax.persistence.Tuple;
 import javax.persistence.TupleElement;
 import javax.persistence.TypedQuery;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import open.digytal.util.Filtro;
 
 @Repository
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class RepositorioVoImpl implements RepositorioVo {
 	@PersistenceContext
 	private EntityManager em;
@@ -43,7 +46,7 @@ public class RepositorioVoImpl implements RepositorioVo {
 	@Override
 	public List listar(Filtro... filtros) {
 		if (classe.isAnnotationPresent(Entity.class))
-			return listarVo(filtros);
+			return listarEntidade(filtros);
 		else
 			return listarVo(filtros);
 
@@ -90,6 +93,7 @@ public class RepositorioVoImpl implements RepositorioVo {
 				}
 			}
 		}
+		this.sql=null;
 		return sql.toString();
 	}
 
