@@ -27,13 +27,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
-import open.digytal.controller.LancamentoController;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.entity.Total;
-import open.digytal.repository.ContaRepository;
-import open.digytal.repository.NaturezaRepository;
+import open.digytal.service.CadastroService;
+import open.digytal.service.LancamentoService;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;
 import open.digytal.util.desktop.DesktopApp;
@@ -56,12 +55,10 @@ public class FrmLancamentos extends Formulario {
 	private SSGrade grid = new SSGrade();
 	private JScrollPane scroll = new JScrollPane();
 	@Autowired
-	private LancamentoController service;
+	private LancamentoService service;
 	@Autowired
-	private ContaRepository contaService;
-	@Autowired
-	private NaturezaRepository naturezaService;
-
+	private CadastroService cadastroService;
+	
 	private SSCampoDataHora txtDataDe = new SSCampoDataHora();
 	private SSCampoDataHora txtDataAte = new SSCampoDataHora();
 	private SSCaixaCombinacao cboConta = new SSCaixaCombinacao();
@@ -269,8 +266,8 @@ public class FrmLancamentos extends Formulario {
 	public void carregar() {
 		cboConta.setPrimeiroElementoVazio(true);
 		cboNatureza.setPrimeiroElementoVazio(true); 
-		cboConta.setItens(contaService.listarContas(DesktopApp.getLogin()), "nome");
-		cboNatureza.setItens(naturezaService.listarTodas(DesktopApp.getLogin()), "nome");
+		cboConta.setItens(cadastroService.listarContas(DesktopApp.getLogin(),null), "nome");
+		cboNatureza.setItens(cadastroService.listarNaturezas(DesktopApp.getLogin(),""), "nome");
 
 		txtDataDe.setDataHora(new Date());
 		txtDataAte.setDataHora(new Date());

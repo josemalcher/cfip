@@ -35,6 +35,8 @@ import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.entity.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
+import open.digytal.service.CadastroService;
+import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;
@@ -57,12 +59,10 @@ public class FrmMovimentacoes extends Formulario {
 	private SSBotao cmdBuscar = new SSBotao();
 	// DAOs - NAO OFICIAL
 	@Autowired
-	private LancamentoController service;
+	private LancamentoService service;
 	@Autowired
-	private ContaRepository contaService;
-	@Autowired
-	private NaturezaRepository naturezaService;
-
+	private CadastroService cadastroService;
+	
 	private SSCampoDataHora txtDataDe = new SSCampoDataHora();
 	private SSCampoDataHora txtDataAte = new SSCampoDataHora();
 	private SSCaixaCombinacao cboConta = new SSCaixaCombinacao();
@@ -316,10 +316,10 @@ public class FrmMovimentacoes extends Formulario {
 	@Override
 	public void carregar() {
 		cboConta.setPrimeiroElementoVazio(true);
-		cboNatureza.setPrimeiroElementoVazio(true);
+		cboNatureza.setPrimeiroElementoVazio(true); 
+		cboConta.setItens(cadastroService.listarContas(DesktopApp.getLogin(),null), "nome");
+		cboNatureza.setItens(cadastroService.listarNaturezas(DesktopApp.getLogin(),""), "nome");
 		
-		cboConta.setItens(contaService.listarContas(DesktopApp.getLogin()), "nome");
-		cboNatureza.setItens(naturezaService.listarTodas(DesktopApp.getLogin()), "nome");
 		int ano = SSDataHora.pegaAno(new Date());
 		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
 		txtDataAte.setDataHora(Calendario.data(31, 12, ano));

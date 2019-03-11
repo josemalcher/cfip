@@ -21,10 +21,11 @@ import open.digytal.repository.ContaRepository;
 import open.digytal.repository.LancamentoRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.repository.ParcelaRepository;
+import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
 
 @Controller
-public class LancamentoController {
+public class LancamentoController implements LancamentoService {
 	@Autowired
 	private ContaRepository contaRepository;
 	@Autowired
@@ -129,7 +130,7 @@ public class LancamentoController {
 	 * ; incluir(entidade); }
 	 */
 	@Transactional
-	public void incluir(EntidadeLancamento lancamento) {
+	public EntidadeLancamento incluir(EntidadeLancamento lancamento) {
 		if(lancamento.getNatureza().getTipoMovimento().isTranferencia()) {
 			EntidadeLancamento transferencia=lancamento.transferencia();
 			repository.save(transferencia);
@@ -154,6 +155,7 @@ public class LancamentoController {
 			lancamento= gerarParcelas(lancamento, valor,resto);
 		}
 		repository.save(lancamento);
+		return lancamento;
 	}
 	
 	private EntidadeLancamento gerarParcelas(EntidadeLancamento lancamento, Double valorParcela, int resto){

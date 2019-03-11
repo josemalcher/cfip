@@ -28,6 +28,8 @@ import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
+import open.digytal.service.CadastroService;
+import open.digytal.service.LancamentoService;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
@@ -53,11 +55,9 @@ public class FrmLancamentoPrevisao extends Formulario {
 	private EntidadeLancamento entidade;
 	
 	@Autowired
-	private LancamentoController service;
+	private LancamentoService service;
 	@Autowired
-	private ContaRepository contaService;
-	@Autowired
-	private NaturezaRepository naturezaService;
+	private CadastroService cadastroService;
 	
 	
 	private SSCaixaCombinacao cboConta = new SSCaixaCombinacao();
@@ -338,11 +338,10 @@ public class FrmLancamentoPrevisao extends Formulario {
 		super.fechar();
 	}
 	public void carregar() {
-		/*
-		 * List<EntidadeConta> contas = contaService.listarTodas(DesktopApp.getLogin());
-		 * cboConta.setItens( contas,"nome"); cboDestino.setItens( contas,"nome");
-		 */
-		cboNatureza.setItens( naturezaService.listarTodas(DesktopApp.getLogin()),"nomeSigla");
+		List<EntidadeConta> contas = cadastroService.listarContas(DesktopApp.getLogin(),null);
+		cboConta.setItens( contas,"nome"); 
+		cboDestino.setItens( contas,"nome");
+		cboNatureza.setItens( cadastroService.listarNaturezas(DesktopApp.getLogin(),""),"nomeSigla");
 	}
 	public static void main(String[] args) {
 		int m = (int) (100.0%3);
