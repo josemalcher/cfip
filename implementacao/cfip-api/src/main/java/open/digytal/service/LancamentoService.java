@@ -3,11 +3,12 @@ package open.digytal.service;
 import java.util.Date;
 import java.util.List;
 
+import open.digytal.model.Lancamento;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeParcela;
 
 public interface LancamentoService {
-	EntidadeLancamento incluir(Lancamento entidade);
+	void incluir(Lancamento entidade);
 
 	List<EntidadeLancamento> extrato(Integer contaId, Date dataInicio);
 

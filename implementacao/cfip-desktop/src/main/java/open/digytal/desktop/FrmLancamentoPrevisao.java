@@ -55,7 +55,7 @@ public class FrmLancamentoPrevisao extends Formulario {
 	private EntidadeLancamento entidade;
 	
 	@Autowired
-	private LancamentoService service;
+	private LancamentoController service;
 	@Autowired
 	private CadastroService cadastroService;
 	
