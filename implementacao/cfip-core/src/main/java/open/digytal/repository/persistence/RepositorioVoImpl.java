@@ -14,11 +14,12 @@ public class RepositorioVoImpl implements RepositorioVo {
 	@PersistenceContext
 	private EntityManager em;
 	private Class classe;
+	private List<Tuple> typles;
 	@Override
 	public List listar(Class classe) {
 		this.classe=classe;
-		TypedQuery<Tuple> query = em.createQuery("SELECT e.id, e.conta.nome FROM EntidadeLancamento e", Tuple.class);
-		List<Tuple> typles = query.getResultList();
+		TypedQuery<Tuple> query = em.createQuery("SELECT e.id, e.conta.nome, e.natureza.nome FROM EntidadeLancamento e", Tuple.class);
+		typles = query.getResultList();
 		List lista = new ArrayList();
 		typles.forEach(tuple -> {
 			lista.add(vo(tuple));
@@ -30,11 +31,10 @@ public class RepositorioVoImpl implements RepositorioVo {
 		try {
 			Object vo = classe.newInstance();
 			Field[]fields=classe.getDeclaredFields();
-			for(int x=0; x<fields.length;x++) {
+			for(int x=0; x<typles.size();x++) {
 				Field f=fields[x];
 				f.setAccessible(true);
 				f.set(vo, tuple.get(x++, f.getType()));
-				f.setAccessible(false);
 			}
 			return vo;
 		} catch (Exception e) {
