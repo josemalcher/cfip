@@ -51,14 +51,11 @@ public class LancamentoController implements LancamentoService {
 	@Override
 	public List<Lancamentos> listarVo(String login, Integer conta, Integer natureza) {
 		String sql = "SELECT e.conta.nome as conta, e.natureza.nome as natureza,e.valor as valor , e.descricao as descricao, e.id as id FROM EntidadeLancamento e";
-		repositorio.setClasse(Lancamentos.class);
-		repositorio.setSql(sql);
-		return repositorio.listar(Filtros.igual("conta.login", login).e().igual("conta.id", conta).e().igual("natureza.id", natureza).lista());
+		return repositorio.listar(Lancamentos.class,sql, Filtros.igual("conta.login", login).e().igual("conta.id", conta).e().igual("natureza.id", natureza).lista());
 	}
 	@Override
 	public List<EntidadeLancamento> listarEntidade(String login, Integer conta, Integer natureza) {
-		repositorio.setClasse(EntidadeLancamento.class);
-		return repositorio.listar(Filtros.igual("conta.login", login).e().igual("conta.id", conta).e().igual("natureza.id", natureza).lista());
+		return repositorio.listar(EntidadeLancamento.class, Filtros.igual("conta.login", login).e().igual("conta.id", conta).e().igual("natureza.id", natureza).lista());
 	}
 	
 	

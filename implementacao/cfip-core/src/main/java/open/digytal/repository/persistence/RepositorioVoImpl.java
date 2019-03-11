@@ -13,14 +13,11 @@ import javax.persistence.Tuple;
 import javax.persistence.TupleElement;
 import javax.persistence.TypedQuery;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import open.digytal.util.Filtro;
 
 @Repository
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class RepositorioVoImpl implements RepositorioVo {
 	@PersistenceContext
 	private EntityManager em;
@@ -29,22 +26,22 @@ public class RepositorioVoImpl implements RepositorioVo {
 	private Filtro[] filtros;
 
 	@Override
-	public void setClasse(Class classe) {
-		this.classe = classe;
+	public List listar(Class classe, List<Filtro> filtros) {
+		return listar(classe, null,filtros);
 	}
-
 	@Override
-	public void setSql(String sql) {
-		this.sql = sql;
+	public List listar(Class classe, String sql,List<Filtro> filtros) {
+		return listar(classe,sql, filtros.stream().toArray(Filtro[]::new));
 	}
-
+	
 	@Override
-	public List listar(List<Filtro> filtros) {
-		return listar(filtros.stream().toArray(Filtro[]::new));
+	public List listar(Class classe, Filtro... filtros) {
+		return listar(classe, null, filtros);
 	}
-
 	@Override
-	public List listar(Filtro... filtros) {
+	public List listar(Class classe, String sql,Filtro... filtros) {
+		this.classe=classe;
+		this.sql=sql;
 		if (classe.isAnnotationPresent(Entity.class))
 			return listarEntidade(filtros);
 		else
@@ -93,7 +90,6 @@ public class RepositorioVoImpl implements RepositorioVo {
 				}
 			}
 		}
-		this.sql=null;
 		return sql.toString();
 	}
 
