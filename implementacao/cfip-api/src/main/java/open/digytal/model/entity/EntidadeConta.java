@@ -51,7 +51,7 @@ public class EntidadeConta implements Serializable {
 	@Column(name="dia_fechto", length=2)
 	private Integer diaFechamento;
 	
-	@Column(name="login", length=20)
+	@Column(name="login", length=20,nullable=false)
 	private String login;
 	
 	public String getLogin() {
