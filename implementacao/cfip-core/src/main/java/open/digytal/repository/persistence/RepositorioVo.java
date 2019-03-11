@@ -1,8 +1,10 @@
 package open.digytal.repository.persistence;
 
 import java.util.List;
-import java.util.Map;
+
+import open.digytal.util.Filtro;
 
 public interface RepositorioVo {
-	List listar(Class vo,String sql, Map<String,Object> params);
+	List listarVo(Class vo,String sql, Filtro ... filtros);
+	List listarVo(Class vo,String sql, List<Filtro> filtros);
 }

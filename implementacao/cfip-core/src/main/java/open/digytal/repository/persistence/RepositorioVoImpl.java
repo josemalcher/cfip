@@ -3,7 +3,6 @@ package open.digytal.repository.persistence;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,15 +11,31 @@ import javax.persistence.TupleElement;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
+
+import open.digytal.util.Filtro;
 @Repository
 public class RepositorioVoImpl implements RepositorioVo {
 	@PersistenceContext
 	private EntityManager em;
 	private Class vo;
+	private String sql;
+	private Filtro[] filtros;
 	@Override
-	public List listar(Class vo,String sql, Map<String,Object> params) {
+	public List listarVo(Class vo,String sql, List<Filtro> filtros) {
+		return listarVo(vo, sql, filtros.stream().toArray(Filtro[]::new));
+	}
+	@Override
+	public List listarVo(Class vo,String sql, Filtro ... filtros) {
 		this.vo=vo;
-		TypedQuery<Tuple> query = em.createQuery(sql, Tuple.class);
+		this.sql=sql;
+		this.filtros=filtros;
+		TypedQuery<Tuple> query = em.createQuery(getSql(), Tuple.class);
+		if(filtros.length > 0) {
+            for (Filtro filtro : filtros) {
+                if(!filtro.isOrdem() && !filtro.isTodos())
+                    query.setParameter(filtro.getParametro(), filtro.getValor());
+            }
+        }
 		List<Tuple> typles = query.getResultList();
 		List lista = new ArrayList();
 		typles.forEach(tuple -> {
@@ -28,7 +43,20 @@ public class RepositorioVoImpl implements RepositorioVo {
 		});
 		return lista;
 	}
-
+	public String getSql() {
+        StringBuilder sql = new StringBuilder(this.sql);
+        if(filtros.length > 0) {
+            for (Filtro filtro : filtros) {
+                if(!filtro.isOrdem() && !filtro.isTodos()) {
+                    String append = String.format(" %s e.%s %s :%s", filtro.getJuncao(), filtro.getCampo(), filtro.getOperador(), filtro.getParametro());
+                    sql.append(append);
+                }else{
+                    sql.append(" ORDER BY " + filtro.getCampo());
+                }
+            }
+        }
+        return sql.toString();
+    }
 	private Object vo(Tuple tuple) {
 		try {
 			Object instance = vo.newInstance();

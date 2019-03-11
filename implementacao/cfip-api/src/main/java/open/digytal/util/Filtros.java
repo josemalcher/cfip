@@ -26,6 +26,11 @@ public class Filtros {
     	instance=null;
 		return lista;
 	} 
+    public Filtro filtro() {
+		Filtro filtro = instance.filtros.get(0);
+    	instance=null;
+		return filtro;
+	} 
     
     public static Filtros igual(String campo, Object valor) {
     	return instance(campo,IGUAL,valor);
