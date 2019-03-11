@@ -35,7 +35,7 @@ public class CfipDesktopApp {
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(CfipDesktopApp.class);
 		contexto = builder.run(args);
 		LancamentoService service = contexto.getBean(LancamentoService.class);
-		List<Lancamentos> lista = service.listarVo("gso", 1, 4);
+		List<Lancamentos> lista = service.listar("gso", 1, 4);
 		lista.forEach(i->{System.out.println(i);});
 		//persistencia();
 	}

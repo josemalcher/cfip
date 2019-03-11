@@ -21,7 +21,7 @@ public interface LancamentoService {
 
 	List<EntidadeParcela> listarFaturas(String login, Date inicio, Date fim, Integer conta, Integer natureza);
 	
-	List<Lancamentos> listarVo(String login, Integer conta, Integer natureza);
+	List<Lancamentos> listar(String login, Integer conta, Integer natureza);
 
 
 }
