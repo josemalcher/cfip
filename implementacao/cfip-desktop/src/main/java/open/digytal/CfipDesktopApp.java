@@ -34,7 +34,6 @@ public class CfipDesktopApp {
 		//persistencia();
 	}
 	private static void initApp(String[] args) {
-		base();
 		DesktopApp.exibirSplash();
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(CfipDesktopApp.class);
 		builder.headless(false);

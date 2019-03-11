@@ -133,8 +133,10 @@ public class LancamentoController implements LancamentoService {
 	public void incluir(Lancamento objeto) { 
 		EntidadeLancamento entidade = new EntidadeLancamento(); 
 		BeanUtils.copyProperties(objeto, entidade);
-		BeanUtils.copyProperties(objeto.getParcelamento(),entidade.getParcelamento());
+		//BeanUtils.copyProperties(objeto.getParcelamento(),entidade.getParcelamento());
 		entidade.setConta(contaRepository.findById(objeto.getConta()).get());
+		if(objeto.getDestino()!=null && objeto.getDestino()>0)
+			entidade.setDestino(contaRepository.findById(objeto.getDestino()).get());
 		EntidadeNatureza natureza=naturezaRepository.findById(objeto.getNatureza()).get();
 		entidade.setNatureza(natureza);
 		entidade.setTipoMovimento(natureza.getTipoMovimento());
