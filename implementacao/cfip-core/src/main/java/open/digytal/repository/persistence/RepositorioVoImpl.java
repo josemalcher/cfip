@@ -3,6 +3,7 @@ package open.digytal.repository.persistence;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,17 +18,23 @@ import open.digytal.util.Filtro;
 public class RepositorioVoImpl implements RepositorioVo {
 	@PersistenceContext
 	private EntityManager em;
-	private Class vo;
+	private Class classe;
 	private String sql;
 	private Filtro[] filtros;
 	@Override
-	public List listarVo(Class vo,String sql, List<Filtro> filtros) {
-		return listarVo(vo, sql, filtros.stream().toArray(Filtro[]::new));
+	public void setClasse(Class classe) {
+		this.classe=classe;
 	}
 	@Override
-	public List listarVo(Class vo,String sql, Filtro ... filtros) {
-		this.vo=vo;
-		this.sql=sql;
+	public void setSql(String sql) {
+		this.sql = sql;
+	}
+	@Override
+	public List listarVo(List<Filtro> filtros) {
+		return listarVo(filtros.stream().toArray(Filtro[]::new));
+	}
+	@Override
+	public List listarVo(Filtro ... filtros) {
 		this.filtros=filtros;
 		TypedQuery<Tuple> query = em.createQuery(getSql(), Tuple.class);
 		if(filtros.length > 0) {
@@ -39,12 +46,12 @@ public class RepositorioVoImpl implements RepositorioVo {
 		List<Tuple> typles = query.getResultList();
 		List lista = new ArrayList();
 		typles.forEach(tuple -> {
-			lista.add(vo(tuple));
+			lista.add(convertToVo(tuple));
 		});
 		return lista;
 	}
-	public String getSql() {
-        StringBuilder sql = new StringBuilder(this.sql);
+	private String getSql() {
+        StringBuilder sql = new StringBuilder(Objects.toString(this.sql,"SELECT e FROM " + classe + " e "));
         if(filtros.length > 0) {
             for (Filtro filtro : filtros) {
                 if(!filtro.isOrdem() && !filtro.isTodos()) {
@@ -57,11 +64,11 @@ public class RepositorioVoImpl implements RepositorioVo {
         }
         return sql.toString();
     }
-	private Object vo(Tuple tuple) {
+	private Object convertToVo(Tuple tuple) {
 		try {
-			Object instance = vo.newInstance();
+			Object instance = classe.newInstance();
 			for(TupleElement e: tuple.getElements()) {
-				Field field = vo.getDeclaredField(e.getAlias());
+				Field field = classe.getDeclaredField(e.getAlias());
 				field.setAccessible(true);
 				field.set(instance, tuple.get(e.getAlias(), field.getType()));
 			}

@@ -5,6 +5,8 @@ import java.util.List;
 import open.digytal.util.Filtro;
 
 public interface RepositorioVo {
-	List listarVo(Class vo,String sql, Filtro ... filtros);
-	List listarVo(Class vo,String sql, List<Filtro> filtros);
+	void setClasse(Class classe);
+	void setSql(String sql);
+	List listarVo(Filtro ... filtros);
+	List listarVo(List<Filtro> filtros);
 }
