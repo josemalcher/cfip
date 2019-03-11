@@ -2,8 +2,6 @@ package open.digytal.model;
 
 import java.util.Date;
 
-import open.digytal.model.enums.TipoMovimento;
-
 public class Lancamento {
 	private Integer conta;
 	private Integer destino;
