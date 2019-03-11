@@ -1,7 +1,5 @@
 ﻿package open.digytal;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 import javax.swing.UIManager;
@@ -11,12 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import open.digytal.controller.LancamentoController;
-import open.digytal.model.Usuario;
-import open.digytal.model.entity.EntidadeLancamento;
-import open.digytal.model.enums.TipoMovimento;
-import open.digytal.service.UsuarioService;
-import open.digytal.util.Filtros;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.LoginPanel;
 

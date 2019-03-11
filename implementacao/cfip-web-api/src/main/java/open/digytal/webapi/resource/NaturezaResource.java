@@ -11,31 +11,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.Roles;
-import open.digytal.repository.NaturezaRepository;
+import open.digytal.service.CadastroService;
 import open.digytal.webapi.secutiry.JwtSession;
 
 @RestController
 @RequestMapping("/naturezas")
 public class NaturezaResource {
 	@Autowired
-	private NaturezaRepository repository;
+	private CadastroService service;
 	@ApiImplicitParams({
 	    @ApiImplicitParam(name = "nome", value = "Nome",defaultValue="", required = false, dataType = "string")
 	  })
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/{nome}")
 	public List<EntidadeNatureza> todas(@PathVariable("nome") String nome){
-		if(nome==null || nome.trim().isEmpty() || nome.equals("undefined")) //undefined - swagger
-			return repository.listarTodas(JwtSession.getLogin());
-		else
-			return repository.listar(JwtSession.getLogin(),nome);
+		if(nome!=null &&nome.equals("undefined")) 
+			nome=null;
+		return service.listarNaturezas(JwtSession.getLogin(),nome);
 	}
-	@GetMapping(value="/teste")
-	public List<EntidadeNatureza> teste(){
-		return repository.listarTodas("gso");
-	}
-	
 }
