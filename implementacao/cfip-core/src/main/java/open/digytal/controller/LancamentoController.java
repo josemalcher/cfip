@@ -1,5 +1,6 @@
 package open.digytal.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +28,8 @@ import open.digytal.repository.ParcelaRepository;
 import open.digytal.repository.persistence.RepositorioVo;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
+import open.digytal.util.Filtro;
+import open.digytal.util.Filtros;
 
 @Controller
 public class LancamentoController implements LancamentoService {
@@ -51,6 +54,8 @@ public class LancamentoController implements LancamentoService {
 	@Override
 	public List<Lancamentos> listarVo(String login, Integer conta, Integer natureza) {
 		String sql = "SELECT e.conta.nome as conta, e.natureza.nome as natureza,e.valor as valor , e.descricao as descricao, e.id as id FROM EntidadeLancamento e";
+		List<Filtro> filtros = Filtros.igual("e.conta.id", conta).lista();
+		
 		return repositorio.listar(Lancamentos.class, sql, null);
 	}
 	

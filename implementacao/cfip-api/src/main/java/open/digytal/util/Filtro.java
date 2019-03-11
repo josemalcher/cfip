@@ -1,7 +1,7 @@
 package open.digytal.util;
 
 public class Filtro {
-    private String campo;
+	private String campo;
     private String operador;
     private Object valor;
     private String juncao;

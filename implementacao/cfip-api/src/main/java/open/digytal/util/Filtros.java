@@ -1,8 +1,10 @@
 package open.digytal.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Filtros {
-   
-    public static final String PARECIDO ="LIKE";
+	public static final String PARECIDO ="LIKE";
     public static final String IGUAL="=";
     public static final String MAIOR_IGUAL=">=";
     public static final String MENOR_IGUAL="<=";
@@ -13,42 +15,45 @@ public class Filtros {
 
     public static final String ORDEM ="ORDER BY";
     
-    public static Filtro onde(String campo, Object valor) {
-        return onde(campo, PARECIDO, valor);
+    private List<Filtro> filtros;
+    private String juncao;
+    private static Filtros instance;
+    public Filtros(){
+    	filtros = new ArrayList<Filtro>();
     }
-    public static Filtro ondeIgual(String campo, Object valor) {
-        return onde(campo, IGUAL, valor);
-    }
-    public static Filtro e(String campo, Object valor) {
-        return e(campo, PARECIDO, valor);
-    }
+    public List<Filtro> lista() {
+		List<Filtro> lista = instance.filtros;
+    	instance=null;
+		return lista;
+	} 
     
-    public static Filtro eIgual(String campo, Object valor) {
-        return e(campo, IGUAL, valor);
+    public static Filtros igual(String campo, Object valor) {
+    	return instance(campo,IGUAL,valor);
     }
-    public static Filtro eMaiorIgual(String campo, Object valor) {
-        return e(campo, MAIOR_IGUAL, valor);
+    public static Filtros parecido(String campo, Object valor) {
+    	return instance(campo,PARECIDO,valor);
     }
-    public static Filtro eMenorIgual(String campo, Object valor) {
-        return e(campo, MENOR_IGUAL, valor);
+    public static Filtros e() {
+    	instance.juncao=E;
+    	return instance;
     }
-    
-    public static Filtro onde(String campo, String operador, Object valor) {
-        return filtro(ONDE, campo, operador, valor);
+    public static Filtros ou() {
+    	instance.juncao=OU;
+    	return instance;
     }
-    public static Filtro e(String campo, String operador, Object valor) {
-        return filtro(E, campo, operador, valor);
+    private static Filtros instance(String campo,String operador, Object valor) {
+    	if(instance==null) {
+    		instance = new Filtros();
+    		instance.juncao=ONDE;
+    	}
+    	instance.filtros.add(filtro(instance.juncao, campo, operador, valor));
+    	instance.juncao=E;
+    	return instance;
     }
-    public static Filtro ou(String campo, String operador, Object valor) {
-        return filtro(OU, campo, operador, valor);
-    }
-    public static Filtro ordem(String campos) {
-        return filtro(ORDEM, campos,"",null,true);
-    }
-    public static Filtro filtro(String juncao, String campo, String operador, Object valor) {
+    private static Filtro filtro(String juncao, String campo, String operador, Object valor) {
         return filtro(juncao, campo, operador,valor,false);
     }
-    public static Filtro filtro(String juncao, String campo, String operador, Object valor,boolean ordem){
+    private static Filtro filtro(String juncao, String campo, String operador, Object valor,boolean ordem){
         if(ordem || (valor!=null && valor.toString().trim().length() > 0)) {
             if(PARECIDO.equals(operador)) {
                 valor="%"+ valor.toString() + "%";
@@ -66,5 +71,9 @@ public class Filtros {
             todos.setCampo(campo);
             return todos;
         }
+    }
+    public static List<Filtro> filtros(String criterio){
+    	System.out.println(criterio);
+    	return null;
     }
 }
