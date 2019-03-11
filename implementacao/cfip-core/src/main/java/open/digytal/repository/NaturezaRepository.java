@@ -13,10 +13,11 @@ public interface NaturezaRepository extends JpaRepository<EntidadeNatureza, Inte
 	@Query("SELECT e FROM EntidadeNatureza e WHERE e.login= :login AND e.nome = :nome ORDER BY e.nome")
 	List<EntidadeNatureza> listar(@Param("login")String login,@Param("nome")String nome);
 	
+	@Query("SELECT e FROM EntidadeNatureza e WHERE e.login= :login ORDER BY e.nome")
+	List<EntidadeNatureza> listar(@Param("login")String login);
+	
 	@Query("SELECT e FROM EntidadeNatureza e WHERE e.login= :login AND e.tipoMovimento = :tipo ORDER BY e.nome")
 	List<EntidadeNatureza> listar(@Param("login")String login,@Param("tipo")TipoMovimento tipo);
 	
-	@Query("SELECT e FROM EntidadeNatureza e WHERE e.login= :login ORDER BY e.nome")
-	List<EntidadeNatureza> listar(@Param("login")String login);
 	
 }

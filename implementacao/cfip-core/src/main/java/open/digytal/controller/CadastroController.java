@@ -20,16 +20,8 @@ public class CadastroController implements CadastroService {
 	@Autowired
 	private NaturezaRepository naturezaRepository;
 
-	public List<EntidadeConta> listarContas(String login) {
-		return repository.listar(login);
-	}
-
 	public List<EntidadeConta> listarCartoesCredito(String login) {
 		return repository.listarCartoesCredito(login);
-	}
-
-	public List<EntidadeConta> listarTodas(String login) {
-		return repository.listarTodas(login);
 	}
 
 	public List<EntidadeConta> listarContas(Integer id) {
@@ -37,18 +29,30 @@ public class CadastroController implements CadastroService {
 	}
 
 	public List<EntidadeConta> listarContas(String login, String nome) {
-		return repository.listar(login, nome);
+		if (login == null || login.trim().isEmpty())
+			return repository.listar(login);
+		else
+			return repository.listar(login, nome);
 	}
 
 	public List<EntidadeNatureza> listarNaturezas(String login, String nome) {
-		return naturezaRepository.listar(login, nome);
+		if (login == null || login.trim().isEmpty())
+			return naturezaRepository.listar(login);
+		else
+			return naturezaRepository.listar(login, nome);
 	}
 
 	public List<EntidadeNatureza> listarNaturezas(String login, TipoMovimento tipo) {
 		return naturezaRepository.listar(login, tipo);
 	}
 
-	public List<EntidadeNatureza> listarNaturezas(String login) {
-		return naturezaRepository.listar(login);
+	@Override
+	public EntidadeConta salvarConta(EntidadeConta entidade) {
+		return repository.save(entidade);
+	}
+
+	@Override
+	public EntidadeNatureza salvarNatureza(EntidadeNatureza entidade) {
+		return naturezaRepository.save(entidade);
 	}
 }

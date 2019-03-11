@@ -28,6 +28,7 @@ import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.Total;
 import open.digytal.repository.ContaRepository;
+import open.digytal.service.LancamentoService;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;
 import open.digytal.util.desktop.Formulario;
@@ -50,7 +51,7 @@ public class FrmExtrato extends Formulario {
 	private JScrollPane scroll = new JScrollPane();
 	// DAOs - NAO OFICIAL
 	@Autowired
-	private ContaRepository service;
+	private LancamentoService service;
 	
 	private EntidadeConta conta;
 	private SSCampoTexto txtConta = new SSCampoTexto();

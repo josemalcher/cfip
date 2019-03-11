@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.model.entity.EntidadeConta;
-import open.digytal.service.ContaService;
+import open.digytal.service.CadastroService;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
@@ -29,7 +29,7 @@ import open.digytal.util.desktop.ss.SSMensagem;
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)	
 public class FrmConta extends Formulario {
 	@Autowired
-	private ContaService service;
+	private CadastroService service;
 	private SSCampoTexto txtNome = new SSCampoTexto();
 	private SSCampoTexto txtSigla = new SSCampoTexto();
 	private SSCampoNumero txtSaldoAtual = new SSCampoNumero();
@@ -204,10 +204,7 @@ public class FrmConta extends Formulario {
 			if(entidade.getId()==null) {
 				entidade.setSaldoAtual(entidade.getSaldoInicial());
 			}
-			if(entidade.getId()==null)
-				service.incluir(entidade);
-			else
-				service.alterar(entidade);
+			service.salvarConta(entidade);
 			SSMensagem.informa("Conta registrada com sucesso!!");
 			novo();
 		} catch (Exception e) {
