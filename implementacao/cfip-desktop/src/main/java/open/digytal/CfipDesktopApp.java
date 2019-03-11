@@ -12,9 +12,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.Lancamento;
-import open.digytal.model.TipoMovimento;
-import open.digytal.model.acesso.Usuario;
+import open.digytal.model.Usuario;
+import open.digytal.model.entity.EntidadeLancamento;
+import open.digytal.model.enums.TipoMovimento;
 import open.digytal.service.UsuarioService;
 import open.digytal.util.Filtros;
 import open.digytal.util.desktop.DesktopApp;
@@ -68,7 +68,7 @@ public class CfipDesktopApp {
 		System.exit(0);;
 	}
 	private static void incluirLancamento() {
-		Lancamento objeto = new Lancamento();
+		EntidadeLancamento objeto = new EntidadeLancamento();
 		objeto.setConta(1);
 		objeto.setNatureza(4);
 		objeto.setData(new Date());

@@ -9,24 +9,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
-import open.digytal.model.Categoria;
-import open.digytal.model.EntidadeConta;
-import open.digytal.model.EntidadeNatureza;
-import open.digytal.model.Natureza;
-import open.digytal.model.TipoMovimento;
-import open.digytal.model.acesso.EntidadeRole;
-import open.digytal.model.acesso.EntidadeUsuario;
-import open.digytal.model.acesso.Roles;
-import open.digytal.model.acesso.Usuario;
+import open.digytal.model.Usuario;
+import open.digytal.model.entity.EntidadeConta;
+import open.digytal.model.entity.EntidadeNatureza;
+import open.digytal.model.entity.EntidadeRole;
+import open.digytal.model.entity.EntidadeUsuario;
+import open.digytal.model.enums.Categoria;
+import open.digytal.model.enums.Roles;
+import open.digytal.model.enums.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.repository.RoleRepository;
 import open.digytal.repository.UsuarioRepository;
-import open.digytal.repository.persistence.Controllers;
 import open.digytal.service.UsuarioService;
 
 @Controller
-public class UsuarioController extends Controllers<Usuario> implements UsuarioService {
+public class UsuarioController implements UsuarioService  {
 	@Autowired
 	private UsuarioRepository repository;
 	@Autowired
@@ -42,13 +40,12 @@ public class UsuarioController extends Controllers<Usuario> implements UsuarioSe
 		return encoder.matches(senhaInformada, senhaCriptografada);
 	}
 
-	@Override
 	public Usuario incluir(Usuario usuario) {
 		EntidadeUsuario entidade = new EntidadeUsuario();
+		usuario.setSenha(encoder.encode(usuario.getSenha()));
 		BeanUtils.copyProperties(usuario, entidade);
-		entidade.setSenha(encoder.encode(usuario.getSenha()));
 		entidade = incluir(entidade);
-		return entidade;
+		return usuario;
 	}
 
 	@Transactional

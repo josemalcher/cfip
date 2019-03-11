@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.Lancamento;
+import open.digytal.model.entity.EntidadeLancamento;
 
 @RestController
 @RequestMapping("/lancamentos")
@@ -16,7 +16,7 @@ public class LancamentoResource {
 	private LancamentoController service;
 	
 	@PostMapping
-	public void incluir(@RequestBody Lancamento objeto) {	
+	public void incluir(@RequestBody EntidadeLancamento objeto) {	
 		service.incluir(objeto);
 	}
 }

@@ -28,10 +28,10 @@ import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.EntidadeConta;
-import open.digytal.model.EntidadeLancamento;
-import open.digytal.model.Natureza;
-import open.digytal.model.Total;
+import open.digytal.model.entity.EntidadeConta;
+import open.digytal.model.entity.EntidadeLancamento;
+import open.digytal.model.entity.EntidadeNatureza;
+import open.digytal.model.entity.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.Formato;
@@ -295,7 +295,7 @@ public class FrmLancamentos extends Formulario {
 		List<EntidadeLancamento> lista = new ArrayList<EntidadeLancamento>();
 		try {
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
-			Natureza nat = (Natureza) cboNatureza.getValue();
+			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
 			Integer cId=conta==null?null:conta.getId();
 			Integer nId=nat==null?null:nat.getId();
 			lista = service.listarLancamentos(DesktopApp.getLogin(), txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId );

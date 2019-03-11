@@ -20,11 +20,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.Conta;
-import open.digytal.model.EntidadeConta;
-import open.digytal.model.EntidadeLancamento;
-import open.digytal.model.Natureza;
-import open.digytal.model.TipoMovimento;
+import open.digytal.model.entity.EntidadeConta;
+import open.digytal.model.entity.EntidadeLancamento;
+import open.digytal.model.entity.EntidadeNatureza;
+import open.digytal.model.enums.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.Formato;
@@ -151,7 +150,7 @@ public class FrmLancamentoDebito extends Formulario {
 			entidade.setValor(txtValor.getDouble());
 			entidade.setDescricao(txtDescricao.getText());
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
-			Natureza natureza = (Natureza) cboNatureza.getValue();
+			EntidadeNatureza natureza = (EntidadeNatureza) cboNatureza.getValue();
 			entidade.setConta(conta);
 
 			entidade.setData(txtData.getDataHora());
@@ -193,7 +192,7 @@ public class FrmLancamentoDebito extends Formulario {
 	}
 
 	public void carregar() {
-		List<Conta> contas = contaService.listarContas(DesktopApp.getLogin());
+		List<EntidadeConta> contas = contaService.listarContas(DesktopApp.getLogin());
 		cboConta.setItens(contas, "nome");
 		cboNatureza.setItens(naturezaService.listar(DesktopApp.getLogin(), TipoMovimento.D), "nomeSigla");
 

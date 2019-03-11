@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
-import open.digytal.model.acesso.Usuario;
+import open.digytal.model.Usuario;
 import open.digytal.service.UsuarioService;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.LoginPanel;

@@ -2,12 +2,11 @@ package open.digytal.util.cfip;
 
 import java.util.List;
 
-import open.digytal.model.Conta;
-import open.digytal.model.EntidadeConta;
-import open.digytal.model.EntidadeLancamento;
-import open.digytal.model.EntidadeParcela;
-import open.digytal.model.TipoMovimento;
-import open.digytal.model.Total;
+import open.digytal.model.entity.EntidadeConta;
+import open.digytal.model.entity.EntidadeLancamento;
+import open.digytal.model.entity.EntidadeParcela;
+import open.digytal.model.entity.Total;
+import open.digytal.model.enums.TipoMovimento;
 
 public class CfipUtil {
 	public static Total lancamentos(List<EntidadeLancamento> lista) {
@@ -38,9 +37,9 @@ public class CfipUtil {
         }
         return total;
     }
-    public static Double totalContas(List<Conta> lista) {
+    public static Double totalContas(List<EntidadeConta> lista) {
         Double total = 0.0d;
-        for (Conta c : lista) {
+        for (EntidadeConta c : lista) {
             total = total + c.getSaldoAtual();
         }
         return total;

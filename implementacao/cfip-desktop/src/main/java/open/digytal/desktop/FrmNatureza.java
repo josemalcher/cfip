@@ -16,10 +16,9 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.model.Categoria;
-import open.digytal.model.EntidadeNatureza;
-import open.digytal.model.Natureza;
-import open.digytal.model.TipoMovimento;
+import open.digytal.model.entity.EntidadeNatureza;
+import open.digytal.model.enums.Categoria;
+import open.digytal.model.enums.TipoMovimento;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;

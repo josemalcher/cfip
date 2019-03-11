@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
-import open.digytal.model.Natureza;
+import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
@@ -138,7 +138,7 @@ public class FrmNaturezas extends Formulario {
 		super.fechar();
 	}
 	private void listar() {
-		List<Natureza> lista = new ArrayList<Natureza>();
+		List<EntidadeNatureza> lista = new ArrayList<EntidadeNatureza>();
 		try {
 			String nome = txtFiltro.getText();
 			if (SSValidacao.vazio(nome)) {
@@ -160,14 +160,14 @@ public class FrmNaturezas extends Formulario {
 		exibirCadastro(null);
 	}
 	private void alterar() {
-		Natureza entidade= (Natureza) tabela.getLinhaSelecionada();
+		EntidadeNatureza entidade= (EntidadeNatureza) tabela.getLinhaSelecionada();
 		if(entidade==null) {
 			SSMensagem.avisa("Selecione um item da lista");
 			return;
 		}
 		exibirCadastro(entidade);
 	}
-	private void exibirCadastro(Natureza entidade) {
+	private void exibirCadastro(EntidadeNatureza entidade) {
 		Formulario frm = CfipDesktopApp.getBean(FrmNatureza.class);
 		frm.setEntidade(entidade);
 		this.exibir(frm);

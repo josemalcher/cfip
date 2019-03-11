@@ -13,11 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
-import open.digytal.model.EntidadeConta;
-import open.digytal.model.EntidadeLancamento;
-import open.digytal.model.EntidadeParcela;
-import open.digytal.model.Lancamento;
-import open.digytal.model.TipoMovimento;
+import open.digytal.model.entity.EntidadeConta;
+import open.digytal.model.entity.EntidadeLancamento;
+import open.digytal.model.entity.EntidadeParcela;
+import open.digytal.model.enums.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.LancamentoRepository;
 import open.digytal.repository.NaturezaRepository;
@@ -42,6 +41,10 @@ public class LancamentoController {
 
 	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM EntidadeLancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
 	private final String SQL_PARCELA_FATURA = "SELECT p FROM EntidadeParcela p WHERE p.lancamento.conta.login=:login AND p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
+
+	public List<EntidadeLancamento> extrato(Integer contaId, Date dataInicio) {
+		return repository.extrato(contaId, dataInicio);
+	}
 	private List<EntidadeLancamento> listarLancamentos(boolean previsao,String login, Date inicio, Date fim, Integer conta,
 			Integer natureza) {
 		StringBuilder sql = new StringBuilder(SQL_LANCAMENTO_PREVISAO);
@@ -115,14 +118,16 @@ public class LancamentoController {
 		lista.forEach(item->item.setAmortizado(item.getValor()));
 		return lista;
 	}
-	public void incluir(Lancamento objeto) {
-		EntidadeLancamento entidade = new EntidadeLancamento();
-		BeanUtils.copyProperties(objeto, entidade);
-		BeanUtils.copyProperties(objeto.getParcelamento(), entidade.getParcelamento());
-		entidade.setConta(contaRepository.findById(objeto.getConta()).get());
-		entidade.setNatureza(naturezaRepository.findById(objeto.getNatureza()).get());
-		incluir(entidade);
-	}
+
+	/*
+	 * public void incluir(Lancamento objeto) { EntidadeLancamento entidade = new
+	 * EntidadeLancamento(); BeanUtils.copyProperties(objeto, entidade);
+	 * BeanUtils.copyProperties(objeto.getParcelamento(),
+	 * entidade.getParcelamento());
+	 * entidade.setConta(contaRepository.findById(objeto.getConta()).get());
+	 * entidade.setNatureza(naturezaRepository.findById(objeto.getNatureza()).get())
+	 * ; incluir(entidade); }
+	 */
 	@Transactional
 	public void incluir(EntidadeLancamento lancamento) {
 		if(lancamento.getNatureza().getTipoMovimento().isTranferencia()) {

@@ -19,8 +19,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
-import open.digytal.model.Conta;
-import open.digytal.model.EntidadeConta;
+import open.digytal.model.entity.EntidadeConta;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.DesktopApp;
@@ -159,7 +158,7 @@ public class FrmContas extends Formulario {
 		super.fechar();
 	}
 	private void listar() {
-		List<Conta> lista = new ArrayList<Conta>();
+		List<EntidadeConta> lista = new ArrayList<EntidadeConta>();
 		try {
 			String nome = txtFiltro.getText();
 			if (SSValidacao.vazio(nome)) {

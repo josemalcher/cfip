@@ -20,8 +20,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import open.digytal.model.acesso.EntidadeUsuario;
-import open.digytal.model.acesso.Usuario;
+import open.digytal.model.Usuario;
+import open.digytal.model.entity.EntidadeUsuario;
 import open.digytal.service.UsuarioService;
 import open.digytal.util.Imagem;
 import open.digytal.util.desktop.ss.SSBotao;

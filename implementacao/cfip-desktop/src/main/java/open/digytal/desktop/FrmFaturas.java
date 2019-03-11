@@ -28,9 +28,9 @@ import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
 import open.digytal.controller.LancamentoController;
-import open.digytal.model.EntidadeConta;
-import open.digytal.model.EntidadeParcela;
-import open.digytal.model.Total;
+import open.digytal.model.entity.EntidadeConta;
+import open.digytal.model.entity.EntidadeParcela;
+import open.digytal.model.entity.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Calendario;
 import open.digytal.util.Formato;

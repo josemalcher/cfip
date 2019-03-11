@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import open.digytal.model.Conta;
-import open.digytal.model.EntidadeLancamento;
-import open.digytal.model.acesso.Roles;
+import open.digytal.model.entity.EntidadeConta;
+import open.digytal.model.entity.EntidadeLancamento;
+import open.digytal.model.enums.Roles;
 import open.digytal.repository.ContaRepository;
 import open.digytal.util.Formatador;
 import open.digytal.webapi.secutiry.JwtSession;
@@ -30,7 +30,7 @@ public class ContaResource {
 	  })
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/{nome}")
-	public List<Conta> todas(@PathVariable("nome") String nome){
+	public List<EntidadeConta> todas(@PathVariable("nome") String nome){
 		if(nome==null || nome.trim().isEmpty() || nome.equals("undefined")) //undefined - swagger
 			return repository.listarTodas(JwtSession.getLogin());
 		else
@@ -38,12 +38,12 @@ public class ContaResource {
 	}
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/correntepoupanca")
-	public List<Conta> contasCorrentePoupanca(){
+	public List<EntidadeConta> contasCorrentePoupanca(){
 		return repository.listarContas(JwtSession.getLogin());
 	}
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/cartaocredito")
-	public List<Conta> contasCartaoCredito(){
+	public List<EntidadeConta> contasCartaoCredito(){
 		return repository.listarCartoesCredito(JwtSession.getLogin());
 	}
 	@ApiImplicitParams({
@@ -57,7 +57,7 @@ public class ContaResource {
 		return extrato;
 	}
 	@GetMapping(value="/teste")
-	public List<Conta> teste(){
+	public List<EntidadeConta> teste(){
 		return repository.listarTodas("gso");
 	}
 }

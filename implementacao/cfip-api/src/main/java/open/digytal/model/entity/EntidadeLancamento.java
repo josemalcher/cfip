@@ -1,4 +1,4 @@
-package open.digytal.model;
+package open.digytal.model.entity;
 
 import java.util.Date;
 
@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import open.digytal.model.enums.TipoMovimento;
 import open.digytal.util.DataHora;
 import open.digytal.util.Formatador;
 @Entity
@@ -81,11 +82,11 @@ public class EntidadeLancamento {
 	public void setConta(EntidadeConta conta) {
 		this.conta = conta;
 	}
-	public Natureza getNatureza() {
+	public EntidadeNatureza getNatureza() {
 		return natureza;
 	}
-	public void setNatureza(Natureza natureza) {
-		this.natureza = (EntidadeNatureza) natureza;
+	public void setNatureza(EntidadeNatureza natureza) {
+		this.natureza = natureza;
 	}
 	public Date getData() {
 		return data;
@@ -136,7 +137,7 @@ public class EntidadeLancamento {
 		copia.setPrevisao(previsao);
 		copia.setConta(destino);
 		copia.setData(data);
-		copia.setNatureza(natureza);
+		copia.setNatureza(getNatureza());
 		copia.setValor(valor);
 		copia.origem=this;
 		this.tipoMovimento=TipoMovimento.D;
