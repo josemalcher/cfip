@@ -43,11 +43,11 @@ public class EntidadeNatureza extends Natureza {
 	}
 	@Enumerated(EnumType.STRING)
 	@Column(name="categoria_id",length=50)
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
 	public Categoria getCategoria() {
 		return categoria;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
