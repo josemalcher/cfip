@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 import open.digytal.model.Lancamento;
+import open.digytal.model.Lancamentos;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
@@ -39,12 +40,16 @@ public class LancamentoController implements LancamentoService {
 
 	@PersistenceContext
 	private EntityManager em;
-
-	// https://www.baeldung.com/spring-data-jpa-query
-
 	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM EntidadeLancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
 	private final String SQL_PARCELA_FATURA = "SELECT p FROM EntidadeParcela p WHERE p.lancamento.conta.login=:login AND p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
 
+
+	@Override
+	public List<Lancamentos> listarVo(String login, Integer conta, Integer natureza) {
+		return null;
+	}
+	
+	
 	public List<EntidadeLancamento> extrato(Integer contaId, Date dataInicio) {
 		return repository.extrato(contaId, dataInicio);
 	}
@@ -218,5 +223,6 @@ public class LancamentoController implements LancamentoService {
 		}
 
 	}
+
 
 }

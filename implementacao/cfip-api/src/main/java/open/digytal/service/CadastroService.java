@@ -23,4 +23,6 @@ public interface CadastroService {
 	List<EntidadeNatureza> listarNaturezas(String login, String nome);
 
 	List<EntidadeNatureza> listarNaturezas(String login, TipoMovimento tipo);
+	
+	
 }
