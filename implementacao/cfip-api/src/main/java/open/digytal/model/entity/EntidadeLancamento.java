@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import open.digytal.model.Parcelamento;
 import open.digytal.model.enums.TipoMovimento;
 import open.digytal.util.DataHora;
 import open.digytal.util.Formatador;
@@ -64,12 +65,12 @@ public class EntidadeLancamento {
 	private boolean previsao;
 	
 	@Embedded
-	private EntidadeParcelamento parcelamento;
+	private Parcelamento parcelamento;
 	
 	public EntidadeLancamento() {
-		this.parcelamento = new EntidadeParcelamento();
+		this.parcelamento = new Parcelamento();
 	}
-	public EntidadeParcelamento getParcelamento() {
+	public Parcelamento getParcelamento() {
 		return parcelamento;
 	}
 

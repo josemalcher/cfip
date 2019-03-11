@@ -1,4 +1,4 @@
-package open.digytal.model.entity;
+package open.digytal.model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,8 +11,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import open.digytal.model.entity.EntidadeParcela;
+
 @Embeddable
-public class EntidadeParcelamento {
+public class Parcelamento {
 	@Temporal(TemporalType.DATE)
 	@Column(nullable=true,name="dt_primeiro_vencto")
 	private Date primeiroVencimento;
@@ -29,7 +31,7 @@ public class EntidadeParcelamento {
 	@OneToMany(mappedBy="lancamento",cascade=CascadeType.PERSIST)
 	private List<EntidadeParcela> parcelas;
 	
-	public EntidadeParcelamento() {
+	public Parcelamento() {
 		this.parcelas=new ArrayList<EntidadeParcela>();
 	}
 	public List<EntidadeParcela> getParcelas() {
