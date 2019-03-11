@@ -1,5 +1,6 @@
 ﻿package open.digytal;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.swing.UIManager;
@@ -9,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import open.digytal.model.Lancamento;
+import open.digytal.model.Lancamentos;
 import open.digytal.repository.LancamentoRepository;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.LoginPanel;
@@ -34,7 +35,8 @@ public class CfipDesktopApp {
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(CfipDesktopApp.class);
 		contexto = builder.run(args);
 		LancamentoRepository repository = contexto.getBean(LancamentoRepository.class);
-		//repository.listar(Lancamento.class, "teste");
+		List<Lancamentos> lista = repository.listar();
+		System.out.println(lista.size());
 		//persistencia();
 	}
 	private static void initApp(String[] args) {
