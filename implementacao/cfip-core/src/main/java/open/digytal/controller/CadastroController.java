@@ -23,6 +23,9 @@ public class CadastroController implements CadastroService {
 	public List<EntidadeConta> listarCartoesCredito(String login) {
 		return repository.listarCartoesCredito(login);
 	}
+	public List<EntidadeConta> listarCorrentesPoupanca(String login) {
+		return repository.listarCorrentesPoupanca(login);
+	}
 
 	public List<EntidadeConta> listarContas(Integer id) {
 		return repository.listar(id);

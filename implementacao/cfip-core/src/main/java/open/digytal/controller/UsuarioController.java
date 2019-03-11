@@ -1,6 +1,7 @@
 package open.digytal.controller;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -35,7 +36,16 @@ public class UsuarioController implements UsuarioService  {
 	private RoleRepository roleRepository;
 	@Autowired
 	private PasswordEncoder encoder;
-
+	@Override
+	public Usuario buscar(String login) {
+		Optional<EntidadeUsuario> entidade = repository.findById(login);
+		if(entidade.isPresent()) {
+			Usuario usuario = new Usuario();
+			BeanUtils.copyProperties(entidade, usuario);
+			return usuario;
+		}else
+			return null;
+	}
 	public boolean validarSenha(String senhaInformada, String senhaCriptografada) {
 		return encoder.matches(senhaInformada, senhaCriptografada);
 	}
@@ -122,4 +132,6 @@ public class UsuarioController implements UsuarioService  {
 
 		return usuario;
 	}
+
+	
 }

@@ -213,7 +213,7 @@ public class FrmLancamentoCredito extends Formulario {
 	}
 
 	public void carregar() {
-		List<EntidadeConta> contas = contaService.listarContas(DesktopApp.getLogin());
+		List<EntidadeConta> contas = contaService.listarCorrentesPoupanca(DesktopApp.getLogin());
 		cboConta.setItens(contas, "nome");
 		cboNatureza.setItens(naturezaService.listar(DesktopApp.getLogin(),TipoMovimento.C), "nomeSigla");
 	}

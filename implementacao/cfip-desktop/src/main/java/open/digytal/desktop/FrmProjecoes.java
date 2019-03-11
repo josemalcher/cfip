@@ -32,6 +32,8 @@ import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.entity.Total;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
+import open.digytal.service.CadastroService;
+import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;
@@ -54,24 +56,21 @@ public class FrmProjecoes extends Formulario {
 	private SSBotao cmdBuscar = new SSBotao();
 	private SSGrade gridContas = new SSGrade();
 	private SSGrade gridLancamentos = new SSGrade();
-	
-	@Autowired
-	private ContaRepository contaService;
-	@Autowired
-	private NaturezaRepository naturezaService;
 
 	@Autowired
-	private LancamentoController service;
+	private CadastroService cadastroService;
+	@Autowired
+	private LancamentoService service;
 
 	private SSCampoDataHora txtDataDe = new SSCampoDataHora();
 	private SSCampoDataHora txtDataAte = new SSCampoDataHora();
 	private SSCaixaCombinacao cboConta = new SSCaixaCombinacao();
 	private SSCaixaCombinacao cboNatureza = new SSCaixaCombinacao();
 	private JLabel lblDesc = new JLabel();
-	
+
 	private SSCampoNumero txtSaldoContas = new SSCampoNumero();
 	//
-	private Total totalLancamentos=new Total();
+	private Total totalLancamentos = new Total();
 	private SSCampoNumero txtDespesas = new SSCampoNumero();
 	private SSCampoNumero txtReceitas = new SSCampoNumero();
 	private SSCampoNumero txtSaldoAtual = new SSCampoNumero();
@@ -101,17 +100,16 @@ public class FrmProjecoes extends Formulario {
 		scrollSaldos.setPreferredSize(new Dimension(0, 100));
 		scrollLancamentos.setPreferredSize(new Dimension(0, 170));
 		scrollSaldos.setViewportView(gridContas);
-		JPanel pnlConteudo= new JPanel(new BorderLayout());
-		
-		pnlConteudo.add(scrollSaldos,BorderLayout.NORTH);
-		pnlConteudo.add(scrollLancamentos,BorderLayout.CENTER);
+		JPanel pnlConteudo = new JPanel(new BorderLayout());
+
+		pnlConteudo.add(scrollSaldos, BorderLayout.NORTH);
+		pnlConteudo.add(scrollLancamentos, BorderLayout.CENTER);
 		conteudo.add(pnlConteudo, BorderLayout.CENTER);
 		gridLancamentos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-		    public void valueChanged(ListSelectionEvent event) {
-		        exibirDescricao();
-		    }
+			public void valueChanged(ListSelectionEvent event) {
+				exibirDescricao();
+			}
 		});
-
 
 		GridBagLayout gbl_painelFiltro = new GridBagLayout();
 		painelFiltro.setLayout(gbl_painelFiltro);
@@ -124,7 +122,7 @@ public class FrmProjecoes extends Formulario {
 		gbcBuscar.gridx = 4;
 		gbcBuscar.gridy = 0;
 		painelFiltro.add(cmdBuscar, gbcBuscar);
-		
+
 		gridContas.getModeloTabela().addColumn("Sigla");
 		gridContas.getModeloTabela().addColumn("Nome");
 		gridContas.getModeloTabela().addColumn("Saldo Inicial");
@@ -142,7 +140,7 @@ public class FrmProjecoes extends Formulario {
 		gridContas.getModeloColuna().setCampo(4, "aplicacao");
 		gridContas.getModeloColuna().setFormato(2, Formato.MOEDA);
 		gridContas.getModeloColuna().setFormato(3, Formato.MOEDA);
-		
+
 		// campos da tabela
 		gridLancamentos.getModeloTabela().addColumn("Data");
 		gridLancamentos.getModeloTabela().addColumn("Conta");
@@ -166,10 +164,10 @@ public class FrmProjecoes extends Formulario {
 		gridLancamentos.getModeloColuna().setCampo(4, "parcelamento.restante");
 		gridLancamentos.getModeloColuna().setFormato(4, Formato.MOEDA);
 		gridLancamentos.getModeloColuna().definirPositivoNegativo(4);
-		
+
 		cmdFechar.setText("Fechar");
 		cmdBuscar.setText("Buscar");
-		
+
 		GridBagConstraints gbc_txtDataDe = new GridBagConstraints();
 		gbc_txtDataDe.anchor = GridBagConstraints.NORTHWEST;
 		gbc_txtDataDe.insets = new Insets(5, 5, 5, 0);
@@ -220,69 +218,70 @@ public class FrmProjecoes extends Formulario {
 				sair();
 			}
 		});
-		
+
 		FlowLayout pnlSaldoLayout = new FlowLayout();
 		pnlSaldoLayout.setAlignment(FlowLayout.RIGHT);
-		JPanel pnlSaldo= new JPanel(pnlSaldoLayout);
+		JPanel pnlSaldo = new JPanel(pnlSaldoLayout);
 		pnlSaldo.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		
-		pnlConteudo.add(pnlSaldo,BorderLayout.SOUTH);
-		
+
+		pnlConteudo.add(pnlSaldo, BorderLayout.SOUTH);
+
 		txtDespesas.setComponenteCorFonte(Color.RED);
 		txtDespesas.setComponenteNegrito(true);
 		txtDespesas.setEditavel(false);
 		txtDespesas.setColunas(6);
 		txtDespesas.setRotuloPosicao(SSPosicaoRotulo.ESQUERDA);
 		txtDespesas.setRotulo("Despesa:");
-		
+
 		txtReceitas.setComponenteNegrito(true);
 		txtReceitas.setComponenteCorFonte(Color.BLUE);
 		txtReceitas.setEditavel(false);
 		txtReceitas.setColunas(6);
 		txtReceitas.setRotuloPosicao(SSPosicaoRotulo.ESQUERDA);
 		txtReceitas.setRotulo("Receita:");
-		
+
 		txtSaldoAtual.setComponenteNegrito(true);
 		txtSaldoAtual.setComponenteCorFonte(Color.BLUE);
 		txtSaldoAtual.setEditavel(false);
 		txtSaldoAtual.setColunas(6);
 		txtSaldoAtual.setRotuloPosicao(SSPosicaoRotulo.ESQUERDA);
 		txtSaldoAtual.setRotulo("Saldo:");
-		
+
 		txtSaldoContas.setEditavel(false);
 		txtSaldoContas.setColunas(6);
 		txtSaldoContas.setRotuloPosicao(SSPosicaoRotulo.ESQUERDA);
 		txtSaldoContas.setRotulo("Contas:");
 		txtSaldoContas.setComponenteNegrito(true);
-		
-		
+
 		txtDespesas.setFormato(Formato.MOEDA);
 		txtSaldoAtual.setFormato(Formato.MOEDA);
 		txtReceitas.setFormato(Formato.MOEDA);
 		txtSaldoContas.setFormato(Formato.MOEDA);
-			
+
 		pnlSaldo.add(txtSaldoContas);
 		pnlSaldo.add(txtReceitas);
 		pnlSaldo.add(txtDespesas);
 		pnlSaldo.add(txtSaldoAtual);
 		txtReceitas.setComponenteCorFonte(Color.BLUE);
 		txtDespesas.setComponenteCorFonte(Color.RED);
-		
+
 		//
-		
+
 	}
 
 	@Override
 	public void carregar() {
 		cboConta.setPrimeiroElementoVazio(true);
-		cboNatureza.setPrimeiroElementoVazio(true);
-		cboConta.setItens(contaService.listarContas(DesktopApp.getLogin()), "nome");
-		cboNatureza.setItens(naturezaService.listarTodas(DesktopApp.getLogin()), "nome");
+		cboNatureza.setPrimeiroElementoVazio(true); 
+		cboConta.setItens(cadastroService.listarContas(DesktopApp.getLogin(),null), "nome");
+		cboNatureza.setItens(cadastroService.listarNaturezas(DesktopApp.getLogin(),""), "nome");
+		
 		int ano = SSDataHora.pegaAno(new Date());
 		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
 		txtDataAte.setDataHora(Calendario.data(31, 12, ano));
 
 	}
+
 	private void exibirDescricao() {
 		try {
 			EntidadeLancamento l = (EntidadeLancamento) gridLancamentos.getLinhaSelecionada();
@@ -293,10 +292,10 @@ public class FrmProjecoes extends Formulario {
 			e.printStackTrace();
 		}
 	}
+
 	private void sair() {
 		super.fechar();
 	}
-	
 
 	private void listar() {
 		List<EntidadeLancamento> lista = new ArrayList<EntidadeLancamento>();
@@ -304,30 +303,31 @@ public class FrmProjecoes extends Formulario {
 		try {
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
 			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
-			Integer cId=conta==null?null:conta.getId();
-			Integer nId=nat==null?null:nat.getId();
-			
-			lista = service.listarPrevisoes(DesktopApp.getLogin(), txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId);
-			if(cId==null)
-				contas = contaService.listarContas(DesktopApp.getLogin());
+			Integer cId = conta == null ? null : conta.getId();
+			Integer nId = nat == null ? null : nat.getId();
+
+			lista = service.listarPrevisoes(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(),
+					cId, nId);
+			if (cId == null)
+				contas = cadastroService.listarCorrentesPoupanca(DesktopApp.getLogin());
 			else
-				contas = contaService.listar(cId);
+				contas = cadastroService.listarContas(cId);
 			gridContas.setValue(contas);
 			gridLancamentos.setValue(lista);
 			totalLancamentos = CfipUtil.previsoes(lista);
-			if(contas.size()==0 &&  lista.size()==0)
+			if (contas.size() == 0 && lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 
 			Double saldo = CfipUtil.totalContas(contas);
 			txtSaldoContas.setValue(saldo);
-			saldo=saldo + totalLancamentos.getSaldo();
+			saldo = saldo + totalLancamentos.getSaldo();
 			txtSaldoAtual.setValue(saldo);
-			txtSaldoAtual.setComponenteCorFonte(saldo < 0.0d ? Color.RED: Color.BLUE);
+			txtSaldoAtual.setComponenteCorFonte(saldo < 0.0d ? Color.RED : Color.BLUE);
 			txtDespesas.setValue(totalLancamentos.getDebito());
 			txtReceitas.setValue(totalLancamentos.getCredito());
 		} catch (Exception e) {
 			e.printStackTrace();
-			//Mensagem.erro(e.getMessage());
+			// Mensagem.erro(e.getMessage());
 		}
 
 	}

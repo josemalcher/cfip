@@ -9,9 +9,6 @@ import org.springframework.data.repository.query.Param;
 import open.digytal.model.entity.EntidadeConta;
 
 public interface ContaRepository extends JpaRepository<EntidadeConta, Integer> {
-	@Query("SELECT e FROM EntidadeConta e WHERE e.login= :login AND e.cartaoCredito=false ORDER BY e.nome")
-	public List<EntidadeConta> listarContas(@Param("login")String login);
-	
 	@Query("SELECT e FROM EntidadeConta e WHERE e.id= :id ORDER BY e.nome")
 	public List<EntidadeConta> listar(@Param("id")Integer id);
 	
@@ -23,6 +20,10 @@ public interface ContaRepository extends JpaRepository<EntidadeConta, Integer> {
 	
 	@Query("SELECT e FROM EntidadeConta e WHERE e.login= :login AND e.cartaoCredito=true ORDER BY e.nome")
 	public List<EntidadeConta> listarCartoesCredito(@Param("login")String login);
+	
+	@Query("SELECT e FROM EntidadeConta e WHERE e.login= :login AND e.cartaoCredito=false ORDER BY e.nome")
+	public List<EntidadeConta> listarCorrentesPoupanca(@Param("login")String login);
+	
 
 }
 

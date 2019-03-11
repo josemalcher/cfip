@@ -39,7 +39,7 @@ public class CfipDesktopApp {
 		base();
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(CfipDesktopApp.class);
 		contexto = builder.run(args);
-		persistencia();
+		//persistencia();
 	}
 	private static void initApp(String[] args) {
 		base();
@@ -51,37 +51,27 @@ public class CfipDesktopApp {
 		login.exibir();
 		
 	}
-	private static void persistencia() {
-		UsuarioService service = contexto.getBean(UsuarioService.class);
-		Usuario user = service.buscar("teste");
-		if(user==null) {
-			user = new Usuario();
-			user.setLogin("teste");
-			user.setSenha("teste");
-			user.setEmail("gso@gso.com.br");
-			user.setNome("GLEYSON SAMPAIO");
-			service.incluir(user);
-		}else {
-			List<Usuario> lista= service.listar(Filtros.onde("nome", "GLEYSON"));
-			lista.forEach(i->{System.out.println(i);});
-		}
-		System.exit(0);;
-	}
-	private static void incluirLancamento() {
-		EntidadeLancamento objeto = new EntidadeLancamento();
-		objeto.setConta(1);
-		objeto.setNatureza(4);
-		objeto.setData(new Date());
-		objeto.setDescricao("SALARIO");
-		objeto.setValor(1000.0);
-		objeto.setTipoMovimento(TipoMovimento.C);
-		
-		//objeto.getParcelamento().setPrimeiraParcela(1);
-		//objeto.getParcelamento().setUltimaParcela(1);
-		
-		LancamentoController ctrl = getBean(LancamentoController.class);
-		ctrl.incluir(objeto);
-	}
+
+	/*
+	 * private static void persistencia() { UsuarioService service =
+	 * contexto.getBean(UsuarioService.class); Usuario user =
+	 * service.buscar("teste"); if(user==null) { user = new Usuario();
+	 * user.setLogin("teste"); user.setSenha("teste");
+	 * user.setEmail("gso@gso.com.br"); user.setNome("GLEYSON SAMPAIO");
+	 * service.incluir(user); }else { List<Usuario> lista=
+	 * service.listar(Filtros.onde("nome", "GLEYSON"));
+	 * lista.forEach(i->{System.out.println(i);}); } System.exit(0);; } private
+	 * static void incluirLancamento() { EntidadeLancamento objeto = new
+	 * EntidadeLancamento(); objeto.setConta(1); objeto.setNatureza(4);
+	 * objeto.setData(new Date()); objeto.setDescricao("SALARIO");
+	 * objeto.setValor(1000.0); objeto.setTipoMovimento(TipoMovimento.C);
+	 * 
+	 * //objeto.getParcelamento().setPrimeiraParcela(1);
+	 * //objeto.getParcelamento().setUltimaParcela(1);
+	 * 
+	 * LancamentoController ctrl = getBean(LancamentoController.class);
+	 * ctrl.incluir(objeto); }
+	 */
 	private static void base() {
 		String FILE_URL = Objects.toString(System.getProperty("db.url"), "file:/opendigytal/cfip/database/cfipdb");
 		System.out.println("Iniciando o HSQLDB em " + FILE_URL);
