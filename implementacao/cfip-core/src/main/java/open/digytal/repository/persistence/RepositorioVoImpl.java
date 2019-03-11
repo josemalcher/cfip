@@ -20,7 +20,7 @@ public class RepositorioVoImpl implements RepositorioVo {
 	@Override
 	public List listar(Class vo,String sql, Map<String,Object> params) {
 		this.vo=vo;
-		TypedQuery<Tuple> query = em.createQuery("SELECT e.conta.nome as conta, e.natureza.nome as natureza,e.valor as valor , e.descricao as descricao, e.id as id FROM EntidadeLancamento e", Tuple.class);
+		TypedQuery<Tuple> query = em.createQuery(sql, Tuple.class);
 		List<Tuple> typles = query.getResultList();
 		List lista = new ArrayList();
 		typles.forEach(tuple -> {

@@ -24,11 +24,15 @@ import open.digytal.repository.ContaRepository;
 import open.digytal.repository.LancamentoRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.repository.ParcelaRepository;
+import open.digytal.repository.persistence.RepositorioVo;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
 
 @Controller
 public class LancamentoController implements LancamentoService {
+	@Autowired
+	private RepositorioVo repositorio;
+	
 	@Autowired
 	private ContaRepository contaRepository;
 	@Autowired
@@ -46,7 +50,8 @@ public class LancamentoController implements LancamentoService {
 
 	@Override
 	public List<Lancamentos> listarVo(String login, Integer conta, Integer natureza) {
-		return null;
+		String sql = "SELECT e.conta.nome as conta, e.natureza.nome as natureza,e.valor as valor , e.descricao as descricao, e.id as id FROM EntidadeLancamento e";
+		return repositorio.listar(Lancamentos.class, sql, null);
 	}
 	
 	
