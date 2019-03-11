@@ -4,6 +4,8 @@ public class Lancamentos {
 	private Integer id;
 	private String conta;
 	private String natureza;
+	private String descricao;
+	private Double valor;
 	public Integer getId() {
 		return id;
 	}
@@ -22,9 +24,23 @@ public class Lancamentos {
 	public void setNatureza(String natureza) {
 		this.natureza = natureza;
 	}
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	public Double getValor() {
+		return valor;
+	}
+	public void setValor(Double valor) {
+		this.valor = valor;
+	}
 	@Override
 	public String toString() {
-		return "Lancamentos [id=" + id + ", conta=" + conta + ", natureza=" + natureza + "]";
+		return "Lancamentos [id=" + id + ", conta=" + conta + ", natureza=" + natureza + ", descricao=" + descricao
+				+ ", valor=" + valor + "]";
 	}
+	
 	
 }

@@ -1,6 +1,5 @@
 ﻿package open.digytal;
 
-import java.util.List;
 import java.util.Objects;
 
 import javax.swing.UIManager;
