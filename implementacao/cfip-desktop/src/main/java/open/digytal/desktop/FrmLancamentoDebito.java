@@ -19,13 +19,13 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.controller.LancamentoController;
+import open.digytal.model.Lancamento;
 import open.digytal.model.entity.EntidadeConta;
-import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
+import open.digytal.service.LancamentoService;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
@@ -45,10 +45,10 @@ public class FrmLancamentoDebito extends Formulario {
 
 	private SSBotao cmdSalvar = new SSBotao();
 	private SSBotao cmdSair = new SSBotao();
-	private EntidadeLancamento entidade;
+	private Lancamento entidade;
 
 	@Autowired
-	private LancamentoController service;
+	private LancamentoService service;
 	@Autowired
 	private ContaRepository contaService;
 	@Autowired
@@ -146,17 +146,16 @@ public class FrmLancamentoDebito extends Formulario {
 
 	private void salvar() {
 		try {
-			entidade = new EntidadeLancamento();
+			entidade = new Lancamento();
 			entidade.setValor(txtValor.getDouble());
 			entidade.setDescricao(txtDescricao.getText());
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
 			EntidadeNatureza natureza = (EntidadeNatureza) cboNatureza.getValue();
-			entidade.setConta(conta);
+			entidade.setConta(conta.getId());
 
 			entidade.setData(txtData.getDataHora());
-			entidade.setNatureza(natureza);
-			entidade.setTipoMovimento(natureza.getTipoMovimento());
-
+			entidade.setNatureza(natureza.getId());
+			
 			if (entidade.getConta() == null || entidade.getNatureza() == null || entidade.getData() == null
 					|| entidade.getValor() == null || entidade.getDescricao() == null
 					|| entidade.getDescricao().isEmpty()) {
@@ -179,7 +178,7 @@ public class FrmLancamentoDebito extends Formulario {
 	}
 
 	private void inicializa() {
-		entidade = new EntidadeLancamento();
+		entidade = new Lancamento();
 		txtData.requestFocus();
 		txtData.setValue(new Date());
 		txtValor.setValue(0.0d);

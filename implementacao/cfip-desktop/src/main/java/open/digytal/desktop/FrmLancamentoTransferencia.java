@@ -7,7 +7,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
-import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -19,13 +18,14 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.controller.LancamentoController;
+import open.digytal.model.Lancamento;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
+import open.digytal.service.LancamentoService;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
@@ -45,10 +45,10 @@ public class FrmLancamentoTransferencia extends Formulario {
 
 	private SSBotao cmdSalvar = new SSBotao();
 	private SSBotao cmdSair = new SSBotao();
-	private EntidadeLancamento entidade;
+	private Lancamento entidade;
 
 	@Autowired
-	private LancamentoController service;
+	private LancamentoService service;
 	@Autowired
 	private ContaRepository contaService;
 	@Autowired
@@ -154,19 +154,18 @@ public class FrmLancamentoTransferencia extends Formulario {
 
 	private void salvar() {
 		try {
-			entidade = new EntidadeLancamento();
+			entidade = new Lancamento();
 			entidade.setValor(txtValor.getDouble());
 			entidade.setDescricao(txtDescricao.getText());
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
 			EntidadeConta destino = (EntidadeConta) cboDestino.getValue();
 			EntidadeNatureza natureza = (EntidadeNatureza) cboNatureza.getValue();
-			entidade.setConta(conta);
+			entidade.setConta(conta.getId());
 			if (destino != null)
-				entidade.setDestino(destino);
+				entidade.setDestino(destino.getId());
 
 			entidade.setData(txtData.getDataHora());
-			entidade.setNatureza(natureza);
-			entidade.setTipoMovimento(natureza.getTipoMovimento());
+			entidade.setNatureza(natureza.getId());
 			
 			if (entidade.getConta() == null || entidade.getNatureza() == null || entidade.getData() == null
 					|| entidade.getValor() == null || entidade.getDescricao() == null
@@ -174,7 +173,7 @@ public class FrmLancamentoTransferencia extends Formulario {
 				SSMensagem.avisa("Dados incompletos");
 				return;
 			}
-			if (entidade.getTipoMovimento() == TipoMovimento.T && destino == null) {
+			if (natureza.getTipoMovimento() == TipoMovimento.T && destino == null) {
 				SSMensagem.avisa("Dados incompletos");
 
 				return;
@@ -199,7 +198,7 @@ public class FrmLancamentoTransferencia extends Formulario {
 	}
 
 	private void inicializa() {
-		entidade = new EntidadeLancamento();
+		entidade = new Lancamento();
 		txtData.requestFocus();
 		txtData.setValue(new Date());
 		txtValor.setValue(0.0d);

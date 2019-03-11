@@ -9,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import open.digytal.model.Lancamento;
+import open.digytal.repository.LancamentoRepository;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.LoginPanel;
 
@@ -20,7 +22,7 @@ public class CfipDesktopApp {
 		try {
 			String lf = UIManager.getSystemLookAndFeelClassName();
 			UIManager.setLookAndFeel(lf);
-			initApp(args);
+			initMain(args);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -28,9 +30,11 @@ public class CfipDesktopApp {
 	}
 
 	private static void initMain(String[] args) {
-		base();
+		//base();
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(CfipDesktopApp.class);
 		contexto = builder.run(args);
+		LancamentoRepository repository = contexto.getBean(LancamentoRepository.class);
+		//repository.listar(Lancamento.class, "teste");
 		//persistencia();
 	}
 	private static void initApp(String[] args) {

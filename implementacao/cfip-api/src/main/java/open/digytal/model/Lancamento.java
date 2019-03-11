@@ -10,6 +10,10 @@ public class Lancamento {
 	private Double valor;
 	private Date data;
 	private boolean previsao;
+	private Parcelamento parcelamento;
+	public Lancamento() {
+		this.parcelamento=new Parcelamento();
+	}
 	public Integer getConta() {
 		return conta;
 	}
@@ -51,6 +55,12 @@ public class Lancamento {
 	}
 	public void setPrevisao(boolean previsao) {
 		this.previsao = previsao;
+	}
+	public Parcelamento getParcelamento() {
+		return parcelamento;
+	}
+	public void setParcelamento(Parcelamento parcelamento) {
+		this.parcelamento = parcelamento;
 	}
 	
 }
