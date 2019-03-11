@@ -35,7 +35,7 @@ public class CfipDesktopApp {
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(CfipDesktopApp.class);
 		contexto = builder.run(args);
 		LancamentoRepository repository = contexto.getBean(LancamentoRepository.class);
-		List<Lancamentos> lista = repository.listar();
+		List<Lancamentos> lista = repository.listar(Lancamentos.class);
 		System.out.println(lista.size());
 		//persistencia();
 	}
