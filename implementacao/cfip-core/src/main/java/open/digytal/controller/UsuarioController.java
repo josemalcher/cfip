@@ -41,7 +41,7 @@ public class UsuarioController implements UsuarioService  {
 		Optional<EntidadeUsuario> entidade = repository.findById(login);
 		if(entidade.isPresent()) {
 			Usuario usuario = new Usuario();
-			BeanUtils.copyProperties(entidade, usuario);
+			BeanUtils.copyProperties(entidade.get(), usuario);
 			return usuario;
 		}else
 			return null;

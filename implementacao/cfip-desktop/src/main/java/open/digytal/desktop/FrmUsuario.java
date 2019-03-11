@@ -62,7 +62,7 @@ public class FrmUsuario extends JFrame { //extends FrmPerfil {
         setContentPane(login);
 
         SSCabecalho cabecalho = new SSCabecalho();
-        cabecalho.setDescricao("Registro de usuÃ¡rios no sistema");
+        cabecalho.setDescricao("Registro de usuários no sistema");
         cabecalho.setTitulo("USUÃ�RIO");
         login.add(cabecalho, BorderLayout.NORTH);
 
