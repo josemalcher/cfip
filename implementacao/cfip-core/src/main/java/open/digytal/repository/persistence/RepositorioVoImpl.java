@@ -78,7 +78,7 @@ public class RepositorioVoImpl implements RepositorioVo {
 	}
 
 	private String getSql() {
-		StringBuilder sql = new StringBuilder(Objects.toString(this.sql, "SELECT e FROM " + classe + " e "));
+		StringBuilder sql = new StringBuilder(Objects.toString(this.sql, "SELECT e FROM " + classe.getName() + " e "));
 		if (filtros.length > 0) {
 			for (Filtro f : filtros) {
 				if (!f.isOrdem() && !f.isTodos()) {
