@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 import open.digytal.util.Filtro;
 
 @Repository
-public class RepositorioVoImpl implements RepositorioVo {
+public class RepositorioImpl implements Repositorio {
 	@PersistenceContext
 	private EntityManager em;
 	private Class classe;

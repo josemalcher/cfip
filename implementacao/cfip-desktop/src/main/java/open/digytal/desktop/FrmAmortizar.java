@@ -23,6 +23,7 @@ import open.digytal.controller.LancamentoController;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.model.enums.TipoMovimento;
+import open.digytal.service.LancamentoService;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
@@ -41,7 +42,7 @@ public class FrmAmortizar extends Formulario {
 	private SSBotao cmdSair = new SSBotao();
 	private EntidadeParcela entidade;
 	@Autowired
-	private LancamentoController service;
+	private LancamentoService service;
 	
 	public FrmAmortizar() {
 		init();

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 import open.digytal.model.Lancamento;
-import open.digytal.model.Lancamentos;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
@@ -24,15 +23,12 @@ import open.digytal.repository.ContaRepository;
 import open.digytal.repository.LancamentoRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.repository.ParcelaRepository;
-import open.digytal.repository.persistence.RepositorioVo;
+import open.digytal.repository.persistence.Repositorio;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
-import open.digytal.util.Filtros;
 
 @Controller
 public class LancamentoController implements LancamentoService {
-	@Autowired
-	private RepositorioVo repositorio;
 	@Autowired
 	private ContaRepository contaRepository;
 	@Autowired
@@ -47,24 +43,24 @@ public class LancamentoController implements LancamentoService {
 	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM EntidadeLancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
 	private final String SQL_PARCELA_FATURA = "SELECT p FROM EntidadeParcela p WHERE p.lancamento.conta.login=:login AND p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
 
-
 	@Override
-	public List<Lancamentos> listarVo(String login, Integer conta, Integer natureza) {
-		String sql = "SELECT e.conta.nome as conta, e.natureza.nome as natureza,e.valor as valor , e.descricao as descricao, e.id as id FROM EntidadeLancamento e";
-		return repositorio.listar(Lancamentos.class,sql, Filtros.igual("conta.login", login).e().igual("conta.id", conta).e().igual("natureza.id", natureza).lista());
-	}
-	@Override
-	public List<EntidadeLancamento> listarEntidade(String login, Integer conta, Integer natureza) {
-		return repositorio.listar(EntidadeLancamento.class, Filtros.igual("conta.login", login).e().igual("conta.id", conta).e().igual("natureza.id", natureza).lista());
-	}
-	
-	
 	public List<EntidadeLancamento> extrato(Integer contaId, Date dataInicio) {
 		return repository.extrato(contaId, dataInicio);
 	}
+	@Override
+	public EntidadeParcela buscarParcela(Integer id) {
+		return em.find(EntidadeParcela.class, id);
+	}
 
-	private List<EntidadeLancamento> listarLancamentos(boolean previsao, String login, Date inicio, Date fim,
-			Integer conta, Integer natureza) {
+	public List<EntidadeLancamento> listarLancamentos(String login, Date inicio, Date fim, Integer conta,
+			Integer natureza) {
+		return listarLancamentos(false, login, inicio, fim, conta, natureza);
+	}
+
+	public List<EntidadeLancamento> listarPrevisoes(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
+		return listarLancamentos(true, login, inicio, fim, conta, natureza);
+	}
+	private List<EntidadeLancamento> listarLancamentos(boolean previsao, String login, Date inicio, Date fim,Integer conta, Integer natureza) {
 		StringBuilder sql = new StringBuilder(SQL_LANCAMENTO_PREVISAO);
 		if (natureza != null && natureza > 0) {
 			sql.append(" AND l.natureza.id=:natureza ");
@@ -89,26 +85,10 @@ public class LancamentoController implements LancamentoService {
 		if (previsao)
 			return lista;
 		else {
-			List<EntidadeLancamento> lancamentos = lista.stream().filter(l -> !l.getConta().isCartaoCredito())
-					.collect(Collectors.toList());
+			List<EntidadeLancamento> lancamentos = lista.stream().filter(l -> !l.getConta().isCartaoCredito()).collect(Collectors.toList());
 			return lancamentos;
 		}
 	}
-
-	public EntidadeParcela buscarParcela(Integer id) {
-		return em.find(EntidadeParcela.class, id);
-	}
-
-	public List<EntidadeLancamento> listarLancamentos(String login, Date inicio, Date fim, Integer conta,
-			Integer natureza) {
-		return listarLancamentos(false, login, inicio, fim, conta, natureza);
-	}
-
-	public List<EntidadeLancamento> listarPrevisoes(String login, Date inicio, Date fim, Integer conta,
-			Integer natureza) {
-		return listarLancamentos(true, login, inicio, fim, conta, natureza);
-	}
-
 	public List<EntidadeParcela> listarParcelas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
 		return listarParcelas(false, login, inicio, fim, conta, natureza);
 	}
@@ -204,6 +184,7 @@ public class LancamentoController implements LancamentoService {
 		return lancamento;
 	}
 
+	@Override
 	@Transactional
 	public void compensarParcela(Date data, EntidadeParcela... parcelas) {
 		for (EntidadeParcela parcela : parcelas) {
@@ -232,6 +213,21 @@ public class LancamentoController implements LancamentoService {
 		}
 
 	}
-
+	
+	
+	/*
+	 * @Override public List<Lancamentos> listarVo(String login, Integer conta,
+	 * Integer natureza) { String sql =
+	 * "SELECT e.conta.nome as conta, e.natureza.nome as natureza,e.valor as valor , e.descricao as descricao, e.id as id FROM EntidadeLancamento e"
+	 * ; return repositorio.listar(Lancamentos.class,sql,
+	 * Filtros.igual("conta.login", login).e().igual("conta.id",
+	 * conta).e().igual("natureza.id", natureza).lista()); }
+	 * 
+	 * @Override public List<EntidadeLancamento> listarEntidade(String login,
+	 * Integer conta, Integer natureza) { return
+	 * repositorio.listar(EntidadeLancamento.class, Filtros.igual("conta.login",
+	 * login).e().igual("conta.id", conta).e().igual("natureza.id",
+	 * natureza).lista()); }
+	 */
 
 }
