@@ -87,16 +87,12 @@ public abstract class ClientResource {
 		List lista = resposta.getBody();
 		return lista;
 	}
-	@Override
-	public <T> T incluir(Object entidade) {
-        return post(entidade);
-    }
-	@Override
-	public <T> T alterar(Object entidade) {
-        return put(entidade);
-    }
-	@Override
-    public <T> T buscar(Class classe, Serializable id) {
-        return get(getEntidadeType(),id);
-    }
+	/*
+	 * @Override public <T> T incluir(Object entidade) { return post(entidade); }
+	 * 
+	 * @Override public <T> T alterar(Object entidade) { return put(entidade); }
+	 * 
+	 * @Override public <T> T buscar(Class classe, Serializable id) { return
+	 * get(getEntidadeType(),id); }
+	 */
 }
