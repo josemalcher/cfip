@@ -38,8 +38,8 @@ public class LoginResource {
         final String token = jwtTokenUtil.generateToken(authentication);
         return ResponseEntity.ok(new JwtToken(token));
     }
-    @GetMapping("filtros")
+    @GetMapping("")
     public void listar(Search search) {
-    	search.getFiltros().forEach(f->{System.out.println(f);});
+    	search.getF().forEach(f->{System.out.println(f);});
     }
 }
