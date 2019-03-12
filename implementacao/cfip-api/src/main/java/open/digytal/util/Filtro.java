@@ -8,6 +8,7 @@ public class Filtro {
     private boolean ordem;
     private boolean todos;
     public Filtro() {
+   
     }
 
     public void setTodos(boolean todos) {

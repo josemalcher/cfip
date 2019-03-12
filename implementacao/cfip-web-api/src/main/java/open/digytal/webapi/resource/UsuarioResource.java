@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import open.digytal.controller.UsuarioController;
 import open.digytal.model.Usuario;
 
-@RestController
-@RequestMapping("/usuarios")
+/*@RestController
+@RequestMapping("/usuarios")*/
 public class UsuarioResource {
 	@Autowired
 	private UsuarioController service;

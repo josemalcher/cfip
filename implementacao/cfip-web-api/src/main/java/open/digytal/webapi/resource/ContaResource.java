@@ -16,8 +16,8 @@ import open.digytal.model.enums.Roles;
 import open.digytal.service.CadastroService;
 import open.digytal.webapi.secutiry.JwtSession;
 
-@RestController
-@RequestMapping("/contas")
+/*@RestController
+@RequestMapping("/contas")*/
 public class ContaResource {
 	@Autowired
 	private CadastroService service;
