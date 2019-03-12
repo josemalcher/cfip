@@ -42,15 +42,6 @@ public class ContaResource {
 		return service.listarCartoesCredito(JwtSession.getLogin());
 	}
 	
-	/*@ApiImplicitParams({
-	    @ApiImplicitParam(name = "id", value = "ID Conta", required = true, dataType = "int"),
-	    @ApiImplicitParam(name = "dataInicio", value = "Data ddMMyy", required = true, dataType = "date")
-	 })
-	@PreAuthorize(Roles.PRE_USER)
-	@GetMapping(value="/extrato/{id}/{dataInicio}")
-	public List<EntidadeLancamento> extrato(@PathVariable("id") Integer id, @PathVariable("dataInicio") @DateTimeFormat(pattern = Formatador.DATA_API) Date dataInicio){
-		List<EntidadeLancamento> extrato = repository.extrato(id, dataInicio);
-		return extrato;
-	}*/
+	
 	
 }
