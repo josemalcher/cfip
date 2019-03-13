@@ -1,4 +1,4 @@
-package open.digytal.client.api.cfip;
+package open.digytal.client.api;
 
 import java.io.IOException;
 import java.io.Serializable;

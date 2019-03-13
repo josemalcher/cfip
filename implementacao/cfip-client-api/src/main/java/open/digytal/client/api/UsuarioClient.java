@@ -1,4 +1,4 @@
-package open.digytal.client.api.cfip;
+package open.digytal.client.api;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
@@ -8,7 +8,7 @@ import open.digytal.model.Usuario;
 import open.digytal.service.Services;
 import open.digytal.service.UsuarioService;
 @Service
-@Profile(Services.API)
+//@Profile(Services.API)
 public class UsuarioClient extends ClientResource implements UsuarioService{
 
 	@Override

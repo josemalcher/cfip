@@ -1,4 +1,4 @@
-package open.digytal.client.api.cfip;
+package open.digytal.client.api;
 
 import java.util.Date;
 import java.util.List;
@@ -13,7 +13,7 @@ import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.service.LancamentoService;
 import open.digytal.service.Services;
 @Service
-@Profile(Services.API)
+//@Profile(Services.API)
 public class LancamentoClient extends ClientResource implements LancamentoService {
 
 	@Override

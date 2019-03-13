@@ -1,4 +1,4 @@
-package open.digytal.client.api.cfip;
+package open.digytal.client.api;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import open.digytal.model.enums.TipoMovimento;
 import open.digytal.service.CadastroService;
 import open.digytal.service.Services;
 @Service
-@Profile(Services.API)
+//@Profile(Services.API)
 public class CadastroClient extends ClientResource implements CadastroService {
 
 	@Override

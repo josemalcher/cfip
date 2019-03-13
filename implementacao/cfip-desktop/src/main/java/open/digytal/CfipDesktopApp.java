@@ -1,4 +1,4 @@
-﻿package open.digytal;
+package open.digytal;
 
 import javax.swing.UIManager;
 
@@ -30,6 +30,7 @@ public class CfipDesktopApp {
 		builder.headless(false);
 
 		contexto = builder.run(args);
+		//contexto.getEnvironment().setActiveProfiles(Services.API);
 		LoginPanel login = CfipDesktopApp.getBean(LoginPanel.class);
 		login.exibir();
 
