@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import open.digytal.model.Login;
+import open.digytal.model.Usuario;
 import open.digytal.webapi.secutiry.JwtToken;
 import open.digytal.webapi.secutiry.JwtTokenProvider;
 
@@ -36,7 +37,10 @@ public class LoginResource {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final String token = jwtTokenUtil.generateToken(authentication);
-        return ResponseEntity.ok(new JwtToken(token));
+        Usuario usuario = new Usuario();
+        usuario.setLogin(login.getUsername());
+        usuario.setToken(token);
+        return ResponseEntity.ok(usuario);
     }
     @GetMapping("")
     public void listar(Search search) {

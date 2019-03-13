@@ -5,15 +5,18 @@ public class Usuario {
 	private String nome;
 	private String email;
 	private String senha;
+	private String token;
+	
 	public Usuario() {
 		
 	}
-
-	/*
-	 * public Usuario(String login, String nome, String email,String senha) {
-	 * super(); this.login = login; this.senha = senha; this.nome = nome; this.email
-	 * = email; }
-	 */
+	
+	public void setToken(String token) {
+		this.token = token;
+	}
+	public String getToken() {
+		return token;
+	}
 	public String getLogin() {
 		return login;
 	}

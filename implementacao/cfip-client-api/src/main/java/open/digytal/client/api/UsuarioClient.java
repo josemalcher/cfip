@@ -1,20 +1,22 @@
 package open.digytal.client.api;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
+import open.digytal.model.Login;
 import open.digytal.model.Usuario;
-import open.digytal.service.Services;
 import open.digytal.service.UsuarioService;
 @Service
 //@Profile(Services.API)
 public class UsuarioClient extends ClientResource implements UsuarioService{
-
+	
 	@Override
-	public Usuario login(String login,String senha) {
-		// TODO Auto-generated method stub
-		return null;
+	public Usuario login(String usuario,String senha) {
+		Login login  = new Login();
+		login.setUsername(usuario);
+		login.setPassword(senha);
+		Usuario credencial = post(Usuario.class, login, "login");
+		return credencial;
 	}
 
 	@Override

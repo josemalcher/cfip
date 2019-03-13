@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import open.digytal.util.Texto;
 public abstract class ClientResource {
 	//depois System.getProperty - https://howtodoinjava.com/spring-restful/spring-restful-client-resttemplate-example/
-    protected final String ROOT_URL = "http://localhost:8080/cfip-web-api/"; //Configurador.getConfiguracao().getUrl();
+    protected final String ROOT_URL = "http://localhost:8080/"; //Configurador.getConfiguracao().getUrl();
     protected abstract ParameterizedTypeReference getListaType();
     protected abstract ParameterizedTypeReference getEntidadeType();
 
