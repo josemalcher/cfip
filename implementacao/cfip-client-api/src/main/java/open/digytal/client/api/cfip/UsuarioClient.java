@@ -2,33 +2,28 @@ package open.digytal.client.api.cfip;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.security.core.userdetails.UserCache;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import open.digytal.model.Usuario;
 import open.digytal.service.Services;
+import open.digytal.service.UsuarioService;
 @Service
 @Profile(Services.API)
-public class UsuarioClient extends ClientResource implements UserCache{
+public class UsuarioClient extends ClientResource implements UsuarioService{
 
 	@Override
-	public UserDetails getUserFromCache(String username) {
+	public Usuario login(String login,String senha) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void putUserInCache(UserDetails user) {
+	public Usuario incluir(Usuario usuario) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
-	@Override
-	public void removeUserFromCache(String username) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	protected ParameterizedTypeReference getListaType() {
 		// TODO Auto-generated method stub
@@ -46,5 +41,6 @@ public class UsuarioClient extends ClientResource implements UserCache{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
    
 }

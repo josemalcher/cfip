@@ -37,16 +37,18 @@ public class UsuarioController implements UsuarioService  {
 	@Autowired
 	private PasswordEncoder encoder;
 	@Override
-	public Usuario buscar(String login) {
+	public Usuario login(String login,String senha) {
+		Usuario usuario=null;
 		Optional<EntidadeUsuario> entidade = repository.findById(login);
 		if(entidade.isPresent()) {
-			Usuario usuario = new Usuario();
-			BeanUtils.copyProperties(entidade.get(), usuario);
-			return usuario;
-		}else
-			return null;
+			if(validarSenha(senha, entidade.get().getSenha())) {
+				usuario = new Usuario();
+				BeanUtils.copyProperties(entidade.get(), usuario);
+			}
+		}
+		return usuario;
 	}
-	public boolean validarSenha(String senhaInformada, String senhaCriptografada) {
+	private boolean validarSenha(String senhaInformada, String senhaCriptografada) {
 		return encoder.matches(senhaInformada, senhaCriptografada);
 	}
 

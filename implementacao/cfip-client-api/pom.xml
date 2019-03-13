@@ -18,7 +18,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>open.digytal</groupId>
-			<artifactId>cfip-core</artifactId>
+			<artifactId>cfip-api</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<!-- Object To JSON To Obeject -->

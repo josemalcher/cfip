@@ -30,13 +30,11 @@ public class FrmLogin extends LoginPanel {
 
 	private void logarAction() {
 		try {
-			Usuario usuario = service.buscar(getLogin());
+			Usuario usuario = service.login(getLogin(),getLogin());
 			if (usuario==null) {
-				SSMensagem.avisa("Usuário não localizado");
+				SSMensagem.avisa("Credencial Inválida");
 				FrmUsuario frm = CfipDesktopApp.getBean(FrmUsuario.class);
 				frm.setVisible(true);
-			} else if (!service.validarSenha(getSenha(), usuario.getSenha())) {
-				SSMensagem.avisa("Senha inválida");
 			} else {
 				DesktopApp.setLogin(usuario.getLogin());;
 				MDICfip mdi = CfipDesktopApp.getBean(MDICfip.class);
