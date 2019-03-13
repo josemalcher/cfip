@@ -11,7 +11,7 @@
 	<groupId>open.digytal</groupId>
 	<artifactId>cfip-core</artifactId>
 	<version>1.0</version>
-	<name>cfip</name>
+	<name>cfip-core</name>
 	<description>CFIP - Controle Financeiro Pessoal</description>
 
 	<properties>
@@ -39,11 +39,4 @@
 			<artifactId>hsqldb</artifactId>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-
-		</plugins>
-	</build>
-
 </project>

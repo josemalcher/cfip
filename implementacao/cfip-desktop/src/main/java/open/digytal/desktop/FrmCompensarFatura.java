@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,8 +21,8 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.controller.LancamentoController;
 import open.digytal.model.entity.EntidadeParcela;
+import open.digytal.service.LancamentoService;
 import open.digytal.util.Formatador;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.Formulario;
@@ -43,7 +42,7 @@ public class FrmCompensarFatura extends Formulario {
 	private SSBotao cmdSair = new SSBotao();
 	private Double valor=0.0;
 	@Autowired
-	private LancamentoController service;
+	private LancamentoService service;
 	
 	public FrmCompensarFatura() {
 		init();

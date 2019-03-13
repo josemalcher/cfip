@@ -27,7 +27,6 @@ import org.springframework.stereotype.Component;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.Total;
-import open.digytal.repository.ContaRepository;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;

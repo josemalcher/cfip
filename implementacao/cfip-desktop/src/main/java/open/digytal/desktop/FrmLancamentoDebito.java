@@ -23,8 +23,7 @@ import open.digytal.model.Lancamento;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.TipoMovimento;
-import open.digytal.repository.ContaRepository;
-import open.digytal.repository.NaturezaRepository;
+import open.digytal.service.CadastroService;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.DesktopApp;
@@ -50,10 +49,8 @@ public class FrmLancamentoDebito extends Formulario {
 	@Autowired
 	private LancamentoService service;
 	@Autowired
-	private ContaRepository contaService;
-	@Autowired
-	private NaturezaRepository naturezaService;
-
+	private CadastroService contaService;
+	
 	private final SSCaixaCombinacao cboConta = new SSCaixaCombinacao();
 	private final SSCaixaCombinacao cboNatureza = new SSCaixaCombinacao();
 	private JCheckBox chkNovo = new JCheckBox("Novo?");
@@ -193,7 +190,7 @@ public class FrmLancamentoDebito extends Formulario {
 	public void carregar() {
 		List<EntidadeConta> contas = contaService.listarCorrentesPoupanca(DesktopApp.getLogin());
 		cboConta.setItens(contas, "nome");
-		cboNatureza.setItens(naturezaService.listar(DesktopApp.getLogin(), TipoMovimento.D), "nomeSigla");
+		cboNatureza.setItens(contaService.listarNaturezas(DesktopApp.getLogin(), TipoMovimento.D), "nomeSigla");
 
 	}
 }

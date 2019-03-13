@@ -27,14 +27,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
-import open.digytal.controller.LancamentoController;
 import open.digytal.model.entity.EntidadeConta;
-import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.model.entity.Total;
-import open.digytal.repository.ContaRepository;
-import open.digytal.repository.NaturezaRepository;
 import open.digytal.service.CadastroService;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
@@ -49,7 +45,6 @@ import open.digytal.util.desktop.ss.SSCampoNumero;
 import open.digytal.util.desktop.ss.SSGrade;
 import open.digytal.util.desktop.ss.SSMensagem;
 import open.digytal.util.desktop.ss.SSPosicaoRotulo;
-import open.digytal.util.desktop.ss.tabela.SSModeloTabela;
 import open.digytal.util.desktop.ss.tabela.SSTipoSelecao;
 import open.digytal.util.desktop.ss.util.SSDataHora;
 
