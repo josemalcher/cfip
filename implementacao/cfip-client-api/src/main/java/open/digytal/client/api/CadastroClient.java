@@ -14,6 +14,8 @@ import open.digytal.service.CadastroService;
 //@Profile(Services.API)
 public class CadastroClient extends ClientResource implements CadastroService {
 	private String contas="cadastros/contas";
+	private String corrente=contas+"/correntepoupanca";
+	private String cartaocredito=contas+"/cartaocredito";
 	private String naturezas="cadastros/naturezas";
 	
 	@Override
@@ -25,20 +27,24 @@ public class CadastroClient extends ClientResource implements CadastroService {
 	protected ParameterizedTypeReference getEntidadeType() {
 		return new ParameterizedTypeReference<EntidadeConta>() {};
 	}
+	
+	protected ParameterizedTypeReference getNaturezaListaType() {
+		return new ParameterizedTypeReference<List<EntidadeNatureza>>() {};
+	}
 
 	@Override
 	public void salvarConta(EntidadeConta entidade) {
-		post(entidade, "contas");
+		post(entidade, contas);
 	}
 
 	@Override
 	public void salvarNatureza(EntidadeNatureza entidade) {
-		post(entidade, "naturezas");
+		post(entidade, naturezas);
 	}
 
 	@Override
 	public List<EntidadeConta> listarContas(Integer id) {
-		return null;
+		return getLista(getListaType(),contas,id);
 	}
 
 	@Override
@@ -48,26 +54,22 @@ public class CadastroClient extends ClientResource implements CadastroService {
 
 	@Override
 	public List<EntidadeConta> listarCartoesCredito(String login) {
-		// TODO Auto-generated method stub
-		return null;
+		return getLista(getListaType(),cartaocredito);
 	}
 
 	@Override
 	public List<EntidadeConta> listarCorrentesPoupanca(String login) {
-		// TODO Auto-generated method stub
-		return null;
+		return getLista(getListaType(),corrente);
 	}
 
 	@Override
 	public List<EntidadeNatureza> listarNaturezas(String login, String nome) {
-		// TODO Auto-generated method stub
-		return null;
+		return getLista(getNaturezaListaType(),naturezas,nome);
 	}
 
 	@Override
 	public List<EntidadeNatureza> listarNaturezas(String login, TipoMovimento tipo) {
-		// TODO Auto-generated method stub
-		return null;
+		return getLista(getNaturezaListaType(),naturezas,"tipo",tipo);
 	}
 
 	

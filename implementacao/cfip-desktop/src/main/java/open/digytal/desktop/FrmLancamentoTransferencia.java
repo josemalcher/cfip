@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -162,7 +163,7 @@ public class FrmLancamentoTransferencia extends Formulario {
 
 			entidade.setData(txtData.getDataHora());
 			entidade.setNatureza(natureza.getId());
-			
+
 			if (entidade.getConta() == null || entidade.getNatureza() == null || entidade.getData() == null
 					|| entidade.getValor() == null || entidade.getDescricao() == null
 					|| entidade.getDescricao().isEmpty()) {
@@ -207,11 +208,11 @@ public class FrmLancamentoTransferencia extends Formulario {
 	}
 
 	public void carregar() {
-		/*
-		 * List<EntidadeConta> contas = contaService.listarTodas(DesktopApp.getLogin());
-		 * cboConta.setItens(contas, "nome"); cboDestino.setItens(contas, "nome");
-		 */
-		cboNatureza.setItens(contaService.listarNaturezas(DesktopApp.getLogin(),TipoMovimento.T), "nomeSigla");
+		List<EntidadeConta> contas = contaService.listarContas(DesktopApp.getLogin(), null);
+		cboConta.setItens(contas, "nome");
+		cboDestino.setItens(contas, "nome");
+
+		cboNatureza.setItens(contaService.listarNaturezas(DesktopApp.getLogin(), TipoMovimento.T), "nomeSigla");
 
 	}
 }

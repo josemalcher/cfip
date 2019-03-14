@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.Roles;
+import open.digytal.model.enums.TipoMovimento;
 import open.digytal.service.CadastroService;
 import open.digytal.webapi.secutiry.JwtSession;
 
@@ -32,6 +33,14 @@ public class NaturezaResource {
 		if(nome!=null &&nome.equals("undefined")) 
 			nome=null;
 		return service.listarNaturezas(JwtSession.getLogin(),nome);
+	}
+	@ApiImplicitParams({
+	    @ApiImplicitParam(name = "tipo", value = "Tipo",defaultValue="", required = true, dataType = "string")
+	  })
+	@PreAuthorize(Roles.PRE_USER)
+	@GetMapping(value= {"/tipo/{tipo}"})
+	public List<EntidadeNatureza> tipo(@PathVariable(name ="tipo",required = false) String tipo){
+		return service.listarNaturezas(JwtSession.getLogin(),TipoMovimento.valueOf(tipo.toUpperCase()));
 	}
 	@PostMapping
     public void incluir(@RequestBody EntidadeNatureza entidade){
