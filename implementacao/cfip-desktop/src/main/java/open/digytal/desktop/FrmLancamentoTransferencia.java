@@ -20,11 +20,9 @@ import org.springframework.stereotype.Component;
 
 import open.digytal.model.Lancamento;
 import open.digytal.model.entity.EntidadeConta;
-import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.TipoMovimento;
-import open.digytal.repository.ContaRepository;
-import open.digytal.repository.NaturezaRepository;
+import open.digytal.service.CadastroService;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Formato;
 import open.digytal.util.desktop.DesktopApp;
@@ -50,9 +48,7 @@ public class FrmLancamentoTransferencia extends Formulario {
 	@Autowired
 	private LancamentoService service;
 	@Autowired
-	private ContaRepository contaService;
-	@Autowired
-	private NaturezaRepository naturezaService;
+	private CadastroService contaService;
 	private SSCaixaCombinacao cboConta = new SSCaixaCombinacao();
 	private SSCaixaCombinacao cboNatureza = new SSCaixaCombinacao();
 	private SSCaixaCombinacao cboDestino = new SSCaixaCombinacao();
@@ -215,7 +211,7 @@ public class FrmLancamentoTransferencia extends Formulario {
 		 * List<EntidadeConta> contas = contaService.listarTodas(DesktopApp.getLogin());
 		 * cboConta.setItens(contas, "nome"); cboDestino.setItens(contas, "nome");
 		 */
-		cboNatureza.setItens(naturezaService.listar(DesktopApp.getLogin(),TipoMovimento.T), "nomeSigla");
+		cboNatureza.setItens(contaService.listarNaturezas(DesktopApp.getLogin(),TipoMovimento.T), "nomeSigla");
 
 	}
 }

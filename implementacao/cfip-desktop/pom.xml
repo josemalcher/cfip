@@ -11,24 +11,44 @@
 	<groupId>open.digytal</groupId>
 	<artifactId>cfip-desktop</artifactId>
 	<version>1.0</version>
-	<name>cfip</name>
+	<name>cfip-desktop</name>
 	<description>CFIP - Controle Financeiro Pessoal</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<start-class>open.digytal.SpringBootApp</start-class>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>open.digytal</groupId>
-			<artifactId>cfip-core</artifactId>
+			<artifactId>cfip-api</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>open.digytal</groupId>
+			<artifactId>cfip-client-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -37,5 +57,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
-import open.digytal.model.Usuario;
+import open.digytal.model.Sessao;
 import open.digytal.service.UsuarioService;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.LoginPanel;
@@ -30,15 +30,13 @@ public class FrmLogin extends LoginPanel {
 
 	private void logarAction() {
 		try {
-			Usuario usuario = service.buscar(getLogin());
-			if (usuario==null) {
-				SSMensagem.avisa("Usuário não localizado");
+			Sessao sessao = service.login(getLogin(),getSenha());
+			if (!sessao.ativa()) {
+				SSMensagem.avisa("Credencial Inválida");
 				FrmUsuario frm = CfipDesktopApp.getBean(FrmUsuario.class);
 				frm.setVisible(true);
-			} else if (!service.validarSenha(getSenha(), usuario.getSenha())) {
-				SSMensagem.avisa("Senha inválida");
 			} else {
-				DesktopApp.setLogin(usuario.getLogin());;
+				DesktopApp.setLogin(sessao.getLogin());;
 				MDICfip mdi = CfipDesktopApp.getBean(MDICfip.class);
 				mdi.exibirSessao();
 				mdi.setVisible(true);

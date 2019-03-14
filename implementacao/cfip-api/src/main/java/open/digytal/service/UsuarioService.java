@@ -1,9 +1,9 @@
 package open.digytal.service;
 
+import open.digytal.model.Sessao;
 import open.digytal.model.Usuario;
 
 public interface UsuarioService{
-	Usuario buscar(String login);
+	Sessao login(String login,String senha);
 	Usuario incluir(Usuario usuario);
-	boolean validarSenha(String senhaInformada, String senhaCriptografada);
 }

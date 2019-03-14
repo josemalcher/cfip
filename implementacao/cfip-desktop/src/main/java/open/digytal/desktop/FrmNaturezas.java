@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
 import open.digytal.model.entity.EntidadeNatureza;
-import open.digytal.repository.NaturezaRepository;
 import open.digytal.service.CadastroService;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
@@ -28,7 +27,6 @@ import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCampoTexto;
 import open.digytal.util.desktop.ss.SSGrade;
 import open.digytal.util.desktop.ss.SSMensagem;
-import open.digytal.util.desktop.ss.util.SSValidacao;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)	

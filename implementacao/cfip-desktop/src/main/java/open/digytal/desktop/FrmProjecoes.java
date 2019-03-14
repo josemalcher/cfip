@@ -25,13 +25,10 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.controller.LancamentoController;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.entity.Total;
-import open.digytal.repository.ContaRepository;
-import open.digytal.repository.NaturezaRepository;
 import open.digytal.service.CadastroService;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;

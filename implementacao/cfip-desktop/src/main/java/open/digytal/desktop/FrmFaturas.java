@@ -27,11 +27,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
-import open.digytal.controller.LancamentoController;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.model.entity.Total;
-import open.digytal.repository.ContaRepository;
+import open.digytal.service.CadastroService;
+import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;
@@ -58,9 +58,9 @@ public class FrmFaturas extends Formulario {
 	private JScrollPane scroll = new JScrollPane();
 	// DAOs - NAO OFICIAL
 	@Autowired
-	private ContaRepository contaService;
+	private CadastroService contaService;
 	@Autowired
-	private LancamentoController service;
+	private LancamentoService service;
 
 	private SSCampoDataHora txtDataDe = new SSCampoDataHora();
 	private SSCampoDataHora txtDataAte = new SSCampoDataHora();

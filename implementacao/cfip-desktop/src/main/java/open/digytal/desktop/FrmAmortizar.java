@@ -19,8 +19,6 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import open.digytal.controller.LancamentoController;
-import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.model.enums.TipoMovimento;
 import open.digytal.service.LancamentoService;

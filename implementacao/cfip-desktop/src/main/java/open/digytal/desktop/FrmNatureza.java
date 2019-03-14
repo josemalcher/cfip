@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.Categoria;
 import open.digytal.model.enums.TipoMovimento;
-import open.digytal.repository.NaturezaRepository;
+import open.digytal.service.CadastroService;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
@@ -31,7 +31,7 @@ import open.digytal.util.desktop.ss.SSMensagem;
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FrmNatureza extends Formulario {
 	@Autowired
-	private NaturezaRepository service;
+	private CadastroService service;
 	private EntidadeNatureza entidade;
 	
 	private SSCampoTexto txtNome = new SSCampoTexto();
@@ -155,7 +155,7 @@ public class FrmNatureza extends Formulario {
 			}
 			
 			//dao.gravar(operacao, entidade);
-			service.save(entidade);
+			service.salvarNatureza(entidade);
 			
 			SSMensagem.informa("Natureza registrada com sucesso!!");
 			novo();

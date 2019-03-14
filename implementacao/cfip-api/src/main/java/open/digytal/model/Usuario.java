@@ -5,15 +5,11 @@ public class Usuario {
 	private String nome;
 	private String email;
 	private String senha;
+	
 	public Usuario() {
 		
 	}
-
-	/*
-	 * public Usuario(String login, String nome, String email,String senha) {
-	 * super(); this.login = login; this.senha = senha; this.nome = nome; this.email
-	 * = email; }
-	 */
+	
 	public String getLogin() {
 		return login;
 	}

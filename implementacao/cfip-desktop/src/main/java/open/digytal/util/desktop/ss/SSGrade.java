@@ -16,13 +16,9 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.swing.JTable;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 
-import ch.qos.logback.core.net.ssl.SSLNestedComponentRegistryRules;
 import open.digytal.util.desktop.ss.tabela.SSModeloColuna;
 import open.digytal.util.desktop.ss.tabela.SSModeloTabela;
 import open.digytal.util.desktop.ss.tabela.SSTipoSelecao;

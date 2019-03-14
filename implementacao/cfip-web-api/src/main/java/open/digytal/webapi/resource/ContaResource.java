@@ -16,8 +16,8 @@ import open.digytal.model.enums.Roles;
 import open.digytal.service.CadastroService;
 import open.digytal.webapi.secutiry.JwtSession;
 
-/*@RestController
-@RequestMapping("/contas")*/
+@RestController
+@RequestMapping("/cadastros/contas")
 public class ContaResource {
 	@Autowired
 	private CadastroService service;
@@ -27,8 +27,6 @@ public class ContaResource {
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/{nome}")
 	public List<EntidadeConta> todas(@PathVariable("nome") String nome){
-		if(nome!=null &&nome.equals("undefined")) 
-			nome=null;
 		return service.listarContas (JwtSession.getLogin(),nome);
 	}
 	@PreAuthorize(Roles.PRE_USER)

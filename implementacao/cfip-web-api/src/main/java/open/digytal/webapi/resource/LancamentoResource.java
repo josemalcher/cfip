@@ -22,8 +22,8 @@ import open.digytal.service.LancamentoService;
 import open.digytal.util.Formatador;
 import open.digytal.webapi.secutiry.JwtSession;
 
-/*@RestController
-@RequestMapping("/lancamentos")*/
+@RestController
+@RequestMapping("/lancamentos")
 public class LancamentoResource {
 	@Autowired
 	private LancamentoService service;
