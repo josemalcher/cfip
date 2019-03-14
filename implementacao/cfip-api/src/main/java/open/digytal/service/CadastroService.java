@@ -8,9 +8,9 @@ import open.digytal.model.enums.TipoMovimento;
 
 public interface CadastroService {
 
-	EntidadeConta salvarConta(EntidadeConta entidade);
+	void salvarConta(EntidadeConta entidade);
 
-	EntidadeNatureza salvarNatureza(EntidadeNatureza entidade);
+	void salvarNatureza(EntidadeNatureza entidade);
 
 	List<EntidadeConta> listarContas(Integer id);
 

@@ -77,12 +77,6 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	protected String getResource() {
-		// TODO Auto-generated method stub
-		return null;
-	}
     
 
 }

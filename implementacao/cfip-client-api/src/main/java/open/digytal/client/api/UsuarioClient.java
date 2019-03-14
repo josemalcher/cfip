@@ -43,9 +43,5 @@ public class UsuarioClient extends ClientResource implements UsuarioService {
 		return null;
 	}
 
-	@Override
-	protected String getResource() {
-		return null;
-	}
 
 }

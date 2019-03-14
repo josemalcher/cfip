@@ -28,53 +28,20 @@ public abstract class ClientResource {
 
 	protected abstract ParameterizedTypeReference getEntidadeType();
 	
-	protected abstract String getResource();
-
-	public static void main(String[] args) {
-		ClientResource cr = new ClientResource() {
-			
-			@Override
-			protected String getResource() {
-				// TODO Auto-generated method stub
-				return "cadastros";
-			}
-			
-			@Override
-			protected ParameterizedTypeReference getListaType() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			@Override
-			protected ParameterizedTypeReference getEntidadeType() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-		};
-		System.out.println(cr.getUrl("contas",""));
-	}
-	protected String getPath(String delimiter, List path) {
-		return Texto.concatenar("/", path);
-	}
-
-	protected String getPath(String delimiter, Serializable... path) {
-		return getPath(delimiter, Arrays.asList(path));
-	}
-
-	protected String getUrl(List<Serializable> path) {
-		if (getResource() != null && !getResource().isEmpty()) {
-			path.add(0, getResource());
-		}
-		String sufix = getPath("/", path);
+	//protected abstract String getResource();
+	/*
+	 * private String getPath(String delimiter, Serializable ... path) { return
+	 * Texto.concatenar("/", path); }
+	 */
+	private String getUrl(Serializable... path) {
+		/*
+		 * if (getResource() != null && !getResource().isEmpty()) { path.add(0,
+		 * getResource()); }
+		 */
+		String sufix = Texto.concatenar("/", path);
 		String url = String.format("%s%s", ROOT_URL, sufix);
 		return url;
-	}
-
-	protected String getUrl(Serializable... path) {
-		return getUrl(new ArrayList<>(Arrays.asList(path)));
-	}
-
-	
+	}	
 	protected RestTemplate getRestTemplate() {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getInterceptors().add(new ClientHttpRequestInterceptor() {

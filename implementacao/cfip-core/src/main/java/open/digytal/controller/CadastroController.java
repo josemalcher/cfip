@@ -50,12 +50,12 @@ public class CadastroController implements CadastroService {
 	}
 
 	@Override
-	public EntidadeConta salvarConta(EntidadeConta entidade) {
-		return repository.save(entidade);
+	public void salvarConta(EntidadeConta entidade) {
+		repository.save(entidade);
 	}
 
 	@Override
-	public EntidadeNatureza salvarNatureza(EntidadeNatureza entidade) {
-		return naturezaRepository.save(entidade);
+	public void salvarNatureza(EntidadeNatureza entidade) {
+		naturezaRepository.save(entidade);
 	}
 }
