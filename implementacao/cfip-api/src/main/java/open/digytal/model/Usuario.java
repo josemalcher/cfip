@@ -5,16 +5,16 @@ public class Usuario {
 	private String nome;
 	private String email;
 	private String senha;
-	private String token;
+	private static String token;
 	
 	public Usuario() {
 		
 	}
 	
-	public void setToken(String token) {
-		this.token = token;
+	public void setToken(String jwtToken) {
+		token = jwtToken;
 	}
-	public String getToken() {
+	public static String token() {
 		return token;
 	}
 	public String getLogin() {
