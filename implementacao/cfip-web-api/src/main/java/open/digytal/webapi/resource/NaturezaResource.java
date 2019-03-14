@@ -27,8 +27,8 @@ public class NaturezaResource {
 	    @ApiImplicitParam(name = "nome", value = "Nome",defaultValue="", required = false, dataType = "string")
 	  })
 	@PreAuthorize(Roles.PRE_USER)
-	@GetMapping(value="/{nome}")
-	public List<EntidadeNatureza> todas(@PathVariable("nome") String nome){
+	@GetMapping(value= {"","/{nome}"})
+	public List<EntidadeNatureza> todas(@PathVariable(name ="nome",required = false) String nome){
 		if(nome!=null &&nome.equals("undefined")) 
 			nome=null;
 		return service.listarNaturezas(JwtSession.getLogin(),nome);

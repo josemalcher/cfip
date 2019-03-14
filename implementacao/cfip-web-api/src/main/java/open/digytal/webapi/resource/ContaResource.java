@@ -27,8 +27,8 @@ public class ContaResource {
 	    @ApiImplicitParam(name = "nome", value = "Nome",defaultValue="", required = false, dataType = "string")
 	  })
 	@PreAuthorize(Roles.PRE_USER)
-	@GetMapping(value="/{nome}")
-	public List<EntidadeConta> todas(@PathVariable("nome") String nome){
+	@GetMapping(value= {"","/{nome}"})
+	public List<EntidadeConta> todas(@PathVariable(name ="nome",required = false) String nome){
 		return service.listarContas (JwtSession.getLogin(),nome);
 	}
 	@PreAuthorize(Roles.PRE_USER)
