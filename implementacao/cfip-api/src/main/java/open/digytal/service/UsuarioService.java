@@ -5,5 +5,5 @@ import open.digytal.model.Usuario;
 
 public interface UsuarioService{
 	Sessao login(String login,String senha);
-	Usuario incluir(Usuario usuario);
+	void incluir(Usuario usuario);
 }

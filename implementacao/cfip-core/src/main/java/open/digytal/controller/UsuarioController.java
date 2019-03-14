@@ -55,12 +55,11 @@ public class UsuarioController implements UsuarioService  {
 		return encoder.matches(senhaInformada, senhaCriptografada);
 	}
 
-	public Usuario incluir(Usuario usuario) {
+	public void incluir(Usuario usuario) {
 		EntidadeUsuario entidade = new EntidadeUsuario();
 		usuario.setSenha(encoder.encode(usuario.getSenha()));
 		BeanUtils.copyProperties(usuario, entidade);
-		entidade = incluir(entidade);
-		return usuario;
+		incluir(entidade);
 	}
 
 	@Transactional

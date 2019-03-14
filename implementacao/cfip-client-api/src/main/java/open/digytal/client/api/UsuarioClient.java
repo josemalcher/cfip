@@ -2,31 +2,35 @@ package open.digytal.client.api;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import open.digytal.model.Login;
 import open.digytal.model.Sessao;
 import open.digytal.model.Usuario;
 import open.digytal.service.UsuarioService;
+
 @Service
 //@Profile(Services.API)
-public class UsuarioClient extends ClientResource implements UsuarioService{
-	
+public class UsuarioClient extends ClientResource implements UsuarioService {
+
 	@Override
-	public Sessao login(String usuario,String senha) {
-		Login login  = new Login();
-		login.setUsername(usuario);
-		login.setPassword(senha);
-		Sessao credencial = Sessao.newInstance(post(Sessao.class, login, "login"));
-		return credencial;
+	public Sessao login(String usuario, String senha) {
+		try {
+			Login login = new Login();
+			login.setUsername(usuario);
+			login.setPassword(senha);
+			Sessao credencial = Sessao.newInstance(post(Sessao.class, login, "login"));
+			return credencial;
+		} catch (HttpClientErrorException e) {
+			return null;
+		}
 	}
 
 	@Override
-	public Usuario incluir(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+	public void incluir(Usuario usuario) {
+		usuario = post(Usuario.class, usuario, "usuarios");
 	}
 
-	
 	@Override
 	protected ParameterizedTypeReference getListaType() {
 		// TODO Auto-generated method stub
@@ -41,9 +45,7 @@ public class UsuarioClient extends ClientResource implements UsuarioService{
 
 	@Override
 	protected String getResource() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-   
 }
