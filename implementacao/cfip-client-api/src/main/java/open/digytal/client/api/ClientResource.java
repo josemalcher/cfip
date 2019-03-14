@@ -49,7 +49,7 @@ public abstract class ClientResource {
 			public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
 					throws IOException {
 				if (Sessao.getInstance()!=null && Sessao.getInstance().ativa() ) {
-					System.out.println(Sessao.getInstance().getToken());
+					//System.out.println(Sessao.getInstance().getToken());
 					request.getHeaders().set("Authorization", Sessao.getInstance().getToken());
 				}
 

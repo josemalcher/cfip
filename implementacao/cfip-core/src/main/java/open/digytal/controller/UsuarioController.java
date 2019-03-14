@@ -95,16 +95,8 @@ public class UsuarioController implements UsuarioService  {
 		contaRepository.save(conta);
 
 		EntidadeNatureza natureza = new EntidadeNatureza();
-		natureza.setDescricao("SALDO INICIAL");
-		natureza.setNome("SALDO INICIAL");
-		natureza.setLogin(usuario.getLogin());
-		natureza.setTipoMovimento(TipoMovimento.C);
-		natureza.setCategoria(Categoria.R);
-		naturezaRepository.save(natureza);
-
-		natureza = new EntidadeNatureza();
-		natureza.setDescricao("SALARIO");
-		natureza.setNome("SALARIO");
+		natureza.setDescricao("RECEITAS");
+		natureza.setNome("RECEITAS");
 		natureza.setLogin(usuario.getLogin());
 		natureza.setTipoMovimento(TipoMovimento.C);
 		natureza.setCategoria(Categoria.R);
@@ -128,7 +120,7 @@ public class UsuarioController implements UsuarioService  {
 
 		natureza = new EntidadeNatureza();
 		natureza.setDescricao("ESTORNO DA TRANSFERENCIA");
-		natureza.setNome("ESTORNO");
+		natureza.setNome("ESTORNO TRANSFERENCIA");
 		natureza.setLogin(usuario.getLogin());
 		natureza.setTipoMovimento(TipoMovimento.T);
 		natureza.setCategoria(Categoria.T);

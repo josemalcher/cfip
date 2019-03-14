@@ -12,7 +12,7 @@ public interface ContaRepository extends JpaRepository<EntidadeConta, Integer> {
 	@Query("SELECT e FROM EntidadeConta e WHERE e.id= :id ORDER BY e.nome")
 	public List<EntidadeConta> listar(@Param("id")Integer id);
 	
-	@Query("SELECT e FROM EntidadeConta e WHERE e.login= :login AND e.nome like %:nome% ORDER BY e.nome")
+	@Query("SELECT e FROM EntidadeConta e WHERE e.login= :login AND e.nome LIKE %:nome% ORDER BY e.nome")
 	public List<EntidadeConta> listar(@Param("login")String login, @Param("nome")String nome);
 	
 	@Query("SELECT e FROM EntidadeConta e WHERE e.login= :login ORDER BY e.nome")

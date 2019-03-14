@@ -30,8 +30,6 @@ public class NaturezaResource {
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value= {"","/{nome}"})
 	public List<EntidadeNatureza> todas(@PathVariable(name ="nome",required = false) String nome){
-		if(nome!=null &&nome.equals("undefined")) 
-			nome=null;
 		return service.listarNaturezas(JwtSession.getLogin(),nome);
 	}
 	@ApiImplicitParams({

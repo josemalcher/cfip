@@ -39,7 +39,7 @@ public class CadastroController implements CadastroService {
 	}
 
 	public List<EntidadeNatureza> listarNaturezas(String login, String nome) {
-		if (login == null || login.trim().isEmpty())
+		if (nome == null || nome.trim().isEmpty() || nome.equals("undefined"))
 			return naturezaRepository.listar(login);
 		else
 			return naturezaRepository.listar(login, nome);
