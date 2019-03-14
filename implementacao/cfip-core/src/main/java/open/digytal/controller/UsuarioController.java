@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
+import open.digytal.model.Sessao;
 import open.digytal.model.Usuario;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeNatureza;
@@ -37,16 +38,18 @@ public class UsuarioController implements UsuarioService  {
 	@Autowired
 	private PasswordEncoder encoder;
 	@Override
-	public Usuario login(String login,String senha) {
-		Usuario usuario=null;
+	public Sessao login(String login,String senha) {
+		Sessao sessao = new Sessao();
 		Optional<EntidadeUsuario> entidade = repository.findById(login);
 		if(entidade.isPresent()) {
 			if(validarSenha(senha, entidade.get().getSenha())) {
-				usuario = new Usuario();
+				Usuario usuario = new Usuario();
 				BeanUtils.copyProperties(entidade.get(), usuario);
+				usuario.setSenha(null);
+				sessao=Sessao.newInstance(usuario, usuario.getSenha());
 			}
 		}
-		return usuario;
+		return sessao;
 	}
 	private boolean validarSenha(String senhaInformada, String senhaCriptografada) {
 		return encoder.matches(senhaInformada, senhaCriptografada);

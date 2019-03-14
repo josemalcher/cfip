@@ -17,7 +17,7 @@ import open.digytal.service.CadastroService;
 import open.digytal.webapi.secutiry.JwtSession;
 
 @RestController
-@RequestMapping("/naturezas")
+@RequestMapping("/cadastros/naturezas")
 public class NaturezaResource {
 	@Autowired
 	private CadastroService service;

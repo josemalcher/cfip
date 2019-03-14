@@ -17,7 +17,7 @@ import open.digytal.service.CadastroService;
 import open.digytal.webapi.secutiry.JwtSession;
 
 @RestController
-@RequestMapping("/contas")
+@RequestMapping("/cadastros/contas")
 public class ContaResource {
 	@Autowired
 	private CadastroService service;

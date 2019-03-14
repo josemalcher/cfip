@@ -15,6 +15,7 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RestTemplate;
 
+import open.digytal.model.Sessao;
 import open.digytal.model.Usuario;
 import open.digytal.util.Texto;
 
@@ -26,6 +27,9 @@ public abstract class ClientResource {
 	protected abstract ParameterizedTypeReference getListaType();
 
 	protected abstract ParameterizedTypeReference getEntidadeType();
+	
+	protected abstract String getResource();
+
 
 	protected String getPath(String delimiter, List path) {
 		return Texto.concatenar("/", path);
@@ -48,16 +52,15 @@ public abstract class ClientResource {
 		return getUrl(new ArrayList<>(Arrays.asList(path)));
 	}
 
-	protected abstract String getResource();
-
+	
 	protected RestTemplate getRestTemplate() {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getInterceptors().add(new ClientHttpRequestInterceptor() {
 			@Override
 			public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
 					throws IOException {
-				if (Usuario.token() != null)
-					request.getHeaders().set("Authorization", Usuario.token());
+				if (Sessao.getInstance().ativa() )
+					request.getHeaders().set("Authorization", Sessao.getInstance().getToken());
 
 				return execution.execute(request, body);
 			}

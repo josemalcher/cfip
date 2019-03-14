@@ -2,19 +2,34 @@ package open.digytal.client.api;
 
 import java.util.List;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
+import open.digytal.model.Sessao;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.TipoMovimento;
 import open.digytal.service.CadastroService;
-import open.digytal.service.Services;
 @Service
 //@Profile(Services.API)
 public class CadastroClient extends ClientResource implements CadastroService {
+	private String contas="contas";
+	private String naturezas="naturezas";
+	
+	@Override
+	protected ParameterizedTypeReference getListaType() {
+		return new ParameterizedTypeReference<List<EntidadeConta>>() {};
+	}
 
+	@Override
+	protected ParameterizedTypeReference getEntidadeType() {
+		return new ParameterizedTypeReference<EntidadeConta>() {};
+	}
+
+	@Override
+	protected String getResource() {
+		return "cadastros";
+	}
 	@Override
 	public EntidadeConta salvarConta(EntidadeConta entidade) {
 		// TODO Auto-generated method stub
@@ -29,14 +44,12 @@ public class CadastroClient extends ClientResource implements CadastroService {
 
 	@Override
 	public List<EntidadeConta> listarContas(Integer id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<EntidadeConta> listarContas(String login, String nome) {
-		// TODO Auto-generated method stub
-		return null;
+		return getLista(getListaType(),contas,Sessao.getInstance().getLogin(),nome);
 	}
 
 	@Override
@@ -63,23 +76,7 @@ public class CadastroClient extends ClientResource implements CadastroService {
 		return null;
 	}
 
-	@Override
-	protected ParameterizedTypeReference getListaType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected ParameterizedTypeReference getEntidadeType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected String getResource() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
     
 
 }

@@ -5,18 +5,11 @@ public class Usuario {
 	private String nome;
 	private String email;
 	private String senha;
-	private static String token;
 	
 	public Usuario() {
 		
 	}
 	
-	public void setToken(String jwtToken) {
-		token = jwtToken;
-	}
-	public static String token() {
-		return token;
-	}
 	public String getLogin() {
 		return login;
 	}

@@ -4,6 +4,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
 import open.digytal.model.Login;
+import open.digytal.model.Sessao;
 import open.digytal.model.Usuario;
 import open.digytal.service.UsuarioService;
 @Service
@@ -11,11 +12,11 @@ import open.digytal.service.UsuarioService;
 public class UsuarioClient extends ClientResource implements UsuarioService{
 	
 	@Override
-	public Usuario login(String usuario,String senha) {
+	public Sessao login(String usuario,String senha) {
 		Login login  = new Login();
 		login.setUsername(usuario);
 		login.setPassword(senha);
-		Usuario credencial = post(Usuario.class, login, "login");
+		Sessao credencial = post(Usuario.class, login, "login");
 		return credencial;
 	}
 
