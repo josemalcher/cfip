@@ -16,7 +16,7 @@ public class UsuarioClient extends ClientResource implements UsuarioService{
 		Login login  = new Login();
 		login.setUsername(usuario);
 		login.setPassword(senha);
-		Sessao credencial = post(Usuario.class, login, "login");
+		Sessao credencial = Sessao.newInstance(post(Sessao.class, login, "login"));
 		return credencial;
 	}
 

@@ -6,6 +6,9 @@ public class Sessao {
 	private Usuario usuario;
 	private String token;
 	private Date inicio;
+	public Sessao() {
+		inicio = new Date();
+	}
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -32,6 +35,10 @@ public class Sessao {
 	}
 	private static Sessao instance;
 	public static Sessao getInstance() {
+		return instance;
+	}
+	public static Sessao  newInstance(Sessao sessao) {
+		instance = sessao;
 		return instance;
 	}
 	public static Sessao  newInstance(Usuario usuario, String token) {

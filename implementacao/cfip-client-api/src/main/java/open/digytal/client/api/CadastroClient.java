@@ -49,7 +49,7 @@ public class CadastroClient extends ClientResource implements CadastroService {
 
 	@Override
 	public List<EntidadeConta> listarContas(String login, String nome) {
-		return getLista(getListaType(),contas,Sessao.getInstance().getLogin(),nome);
+		return getLista(getListaType(),contas,nome);
 	}
 
 	@Override

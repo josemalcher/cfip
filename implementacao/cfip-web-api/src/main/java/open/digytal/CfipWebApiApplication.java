@@ -12,6 +12,11 @@ public class CfipWebApiApplication { // extends SpringBootServletInitializer  ex
 	//https://www.callicoder.com/spring-boot-spring-security-jwt-mysql-react-app-part-1/
 	////https://springframework.guru/spring-requestmapping-annotation/
 	//https://www.baeldung.com/spring-data-jpa-query
+	
+	/*	cd C:\opendigytal\cfip\implementacao\cfip-web-api
+	 *  java -jar target\cfip-web-api.jar
+	 */
+	
 	public static void main(String[] args) {
 		SpringApplication.run(CfipWebApiApplication.class, args);
 	}

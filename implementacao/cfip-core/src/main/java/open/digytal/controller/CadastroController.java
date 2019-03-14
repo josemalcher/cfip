@@ -32,7 +32,7 @@ public class CadastroController implements CadastroService {
 	}
 
 	public List<EntidadeConta> listarContas(String login, String nome) {
-		if (login == null || login.trim().isEmpty())
+		if (nome == null || nome.trim().isEmpty() || nome.equals("undefined"))
 			return repository.listar(login);
 		else
 			return repository.listar(login, nome);

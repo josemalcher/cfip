@@ -27,8 +27,6 @@ public class ContaResource {
 	@PreAuthorize(Roles.PRE_USER)
 	@GetMapping(value="/{nome}")
 	public List<EntidadeConta> todas(@PathVariable("nome") String nome){
-		if(nome!=null &&nome.equals("undefined")) 
-			nome=null;
 		return service.listarContas (JwtSession.getLogin(),nome);
 	}
 	@PreAuthorize(Roles.PRE_USER)
