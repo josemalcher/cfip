@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
-import open.digytal.model.Sessao;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.TipoMovimento;

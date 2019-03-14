@@ -39,7 +39,7 @@ public class Texto {
 	}
 
 	private static String extensao(File file) {
-		return file.getName().replaceAll("^.*\\.(.*)$", "$1");
+		return file.getName().replaceAll("^.\\.(.)$", "$1");
 	}
 
 	public static String str(Object texto, String textoPadrao) {
@@ -58,7 +58,7 @@ public class Texto {
 		List strs = new ArrayList<>(Arrays.asList(valores));
 		StringJoiner sj = new StringJoiner(delimitador, "", "");
 		strs.stream().forEach(o -> {
-			if (o != null)
+			if (o != null && (!o.toString().trim().isEmpty()))
 				sj.add(str(o));
 		});
 
@@ -95,15 +95,15 @@ public class Texto {
 		}
 		return null;
 	}
-	/*
-	 * public static void main(String[] args) throws Exception { String[] testes=
-	 * {"login","testes","contas"};
-	 * 
-	 * System.out.println(concatenar("/", testes));
-	 * 
-	 * String var="SUBI NO ONIBUS"; System.out.println(new
-	 * StringBuilder(var).reverse());
-	 * 
-	 * }
-	 */
+
+	public static void main(String[] args) throws Exception {
+		Object[] testes = { "localhost:8080", "cadastros", "contas"};
+
+		System.out.println(concatenar("/", testes));
+
+		String var = "SUBI NO ONIBUS";
+		System.out.println(new StringBuilder(var).reverse());
+
+	}
+
 }

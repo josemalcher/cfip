@@ -30,7 +30,29 @@ public abstract class ClientResource {
 	
 	protected abstract String getResource();
 
-
+	public static void main(String[] args) {
+		ClientResource cr = new ClientResource() {
+			
+			@Override
+			protected String getResource() {
+				// TODO Auto-generated method stub
+				return "cadastros";
+			}
+			
+			@Override
+			protected ParameterizedTypeReference getListaType() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			protected ParameterizedTypeReference getEntidadeType() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
+		System.out.println(cr.getUrl("contas",""));
+	}
 	protected String getPath(String delimiter, List path) {
 		return Texto.concatenar("/", path);
 	}
