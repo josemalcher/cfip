@@ -3,7 +3,6 @@ package open.digytal.client.api;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
@@ -11,35 +10,33 @@ import open.digytal.model.Lancamento;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.service.LancamentoService;
-import open.digytal.service.Services;
 @Service
-//@Profile(Services.API)
 public class LancamentoClient extends ClientResource implements LancamentoService {
-
+	private String lancamentos="lancamentos";
+	private String previsoes="previsoes";
+	private String extrato="extrato";
+	private ParameterizedTypeReference getListaType() {
+		return new ParameterizedTypeReference<List<EntidadeLancamento>>() {};
+	}
+	
 	@Override
 	public void incluir(Lancamento entidade) {
-		// TODO Auto-generated method stub
-		
+		post(entidade, lancamentos);
 	}
 
 	@Override
 	public List<EntidadeLancamento> extrato(Integer contaId, Date dataInicio) {
-		// TODO Auto-generated method stub
-		return null;
+		return getLista(getListaType(),extrato, contaId,dataInicio);
 	}
 
 	@Override
-	public List<EntidadeLancamento> listarLancamentos(String login, Date inicio, Date fim, Integer conta,
-			Integer natureza) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EntidadeLancamento> listarLancamentos(String login, Date inicio, Date fim, Integer conta,Integer natureza) {
+		return getLista(getListaType(),lancamentos, inicio,fim,conta,natureza);
 	}
 
 	@Override
-	public List<EntidadeLancamento> listarPrevisoes(String login, Date inicio, Date fim, Integer conta,
-			Integer natureza) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EntidadeLancamento> listarPrevisoes(String login, Date inicio, Date fim, Integer conta,Integer natureza) {
+		return getLista(getListaType(),previsoes, inicio,fim,conta,natureza);
 	}
 
 	@Override
@@ -66,17 +63,6 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 		return null;
 	}
 
-	@Override
-	protected ParameterizedTypeReference getListaType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected ParameterizedTypeReference getEntidadeType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-    
+	
 
 }

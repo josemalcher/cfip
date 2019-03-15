@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
-import open.digytal.model.Usuario;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.TipoMovimento;
@@ -18,17 +17,15 @@ public class CadastroClient extends ClientResource implements CadastroService {
 	private String cartaocredito=contas+"/cartaocredito";
 	private String naturezas="cadastros/naturezas";
 	
-	@Override
-	protected ParameterizedTypeReference getListaType() {
+	private ParameterizedTypeReference getListaType() {
 		return new ParameterizedTypeReference<List<EntidadeConta>>() {};
 	}
 
-	@Override
-	protected ParameterizedTypeReference getEntidadeType() {
+	private ParameterizedTypeReference getEntidadeType() {
 		return new ParameterizedTypeReference<EntidadeConta>() {};
 	}
 	
-	protected ParameterizedTypeReference getNaturezaListaType() {
+	private ParameterizedTypeReference getNaturezaListaType() {
 		return new ParameterizedTypeReference<List<EntidadeNatureza>>() {};
 	}
 

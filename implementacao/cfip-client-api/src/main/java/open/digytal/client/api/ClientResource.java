@@ -2,8 +2,6 @@ package open.digytal.client.api;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.core.ParameterizedTypeReference;
@@ -16,40 +14,22 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RestTemplate;
 
 import open.digytal.model.Sessao;
-import open.digytal.model.Usuario;
 import open.digytal.util.Texto;
 
 public abstract class ClientResource {
-	// depois System.getProperty -
-	// https://howtodoinjava.com/spring-restful/spring-restful-client-resttemplate-example/
-	protected final String ROOT_URL = "http://localhost:8080/"; // Configurador.getConfiguracao().getUrl();
-
-	protected abstract ParameterizedTypeReference getListaType();
-
-	protected abstract ParameterizedTypeReference getEntidadeType();
-	
-	//protected abstract String getResource();
-	/*
-	 * private String getPath(String delimiter, Serializable ... path) { return
-	 * Texto.concatenar("/", path); }
-	 */
+	private final String ROOT_URL = "http://localhost:8080/";
 	private String getUrl(Serializable... path) {
-		/*
-		 * if (getResource() != null && !getResource().isEmpty()) { path.add(0,
-		 * getResource()); }
-		 */
 		String sufix = Texto.concatenar("/", path);
 		String url = String.format("%s%s", ROOT_URL, sufix);
 		return url;
 	}	
-	protected RestTemplate getRestTemplate() {
+	private RestTemplate getRestTemplate() {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getInterceptors().add(new ClientHttpRequestInterceptor() {
 			@Override
 			public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
 					throws IOException {
 				if (Sessao.getInstance()!=null && Sessao.getInstance().ativa() ) {
-					//System.out.println(Sessao.getInstance().getToken());
 					request.getHeaders().set("Authorization", Sessao.getInstance().getToken());
 				}
 

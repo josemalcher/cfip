@@ -23,12 +23,12 @@ import open.digytal.util.Formatador;
 import open.digytal.webapi.secutiry.JwtSession;
 
 @RestController
-@RequestMapping("/lancamentos")
+@RequestMapping
 public class LancamentoResource {
 	@Autowired
 	private LancamentoService service;
 
-	@PostMapping
+	@PostMapping("/lancamentos")
 	public void incluir(@RequestBody Lancamento objeto) {
 		service.incluir(objeto);
 	}
@@ -39,15 +39,33 @@ public class LancamentoResource {
 		@ApiImplicitParam(name = "natureza", value = "Natureza", required = false, dataType = "string")
 	})
 	@PreAuthorize(Roles.PRE_USER)
-	@GetMapping(value = { "/{inicio}/{fim}", 
-						  "/{inicio}/{fim}/{conta}",
-						  "/{inicio}/{fim}/{conta}/{natureza}"})
+	@GetMapping(value = { "/lancamentos/{inicio}/{fim}", 
+						  "/lancamentos/{inicio}/{fim}/{conta}",
+						  "/lancamentos/{inicio}/{fim}/{conta}/{natureza}"})
 	public List<EntidadeLancamento> listarContaLancamentos(
 			@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date inicio,
 			@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date fim,
 			@PathVariable(required = false) Integer conta, 
 			@PathVariable(required = false) Integer natureza) {
 		return service.listarLancamentos(JwtSession.getLogin(), inicio, fim, conta, natureza);
+	}
+	
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "inicio", value = "Inicio ddMMyy", required = true, dataType = "date"),
+		@ApiImplicitParam(name = "fim", value = "Fim ddMMyy", required = true, dataType = "date"),
+		@ApiImplicitParam(name = "conta", value = "Conta", required = false, dataType = "string"),
+		@ApiImplicitParam(name = "natureza", value = "Natureza", required = false, dataType = "string")
+	})
+	@PreAuthorize(Roles.PRE_USER)
+	@GetMapping(value = { "/previsoes/{inicio}/{fim}", 
+						  "/previsoes/{inicio}/{fim}/{conta}",
+						  "/previsoes/{inicio}/{fim}/{conta}/{natureza}"})
+	public List<EntidadeLancamento> listarPrevisoes(
+			@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date inicio,
+			@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date fim,
+			@PathVariable(required = false) Integer conta, 
+			@PathVariable(required = false) Integer natureza) {
+		return service.listarPrevisoes(JwtSession.getLogin(), inicio, fim, conta, natureza);
 	}
 
 	@ApiImplicitParams({ 

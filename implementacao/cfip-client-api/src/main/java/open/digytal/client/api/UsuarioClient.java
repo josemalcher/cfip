@@ -31,17 +31,6 @@ public class UsuarioClient extends ClientResource implements UsuarioService {
 		usuario = post(Usuario.class, usuario, "usuarios");
 	}
 
-	@Override
-	protected ParameterizedTypeReference getListaType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected ParameterizedTypeReference getEntidadeType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 
 }

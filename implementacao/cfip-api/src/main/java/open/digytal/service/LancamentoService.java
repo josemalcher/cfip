@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import open.digytal.model.Lancamento;
-import open.digytal.model.Lancamentos;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeParcela;
 
