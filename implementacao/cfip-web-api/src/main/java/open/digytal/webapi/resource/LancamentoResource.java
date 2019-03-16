@@ -103,7 +103,7 @@ public class LancamentoResource {
 			@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date fim,
 			@PathVariable(required = false) Integer conta, 
 			@PathVariable(required = false) Integer natureza) {
-		return service.listarFaturas(JwtSession.getLogin(), inicio, fim, conta, natureza);
+		return service.listarParcelas(JwtSession.getLogin(), inicio, fim, conta, natureza);
 	}
 	
 	@ApiImplicitParams({ 

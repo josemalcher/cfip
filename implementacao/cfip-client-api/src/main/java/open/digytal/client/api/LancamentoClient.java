@@ -22,7 +22,7 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 		return new ParameterizedTypeReference<List<EntidadeLancamento>>() {};
 	}
 	private ParameterizedTypeReference getParcelaListaType() {
-		return new ParameterizedTypeReference<List<EntidadeLancamento>>() {};
+		return new ParameterizedTypeReference<List<EntidadeParcela>>() {};
 	}
 	private ParameterizedTypeReference getParcelaType() {
 		return new ParameterizedTypeReference<EntidadeParcela>() {};
