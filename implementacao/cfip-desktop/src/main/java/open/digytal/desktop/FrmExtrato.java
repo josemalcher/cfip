@@ -227,7 +227,7 @@ public class FrmExtrato extends Formulario {
 	}
 	private void exibirDescricao() {
 		try {
-			EntidadeLancamento l = (EntidadeLancamento) grid.getLinhaSelecionada();
+			Lancamentos l = (Lancamentos) grid.getLinhaSelecionada();
 			if (l != null) {
 				lblDesc.setText(l.getDescricao());
 			}

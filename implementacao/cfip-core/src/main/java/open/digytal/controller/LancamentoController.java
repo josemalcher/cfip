@@ -49,7 +49,7 @@ public class LancamentoController implements LancamentoService {
 	@PersistenceContext
 	private EntityManager em;
 	
-	private final String SQL_EXTRATO_LANCAMENTO_PREVISAO = "SELECT e.id as id,e.tipoMovimento as tipoMovimento , e.conta.nome as conta, e.natureza.nome as natureza, e.descricao as descricao, e.valor as valor FROM EntidadeLancamento e ";
+	private final String SQL_EXTRATO_LANCAMENTO_PREVISAO = "SELECT e.id as id, e.data as data, e.tipoMovimento as tipoMovimento , e.conta.nome as conta, e.natureza.nome as natureza, e.descricao as descricao, e.valor as valor FROM EntidadeLancamento e ";
 	
 	
 	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM EntidadeLancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";

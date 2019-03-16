@@ -1,10 +1,13 @@
 package open.digytal.model;
 
+import java.util.Date;
+
 import open.digytal.model.enums.TipoMovimento;
 
 public class Lancamentos {
 	private Integer id;
 	private String conta;
+	private Date data;
 	private String natureza;
 	private String descricao;
 	private Double valor;
@@ -15,7 +18,12 @@ public class Lancamentos {
 	public void setTipoMovimento(TipoMovimento tipoMovimento) {
 		this.tipoMovimento = tipoMovimento;
 	}
-	
+	public Date getData() {
+		return data;
+	}
+	public void setData(Date data) {
+		this.data = data;
+	}
 	public Integer getId() {
 		return id;
 	}
