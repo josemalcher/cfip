@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import open.digytal.service.LancamentoService;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.LoginPanel;
 
@@ -30,10 +31,12 @@ public class CfipDesktopApp {
 		builder.headless(false);
 
 		contexto = builder.run(args);
-		//contexto.getEnvironment().setActiveProfiles(Services.API);
-		LoginPanel login = CfipDesktopApp.getBean(LoginPanel.class);
+		/*LoginPanel login = CfipDesktopApp.getBean(LoginPanel.class);
 		login.exibir();
-
+		 */
+		LancamentoService service = contexto.getBean(LancamentoService.class);
+		service.listarParcelasVo(null, null, null, 0, 0);
+		
 	}
 
 	public static <T> T getBean(Class classe) {

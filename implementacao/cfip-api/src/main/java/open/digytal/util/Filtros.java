@@ -51,7 +51,9 @@ public class Filtros {
     		instance = new Filtros();
     		instance.juncao=ONDE;
     	}
-    	instance.filtros.add(filtro(instance.juncao, campo, operador, valor));
+    	if(valor!=null && valor.toString().trim().length() > 0)
+    		instance.filtros.add(filtro(instance.juncao, campo, operador, valor));
+    	
     	instance.juncao=E;
     	return instance;
     }
@@ -59,23 +61,18 @@ public class Filtros {
         return filtro(juncao, campo, operador,valor,false);
     }
     private static Filtro filtro(String juncao, String campo, String operador, Object valor,boolean ordem){
-        if(ordem || (valor!=null && valor.toString().trim().length() > 0)) {
-            if(PARECIDO.equals(operador)) {
-                valor="%"+ valor.toString() + "%";
-            }
-            Filtro filtro = new Filtro();
-            filtro.setJuncao(juncao);
-            filtro.setCampo(campo);
-            filtro.setOperador(operador);
-            filtro.setValor(valor);
-            filtro.setOrdem(ordem);
-            return filtro;
-        }else {
-            Filtro todos = new Filtro();
-            todos.setTodos(true);
-            todos.setCampo(campo);
-            return todos;
+        //if(ordem || (valor!=null && valor.toString().trim().length() > 0)) {
+        if(PARECIDO.equals(operador)) {
+            valor="%"+ valor.toString() + "%";
         }
+        Filtro filtro = new Filtro();
+        filtro.setJuncao(juncao);
+        filtro.setCampo(campo);
+        filtro.setOperador(operador);
+        filtro.setValor(valor);
+        filtro.setOrdem(ordem);
+        return filtro;
+        //}
     }
     public static List<Filtro> filtros(String criterio){
     	System.out.println(criterio);

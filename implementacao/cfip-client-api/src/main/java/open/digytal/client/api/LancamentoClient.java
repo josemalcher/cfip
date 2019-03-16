@@ -7,6 +7,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
 import open.digytal.model.Lancamento;
+import open.digytal.model.Parcelas;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.service.LancamentoService;
@@ -66,6 +67,11 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 	public void compensarParcela(Date data, EntidadeParcela... parcelas) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public List<Parcelas> listarParcelasVo(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

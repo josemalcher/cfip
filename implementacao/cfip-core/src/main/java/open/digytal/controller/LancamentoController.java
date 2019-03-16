@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 import open.digytal.model.Lancamento;
+import open.digytal.model.Parcelas;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
@@ -26,8 +27,6 @@ import open.digytal.repository.ParcelaRepository;
 import open.digytal.repository.persistence.Repositorio;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
-import open.digytal.util.DataHora;
-import open.digytal.util.Formatador;
 
 @Controller
 public class LancamentoController implements LancamentoService {
@@ -38,13 +37,21 @@ public class LancamentoController implements LancamentoService {
 	@Autowired
 	private ParcelaRepository parcelaRepository;
 	@Autowired
-	private LancamentoRepository repository;
+	private LancamentoRepository repository;			
+
+	@Autowired
+	private Repositorio repositorio;			
 
 	@PersistenceContext
 	private EntityManager em;
 	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM EntidadeLancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
 	private final String SQL_PARCELA_FATURA = "SELECT p FROM EntidadeParcela p WHERE p.lancamento.conta.login=:login AND p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
-
+	@Override
+	public List<Parcelas> listarParcelasVo(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
+		String sql="SELECT p.id as id FROM EntidadeParcela p";
+		List<Parcelas> lista = repositorio.listar(Parcelas.class,sql);
+		return lista;
+	}
 	@Override
 	public List<EntidadeLancamento> extrato(Integer contaId, Date dataInicio) {
 		return repository.extrato(contaId, dataInicio);
@@ -220,5 +227,6 @@ public class LancamentoController implements LancamentoService {
 		}
 
 	}
+	
 
 }
