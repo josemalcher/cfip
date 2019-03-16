@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 import open.digytal.model.Lancamento;
+import open.digytal.model.Lancamentos;
 import open.digytal.model.Parcelas;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeLancamento;
@@ -47,9 +48,14 @@ public class LancamentoController implements LancamentoService {
 
 	@PersistenceContext
 	private EntityManager em;
+	
+	private final String SQL_EXTRATO_LANCAMENTO_PREVISAO = "SELECT e.id,e.tipoMovimento as tipoMovimento , e.conta.nome as conta, e.natureza.nome as natureza, e.descricao as descricao, e.valor as valor FROM EntidadeLancamento e ";
+	
+	
 	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM EntidadeLancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
 	private final String SQL_PARCELA_FATURA = "SELECT e.id as id, e.vencimento as vencimento, e.numero as numero, e.valor as valor, e.lancamento.id as lancamento, e.valor as amortizado, "
-												+ " e.lancamento.conta.nome as conta, e.lancamento.natureza.nome as natureza, e.lancamento.tipoMovimento as tipoMovimento, CONCAT ('PARC: ',e.numero, ' - ', e.lancamento.descricao) as descricao FROM EntidadeParcela e";
+												+ " e.lancamento.conta.nome as conta, e.lancamento.natureza.nome as natureza, e.lancamento.tipoMovimento as tipoMovimento, CONCAT ('PARC: ',e.numero, ' - ', e.lancamento.descricao) as descricao "
+												+ " FROM EntidadeParcela e";
 	@Override
 	public List<Parcelas> listarParcelas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
 		return listarParcelasFaturas(false,login,inicio,fim,conta,natureza);
@@ -64,8 +70,10 @@ public class LancamentoController implements LancamentoService {
 	}
 
 	@Override
-	public List<EntidadeLancamento> extrato(Integer contaId, Date dataInicio) {
-		return repository.extrato(contaId, dataInicio);
+	public List<Lancamentos> extrato(Integer contaId, Date dataInicio) {
+		List<Filtro> filtros = Filtros.igual("previsao", false).e().igual("conta.id", contaId).e().maiorIgual("data", dataInicio).lista();
+		List<Lancamentos> lista = repositorio.listar(Parcelas.class,SQL_EXTRATO_LANCAMENTO_PREVISAO,filtros);
+		return lista;
 	}
 	//https://www.baeldung.com/jpa-entity-graph
 	//https://thoughts-on-java.org/jpa-21-entity-graph-part-2-define/

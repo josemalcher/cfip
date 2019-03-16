@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import open.digytal.model.Lancamento;
+import open.digytal.model.Lancamentos;
 import open.digytal.model.Parcelas;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeParcela;
@@ -11,7 +12,7 @@ import open.digytal.model.entity.EntidadeParcela;
 public interface LancamentoService {
 	void incluir(Lancamento entidade);
 
-	List<EntidadeLancamento> extrato(Integer contaId, Date dataInicio);
+	List<Lancamentos> extrato(Integer contaId, Date dataInicio);
 
 	List<EntidadeLancamento> listarLancamentos(String login, Date inicio, Date fim, Integer conta, Integer natureza);
 

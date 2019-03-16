@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import open.digytal.model.Lancamento;
+import open.digytal.model.Lancamentos;
 import open.digytal.model.Parcelas;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeParcela;
@@ -128,8 +129,8 @@ public class LancamentoResource {
 	})
 	@PreAuthorize(Roles.PRE_USER_ADMIN)
 	@GetMapping(value = "/extrato/{id}/{dataInicio}")
-	public List<EntidadeLancamento> extrato(@PathVariable("id") Integer id,@PathVariable("dataInicio") @DateTimeFormat(pattern = Formatador.DATA_API) Date dataInicio) {
-		List<EntidadeLancamento> extrato = service.extrato(id, dataInicio);
+	public List<Lancamentos> extrato(@PathVariable("id") Integer id,@PathVariable("dataInicio") @DateTimeFormat(pattern = Formatador.DATA_API) Date dataInicio) {
+		List<Lancamentos> extrato = service.extrato(id, dataInicio);
 		return extrato;
 	}
 	

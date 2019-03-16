@@ -7,6 +7,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
 import open.digytal.model.Lancamento;
+import open.digytal.model.Lancamentos;
 import open.digytal.model.Parcelas;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeParcela;
@@ -22,6 +23,9 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 	private ParameterizedTypeReference getListaType() {
 		return new ParameterizedTypeReference<List<EntidadeLancamento>>() {};
 	}
+	private ParameterizedTypeReference getLancamentosListaType() {
+		return new ParameterizedTypeReference<List<Lancamentos>>() {};
+	}
 	private ParameterizedTypeReference getParcelaListaType() {
 		return new ParameterizedTypeReference<List<Parcelas>>() {};
 	}
@@ -34,8 +38,8 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 	}
 
 	@Override
-	public List<EntidadeLancamento> extrato(Integer contaId, Date dataInicio) {
-		return getLista(getListaType(),extrato, contaId,Formatador.formatarDataApi(dataInicio));
+	public List<Lancamentos> extrato(Integer contaId, Date dataInicio) {
+		return getLista(getLancamentosListaType(),extrato, contaId,Formatador.formatarDataApi(dataInicio));
 	}
 
 	@Override

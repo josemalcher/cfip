@@ -8,6 +8,8 @@ public class Filtros {
     public static final String IGUAL="=";
     public static final String MAIOR_IGUAL=">=";
     public static final String MENOR_IGUAL="<=";
+    public static final String MENOR="<";
+    public static final String MAIOR=">";
     
     public static final String ONDE ="WHERE";
     public static final String OU ="OR";
@@ -34,6 +36,9 @@ public class Filtros {
     
     public static Filtros igual(String campo, Object valor) {
     	return instance(campo,IGUAL,valor);
+    }
+    public static Filtros maiorIgual(String campo, Object valor) {
+    	return instance(campo,MAIOR_IGUAL,valor);
     }
     public static Filtros parecido(String campo, Object valor) {
     	return instance(campo,PARECIDO,valor);

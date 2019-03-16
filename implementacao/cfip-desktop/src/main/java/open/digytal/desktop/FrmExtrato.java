@@ -24,6 +24,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import open.digytal.model.Lancamentos;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.Total;
@@ -248,16 +249,17 @@ public class FrmExtrato extends Formulario {
 			txtSaldoAtual.setValue(conta.getSaldoAtual());
 			txtSaldoAtual.setComponenteCorFonte(conta.getSaldoAtual() < 0.0d ? Color.RED : Color.BLUE);
 			
-			List<EntidadeLancamento> lista = null;
+			List<Lancamentos> lista = null;
 			try {
 				
 				lista = service.extrato(conta.getId(), conta.getDataInicial());
 				if(lista==null || lista.size()==0)
 					SSMensagem.avisa("Nenhum dado encontrado");
 
-				total = CfipUtil.extrato(lista);
-				txtDespesas.setValue(total.getDebito());
-				txtReceitas.setValue(total.getCredito());
+				/*
+				 * total = CfipUtil.extrato(lista); txtDespesas.setValue(total.getDebito());
+				 * txtReceitas.setValue(total.getCredito());
+				 */
 				grid.setValue(lista);
 			} catch (Exception e) {
 				e.printStackTrace();
