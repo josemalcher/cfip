@@ -66,7 +66,7 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 
 	@Override
 	public void compensarParcela(Date data, Parcelas... parcelas) {
-		// TODO Auto-generated method stub
+		post(parcelas, lancamentos,"compensacao",Formatador.formatarDataApi(data));
 		
 	}
 	

@@ -29,10 +29,15 @@ import open.digytal.webapi.secutiry.JwtSession;
 public class LancamentoResource {
 	@Autowired
 	private LancamentoService service;
-
+	
 	@PostMapping("/lancamentos")
 	public void incluir(@RequestBody Lancamento objeto) {
 		service.incluir(objeto);
+	}
+	//https://www.baeldung.com/spring-rest-template-list
+	@PostMapping("/lancamentos/compensacao/{data}")
+	public void incluir(@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date data,@RequestBody List<Parcelas> parcelas) {
+		service.compensarParcela(data, parcelas.stream().toArray(Parcelas[]::new));
 	}
 	
 	@ApiImplicitParams({ 
