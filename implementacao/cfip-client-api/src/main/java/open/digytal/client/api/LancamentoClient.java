@@ -48,10 +48,13 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 		return getLista(getListaType(),previsoes, Formatador.formatarDataApi(inicio),Formatador.formatarDataApi(fim),conta,natureza);
 	}
 
-	@Override
-	public List<EntidadeParcela> listarParcelas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
-		return getLista(getParcelaListaType(),parcelas, Formatador.formatarDataApi(inicio),Formatador.formatarDataApi(fim),conta,natureza);
-	}
+	/*
+	 * @Override public List<EntidadeParcela> listarParcelas(String login, Date
+	 * inicio, Date fim, Integer conta, Integer natureza) { return
+	 * getLista(getParcelaListaType(),parcelas,
+	 * Formatador.formatarDataApi(inicio),Formatador.formatarDataApi(fim),conta,
+	 * natureza); }
+	 */
 
 	@Override
 	public List<EntidadeParcela> listarFaturas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
@@ -69,7 +72,7 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 		
 	}
 	@Override
-	public List<Parcelas> listarParcelasVo(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
+	public List<Parcelas> listarParcelas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
 		// TODO Auto-generated method stub
 		return null;
 	}

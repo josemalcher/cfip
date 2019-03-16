@@ -50,8 +50,8 @@ public class LancamentoController implements LancamentoService {
 	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM EntidadeLancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
 	private final String SQL_PARCELA_FATURA = "SELECT p FROM EntidadeParcela p WHERE p.lancamento.conta.login=:login AND p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
 	@Override
-	public List<Parcelas> listarParcelasVo(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
-		String sql="SELECT e.id as id, e.lancamento.id as lancamentoId, e.periodo as periodo, e.vencimento as vencimento, e.numero as numero,  FROM EntidadeParcela p";
+	public List<Parcelas> listarParcelas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
+		String sql="SELECT e.id as id, e.vencimento as vencimento, e.numero as numero, e.valor as valor,e.lancamento.id as lancamento, e.lancamento.conta.nome as conta, e.lancamento.natureza.nome as natureza FROM EntidadeParcela e";
 		List<Parcelas> lista = repositorio.listar(Parcelas.class,sql);
 		return lista;
 	}
@@ -101,9 +101,11 @@ public class LancamentoController implements LancamentoService {
 			return lancamentos;
 		}
 	}
-	public List<EntidadeParcela> listarParcelas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
-		return listarParcelas(false, login, inicio, fim, conta, natureza);
-	}
+	/*
+	 * public List<EntidadeParcela> listarParcelas(String login, Date inicio, Date
+	 * fim, Integer conta, Integer natureza) { return listarParcelas(false, login,
+	 * inicio, fim, conta, natureza); }
+	 */
 
 	public List<EntidadeParcela> listarFaturas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
 		return listarParcelas(true, login, inicio, fim, conta, natureza);

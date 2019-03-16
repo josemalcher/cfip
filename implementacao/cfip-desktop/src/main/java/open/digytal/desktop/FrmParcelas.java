@@ -9,7 +9,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +26,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
+import open.digytal.model.Parcelas;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.entity.EntidadeParcela;
@@ -351,21 +351,21 @@ public class FrmParcelas extends Formulario {
 	}
 
 	private void listar() {
-		List<EntidadeParcela> lista = new ArrayList<EntidadeParcela>();
 		try {
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
 			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
 			Integer cId = conta == null ? null : conta.getId();
 			Integer nId = nat == null ? null : nat.getId();
-			lista = service.listarParcelas(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, nId);
+			List<Parcelas> lista = service.listarParcelas(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, nId);
 			if (lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 			grid.setValue(lista);
-			total = CfipUtil.parcelas(lista);
-			txtSaldoAtual.setValue(total.getSaldo());
-			txtSaldoAtual.setComponenteCorFonte(total.getSaldo() < 0.0d ? Color.RED : Color.BLUE);
-			txtDespesas.setValue(total.getDebito());
-			txtReceitas.setValue(total.getCredito());
+			/*
+			 * total = CfipUtil.parcelas(lista); txtSaldoAtual.setValue(total.getSaldo());
+			 * txtSaldoAtual.setComponenteCorFonte(total.getSaldo() < 0.0d ? Color.RED :
+			 * Color.BLUE); txtDespesas.setValue(total.getDebito());
+			 * txtReceitas.setValue(total.getCredito());
+			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 			// Mensagem.erro(e.getMessage());

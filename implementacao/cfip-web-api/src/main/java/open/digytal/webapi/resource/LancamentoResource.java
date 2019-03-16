@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import open.digytal.model.Lancamento;
+import open.digytal.model.Parcelas;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.model.enums.Roles;
@@ -98,7 +99,7 @@ public class LancamentoResource {
 	@GetMapping(value = { "/parcelas/{inicio}/{fim}", 
 						  "/parcelas/{inicio}/{fim}/{conta}",
 						  "/parcelas/{inicio}/{fim}/{conta}/{natureza}"})
-	public List<EntidadeParcela> listarParcelas(
+	public List<Parcelas> listarParcelas(
 			@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date inicio,
 			@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date fim,
 			@PathVariable(required = false) Integer conta, 
