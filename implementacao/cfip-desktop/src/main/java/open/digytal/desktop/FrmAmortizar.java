@@ -139,7 +139,7 @@ public class FrmAmortizar extends Formulario {
 			txtData.setDataHora(new Date());
 			txtValor.setRotulo(mov.getNome() + " - R$ Valor");
 			txtValor.setValue(entidade.getValor());
-			txtDescricao.setText(mov.getNome() + "\n" + entidade.getLancamento().getDescricao());
+			txtDescricao.setText(mov.getNome() + "\n" + parcela.getDescricao());
 			if(mov == TipoMovimento.D) {
 				txtData.setComponenteCorFonte(Color.RED);
 				txtValor.setComponenteCorFonte(Color.RED);

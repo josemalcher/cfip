@@ -27,6 +27,8 @@ import open.digytal.repository.ParcelaRepository;
 import open.digytal.repository.persistence.Repositorio;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
+import open.digytal.util.Filtro;
+import open.digytal.util.Filtros;
 
 @Controller
 //@Profile(Services.JPA)
@@ -46,18 +48,18 @@ public class LancamentoController implements LancamentoService {
 	@PersistenceContext
 	private EntityManager em;
 	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM EntidadeLancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
-	private final String SQL_PARCELA_FATURA = "SELECT p FROM EntidadeParcela p WHERE p.lancamento.conta.login=:login AND p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
+	private final String SQL_PARCELA_FATURA = "SELECT e.id as id, e.vencimento as vencimento, e.numero as numero, e.valor as valor, e.lancamento.id as lancamento, e.valor as amortizado, "
+												+ " e.lancamento.conta.nome as conta, e.lancamento.natureza.nome as natureza, CONCAT ('PARC: ',e.numero, ' - ', e.lancamento.descricao) as descricao FROM EntidadeParcela e";
 	@Override
 	public List<Parcelas> listarParcelas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
-		String sql="SELECT e.id as id, e.vencimento as vencimento, e.numero as numero, e.valor as valor, e.lancamento.id as lancamento, e.valor as amortizado, "
-				+ " e.lancamento.conta.nome as conta, e.lancamento.natureza.nome as natureza, CONCAT ('PARC: ',e.numero, '-', e.lancamento.descricao) as descricao FROM EntidadeParcela e";
-		List<Parcelas> lista = repositorio.listar(Parcelas.class,sql);
-		return lista;
+		return listarParcelasFaturas(false,login,inicio,fim,conta,natureza);
 	}
 	public List<Parcelas> listarFaturas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
-		String sql="SELECT e.id as id, e.vencimento as vencimento, e.numero as numero, e.valor as valor,e.lancamento.id as lancamento, e.valor as amortizado,  "
-				+ " e.lancamento.conta.nome as conta, e.lancamento.natureza.nome as natureza, CONCAT ('PARC: ',e.numero, '-', e.lancamento.descricao) as descricao FROM EntidadeParcela e";
-		List<Parcelas> lista = repositorio.listar(Parcelas.class,sql);
+		return listarParcelasFaturas(true,login,inicio,fim,conta,natureza);
+	}
+	public List<Parcelas> listarParcelasFaturas(boolean cc,String login, Date inicio, Date fim, Integer conta, Integer natureza) {
+		List<Filtro> filtros = Filtros.igual("compensada", false).e().igual("lancamento.conta.cartaoCredito", cc).e().igual("lancamento.natureza.id", natureza).e().igual("lancamento.conta.id", conta).lista();
+		List<Parcelas> lista = repositorio.listar(Parcelas.class,SQL_PARCELA_FATURA,filtros);
 		return lista;
 	}
 
