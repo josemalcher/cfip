@@ -144,8 +144,8 @@ public class FrmParcelas extends Formulario {
 		grid.getModeloColuna().setCampo(0, "vencimento");
 		grid.getModeloColuna().setFormato(0, "dd/MM/yy");
 		grid.getModeloColuna().setCampo(1, "numero");
-		grid.getModeloColuna().setCampo(2, "lancamento.conta.nome");
-		grid.getModeloColuna().setCampo(3, "lancamento.natureza.nome");
+		grid.getModeloColuna().setCampo(2, "conta");
+		grid.getModeloColuna().setCampo(3, "natureza");
 		grid.getModeloColuna().setCampo(4, "valor");
 		grid.getModeloColuna().setFormato(4, Formato.MOEDA);
 		grid.getModeloColuna().definirPositivoNegativo(4);
@@ -287,7 +287,7 @@ public class FrmParcelas extends Formulario {
 
 	private void exibirDescricao() {
 		try {
-			EntidadeParcela p = (EntidadeParcela) grid.getLinhaSelecionada();
+			Parcelas p = (Parcelas) grid.getLinhaSelecionada();
 			if (p != null) {
 				lblDesc.setText(p.getDescricao());
 			}

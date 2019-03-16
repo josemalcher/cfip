@@ -9,8 +9,9 @@ public class Parcelas {
 	private Double valor;
 	
 	private Integer lancamento;
-	private Integer conta;
-	private Integer natureza;
+	private String conta;
+	private String natureza;
+	private String descricao;
 	
 	public Integer getId() {
 		return id;
@@ -51,30 +52,27 @@ public class Parcelas {
 		this.lancamento = lancamento;
 	}
 
-	public Integer getConta() {
+	public String getConta() {
 		return conta;
 	}
 
-	public void setConta(Integer conta) {
+	public void setConta(String conta) {
 		this.conta = conta;
 	}
 
-
-
-	public Integer getNatureza() {
+	public String getNatureza() {
 		return natureza;
 	}
 
-
-
-	public void setNatureza(Integer natureza) {
+	public void setNatureza(String natureza) {
 		this.natureza = natureza;
 	}
-
-
-
 	public String getDescricao() {
 		return "VER";
 	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	
 	
 }

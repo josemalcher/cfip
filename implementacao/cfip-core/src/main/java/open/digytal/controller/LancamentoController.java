@@ -10,7 +10,6 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +26,6 @@ import open.digytal.repository.NaturezaRepository;
 import open.digytal.repository.ParcelaRepository;
 import open.digytal.repository.persistence.Repositorio;
 import open.digytal.service.LancamentoService;
-import open.digytal.service.Services;
 import open.digytal.util.Calendario;
 
 @Controller
@@ -51,7 +49,8 @@ public class LancamentoController implements LancamentoService {
 	private final String SQL_PARCELA_FATURA = "SELECT p FROM EntidadeParcela p WHERE p.lancamento.conta.login=:login AND p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
 	@Override
 	public List<Parcelas> listarParcelas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
-		String sql="SELECT e.id as id, e.vencimento as vencimento, e.numero as numero, e.valor as valor,e.lancamento.id as lancamento, e.lancamento.conta.nome as conta, e.lancamento.natureza.nome as natureza FROM EntidadeParcela e";
+		String sql="SELECT e.id as id, e.vencimento as vencimento, e.numero as numero, e.valor as valor,e.lancamento.id as lancamento, "
+				+ " e.lancamento.conta.nome as conta, e.lancamento.natureza.nome as natureza, CONTCAT ('PARC: ',e.numero, '-', e.lancamento.descricao) as descricao FROM EntidadeParcela e";
 		List<Parcelas> lista = repositorio.listar(Parcelas.class,sql);
 		return lista;
 	}
