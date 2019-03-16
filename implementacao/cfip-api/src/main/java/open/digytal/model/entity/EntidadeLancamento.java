@@ -130,6 +130,9 @@ public class EntidadeLancamento {
 	public EntidadeLancamento getOrigem() {
 		return origem;
 	}
+	public void setPeriodo(Integer periodo) {
+		this.periodo = periodo;
+	}
 	public EntidadeLancamento transferencia() {
 		EntidadeLancamento copia = new EntidadeLancamento();
 		copia.setDescricao("TRANSF.DE: " + conta.getNome() + " - " + descricao);
@@ -155,12 +158,11 @@ public class EntidadeLancamento {
 		copia.setTipoMovimento(getTipoMovimento());
 		return copia;
 	}
-	@PrePersist
-	private void periodo() {
-		this.tipoMovimento = tipoMovimento==TipoMovimento.T?TipoMovimento.D:tipoMovimento;
-		this.valor = tipoMovimento==TipoMovimento.D?valor * -1:valor;
-		this.parcelamento.setRestante(previsao || conta.isCartaoCredito()? getValor():0.0d);
-		this.periodo = Integer.valueOf(Formatador.formatar(DataHora.ano(data),"0000") + Formatador.formatar(DataHora.mes(data),"00"));
+	public void configurar() {
+		this.setTipoMovimento(this.getTipoMovimento()==TipoMovimento.T?TipoMovimento.D:this.getTipoMovimento());
+		this.setValor(this.getTipoMovimento()==TipoMovimento.D?this.getValor() * -1:this.getValor());
+		this.getParcelamento().setRestante(this.isPrevisao() || this.getConta().isCartaoCredito()? this.getValor():0.0d);
+		this.setPeriodo(Integer.valueOf(Formatador.formatar(DataHora.ano(this.getData()),"0000") + Formatador.formatar(DataHora.mes(this.getData()),"00")));
 		
 	}
 	public void atualizarRestante(Double valor) {

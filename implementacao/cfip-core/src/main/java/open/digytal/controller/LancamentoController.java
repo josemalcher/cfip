@@ -26,6 +26,8 @@ import open.digytal.repository.ParcelaRepository;
 import open.digytal.repository.persistence.Repositorio;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
+import open.digytal.util.DataHora;
+import open.digytal.util.Formatador;
 
 @Controller
 public class LancamentoController implements LancamentoService {
@@ -140,6 +142,7 @@ public class LancamentoController implements LancamentoService {
 
 	@Transactional
 	public EntidadeLancamento incluir(EntidadeLancamento lancamento) {
+		lancamento.configurar();
 		EntidadeConta conta = lancamento.getConta();
 		conta.atualizarSaldo(lancamento);
 		contaRepository.save(conta);
@@ -158,6 +161,7 @@ public class LancamentoController implements LancamentoService {
 		repository.save(lancamento);
 		if(lancamento.getNatureza().getTipoMovimento().isTranferencia()) {
 			EntidadeLancamento transferencia=lancamento.transferencia();
+			transferencia.configurar();
 			repository.save(transferencia);
 			EntidadeConta destino = transferencia.getConta();
 			destino.atualizarSaldo(transferencia);
@@ -168,7 +172,8 @@ public class LancamentoController implements LancamentoService {
 		
 		return lancamento;
 	}
-
+	
+	
 	private EntidadeLancamento gerarParcelas(EntidadeLancamento lancamento, Double valorParcela, int resto) {
 		if (lancamento.getConta().isCartaoCredito())
 			lancamento.setPrevisao(false);

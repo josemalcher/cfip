@@ -143,7 +143,7 @@ public class EntidadeConta implements Serializable {
 		Double valor = lancamento.getValor();
 		if(lancamento.isPrevisao() && (!lancamento.getConta().isCartaoCredito()))
 			valor=0.0d;
-		this.saldoAtual = saldoAtual + (lancamento.getTipoMovimento()==TipoMovimento.D?valor * -1:valor);
+		this.saldoAtual = saldoAtual + valor;
 	}
 	
 }
