@@ -39,9 +39,10 @@ public class UsuarioController implements UsuarioService  {
 	private PasswordEncoder encoder;
 	@Override
 	public Sessao login(String login,String senha) {
-		Sessao sessao = new Sessao();
+		Sessao sessao =null;
 		Optional<EntidadeUsuario> entidade = repository.findById(login);
 		if(entidade.isPresent()) {
+			sessao = new Sessao();
 			if(validarSenha(senha, entidade.get().getSenha())) {
 				Usuario usuario = new Usuario();
 				BeanUtils.copyProperties(entidade.get(), usuario);

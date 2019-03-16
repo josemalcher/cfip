@@ -204,7 +204,7 @@ public class LancamentoController implements LancamentoService {
 				valor = parcela.getValor();
 			if (valor < 0)
 				valor = valor * -1;
-			valor = parcela.getLancamento().getTipoMovimento() == TipoMovimento.C ? valor : valor - 1;
+			valor = parcela.getLancamento().getTipoMovimento() == TipoMovimento.C ? valor : valor * -1;
 
 			EntidadeLancamento lancamento = parcela.getLancamento();
 
@@ -217,6 +217,7 @@ public class LancamentoController implements LancamentoService {
 				conta.setSaldoAtual(conta.getSaldoAtual() + valor);
 				contaRepository.save(conta);
 				EntidadeLancamento compensacao = lancamento.compensacao(valor, parcela.getNumero());
+				compensacao.configurar();
 				repository.save(compensacao);
 			}
 			lancamento.getParcelamento().setRestante(lancamento.getParcelamento().getRestante() - valor);

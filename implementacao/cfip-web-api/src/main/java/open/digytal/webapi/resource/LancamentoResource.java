@@ -81,7 +81,7 @@ public class LancamentoResource {
 	@GetMapping(value = { "/faturas/{inicio}/{fim}", 
 						  "/faturas/{inicio}/{fim}/{conta}",
 						  "/faturas/{inicio}/{fim}/{conta}/{natureza}"})
-	public List<EntidadeParcela> listarFaturas(
+	public List<Parcelas> listarFaturas(
 			@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date inicio,
 			@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date fim,
 			@PathVariable(required = false) Integer conta, 

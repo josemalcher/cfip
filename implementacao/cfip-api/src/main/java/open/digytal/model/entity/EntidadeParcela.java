@@ -27,7 +27,7 @@ public class EntidadeParcela {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="cd_lancto")
 	private EntidadeLancamento lancamento;
 	

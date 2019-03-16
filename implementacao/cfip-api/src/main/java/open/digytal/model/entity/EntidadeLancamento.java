@@ -163,7 +163,6 @@ public class EntidadeLancamento {
 		this.setValor(this.getTipoMovimento()==TipoMovimento.D?this.getValor() * -1:this.getValor());
 		this.getParcelamento().setRestante(this.isPrevisao() || this.getConta().isCartaoCredito()? this.getValor():0.0d);
 		this.setPeriodo(Integer.valueOf(Formatador.formatar(DataHora.ano(this.getData()),"0000") + Formatador.formatar(DataHora.mes(this.getData()),"00")));
-		
 	}
 	public void atualizarRestante(Double valor) {
 		getParcelamento().setRestante(getParcelamento().getRestante() - valor);

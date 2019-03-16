@@ -28,7 +28,7 @@
 		</dependency>
 		<dependency>
 			<groupId>open.digytal</groupId>
-			<artifactId>cfip-client-api</artifactId>
+			<artifactId>cfip-core</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>
