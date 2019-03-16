@@ -7,8 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import open.digytal.service.LancamentoService;
-import open.digytal.util.desktop.DesktopApp;
-import open.digytal.util.desktop.LoginPanel;
+import open.digytal.service.Services;
 
 @SpringBootApplication
 public class CfipDesktopApp {
@@ -26,11 +25,12 @@ public class CfipDesktopApp {
 	}
 
 	private static void initApp(String[] args) {
-		DesktopApp.exibirSplash();
+		//DesktopApp.exibirSplash();
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(CfipDesktopApp.class);
 		builder.headless(false);
 
 		contexto = builder.run(args);
+		//contexto.getEnvironment().setActiveProfiles(Services.JPA);
 		/*LoginPanel login = CfipDesktopApp.getBean(LoginPanel.class);
 		login.exibir();
 		 */
