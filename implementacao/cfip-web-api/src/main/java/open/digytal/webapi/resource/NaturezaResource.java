@@ -27,7 +27,7 @@ public class NaturezaResource {
 	@ApiImplicitParams({
 	    @ApiImplicitParam(name = "nome", value = "Nome",defaultValue="", required = false, dataType = "string")
 	  })
-	@PreAuthorize(Roles.PRE_USER)
+	@PreAuthorize(Roles.PRE_USER_ADMIN)
 	@GetMapping(value= {"","/{nome}"})
 	public List<EntidadeNatureza> todas(@PathVariable(name ="nome",required = false) String nome){
 		return service.listarNaturezas(JwtSession.getLogin(),nome);
@@ -35,7 +35,7 @@ public class NaturezaResource {
 	@ApiImplicitParams({
 	    @ApiImplicitParam(name = "tipo", value = "Tipo",defaultValue="", required = true, dataType = "string")
 	  })
-	@PreAuthorize(Roles.PRE_USER)
+	@PreAuthorize(Roles.PRE_USER_ADMIN)
 	@GetMapping(value= {"/tipo/{tipo}"})
 	public List<EntidadeNatureza> tipo(@PathVariable(name ="tipo",required = false) String tipo){
 		return service.listarNaturezas(JwtSession.getLogin(),TipoMovimento.valueOf(tipo.toUpperCase()));

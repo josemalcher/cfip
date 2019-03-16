@@ -1,6 +1,5 @@
 package open.digytal.client.api;
 
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 

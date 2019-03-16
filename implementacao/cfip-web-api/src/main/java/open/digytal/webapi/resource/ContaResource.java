@@ -26,7 +26,7 @@ public class ContaResource {
 	@ApiImplicitParams({
 	    @ApiImplicitParam(name = "nome", value = "Nome",defaultValue="", required = false, dataType = "string")
 	  })
-	@PreAuthorize(Roles.PRE_USER)
+	@PreAuthorize(Roles.PRE_USER_ADMIN)
 	@GetMapping(value= {"","/{nome}"})
 	public List<EntidadeConta> todas(@PathVariable(name ="nome",required = false) String nome){
 		return service.listarContas (JwtSession.getLogin(),nome);
@@ -34,17 +34,17 @@ public class ContaResource {
 	@ApiImplicitParams({
 	    @ApiImplicitParam(name = "id", value = "Id",defaultValue="", required = true, dataType = "int")
 	  })
-	@PreAuthorize(Roles.PRE_USER)
+	@PreAuthorize(Roles.PRE_USER_ADMIN)
 	@GetMapping(value= {"/{id}"})
 	public List<EntidadeConta> todas(@PathVariable(name ="id") Integer id){
 		return service.listarContas(id);
 	}
-	@PreAuthorize(Roles.PRE_USER)
+	@PreAuthorize(Roles.PRE_USER_ADMIN)
 	@GetMapping(value="/correntepoupanca")
 	public List<EntidadeConta> contasCorrentePoupanca(){
 		return service.listarCorrentesPoupanca(JwtSession.getLogin());
 	}
-	@PreAuthorize(Roles.PRE_USER)
+	@PreAuthorize(Roles.PRE_USER_ADMIN)
 	@GetMapping(value="/cartaocredito")
 	public List<EntidadeConta> contasCartaoCredito(){
 		return service.listarCartoesCredito(JwtSession.getLogin());

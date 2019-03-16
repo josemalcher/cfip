@@ -9,10 +9,13 @@ public class Formatador {
 	public static final String DATA_HORA_BR="dd/MM/yyyy";
 	public static final String DATA_API="ddMMyy";
 	public static String formatar(Date dataHora) {
-    	return formatar(dataHora,DATA_HORA_BR);
+    	return formatar(dataHora,DATA_BR);
     }
     public static String formatarDataHora(Date dataHora) {
         return formatar(dataHora,DATA_HORA_BR);
+    }
+    public static String formatarDataApi(Date dataHora) {
+        return formatar(dataHora,DATA_API);
     }
     public static String formatar(Number numero) {
         return formatar(numero,"#,##0.00");
