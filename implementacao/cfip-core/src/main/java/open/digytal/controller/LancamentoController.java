@@ -49,11 +49,18 @@ public class LancamentoController implements LancamentoService {
 	private final String SQL_PARCELA_FATURA = "SELECT p FROM EntidadeParcela p WHERE p.lancamento.conta.login=:login AND p.lancamento.conta.cartaoCredito =:cc AND p.compensada =false AND p.vencimento BETWEEN :inicio AND :fim ";
 	@Override
 	public List<Parcelas> listarParcelas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
-		String sql="SELECT e.id as id, e.vencimento as vencimento, e.numero as numero, e.valor as valor,e.lancamento.id as lancamento, "
-				+ " e.lancamento.conta.nome as conta, e.lancamento.natureza.nome as natureza, CONTCAT ('PARC: ',e.numero, '-', e.lancamento.descricao) as descricao FROM EntidadeParcela e";
+		String sql="SELECT e.id as id, e.vencimento as vencimento, e.numero as numero, e.valor as valor, e.lancamento.id as lancamento, e.valor as amortizado, "
+				+ " e.lancamento.conta.nome as conta, e.lancamento.natureza.nome as natureza, CONCAT ('PARC: ',e.numero, '-', e.lancamento.descricao) as descricao FROM EntidadeParcela e";
 		List<Parcelas> lista = repositorio.listar(Parcelas.class,sql);
 		return lista;
 	}
+	public List<Parcelas> listarFaturas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
+		String sql="SELECT e.id as id, e.vencimento as vencimento, e.numero as numero, e.valor as valor,e.lancamento.id as lancamento, e.valor as amortizado,  "
+				+ " e.lancamento.conta.nome as conta, e.lancamento.natureza.nome as natureza, CONCAT ('PARC: ',e.numero, '-', e.lancamento.descricao) as descricao FROM EntidadeParcela e";
+		List<Parcelas> lista = repositorio.listar(Parcelas.class,sql);
+		return lista;
+	}
+
 	@Override
 	public List<EntidadeLancamento> extrato(Integer contaId, Date dataInicio) {
 		return repository.extrato(contaId, dataInicio);
@@ -100,43 +107,28 @@ public class LancamentoController implements LancamentoService {
 			return lancamentos;
 		}
 	}
+	
 	/*
-	 * public List<EntidadeParcela> listarParcelas(String login, Date inicio, Date
-	 * fim, Integer conta, Integer natureza) { return listarParcelas(false, login,
-	 * inicio, fim, conta, natureza); }
+	 * private List<EntidadeParcela> listarParcelas(boolean cc, String login, Date
+	 * inicio, Date fim, Integer conta, Integer natureza) { StringBuilder sql = new
+	 * StringBuilder(SQL_PARCELA_FATURA);
+	 * 
+	 * if (natureza != null && natureza > 0) {
+	 * sql.append(" AND p.lancamento.natureza.id=:natureza "); } if (conta != null
+	 * && conta > 0) { sql.append(" AND p.lancamento.conta.id=:conta "); } sql =
+	 * sql.append(" ORDER BY p.vencimento");
+	 * 
+	 * TypedQuery<EntidadeParcela> query = em.createQuery(sql.toString(),
+	 * EntidadeParcela.class); query.setParameter("inicio", inicio);
+	 * query.setParameter("fim", fim); query.setParameter("cc", cc);
+	 * query.setParameter("login", login); if (natureza != null && natureza > 0)
+	 * query.setParameter("natureza", natureza);
+	 * 
+	 * if (conta != null && conta > 0) query.setParameter("conta", conta);
+	 * 
+	 * List<EntidadeParcela> lista = query.getResultList(); lista.forEach(item ->
+	 * item.setAmortizado(item.getValor())); return lista; }
 	 */
-
-	public List<EntidadeParcela> listarFaturas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
-		return listarParcelas(true, login, inicio, fim, conta, natureza);
-	}
-
-	private List<EntidadeParcela> listarParcelas(boolean cc, String login, Date inicio, Date fim, Integer conta,
-			Integer natureza) {
-		StringBuilder sql = new StringBuilder(SQL_PARCELA_FATURA);
-
-		if (natureza != null && natureza > 0) {
-			sql.append(" AND p.lancamento.natureza.id=:natureza ");
-		}
-		if (conta != null && conta > 0) {
-			sql.append(" AND p.lancamento.conta.id=:conta ");
-		}
-		sql = sql.append(" ORDER BY p.vencimento");
-
-		TypedQuery<EntidadeParcela> query = em.createQuery(sql.toString(), EntidadeParcela.class);
-		query.setParameter("inicio", inicio);
-		query.setParameter("fim", fim);
-		query.setParameter("cc", cc);
-		query.setParameter("login", login);
-		if (natureza != null && natureza > 0)
-			query.setParameter("natureza", natureza);
-
-		if (conta != null && conta > 0)
-			query.setParameter("conta", conta);
-
-		List<EntidadeParcela> lista = query.getResultList();
-		lista.forEach(item -> item.setAmortizado(item.getValor()));
-		return lista;
-	}
 
 	public void incluir(Lancamento objeto) { 
 		EntidadeLancamento entidade = new EntidadeLancamento(); 
@@ -204,9 +196,10 @@ public class LancamentoController implements LancamentoService {
 
 	@Override
 	@Transactional
-	public void compensarParcela(Date data, EntidadeParcela... parcelas) {
-		for (EntidadeParcela parcela : parcelas) {
-			Double valor = parcela.getAmortizado();
+	public void compensarParcela(Date data, Parcelas... parcelas) {
+		for (Parcelas p : parcelas) {
+			Double valor = p.getAmortizado();
+			EntidadeParcela parcela =buscarParcela(p.getId());
 			if (valor == null)
 				valor = parcela.getValor();
 			if (valor < 0)

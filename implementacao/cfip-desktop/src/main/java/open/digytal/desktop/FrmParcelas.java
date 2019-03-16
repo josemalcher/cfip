@@ -312,10 +312,10 @@ public class FrmParcelas extends Formulario {
 	}
 
 	private void amortizar() {
-		EntidadeParcela entidade = (EntidadeParcela) grid.getLinhaSelecionada();
+		Parcelas entidade = (Parcelas) grid.getLinhaSelecionada();
 		if (entidade != null) {
 			FrmAmortizar frm = CfipDesktopApp.getBean(FrmAmortizar.class);
-			frm.setId(entidade.getId());
+			frm.setParcela(entidade);
 			this.dialogo(frm);
 			listar();
 		} else
@@ -325,10 +325,10 @@ public class FrmParcelas extends Formulario {
 
 	private void compensar() {
 
-		EntidadeParcela entidade = (EntidadeParcela) grid.getLinhaSelecionada();
+		Parcelas entidade = (Parcelas) grid.getLinhaSelecionada();
 		if (entidade != null) {
 			FrmCompensar frm = CfipDesktopApp.getBean(FrmCompensar.class);
-			frm.setId(entidade.getId());
+			frm.setParcela(entidade);
 			this.dialogo(frm);
 			listar();
 		} else

@@ -21,9 +21,9 @@ public interface LancamentoService {
 
 	List<Parcelas> listarParcelas(String login, Date inicio, Date fim, Integer conta, Integer natureza);
 
-	List<EntidadeParcela> listarFaturas(String login, Date inicio, Date fim, Integer conta, Integer natureza);
+	List<Parcelas> listarFaturas(String login, Date inicio, Date fim, Integer conta, Integer natureza);
 
-	void compensarParcela(Date data, EntidadeParcela... parcelas);
+	void compensarParcela(Date data, Parcelas... parcelas);
 
 	EntidadeParcela buscarParcela(Integer id);
 }

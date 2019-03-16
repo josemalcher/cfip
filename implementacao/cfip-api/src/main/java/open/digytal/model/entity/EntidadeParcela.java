@@ -51,11 +51,7 @@ public class EntidadeParcela {
 	@Column(nullable=true)
 	private Date compensacao;
 	
-	@Transient
-	private Double amortizado;
 	
-	@Transient
-	private boolean selecionada;
 	
 	public Integer getId() {
 		return id;
@@ -105,24 +101,9 @@ public class EntidadeParcela {
 	public void setPeriodo(Integer periodo) {
 		this.periodo = periodo;
 	}
-	public String getDescricao() {
-		return lancamento.getDescricao() + " PARC:" + numero + " DE:" + lancamento.getParcelamento().getUltimaParcela();
-	}
 	@PrePersist
 	private void periodo() {
 		this.periodo = Integer.valueOf(Formatador.formatar(DataHora.ano(vencimento),"0000") + Formatador.formatar(DataHora.mes(vencimento),"00"));
-		this.valor = lancamento.getTipoMovimento()==TipoMovimento.D?valor * -1:valor;
 	}
-	public void setSelecionada(boolean selecionada) {
-		this.selecionada = selecionada;
-	}
-	public void setAmortizado(Double amortizado) {
-		this.amortizado = amortizado;
-	}
-	public boolean isSelecionada() {
-		return selecionada;
-	}
-	public Double getAmortizado() {
-		return amortizado;
-	}
+	
 }

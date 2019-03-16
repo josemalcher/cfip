@@ -13,6 +13,9 @@ public class Parcelas {
 	private String natureza;
 	private String descricao;
 	
+	private Double amortizado;
+	private boolean selecionada;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -68,10 +71,22 @@ public class Parcelas {
 		this.natureza = natureza;
 	}
 	public String getDescricao() {
-		return "VER";
+		return descricao;
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	public Double getAmortizado() {
+		return amortizado;
+	}
+	public void setAmortizado(Double amortizado) {
+		this.amortizado = amortizado;
+	}
+	public boolean isSelecionada() {
+		return selecionada;
+	}
+	public void setSelecionada(boolean selecionada) {
+		this.selecionada = selecionada;
 	}
 	
 	

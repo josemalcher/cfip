@@ -55,7 +55,7 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 	}
 
 	@Override
-	public List<EntidadeParcela> listarFaturas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
+	public List<Parcelas> listarFaturas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
 		return getLista(getParcelaListaType(),faturas, Formatador.formatarDataApi(inicio),Formatador.formatarDataApi(fim),conta,natureza);
 	}
 
@@ -65,7 +65,7 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 	}
 
 	@Override
-	public void compensarParcela(Date data, EntidadeParcela... parcelas) {
+	public void compensarParcela(Date data, Parcelas... parcelas) {
 		// TODO Auto-generated method stub
 		
 	}

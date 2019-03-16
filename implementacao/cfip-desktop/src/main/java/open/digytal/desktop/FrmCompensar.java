@@ -19,6 +19,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import open.digytal.model.Parcelas;
 import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.model.enums.TipoMovimento;
 import open.digytal.service.LancamentoService;
@@ -38,7 +39,7 @@ public class FrmCompensar extends Formulario {
 	
 	private SSBotao cmdSalvar = new SSBotao();
 	private SSBotao cmdSair = new SSBotao();
-	private EntidadeParcela entidade;
+	private Parcelas parcela;
 	@Autowired
 	private LancamentoService service;
 	
@@ -124,20 +125,21 @@ public class FrmCompensar extends Formulario {
 	}
 	private void salvar() {
 		if(SSMensagem.pergunta("Confirma compensar este lançamento ?")) {
-			service.compensarParcela(txtData.getDataHora(),entidade);
+			service.compensarParcela(txtData.getDataHora(),parcela);
 			SSMensagem.informa("Lançamento compensado com sucesso!!");
 			super.fechar();
 		}
 		
 	}
-	public void setId(Integer id) {
-		entidade = service.buscarParcela(id);
+	public void setParcela(Parcelas parcela) {
+		this.parcela=parcela;
+		EntidadeParcela entidade = service.buscarParcela(parcela.getId());
 		if(entidade!=null) {
 			TipoMovimento mov=entidade.getLancamento().getTipoMovimento();
 			txtData.setDataHora(new Date());
 			txtValor.setRotulo(mov.getNome() + " - R$ Valor");
 			txtValor.setValue(entidade.getValor());
-			txtDescricao.setText(mov.getNome() + "\n" + entidade.getDescricao());
+			txtDescricao.setText(mov.getNome() + "\n" + entidade.getLancamento().getDescricao());
 			if(mov == TipoMovimento.D) {
 				txtData.setComponenteCorFonte(Color.RED);
 				txtValor.setComponenteCorFonte(Color.RED);

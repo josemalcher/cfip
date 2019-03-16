@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
+import open.digytal.model.Parcelas;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.model.entity.Total;
@@ -73,7 +74,7 @@ public class FrmFaturas extends Formulario {
 	private SSCampoNumero txtReceitas = new SSCampoNumero();
 	private SSCampoNumero txtSaldoAtual = new SSCampoNumero();
 	//
-	private List<EntidadeParcela> lista = new ArrayList<EntidadeParcela>();
+	private List<Parcelas> lista = new ArrayList<Parcelas>();
 
 	public FrmFaturas() {
 		init();
@@ -256,7 +257,7 @@ public class FrmFaturas extends Formulario {
 
 	private void exibirDescricao() {
 		try {
-			EntidadeParcela p = (EntidadeParcela) grid.getLinhaSelecionada();
+			Parcelas p = (Parcelas) grid.getLinhaSelecionada();
 			if (p != null) {
 				lblDesc.setText(p.getDescricao());
 			}
@@ -294,11 +295,12 @@ public class FrmFaturas extends Formulario {
 				SSMensagem.avisa("Nenhum dado encontrado");
 
 			grid.setValue(lista);
-			total = CfipUtil.parcelas(lista);
-			txtSaldoAtual.setValue(total.getSaldo());
-			txtSaldoAtual.setComponenteCorFonte(total.getSaldo() < 0.0d ? Color.RED : Color.BLUE);
-			txtDespesas.setValue(total.getDebito());
-			txtReceitas.setValue(total.getCredito());
+			/*
+			 * total = CfipUtil.parcelas(lista); txtSaldoAtual.setValue(total.getSaldo());
+			 * txtSaldoAtual.setComponenteCorFonte(total.getSaldo() < 0.0d ? Color.RED :
+			 * Color.BLUE); txtDespesas.setValue(total.getDebito());
+			 * txtReceitas.setValue(total.getCredito());
+			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 			// Mensagem.erro(e.getMessage());
