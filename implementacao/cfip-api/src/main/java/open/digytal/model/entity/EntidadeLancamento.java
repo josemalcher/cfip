@@ -138,9 +138,8 @@ public class EntidadeLancamento {
 		copia.setConta(destino);
 		copia.setData(data);
 		copia.setNatureza(getNatureza());
-		copia.setValor(valor);
+		copia.setValor(valor* -1);
 		copia.origem=this;
-		this.tipoMovimento=TipoMovimento.D;
 		return copia;
 	}
 	public EntidadeLancamento compensacao(Double amortizado, int parcela) {
@@ -158,6 +157,7 @@ public class EntidadeLancamento {
 	}
 	@PrePersist
 	private void periodo() {
+		this.tipoMovimento = tipoMovimento==TipoMovimento.T?TipoMovimento.D:tipoMovimento;
 		this.valor = tipoMovimento==TipoMovimento.D?valor * -1:valor;
 		this.parcelamento.setRestante(previsao || conta.isCartaoCredito()? getValor():0.0d);
 		this.periodo = Integer.valueOf(Formatador.formatar(DataHora.ano(data),"0000") + Formatador.formatar(DataHora.mes(data),"00"));

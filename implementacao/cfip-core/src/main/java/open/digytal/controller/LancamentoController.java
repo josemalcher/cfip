@@ -140,14 +140,6 @@ public class LancamentoController implements LancamentoService {
 
 	@Transactional
 	public EntidadeLancamento incluir(EntidadeLancamento lancamento) {
-		if(lancamento.getNatureza().getTipoMovimento().isTranferencia()) {
-			EntidadeLancamento transferencia=lancamento.transferencia();
-			repository.save(transferencia);
-			EntidadeConta destino = transferencia.getConta();
-			destino.atualizarSaldo(transferencia);
-			contaRepository.save(destino);
-			
-		}
 		EntidadeConta conta = lancamento.getConta();
 		conta.atualizarSaldo(lancamento);
 		contaRepository.save(conta);
@@ -164,6 +156,16 @@ public class LancamentoController implements LancamentoService {
 			lancamento= gerarParcelas(lancamento, valor,resto);
 		}
 		repository.save(lancamento);
+		if(lancamento.getNatureza().getTipoMovimento().isTranferencia()) {
+			EntidadeLancamento transferencia=lancamento.transferencia();
+			repository.save(transferencia);
+			EntidadeConta destino = transferencia.getConta();
+			destino.atualizarSaldo(transferencia);
+			contaRepository.save(destino);
+			
+		}
+		
+		
 		return lancamento;
 	}
 

@@ -33,6 +33,7 @@ import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.entity.Total;
 import open.digytal.service.CadastroService;
 import open.digytal.service.LancamentoService;
+import open.digytal.util.Calendario;
 import open.digytal.util.Formato;
 import open.digytal.util.cfip.CfipUtil;
 import open.digytal.util.desktop.DesktopApp;
@@ -44,6 +45,7 @@ import open.digytal.util.desktop.ss.SSCampoNumero;
 import open.digytal.util.desktop.ss.SSGrade;
 import open.digytal.util.desktop.ss.SSMensagem;
 import open.digytal.util.desktop.ss.SSPosicaoRotulo;
+import open.digytal.util.desktop.ss.util.SSDataHora;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -268,9 +270,12 @@ public class FrmLancamentos extends Formulario {
 		cboNatureza.setPrimeiroElementoVazio(true); 
 		cboConta.setItens(cadastroService.listarContas(DesktopApp.getLogin(),null), "nome");
 		cboNatureza.setItens(cadastroService.listarNaturezas(DesktopApp.getLogin(),""), "nome");
-
-		txtDataDe.setDataHora(new Date());
-		txtDataAte.setDataHora(new Date());
+		
+		Date hoje = new Date();
+		int ano = SSDataHora.pegaAno(hoje);
+		int mes = SSDataHora.pegaMes(hoje);
+		txtDataDe.setDataHora(Calendario.data(1, mes, ano));
+		txtDataAte.setDataHora(hoje);
 
 	}
 
