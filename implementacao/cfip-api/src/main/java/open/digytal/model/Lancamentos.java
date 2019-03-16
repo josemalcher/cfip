@@ -1,11 +1,21 @@
 package open.digytal.model;
 
+import open.digytal.model.enums.TipoMovimento;
+
 public class Lancamentos {
 	private Integer id;
 	private String conta;
 	private String natureza;
 	private String descricao;
 	private Double valor;
+	private TipoMovimento tipoMovimento;
+	public TipoMovimento getTipoMovimento() {
+		return tipoMovimento;
+	}
+	public void setTipoMovimento(TipoMovimento tipoMovimento) {
+		this.tipoMovimento = tipoMovimento;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

@@ -14,20 +14,19 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
-import open.digytal.model.enums.TipoMovimento;
 import open.digytal.util.DataHora;
 import open.digytal.util.Formatador;
 
 @Entity
 @Table(name="tb_parcela")
+//@NamedEntityGraph(name = "parcela.lancamento", attributeNodes = { @NamedAttributeNode("lancamento") })
 public class EntidadeParcela {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="cd_lancto")
 	private EntidadeLancamento lancamento;
 	

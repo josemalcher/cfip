@@ -133,12 +133,11 @@ public class FrmAmortizar extends Formulario {
 	}
 	public void setParcela(Parcelas parcela) {
 		this.parcela=parcela;
-		EntidadeParcela entidade = service.buscarParcela(parcela.getId());
-		if(entidade!=null) {
-			TipoMovimento mov=entidade.getLancamento().getTipoMovimento();
+		if(parcela!=null) {
+			TipoMovimento mov=parcela.getTipoMovimento();
 			txtData.setDataHora(new Date());
 			txtValor.setRotulo(mov.getNome() + " - R$ Valor");
-			txtValor.setValue(entidade.getValor());
+			txtValor.setValue(parcela.getValor());
 			txtDescricao.setText(mov.getNome() + "\n" + parcela.getDescricao());
 			if(mov == TipoMovimento.D) {
 				txtData.setComponenteCorFonte(Color.RED);

@@ -2,6 +2,8 @@ package open.digytal.model;
 
 import java.util.Date;
 
+import open.digytal.model.enums.TipoMovimento;
+
 public class Parcelas {
 	private Integer id;
 	private Date vencimento;
@@ -15,6 +17,13 @@ public class Parcelas {
 	
 	private Double amortizado;
 	private boolean selecionada;
+	private TipoMovimento tipoMovimento;
+	public TipoMovimento getTipoMovimento() {
+		return tipoMovimento;
+	}
+	public void setTipoMovimento(TipoMovimento tipoMovimento) {
+		this.tipoMovimento = tipoMovimento;
+	}
 	
 	public Integer getId() {
 		return id;

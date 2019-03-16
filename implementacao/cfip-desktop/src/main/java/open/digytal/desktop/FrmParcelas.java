@@ -29,13 +29,11 @@ import open.digytal.CfipDesktopApp;
 import open.digytal.model.Parcelas;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeNatureza;
-import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.model.entity.Total;
 import open.digytal.service.CadastroService;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
 import open.digytal.util.Formato;
-import open.digytal.util.cfip.CfipUtil;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
@@ -153,11 +151,6 @@ public class FrmParcelas extends Formulario {
 		cmdCompensar.setText("Compensar");
 		cmdAmortizar.setText("Amortizar");
 		cmdProrrogar.setText("Atualizar");
-		cmdSelecionados.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				compensarSelecionados();
-			}
-		});
 		cmdSelecionados.setText("Selecionados");
 
 		cmdFechar.setText("Fechar");
@@ -227,12 +220,6 @@ public class FrmParcelas extends Formulario {
 				amortizar();
 			}
 		});
-		cmdProrrogar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				prorrogar();
-			}
-		});
-
 		//
 		FlowLayout pnlSaldoLayout = new FlowLayout();
 		pnlSaldoLayout.setAlignment(FlowLayout.RIGHT);
@@ -299,18 +286,6 @@ public class FrmParcelas extends Formulario {
 	private void sair() {
 		super.fechar();
 	}
-
-	private void prorrogar() {
-		SSMensagem.avisa("NÃO IMPLEMENTADO");
-		/*
-		 * Lancamento entidade = (Lancamento) grid.getLinhaSelecionada(); if (entidade
-		 * != null) { // FrmProrrogar frm = getBean(FrmProrrogar.class); FrmAtualizar
-		 * frm = SpringBootApp.getBean(FrmAtualizar.class); frm.setId(entidade.getId());
-		 * this.dialogo(frm); listar(); } else
-		 * SSMensagem.avisa("Selecione um item da lista");
-		 */
-	}
-
 	private void amortizar() {
 		Parcelas entidade = (Parcelas) grid.getLinhaSelecionada();
 		if (entidade != null) {
@@ -334,22 +309,6 @@ public class FrmParcelas extends Formulario {
 		} else
 			SSMensagem.avisa("Selecione um item da lista");
 	}
-
-	private void compensarSelecionados() {
-		SSMensagem.avisa("NÃO IMPLEMENTADO");
-		/*
-		 * if (cboConta.getValue() == null) {
-		 * SSMensagem.avisa("Favor selecione uma conta"); return; } if
-		 * (SSMensagem.pergunta("Confirma compensar os itens selecionados?")) { Object[]
-		 * itens = grid.getLinhasSelecionadas(); if (itens == null || itens.length == 0)
-		 * { SSMensagem.avisa("Nenhuma linha selecionada"); return; } Integer[] ids =
-		 * new Integer[itens.length]; for (int x = 0; x < itens.length; x++) {
-		 * Lancamento vo = (Lancamento) itens[x]; ids[x] = vo.getId(); }
-		 * service.compensarLancamento(new Date(), ids);
-		 * SSMensagem.informa("Lançamentos compensados com sucesso!!"); listar(); }
-		 */
-	}
-
 	private void listar() {
 		try {
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();

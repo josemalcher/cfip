@@ -107,4 +107,7 @@ public class RepositorioImpl implements Repositorio {
 			return null;
 		}
 	}
+	public EntityManager getEm() {
+		return em;
+	}
 }

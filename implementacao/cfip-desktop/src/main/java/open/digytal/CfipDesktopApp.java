@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.LoginPanel;
 
 @SpringBootApplication
