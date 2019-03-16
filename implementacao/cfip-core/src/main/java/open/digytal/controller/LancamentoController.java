@@ -49,7 +49,7 @@ public class LancamentoController implements LancamentoService {
 	@PersistenceContext
 	private EntityManager em;
 	
-	private final String SQL_EXTRATO_LANCAMENTO_PREVISAO = "SELECT e.id,e.tipoMovimento as tipoMovimento , e.conta.nome as conta, e.natureza.nome as natureza, e.descricao as descricao, e.valor as valor FROM EntidadeLancamento e ";
+	private final String SQL_EXTRATO_LANCAMENTO_PREVISAO = "SELECT e.id as id,e.tipoMovimento as tipoMovimento , e.conta.nome as conta, e.natureza.nome as natureza, e.descricao as descricao, e.valor as valor FROM EntidadeLancamento e ";
 	
 	
 	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM EntidadeLancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
@@ -72,7 +72,7 @@ public class LancamentoController implements LancamentoService {
 	@Override
 	public List<Lancamentos> extrato(Integer contaId, Date dataInicio) {
 		List<Filtro> filtros = Filtros.igual("previsao", false).e().igual("conta.id", contaId).e().maiorIgual("data", dataInicio).lista();
-		List<Lancamentos> lista = repositorio.listar(Parcelas.class,SQL_EXTRATO_LANCAMENTO_PREVISAO,filtros);
+		List<Lancamentos> lista = repositorio.listar(Lancamentos.class,SQL_EXTRATO_LANCAMENTO_PREVISAO,filtros);
 		return lista;
 	}
 	//https://www.baeldung.com/jpa-entity-graph

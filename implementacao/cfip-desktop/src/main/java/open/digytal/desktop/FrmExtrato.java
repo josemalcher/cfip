@@ -110,7 +110,7 @@ public class FrmExtrato extends Formulario {
 		
 		grid.getModeloColuna().setCampo(0, "data");
 		grid.getModeloColuna().setFormato(0, "dd/MM/yy");
-		grid.getModeloColuna().setCampo(1, "natureza.nome");
+		grid.getModeloColuna().setCampo(1, "natureza");
 		grid.getModeloColuna().setCampo(2, "valor");
 		grid.getModeloColuna().setFormato(2, Formato.MOEDA);
 		grid.getModeloColuna().definirPositivoNegativo(2);

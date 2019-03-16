@@ -97,7 +97,7 @@ public class RepositorioImpl implements Repositorio {
 		try {
 			Object instance = classe.newInstance();
 			for (TupleElement e : tuple.getElements()) {
-				Field field = classe.getDeclaredField(e.getAlias());
+				Field field = classe.getDeclaredField(Objects.toString(e.getAlias(), "INVALIDO"));
 				field.setAccessible(true);
 				field.set(instance, tuple.get(e.getAlias(), field.getType()));
 			}
