@@ -40,6 +40,9 @@ public class Filtros {
     public static Filtros maiorIgual(String campo, Object valor) {
     	return instance(campo,MAIOR_IGUAL,valor);
     }
+    public static Filtros menorIgual(String campo, Object valor) {
+    	return instance(campo,MENOR_IGUAL,valor);
+    }
     public static Filtros parecido(String campo, Object valor) {
     	return instance(campo,PARECIDO,valor);
     }

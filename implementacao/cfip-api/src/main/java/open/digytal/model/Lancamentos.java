@@ -11,6 +11,7 @@ public class Lancamentos {
 	private String natureza;
 	private String descricao;
 	private Double valor;
+	private Double restante;
 	private TipoMovimento tipoMovimento;
 	public TipoMovimento getTipoMovimento() {
 		return tipoMovimento;
@@ -54,10 +55,11 @@ public class Lancamentos {
 	public void setValor(Double valor) {
 		this.valor = valor;
 	}
-	@Override
-	public String toString() {
-		return "Lancamentos [id=" + id + ", conta=" + conta + ", natureza=" + natureza + ", descricao=" + descricao
-				+ ", valor=" + valor + "]";
+	public Double getRestante() {
+		return restante;
+	}
+	public void setRestante(Double restante) {
+		this.restante = restante;
 	}
 	
 	

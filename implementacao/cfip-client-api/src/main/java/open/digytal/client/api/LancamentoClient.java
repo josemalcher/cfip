@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import open.digytal.model.Lancamento;
 import open.digytal.model.Lancamentos;
 import open.digytal.model.Parcelas;
-import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Formatador;
@@ -20,9 +19,7 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 	private String parcelas="parcelas";
 	private String faturas="faturas";
 	private String extrato="extrato";
-	private ParameterizedTypeReference getListaType() {
-		return new ParameterizedTypeReference<List<EntidadeLancamento>>() {};
-	}
+	
 	private ParameterizedTypeReference getLancamentosListaType() {
 		return new ParameterizedTypeReference<List<Lancamentos>>() {};
 	}
@@ -43,13 +40,13 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 	}
 
 	@Override
-	public List<EntidadeLancamento> listarLancamentos(String login, Date inicio, Date fim, Integer conta,Integer natureza) {
-		return getLista(getListaType(),lancamentos, Formatador.formatarDataApi(inicio),Formatador.formatarDataApi(fim),conta,natureza);
+	public List<Lancamentos> listarLancamentos(String login, Date inicio, Date fim, Integer conta,Integer natureza) {
+		return getLista(getLancamentosListaType(),lancamentos, Formatador.formatarDataApi(inicio),Formatador.formatarDataApi(fim),conta,natureza);
 	}
 
 	@Override
-	public List<EntidadeLancamento> listarPrevisoes(String login, Date inicio, Date fim, Integer conta,Integer natureza) {
-		return getLista(getListaType(),previsoes, Formatador.formatarDataApi(inicio),Formatador.formatarDataApi(fim),conta,natureza);
+	public List<Lancamentos> listarPrevisoes(String login, Date inicio, Date fim, Integer conta,Integer natureza) {
+		return getLista(getLancamentosListaType(),previsoes, Formatador.formatarDataApi(inicio),Formatador.formatarDataApi(fim),conta,natureza);
 	}
 
 	@Override
@@ -62,12 +59,6 @@ public class LancamentoClient extends ClientResource implements LancamentoServic
 	public List<Parcelas> listarFaturas(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
 		return getLista(getParcelaListaType(),faturas, Formatador.formatarDataApi(inicio),Formatador.formatarDataApi(fim),conta,natureza);
 	}
-
-	@Override
-	public EntidadeParcela buscarParcela(Integer id) {
-		return get(getParcelaType(), parcelas,id);
-	}
-
 	@Override
 	public void compensarParcela(Date data, Parcelas... parcelas) {
 		post(parcelas, lancamentos,"compensacao",Formatador.formatarDataApi(data));

@@ -51,7 +51,7 @@ public class LancamentoResource {
 	@GetMapping(value = { "/lancamentos/{inicio}/{fim}", 
 						  "/lancamentos/{inicio}/{fim}/{conta}",
 						  "/lancamentos/{inicio}/{fim}/{conta}/{natureza}"})
-	public List<EntidadeLancamento> listarContaLancamentos(
+	public List<Lancamentos> listarLancamentos(
 			@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date inicio,
 			@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date fim,
 			@PathVariable(required = false) Integer conta, 
@@ -69,7 +69,7 @@ public class LancamentoResource {
 	@GetMapping(value = { "/previsoes/{inicio}/{fim}", 
 						  "/previsoes/{inicio}/{fim}/{conta}",
 						  "/previsoes/{inicio}/{fim}/{conta}/{natureza}"})
-	public List<EntidadeLancamento> listarPrevisoes(
+	public List<Lancamentos> listarPrevisoes(
 			@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date inicio,
 			@PathVariable() @DateTimeFormat(pattern = Formatador.DATA_API) Date fim,
 			@PathVariable(required = false) Integer conta, 
@@ -111,16 +111,6 @@ public class LancamentoResource {
 			@PathVariable(required = false) Integer conta, 
 			@PathVariable(required = false) Integer natureza) {
 		return service.listarParcelas(JwtSession.getLogin(), inicio, fim, conta, natureza);
-	}
-	
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "id", value = "ID Conta", required = true, dataType = "int")
-	})
-	@PreAuthorize(Roles.PRE_USER_ADMIN)
-	@GetMapping(value = "/parcelas/{id}")
-	public EntidadeParcela buscarParcela(@PathVariable("id") Integer id) {
-		EntidadeParcela entidade = service.buscarParcela(id);
-		return entidade;
 	}
 	
 	@ApiImplicitParams({ 

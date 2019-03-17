@@ -25,6 +25,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import open.digytal.model.Lancamentos;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
@@ -33,7 +34,6 @@ import open.digytal.service.CadastroService;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
 import open.digytal.util.Formato;
-import open.digytal.util.cfip.CfipUtil;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
@@ -295,7 +295,7 @@ public class FrmProjecoes extends Formulario {
 	}
 
 	private void listar() {
-		List<EntidadeLancamento> lista = new ArrayList<EntidadeLancamento>();
+		List<Lancamentos> lista = new ArrayList<Lancamentos>();
 		List<EntidadeConta> contas = new ArrayList<EntidadeConta>();
 		try {
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
@@ -303,25 +303,25 @@ public class FrmProjecoes extends Formulario {
 			Integer cId = conta == null ? null : conta.getId();
 			Integer nId = nat == null ? null : nat.getId();
 
-			lista = service.listarPrevisoes(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(),
-					cId, nId);
+			lista = service.listarPrevisoes(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(),cId, nId);
 			if (cId == null)
 				contas = cadastroService.listarCorrentesPoupanca(DesktopApp.getLogin());
 			else
 				contas = cadastroService.listarContas(cId);
 			gridContas.setValue(contas);
 			gridLancamentos.setValue(lista);
-			totalLancamentos = CfipUtil.previsoes(lista);
 			if (contas.size() == 0 && lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 
-			Double saldo = CfipUtil.totalContas(contas);
-			txtSaldoContas.setValue(saldo);
-			saldo = saldo + totalLancamentos.getSaldo();
-			txtSaldoAtual.setValue(saldo);
-			txtSaldoAtual.setComponenteCorFonte(saldo < 0.0d ? Color.RED : Color.BLUE);
-			txtDespesas.setValue(totalLancamentos.getDebito());
-			txtReceitas.setValue(totalLancamentos.getCredito());
+			/*
+			 * totalLancamentos = CfipUtil.previsoes(lista);
+			 * 
+			 * Double saldo = CfipUtil.totalContas(contas); txtSaldoContas.setValue(saldo);
+			 * saldo = saldo + totalLancamentos.getSaldo(); txtSaldoAtual.setValue(saldo);
+			 * txtSaldoAtual.setComponenteCorFonte(saldo < 0.0d ? Color.RED : Color.BLUE);
+			 * txtDespesas.setValue(totalLancamentos.getDebito());
+			 * txtReceitas.setValue(totalLancamentos.getCredito());
+			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 			// Mensagem.erro(e.getMessage());

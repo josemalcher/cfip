@@ -6,17 +6,15 @@ import java.util.List;
 import open.digytal.model.Lancamento;
 import open.digytal.model.Lancamentos;
 import open.digytal.model.Parcelas;
-import open.digytal.model.entity.EntidadeLancamento;
-import open.digytal.model.entity.EntidadeParcela;
 
 public interface LancamentoService {
 	void incluir(Lancamento entidade);
 
 	List<Lancamentos> extrato(Integer contaId, Date dataInicio);
 
-	List<EntidadeLancamento> listarLancamentos(String login, Date inicio, Date fim, Integer conta, Integer natureza);
+	List<Lancamentos> listarLancamentos(String login, Date inicio, Date fim, Integer conta, Integer natureza);
 
-	List<EntidadeLancamento> listarPrevisoes(String login, Date inicio, Date fim, Integer conta, Integer natureza);
+	List<Lancamentos> listarPrevisoes(String login, Date inicio, Date fim, Integer conta, Integer natureza);
 
 	List<Parcelas> listarParcelas(String login, Date inicio, Date fim, Integer conta, Integer natureza);
 
@@ -24,5 +22,5 @@ public interface LancamentoService {
 
 	void compensarParcela(Date data, Parcelas... parcelas);
 
-	EntidadeParcela buscarParcela(Integer id);
+	//EntidadeParcela buscarParcela(Integer id);
 }

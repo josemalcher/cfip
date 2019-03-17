@@ -28,6 +28,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import open.digytal.model.Lancamentos;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
@@ -328,8 +329,8 @@ public class FrmMovimentacoes extends Formulario {
 	}
 
 	private void listar() {
-		List<EntidadeLancamento> lanctos = new ArrayList<EntidadeLancamento>();
-		List<EntidadeLancamento> previsoes = new ArrayList<EntidadeLancamento>();
+		List<Lancamentos> lanctos = new ArrayList<Lancamentos>();
+		List<Lancamentos> previsoes = new ArrayList<Lancamentos>();
 
 		try {
 			// lista = dao.listarOldLancamentos(getUsuarioId());
@@ -338,28 +339,31 @@ public class FrmMovimentacoes extends Formulario {
 			Integer cId=conta==null?0:conta.getId();
 			Integer nId=nat==null?0:nat.getId();
 			lanctos = service.listarLancamentos(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
+			previsoes = service.listarPrevisoes(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
 			
 			gridLancamento.setValue(lanctos);
-			totalLancto = CfipUtil.lancamentos(lanctos);
-
-			previsoes = service.listarPrevisoes(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
+			gridPrevisao.setValue(previsoes);
 			
 			if(lanctos.size()==0 &&  previsoes.size()==0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 			
-			gridPrevisao.setValue(previsoes);
-			totalPrevisao = CfipUtil.previsoes(previsoes);
-
-			txtLSaldoAtual.setValue(totalLancto.getSaldo());
-			txtLSaldoAtual.setComponenteCorFonte(totalLancto.getSaldo() < 0.0d ? Color.RED : Color.BLUE);
-			txtLDespesas.setValue(totalLancto.getDebito());
-			txtLReceitas.setValue(totalLancto.getCredito());
-
-			txtPSaldoAtual.setValue(totalPrevisao.getSaldo());
-			txtPSaldoAtual.setComponenteCorFonte(totalPrevisao.getSaldo() < 0.0d ? Color.RED : Color.BLUE);
-			txtPDespesas.setValue(totalPrevisao.getDebito());
-			txtPReceitas.setValue(totalPrevisao.getCredito());
-
+			/*
+			 * totalLancto = CfipUtil.lancamentos(lanctos);
+			 * 
+			 * 
+			 * 
+			 * totalPrevisao = CfipUtil.previsoes(previsoes);
+			 * 
+			 * txtLSaldoAtual.setValue(totalLancto.getSaldo());
+			 * txtLSaldoAtual.setComponenteCorFonte(totalLancto.getSaldo() < 0.0d ?
+			 * Color.RED : Color.BLUE); txtLDespesas.setValue(totalLancto.getDebito());
+			 * txtLReceitas.setValue(totalLancto.getCredito());
+			 * 
+			 * txtPSaldoAtual.setValue(totalPrevisao.getSaldo());
+			 * txtPSaldoAtual.setComponenteCorFonte(totalPrevisao.getSaldo() < 0.0d ?
+			 * Color.RED : Color.BLUE); txtPDespesas.setValue(totalPrevisao.getDebito());
+			 * txtPReceitas.setValue(totalPrevisao.getCredito());
+			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 			SSMensagem.erro(e.getMessage());

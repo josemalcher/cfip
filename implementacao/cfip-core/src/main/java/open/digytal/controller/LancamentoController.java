@@ -2,11 +2,9 @@ package open.digytal.controller;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +30,6 @@ import open.digytal.util.Filtro;
 import open.digytal.util.Filtros;
 
 @Controller
-//@Profile(Services.JPA)
 public class LancamentoController implements LancamentoService {
 	@Autowired
 	private ContaRepository contaRepository;
@@ -49,10 +46,9 @@ public class LancamentoController implements LancamentoService {
 	@PersistenceContext
 	private EntityManager em;
 	
-	private final String SQL_EXTRATO_LANCAMENTO_PREVISAO = "SELECT e.id as id, e.data as data, e.tipoMovimento as tipoMovimento , e.conta.nome as conta, e.natureza.nome as natureza, e.descricao as descricao, e.valor as valor FROM EntidadeLancamento e ";
+	private final String SQL_EXTRATO_LANCAMENTO_PREVISAO = "SELECT e.id as id, e.data as data, e.tipoMovimento as tipoMovimento , e.conta.nome as conta, e.natureza.nome as natureza, "
+															+ "e.descricao as descricao, e.valor as valor, e.parcelamento.restante as restante FROM EntidadeLancamento e ";
 	
-	
-	private final String SQL_LANCAMENTO_PREVISAO = "SELECT l FROM EntidadeLancamento l WHERE l.conta.login=:login AND  (l.conta.cartaoCredito=true OR l.previsao = :previsao) AND l.data BETWEEN :inicio AND :fim ";
 	private final String SQL_PARCELA_FATURA = "SELECT e.id as id, e.vencimento as vencimento, e.numero as numero, e.valor as valor, e.lancamento.id as lancamento, e.valor as amortizado, "
 												+ " e.lancamento.conta.nome as conta, e.lancamento.natureza.nome as natureza, e.lancamento.tipoMovimento as tipoMovimento, CONCAT ('PARC: ',e.numero, ' - ', e.lancamento.descricao) as descricao "
 												+ " FROM EntidadeParcela e";
@@ -64,7 +60,7 @@ public class LancamentoController implements LancamentoService {
 		return listarParcelasFaturas(true,login,inicio,fim,conta,natureza);
 	}
 	public List<Parcelas> listarParcelasFaturas(boolean cc,String login, Date inicio, Date fim, Integer conta, Integer natureza) {
-		List<Filtro> filtros = Filtros.igual("compensada", false).e().igual("lancamento.conta.cartaoCredito", cc).e().igual("lancamento.natureza.id", natureza).e().igual("lancamento.conta.id", conta).lista();
+		List<Filtro> filtros = Filtros.igual("lancamento.conta.login", login).e().igual("compensada", false).e().igual("lancamento.conta.cartaoCredito", cc).e().igual("lancamento.natureza.id", natureza).e().igual("lancamento.conta.id", conta).lista();
 		List<Parcelas> lista = repositorio.listar(Parcelas.class,SQL_PARCELA_FATURA,filtros);
 		return lista;
 	}
@@ -75,53 +71,41 @@ public class LancamentoController implements LancamentoService {
 		List<Lancamentos> lista = repositorio.listar(Lancamentos.class,SQL_EXTRATO_LANCAMENTO_PREVISAO,filtros);
 		return lista;
 	}
-	//https://www.baeldung.com/jpa-entity-graph
-	//https://thoughts-on-java.org/jpa-21-entity-graph-part-2-define/
-	//https://www.jeejava.com/spring-data-jpa-entity-graphs/
-	@Override
-	public EntidadeParcela buscarParcela(Integer id) {
-		EntidadeParcela p = parcelaRepository.findById(id).get(); 
-		return p;
-		//return em.find(EntidadeParcela.class, id);
-	}
 
-	public List<EntidadeLancamento> listarLancamentos(String login, Date inicio, Date fim, Integer conta,
+	public List<Lancamentos> listarLancamentos(String login, Date inicio, Date fim, Integer conta,
 			Integer natureza) {
 		return listarLancamentos(false, login, inicio, fim, conta, natureza);
 	}
 
-	public List<EntidadeLancamento> listarPrevisoes(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
+	public List<Lancamentos> listarPrevisoes(String login, Date inicio, Date fim, Integer conta, Integer natureza) {
 		return listarLancamentos(true, login, inicio, fim, conta, natureza);
 	}
-	private List<EntidadeLancamento> listarLancamentos(boolean previsao, String login, Date inicio, Date fim,Integer conta, Integer natureza) {
-		StringBuilder sql = new StringBuilder(SQL_LANCAMENTO_PREVISAO);
-		if (natureza != null && natureza > 0) {
-			sql.append(" AND l.natureza.id=:natureza ");
-		}
-		if (conta != null && conta > 0) {
-			sql.append(" AND l.conta.id=:conta ");
-		}
-		sql = sql.append(" ORDER BY l.data");
-
-		TypedQuery<EntidadeLancamento> query = em.createQuery(sql.toString(), EntidadeLancamento.class);
-		query.setParameter("inicio", inicio);
-		query.setParameter("fim", fim);
-		query.setParameter("previsao", previsao);
-		query.setParameter("login", login);
-		if (natureza != null && natureza > 0)
-			query.setParameter("natureza", natureza);
-
-		if (conta != null && conta > 0)
-			query.setParameter("conta", conta);
-
-		List<EntidadeLancamento> lista = query.getResultList();
-		if (previsao)
-			return lista;
-		else {
-			List<EntidadeLancamento> lancamentos = lista.stream().filter(l -> !l.getConta().isCartaoCredito()).collect(Collectors.toList());
-			return lancamentos;
-		}
+	private List<Lancamentos> listarLancamentos(boolean previsao, String login, Date inicio, Date fim,Integer conta, Integer natureza){
+		List<Filtro> filtros = Filtros.igual("previsao", previsao).e().igual("conta.login", login).e().igual("conta.id", conta).e().igual("natureza.id", natureza).e().maiorIgual("data", inicio).e().menorIgual("data", fim).lista();
+		List<Lancamentos> lista = repositorio.listar(Lancamentos.class,SQL_EXTRATO_LANCAMENTO_PREVISAO,filtros);
+		return lista;
 	}
+	/*
+	 * private List<EntidadeLancamento> listarLancamentos(boolean previsao, String
+	 * login, Date inicio, Date fim,Integer conta, Integer natureza) { StringBuilder
+	 * sql = new StringBuilder(SQL_LANCAMENTO_PREVISAO); if (natureza != null &&
+	 * natureza > 0) { sql.append(" AND l.natureza.id=:natureza "); } if (conta !=
+	 * null && conta > 0) { sql.append(" AND l.conta.id=:conta "); } sql =
+	 * sql.append(" ORDER BY l.data");
+	 * 
+	 * TypedQuery<EntidadeLancamento> query = em.createQuery(sql.toString(),
+	 * EntidadeLancamento.class); query.setParameter("inicio", inicio);
+	 * query.setParameter("fim", fim); query.setParameter("previsao", previsao);
+	 * query.setParameter("login", login); if (natureza != null && natureza > 0)
+	 * query.setParameter("natureza", natureza);
+	 * 
+	 * if (conta != null && conta > 0) query.setParameter("conta", conta);
+	 * 
+	 * List<EntidadeLancamento> lista = query.getResultList(); if (previsao) return
+	 * lista; else { List<EntidadeLancamento> lancamentos = lista.stream().filter(l
+	 * -> !l.getConta().isCartaoCredito()).collect(Collectors.toList()); return
+	 * lancamentos; } }
+	 */
 	
 
 	public void incluir(Lancamento objeto) { 
@@ -193,7 +177,7 @@ public class LancamentoController implements LancamentoService {
 	public void compensarParcela(Date data, Parcelas... parcelas) {
 		for (Parcelas p : parcelas) {
 			Double valor = p.getAmortizado();
-			EntidadeParcela parcela =buscarParcela(p.getId());
+			EntidadeParcela parcela =em.find(EntidadeParcela.class, p.getId());
 			if (valor == null)
 				valor = parcela.getValor();
 			if (valor < 0)

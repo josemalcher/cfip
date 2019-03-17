@@ -26,6 +26,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import open.digytal.model.Lancamentos;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
@@ -264,7 +265,7 @@ public class FrmPrevisoes extends Formulario {
 	}
 
 	private void listar() {
-		List<EntidadeLancamento> lista = new ArrayList<EntidadeLancamento>();
+		List<Lancamentos> lista = new ArrayList<Lancamentos>();
 		try {
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
 			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
@@ -275,11 +276,12 @@ public class FrmPrevisoes extends Formulario {
 				SSMensagem.avisa("Nenhum dado encontrado");
 
 			grid.setValue(lista);
-			total = CfipUtil.previsoes(lista);
-			txtSaldoAtual.setValue(total.getSaldo());
-			txtSaldoAtual.setComponenteCorFonte(total.getSaldo() < 0.0d ? Color.RED : Color.BLUE);
-			txtDespesas.setValue(total.getDebito());
-			txtReceitas.setValue(total.getCredito());
+			/*
+			 * total = CfipUtil.previsoes(lista); txtSaldoAtual.setValue(total.getSaldo());
+			 * txtSaldoAtual.setComponenteCorFonte(total.getSaldo() < 0.0d ? Color.RED :
+			 * Color.BLUE); txtDespesas.setValue(total.getDebito());
+			 * txtReceitas.setValue(total.getCredito());
+			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 			// Mensagem.erro(e.getMessage());

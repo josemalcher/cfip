@@ -27,8 +27,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import open.digytal.CfipDesktopApp;
+import open.digytal.model.Lancamentos;
 import open.digytal.model.entity.EntidadeConta;
-import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.entity.Total;
 import open.digytal.service.CadastroService;
@@ -255,7 +255,7 @@ public class FrmLancamentos extends Formulario {
 
 	private void exibirDescricao() {
 		try {
-			EntidadeLancamento l = (EntidadeLancamento) grid.getLinhaSelecionada();
+			Lancamentos l = (Lancamentos) grid.getLinhaSelecionada();
 			if (l != null) {
 				lblDesc.setText(l.getDescricao());
 			}
@@ -284,17 +284,14 @@ public class FrmLancamentos extends Formulario {
 	}
 
 	private void incluir() {
-		abrirCadastro(null);
-	}
-
-	private void abrirCadastro(EntidadeLancamento entidade) {
 		FrmLancamentoPrevisao frm = CfipDesktopApp.getBean(FrmLancamentoPrevisao.class);
-		frm.setEntidade(entidade);
 		this.exibir(frm);
 	}
 
+	
+
 	private void listar() {
-		List<EntidadeLancamento> lista = new ArrayList<EntidadeLancamento>();
+		List<Lancamentos> lista = new ArrayList<Lancamentos>();
 		try {
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
 			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
@@ -305,11 +302,13 @@ public class FrmLancamentos extends Formulario {
 				SSMensagem.avisa("Nenhum dado encontrado");
 			
 			grid.setValue(lista);
-			total = CfipUtil.lancamentos(lista);
-			txtSaldoAtual.setValue(total.getSaldo());
-			txtSaldoAtual.setComponenteCorFonte(total.getSaldo() < 0.0d ? Color.RED: Color.BLUE);
-			txtDespesas.setValue(total.getDebito());
-			txtReceitas.setValue(total.getCredito());
+			/*
+			 * total = CfipUtil.lancamentos(lista);
+			 * txtSaldoAtual.setValue(total.getSaldo());
+			 * txtSaldoAtual.setComponenteCorFonte(total.getSaldo() < 0.0d ? Color.RED:
+			 * Color.BLUE); txtDespesas.setValue(total.getDebito());
+			 * txtReceitas.setValue(total.getCredito());
+			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 			SSMensagem.erro(e.getMessage());
