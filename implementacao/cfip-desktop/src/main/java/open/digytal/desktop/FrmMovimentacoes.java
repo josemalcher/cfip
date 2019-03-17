@@ -30,14 +30,12 @@ import org.springframework.stereotype.Component;
 
 import open.digytal.model.Lancamentos;
 import open.digytal.model.entity.EntidadeConta;
-import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.entity.Total;
 import open.digytal.service.CadastroService;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
 import open.digytal.util.Formato;
-import open.digytal.util.cfip.CfipUtil;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
@@ -300,13 +298,13 @@ public class FrmMovimentacoes extends Formulario {
 	}
 
 	private void exibirDescLancto() {
-		EntidadeLancamento l = (EntidadeLancamento) gridLancamento.getLinhaSelecionada();
+		Lancamentos l = (Lancamentos) gridLancamento.getLinhaSelecionada();
 		if (l != null) {
 			lblDescLancto.setText(l.getDescricao());
 		}
 	}
 	private void exibirDescPrevisao() {
-		EntidadeLancamento l = (EntidadeLancamento) gridPrevisao.getLinhaSelecionada();
+		Lancamentos l = (Lancamentos) gridPrevisao.getLinhaSelecionada();
 		if (l != null) {
 			lblDescPrevisao.setText(l.getDescricao());
 		}
