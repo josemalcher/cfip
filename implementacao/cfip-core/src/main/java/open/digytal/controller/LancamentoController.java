@@ -46,6 +46,7 @@ public class LancamentoController implements LancamentoService {
 	@PersistenceContext
 	private EntityManager em;
 	
+	//(l.conta.cartaoCredito=true OR l.previsao = :previsao) 
 	private final String SQL_EXTRATO_LANCAMENTO_PREVISAO = "SELECT e.id as id, e.data as data, e.tipoMovimento as tipoMovimento , e.conta.nome as conta, e.natureza.nome as natureza, "
 															+ "e.descricao as descricao, e.valor as valor, e.parcelamento.restante as restante, "
 															+ "e.parcelamento.primeiraParcela as primeiraParcela, e.parcelamento.ultimaParcela as ultimaParcela FROM EntidadeLancamento e ";
@@ -173,6 +174,7 @@ public class LancamentoController implements LancamentoService {
 				conta.setSaldoAtual(conta.getSaldoAtual() + valor);
 				contaRepository.save(conta);
 				EntidadeLancamento compensacao = lancamento.compensacao(valor, parcela.getNumero());
+				compensacao.setPrevisao(false);
 				compensacao.configurar();
 				repository.save(compensacao);
 			}

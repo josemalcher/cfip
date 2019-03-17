@@ -129,8 +129,7 @@ public class MDICfip extends MDI {
 			}
 		});
 		mnConsultas.add(mnConsultaLancamentos);
-		mnConsultas.add(mnFaturas);
-		
+		mnConsultas.addSeparator();
 		JMenuItem mnConsultaParcelas = new JMenuItem("Parcelas");
 		mnConsultaParcelas.setIcon(Imagem.png("parcelas"));
 		mnConsultaParcelas.addActionListener(new ActionListener() {
@@ -139,6 +138,8 @@ public class MDICfip extends MDI {
 			}
 		});
 		mnConsultas.add(mnConsultaParcelas);
+		mnConsultas.add(mnFaturas);
+		mnConsultas.addSeparator();
 		
 		JMenuItem mnConsultaPrevisoes = new JMenuItem("Previsões");
 		mnConsultaPrevisoes.setIcon(Imagem.png("calendario10"));
@@ -147,7 +148,6 @@ public class MDICfip extends MDI {
 				exibirConsultaPrevisoes();
 			}
 		});
-		mnConsultas.add(mnConsultaPrevisoes);
 		
 		JMenuItem mnProjecoes = new JMenuItem("Projeções");
 		mnProjecoes.setIcon(Imagem.png("projecao"));
@@ -156,8 +156,9 @@ public class MDICfip extends MDI {
 				exibirProjecoes();
 			}
 		});
+		mnConsultas.add(mnConsultaPrevisoes);
 		mnConsultas.add(mnProjecoes);
-		
+		mnConsultas.addSeparator();
 		JMenuItem mnMovimentacoes = new JMenuItem("Movimentações");
 		mnMovimentacoes.setIcon(Imagem.png("resumo"));
 		mnMovimentacoes.addActionListener(new ActionListener() {
