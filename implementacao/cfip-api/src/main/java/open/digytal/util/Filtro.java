@@ -7,10 +7,16 @@ public class Filtro {
     private String juncao;
     private boolean ordem;
     private boolean todos;
+    private boolean expressao;
     public Filtro() {
    
     }
-
+    public void setExpressao(boolean expressao) {
+		this.expressao = expressao;
+	}
+    public boolean isExpressao() {
+		return expressao;
+	}
     public void setTodos(boolean todos) {
         this.todos = todos;
     }

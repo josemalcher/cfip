@@ -71,7 +71,10 @@ public class RepositorioImpl implements Repositorio {
 	private void param(Query query) {
 		if (filtros.length > 0) {
 			for (Filtro f : filtros) {
-				if (!f.isOrdem() && !f.isTodos())
+				//if (!f.isOrdem() && !f.isTodos())
+				if(f.isExpressao())
+					query.setParameter("param", f.getValor());
+				else
 					query.setParameter(f.getParametro(), f.getValor());
 			}
 		}
@@ -81,13 +84,14 @@ public class RepositorioImpl implements Repositorio {
 		StringBuilder sql = new StringBuilder(Objects.toString(this.sql, "SELECT e FROM " + classe.getName() + " e "));
 		if (filtros.length > 0) {
 			for (Filtro f : filtros) {
-				if (!f.isOrdem() && !f.isTodos()) {
-					String append = String.format(" %s e.%s %s :%s", f.getJuncao(), f.getCampo(), f.getOperador(),
-							f.getParametro());
-					sql.append(append);
-				} else {
-					sql.append(" ORDER BY " + f.getCampo());
-				}
+				//if (!f.isOrdem() && !f.isTodos()) {
+				String append = String.format(" %s e.%s %s :%s", f.getJuncao(), f.getCampo(), f.getOperador(),f.getParametro());
+				if(f.isExpressao())
+					append= String.format(" %s %s", f.getJuncao(), f.getCampo());
+				sql.append(append);
+				/*
+				 * } else { sql.append(" ORDER BY " + f.getCampo()); }
+				 */
 			}
 		}
 		return sql.toString();

@@ -75,5 +75,11 @@ public class Lancamentos {
 	public Integer getUltimaParcela() {
 		return ultimaParcela;
 	}
+	@Override
+	public String toString() {
+		return "Lancamentos [id=" + id + ", conta=" + conta + ", data=" + data + ", natureza=" + natureza
+				+ ", descricao=" + descricao + ", valor=" + valor + ", restante=" + restante + ", tipoMovimento="
+				+ tipoMovimento + ", primeiraParcela=" + primeiraParcela + ", ultimaParcela=" + ultimaParcela + "]";
+	}
 	
 }

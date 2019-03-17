@@ -83,7 +83,9 @@ public class LancamentoController implements LancamentoService {
 		return listarLancamentos(true, login, inicio, fim, conta, natureza);
 	}
 	private List<Lancamentos> listarLancamentos(boolean previsao, String login, Date inicio, Date fim,Integer conta, Integer natureza){
-		List<Filtro> filtros = Filtros.igual("previsao", previsao).e().igual("conta.login", login).e().igual("conta.id", conta).e().igual("natureza.id", natureza).e().maiorIgual("data", inicio).e().menorIgual("data", fim).lista();
+		//List<Filtro> filtros = Filtros.igual("previsao", previsao).e().igual("conta.login", login).e().igual("conta.id", conta).e().igual("natureza.id", natureza).e().maiorIgual("data", inicio).e().menorIgual("data", fim).lista();
+		List<Filtro> filtros = Filtros.igual("conta.login", login).expressao().igual("(e.conta.cartaoCredito=true OR e.previsao = :param)", previsao).e().igual("conta.id", conta).e().igual("natureza.id", natureza).e().maiorIgual("data", inicio).e().menorIgual("data", fim).lista();
+		
 		List<Lancamentos> lista = repositorio.listar(Lancamentos.class,SQL_EXTRATO_LANCAMENTO_PREVISAO,filtros);
 		return lista;
 	}
@@ -174,7 +176,7 @@ public class LancamentoController implements LancamentoService {
 				conta.setSaldoAtual(conta.getSaldoAtual() + valor);
 				contaRepository.save(conta);
 				EntidadeLancamento compensacao = lancamento.compensacao(valor, parcela.getNumero());
-				compensacao.setPrevisao(false);
+				//compensacao.setPrevisao(false);
 				compensacao.configurar();
 				repository.save(compensacao);
 			}

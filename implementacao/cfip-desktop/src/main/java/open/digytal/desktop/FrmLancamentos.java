@@ -124,13 +124,11 @@ public class FrmLancamentos extends Formulario {
 		grid.getModeloTabela().addColumn("Conta");
 		grid.getModeloTabela().addColumn("Natureza");
 		grid.getModeloTabela().addColumn("Valor");
-		grid.getModeloTabela().addColumn("Restante");
 		
 		grid.getModeloColuna().getColumn(0).setPreferredWidth(50);
 		grid.getModeloColuna().getColumn(1).setPreferredWidth(200);
 		grid.getModeloColuna().getColumn(2).setPreferredWidth(200);
 		grid.getModeloColuna().getColumn(3).setPreferredWidth(80);
-		grid.getModeloColuna().getColumn(4).setPreferredWidth(80);
 		
 		grid.getModeloColuna().setCampo(0, "data");
 		grid.getModeloColuna().setFormato(0, "dd/MM/yy");
@@ -138,8 +136,7 @@ public class FrmLancamentos extends Formulario {
 		grid.getModeloColuna().setCampo(2, "natureza");
 		grid.getModeloColuna().setCampo(3, "valor");
 		grid.getModeloColuna().setFormato(3, Formato.MOEDA);
-		grid.getModeloColuna().setCampo(4, "restante");
-		grid.getModeloColuna().setFormato(4, Formato.MOEDA);
+		grid.getModeloColuna().definirPositivoNegativo(3);
 		
 		cmdIncluir.setText("Novo");
 		cmdFechar.setText("Fechar");

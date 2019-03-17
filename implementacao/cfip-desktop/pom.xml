@@ -28,7 +28,7 @@
 		</dependency>
 		<dependency>
 			<groupId>open.digytal</groupId>
-			<artifactId>cfip-client-api</artifactId>
+			<artifactId>cfip-core</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>
@@ -39,10 +39,12 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 		</dependency>
+		<!-- SE ESTIVER UTILIZANDO O PROJETO COM JPA (cfip-core)  -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 		</dependency>
+		<!-- SE ESTIVER UTILIZANDO O PROJETO COM API (cfip-client-api)  -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>

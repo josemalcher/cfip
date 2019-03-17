@@ -53,7 +53,7 @@ public class EntidadeLancamento {
 	@Column(nullable=false,length=7,precision=2)
 	private Double valor;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(nullable=false)
 	private Date data;
 	

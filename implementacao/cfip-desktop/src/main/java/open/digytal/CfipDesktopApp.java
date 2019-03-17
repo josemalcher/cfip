@@ -1,13 +1,17 @@
 package open.digytal;
 
+import java.util.List;
+
 import javax.swing.UIManager;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import open.digytal.model.Lancamentos;
+import open.digytal.model.Parcelas;
+import open.digytal.service.LancamentoService;
 import open.digytal.util.desktop.DesktopApp;
-import open.digytal.util.desktop.LoginPanel;
 
 @SpringBootApplication
 public class CfipDesktopApp {
@@ -31,12 +35,14 @@ public class CfipDesktopApp {
 
 		contexto = builder.run(args);
 		//contexto.getEnvironment().setActiveProfiles(Services.JPA);
-		LoginPanel login = CfipDesktopApp.getBean(LoginPanel.class);
-		login.exibir();
+		//LoginPanel login = CfipDesktopApp.getBean(LoginPanel.class);
+		//login.exibir();
 		 
-		//LancamentoService service = contexto.getBean(LancamentoService.class);
-		//service.listarParcelas(null, null, null, 0, 0);
+		LancamentoService service = contexto.getBean(LancamentoService.class);
 		
+		List<Lancamentos> listarParcelas = service.listarLancamentos("a", null, null, null, null);
+		System.out.println(listarParcelas);
+		System.exit(0);;
 	}
 
 	public static <T> T getBean(Class classe) {

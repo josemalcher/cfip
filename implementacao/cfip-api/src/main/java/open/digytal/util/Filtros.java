@@ -19,6 +19,7 @@ public class Filtros {
     
     private List<Filtro> filtros;
     private String juncao;
+    private boolean expressao;
     private static Filtros instance;
     public Filtros(){
     	filtros = new ArrayList<Filtro>();
@@ -60,15 +61,21 @@ public class Filtros {
     		instance.juncao=ONDE;
     	}
     	if(valor!=null && valor.toString().trim().length() > 0)
-    		instance.filtros.add(filtro(instance.juncao, campo, operador, valor));
+    		instance.filtros.add(filtro(instance.juncao, campo, operador, valor,instance.expressao));
     	
     	instance.juncao=E;
+    	instance.expressao=false;
     	return instance;
     }
-    private static Filtro filtro(String juncao, String campo, String operador, Object valor) {
-        return filtro(juncao, campo, operador,valor,false);
+    public static Filtros expressao() {
+    	instance.expressao=true;
+    	return instance;
     }
-    private static Filtro filtro(String juncao, String campo, String operador, Object valor,boolean ordem){
+    private static Filtro filtro(String juncao, String campo, String operador, Object valor,boolean expressao) {
+        return filtro(juncao, campo, operador,valor,false,expressao);
+    }
+   
+    private static Filtro filtro(String juncao, String campo, String operador, Object valor,boolean ordem,boolean expressao){
         //if(ordem || (valor!=null && valor.toString().trim().length() > 0)) {
         if(PARECIDO.equals(operador)) {
             valor="%"+ valor.toString() + "%";
@@ -79,6 +86,7 @@ public class Filtros {
         filtro.setOperador(operador);
         filtro.setValor(valor);
         filtro.setOrdem(ordem);
+        filtro.setExpressao(expressao);
         return filtro;
         //}
     }

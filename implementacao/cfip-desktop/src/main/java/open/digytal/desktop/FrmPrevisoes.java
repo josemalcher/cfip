@@ -254,7 +254,7 @@ public class FrmPrevisoes extends Formulario {
 		txtDataAte.setDataHora(Calendario.data(31, 12, ano));
 	}
 	private void exibirDescricao() {
-		EntidadeLancamento l = (EntidadeLancamento) grid.getLinhaSelecionada();
+		Lancamentos l = (Lancamentos) grid.getLinhaSelecionada();
 		if (l != null) {
 			lblDesc.setText(l.getDescricao());
 		}
