@@ -1,1 +1,0 @@
-https://stackoverflow.com/questions/25362540/like-query-in-spring-jparepository
