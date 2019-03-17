@@ -138,14 +138,14 @@ public class FrmPrevisoes extends Formulario {
 
 		grid.getModeloColuna().setCampo(0, "data");
 		grid.getModeloColuna().setFormato(0, "dd/MM/yy");
-		grid.getModeloColuna().setCampo(1, "parcelamento.primeiraParcela");
-		grid.getModeloColuna().setCampo(2, "parcelamento.ultimaParcela");
-		grid.getModeloColuna().setCampo(3, "conta.nome");
-		grid.getModeloColuna().setCampo(4, "natureza.nome");
+		grid.getModeloColuna().setCampo(1, "primeiraParcela");
+		grid.getModeloColuna().setCampo(2, "ultimaParcela");
+		grid.getModeloColuna().setCampo(3, "conta");
+		grid.getModeloColuna().setCampo(4, "natureza");
 		grid.getModeloColuna().setCampo(5, "valor");
 		grid.getModeloColuna().setFormato(5, Formato.MOEDA);
 		grid.getModeloColuna().definirPositivoNegativo(5);
-		grid.getModeloColuna().setCampo(6, "parcelamento.restante");
+		grid.getModeloColuna().setCampo(6, "restante");
 		grid.getModeloColuna().setFormato(6, Formato.MOEDA);
 		grid.getModeloColuna().definirPositivoNegativo(6);
 

@@ -219,12 +219,12 @@ public class FrmMovimentacoes extends Formulario {
 		
 		gridLancamento.getModeloColuna().setCampo(0, "data");
 		gridLancamento.getModeloColuna().setFormato(0, "dd/MM/yy");
-		gridLancamento.getModeloColuna().setCampo(1, "conta.nome");
-		gridLancamento.getModeloColuna().setCampo(2, "natureza.nome");
+		gridLancamento.getModeloColuna().setCampo(1, "conta");
+		gridLancamento.getModeloColuna().setCampo(2, "natureza");
 		gridLancamento.getModeloColuna().setCampo(3, "valor");
 		gridLancamento.getModeloColuna().setFormato(3, Formato.MOEDA);
 		gridLancamento.getModeloColuna().definirPositivoNegativo(3);
-		gridLancamento.getModeloColuna().setCampo(4, "parcelamento.restante");
+		gridLancamento.getModeloColuna().setCampo(4, "restante");
 		gridLancamento.getModeloColuna().setFormato(4, Formato.MOEDA);
 		gridLancamento.getModeloColuna().definirPositivoNegativo(4);
 
@@ -243,12 +243,12 @@ public class FrmMovimentacoes extends Formulario {
 		
 		gridPrevisao.getModeloColuna().setCampo(0, "data");
 		gridPrevisao.getModeloColuna().setFormato(0, "dd/MM/yy");
-		gridPrevisao.getModeloColuna().setCampo(1, "conta.nome");
-		gridPrevisao.getModeloColuna().setCampo(2, "natureza.nome");
+		gridPrevisao.getModeloColuna().setCampo(1, "conta");
+		gridPrevisao.getModeloColuna().setCampo(2, "natureza");
 		gridPrevisao.getModeloColuna().setCampo(3, "valor");
 		gridPrevisao.getModeloColuna().setFormato(3, Formato.MOEDA);
 		gridPrevisao.getModeloColuna().definirPositivoNegativo(3);
-		gridPrevisao.getModeloColuna().setCampo(4, "parcelamento.restante");
+		gridPrevisao.getModeloColuna().setCampo(4, "restante");
 		gridPrevisao.getModeloColuna().setFormato(4, Formato.MOEDA);
 		gridPrevisao.getModeloColuna().definirPositivoNegativo(4);
 
@@ -336,8 +336,8 @@ public class FrmMovimentacoes extends Formulario {
 			// lista = dao.listarOldLancamentos(getUsuarioId());
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
 			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
-			Integer cId=conta==null?0:conta.getId();
-			Integer nId=nat==null?0:nat.getId();
+			Integer cId=conta==null?null:conta.getId();
+			Integer nId=nat==null?null:nat.getId();
 			lanctos = service.listarLancamentos(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
 			previsoes = service.listarPrevisoes(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
 			

@@ -153,12 +153,12 @@ public class FrmProjecoes extends Formulario {
 
 		gridLancamentos.getModeloColuna().setCampo(0, "data");
 		gridLancamentos.getModeloColuna().setFormato(0, "dd/MM/yy");
-		gridLancamentos.getModeloColuna().setCampo(1, "conta.nome");
-		gridLancamentos.getModeloColuna().setCampo(2, "natureza.nome");
+		gridLancamentos.getModeloColuna().setCampo(1, "conta");
+		gridLancamentos.getModeloColuna().setCampo(2, "natureza");
 		gridLancamentos.getModeloColuna().setCampo(3, "valor");
 		gridLancamentos.getModeloColuna().setFormato(3, Formato.MOEDA);
 		gridLancamentos.getModeloColuna().definirPositivoNegativo(3);
-		gridLancamentos.getModeloColuna().setCampo(4, "parcelamento.restante");
+		gridLancamentos.getModeloColuna().setCampo(4, "restante");
 		gridLancamentos.getModeloColuna().setFormato(4, Formato.MOEDA);
 		gridLancamentos.getModeloColuna().definirPositivoNegativo(4);
 

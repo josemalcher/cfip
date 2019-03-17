@@ -13,6 +13,8 @@ public class Lancamentos {
 	private Double valor;
 	private Double restante;
 	private TipoMovimento tipoMovimento;
+	private Integer primeiraParcela;
+	private Integer ultimaParcela;
 	public TipoMovimento getTipoMovimento() {
 		return tipoMovimento;
 	}
@@ -61,6 +63,17 @@ public class Lancamentos {
 	public void setRestante(Double restante) {
 		this.restante = restante;
 	}
-	
+	public Integer getPrimeiraParcela() {
+		return primeiraParcela;
+	}
+	public void setPrimeiraParcela(Integer primeiraParcela) {
+		this.primeiraParcela = primeiraParcela;
+	}
+	public void setUltimaParcela(Integer ultimaParcela) {
+		this.ultimaParcela = ultimaParcela;
+	}
+	public Integer getUltimaParcela() {
+		return ultimaParcela;
+	}
 	
 }
