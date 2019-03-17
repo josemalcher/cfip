@@ -3,8 +3,11 @@ package open.digytal.client.api;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +20,12 @@ import open.digytal.model.Sessao;
 import open.digytal.util.Texto;
 
 public abstract class ClientResource {
-	private final String ROOT_URL = "http://localhost:8080/";
+	@Autowired
+	Environment environment;
 	private String getUrl(Serializable... path) {
+		String ROOT=Objects.toString(environment.getProperty("web-api-url"),"http://localhost:8080/");
 		String sufix = Texto.concatenar("/", path);
-		String url = String.format("%s%s", ROOT_URL, sufix);
+		String url = String.format("%s%s", ROOT, sufix);
 		return url;
 	}	
 	private RestTemplate getRestTemplate() {
