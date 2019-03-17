@@ -27,7 +27,6 @@ import org.springframework.stereotype.Component;
 
 import open.digytal.model.Lancamentos;
 import open.digytal.model.entity.EntidadeConta;
-import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.entity.Total;
 import open.digytal.service.CadastroService;
@@ -281,7 +280,7 @@ public class FrmProjecoes extends Formulario {
 
 	private void exibirDescricao() {
 		try {
-			EntidadeLancamento l = (EntidadeLancamento) gridLancamentos.getLinhaSelecionada();
+			Lancamentos l = (Lancamentos) gridLancamentos.getLinhaSelecionada();
 			if (l != null) {
 				lblDesc.setText(l.getDescricao());
 			}
