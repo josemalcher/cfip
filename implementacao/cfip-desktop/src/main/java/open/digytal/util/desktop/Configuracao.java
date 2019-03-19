@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Configuracao {
 	public static final String ROOT_PATH=System.getProperty("user.dir");
-	public static final String CONFIG="config.properties";
+	public static final String CONFIG="application.properties";
 	
 	public static final String CONF_LOCAL="LOCAL";
 	public static final String CONF_SERVER="SERVER";
