@@ -72,7 +72,7 @@
                         </goals>
                         <configuration>
                             <headerType>gui</headerType>
-                            <outfile>target/Project.exe</outfile>
+                            <outfile>target/cfip-desktop.exe</outfile>
                             <jar>target/${project.artifactId}-${project.version}.jar</jar>
                             <!-- if <dontWrapJar>true</dontWrapJar> change to this conf <jar>${project.artifactId}-${project.version}.jar</jar> -->
                             <dontWrapJar>false</dontWrapJar>
