@@ -32,6 +32,7 @@ public class CfipDesktopApp {
 	private static void initApp(String[] args) {
 		DesktopApp.exibirSplash();
 		if(Configuracao.iniciarConfiguracao()) {
+			DesktopApp.fecharSplash();
 			FrmConfiguracao.iniciar();
 		}else {
 			

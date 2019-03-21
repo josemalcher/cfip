@@ -207,8 +207,12 @@ public class FrmConfiguracao extends JFrame {
 				configuracao.setDbUrl(txtUrl.getText());
 			
 			configuracao.setDbUser(txtDbLogin.getText());
-			configuracao.setDbPass(txtDbSenha.getText());
+			if(configuracao.getTipo().equals(Configuracao.LOCAL))
+				configuracao.setDbPass(txtDbSenha.getText());
+			else
+				configuracao.setDbPass("ENC(GwOd1LOQBQ5MheluaQ7C0Q==)");//senha=sa
 			configurar();
+			
 			SSMensagem.informa("Acesse o sistema com as novas configurações");
 			fechar();
 		} catch (Exception e) {
@@ -239,16 +243,19 @@ public class FrmConfiguracao extends JFrame {
 	private  String configuracao() {
 		StringBuilder sb =  new StringBuilder();
 		if(!configuracao.getTipo().equals(Configuracao.CONF_API)) {
-			sb.append(Configuracao.DB_DRIVER +"=" + configuracao.getDbDriver()+"\n");
-			sb.append(Configuracao.DB_PASS +"="+ configuracao.getDbPass()  +"\n");
+			sb.append(Configuracao.DB_URL +"="+ configuracao.getDbUrl()  +"\n");
 			sb.append(Configuracao.DB_USER +"="+ configuracao.getDbUser()  +"\n");
+			sb.append(Configuracao.DB_PASS +"="+ configuracao.getDbPass()  +"\n");
+			sb.append(Configuracao.DB_DRIVER +"=" + configuracao.getDbDriver()+"\n");
 			sb.append(Configuracao.DB_DIALECT +"=" + configuracao.getDbDialect()+"\n");
 			sb.append(Configuracao.DB_DDL +"=" + configuracao.getDbDdl()+"\n");
 			sb.append(Configuracao.DB_SHOWSQL +"=" + configuracao.getDbShowSql()+"\n");
-			sb.append(Configuracao.DB_URL +"="+ configuracao.getDbUrl()  +"\n");
+			
 		}else {
 			sb.append(Configuracao.API_URL +"="+ configuracao.getApiUrl()  +"\n");
 		}
+		//isso é especifico ao projeto, vc pode customizar
+		sb.append("jasypt.encryptor.password=cfip");
 		return sb.toString();
 	}
 	
