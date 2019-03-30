@@ -1,25 +1,19 @@
 package open.digytal.cfip.model;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+
+import open.digytal.cfip.model.enums.Categoria;
+import open.digytal.cfip.model.enums.TipoMovimento;
+import open.digytal.cfip.model.logs.Logavel;
 
 @Entity
 @Table(name="tb_natureza")
 public class Natureza extends Logavel{
-	
-	
+
 	@Column(nullable=false, length=50)
 	private String nome;
 	
@@ -30,11 +24,6 @@ public class Natureza extends Logavel{
 	@Enumerated(EnumType.STRING)
 	@Column(name="categoria_id",length=50)
 	private Categoria categoria;
-	
-	
-	public Natureza() {
-		
-	}
 	
 	public String getNome() {
 		return nome;
@@ -54,9 +43,7 @@ public class Natureza extends Logavel{
 	public String getNomeSigla() {
 		return  nome + " (" + getTipoSigla() + ")";
 	}
-	
-	
-	
+		
 	public Categoria getCategoria() {
 		return categoria;
 	}

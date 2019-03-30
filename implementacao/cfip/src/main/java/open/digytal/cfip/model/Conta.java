@@ -1,16 +1,10 @@
 package open.digytal.cfip.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+
+import open.digytal.cfip.model.logs.Logavel;
 
 @Entity
 @Table(name="tb_conta")
@@ -25,11 +19,6 @@ public class Conta extends Logavel {
 	@Column(name="cartao_cred", length=1,nullable=false)
 	private boolean cartaoCredito;
 	
-	
-	public Conta() {
-		
-	}
-
 	public String getNome() {
 		return nome;
 	}

@@ -1,4 +1,4 @@
-package open.digytal.cfip.model;
+package open.digytal.cfip.model.enums;
 
 import java.io.Serializable;
 

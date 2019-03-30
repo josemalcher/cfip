@@ -1,4 +1,4 @@
-package open.digytal.cfip.model;
+package open.digytal.cfip.model.logs;
 
 import java.io.Serializable;
 import java.util.Date;

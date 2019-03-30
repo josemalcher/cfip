@@ -1,5 +1,6 @@
 package open.digytal.cfip;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,11 +9,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import open.digytal.cfip.dao.ContaDao;
-import open.digytal.cfip.model.Categoria;
 import open.digytal.cfip.model.Conta;
+import open.digytal.cfip.model.Lancamento;
 import open.digytal.cfip.model.Natureza;
-import open.digytal.cfip.model.TipoMovimento;
+import open.digytal.cfip.model.enums.Categoria;
+import open.digytal.cfip.model.enums.TipoMovimento;
 import open.digytal.cfip.repository.ContaRepository;
+import open.digytal.cfip.repository.LancamentoRepository;
 import open.digytal.cfip.repository.NaturezaRepository;
 
 @SpringBootApplication
@@ -23,10 +26,50 @@ public class CfipApplication {
 		//alteraConta();
 		exemploContas();
 		exemploNaturezas();
+		//incluirLancamento();
 		
+	}
+	static Conta buscarConta(Integer id) {
+		ContaRepository repository = context.getBean(ContaRepository.class);
+		Optional<Conta> oc = repository.findById(id);
+		if(oc.isPresent()) 
+			return oc.get();
+		else return null;
+	}
+	static Natureza buscarNatureza(Integer id) {
+		NaturezaRepository repository = context.getBean(NaturezaRepository.class);
+		Optional<Natureza> oc = repository.findById(id);
+		if(oc.isPresent()) 
+			return oc.get();
+		else return null;
+	}
+	static void incluirLancamento() {
+		Conta conta = buscarConta(1);
+		Natureza natureza = buscarNatureza(2);
+		if(conta!=null && natureza!=null) {
+			Lancamento lancamento = new Lancamento();
+			lancamento.setDescricao("SALARIO");
+			lancamento.setValor(1250.25D);
+			lancamento.setData(new Date());
+			
+			
+			
+			lancamento.setConta(conta);
+			lancamento.setNatureza(natureza);
+			
+			LancamentoRepository repository = context.getBean(LancamentoRepository.class);
+			repository.save(lancamento);
+		}
 	}
 	static void exemploNaturezas() {
 		NaturezaRepository repository = context.getBean(NaturezaRepository.class);
+		
+		Natureza salario = new Natureza();
+		salario.setNome("SALARIO");
+		salario.setTipoMovimento(TipoMovimento.C);
+		salario.setCategoria(Categoria.S);
+		
+		repository.save(salario);
 		
 		Natureza supermercado = new Natureza();
 		supermercado.setNome("SUPERMERCADO");
@@ -51,9 +94,11 @@ public class CfipApplication {
 	static void alteraConta() {
 		ContaRepository repository = context.getBean(ContaRepository.class);
 		Optional<Conta> oc = repository.findById(2);
-		Conta c= oc.get();
-		c.setNome("CCR VISA 0701 - 19");
-		repository.save(c);
+		if(oc.isPresent()) {
+			Conta c= oc.get();
+			c.setNome("CCR VISA 0701 - 19");
+			repository.save(c);
+		}
 		
 	}
 	static void exemploContas() {
