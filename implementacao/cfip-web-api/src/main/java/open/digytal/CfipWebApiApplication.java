@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 @EnableAutoConfiguration
-public class CfipWebApiApplication extends SpringBootServletInitializer{ 
+public class CfipWebApiApplication{ 
 	public static void main(String[] args) {
 		SpringApplication.run(CfipWebApiApplication.class, args);
 	}

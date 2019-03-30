@@ -242,6 +242,8 @@ public class FrmConfiguracao extends JFrame {
 	}
 	private  String configuracao() {
 		StringBuilder sb =  new StringBuilder();
+		//isso é especifico ao projeto, vc pode customizar
+		sb.append("jasypt.encryptor.password=cfip\n");
 		if(!configuracao.getTipo().equals(Configuracao.CONF_API)) {
 			sb.append(Configuracao.DB_URL +"="+ configuracao.getDbUrl()  +"\n");
 			sb.append(Configuracao.DB_USER +"="+ configuracao.getDbUser()  +"\n");
@@ -254,8 +256,7 @@ public class FrmConfiguracao extends JFrame {
 		}else {
 			sb.append(Configuracao.API_URL +"="+ configuracao.getApiUrl()  +"\n");
 		}
-		//isso é especifico ao projeto, vc pode customizar
-		sb.append("jasypt.encryptor.password=cfip");
+		
 		return sb.toString();
 	}
 	
