@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
@@ -16,6 +18,8 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RestTemplate;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import open.digytal.model.Sessao;
 import open.digytal.util.Texto;
 
@@ -78,6 +82,11 @@ public abstract class ClientResource {
 		ResponseEntity<List> resposta = getRestTemplate().exchange(url, HttpMethod.GET, null, type);
 		List lista = resposta.getBody();
 		return lista;
+	}
+	public Claims getClaims(String jwt) {
+		//TODO: KEY PARAM
+	    Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary("CfipWebApiSecret")).parseClaimsJws(jwt).getBody();
+	    return claims;
 	}
 	/*
 	 * @Override public <T> T incluir(Object entidade) { return post(entidade); }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import open.digytal.CfipDesktopApp;
 import open.digytal.model.Sessao;
 import open.digytal.service.UsuarioService;
-import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.LoginPanel;
 import open.digytal.util.desktop.ss.SSMensagem;
 
@@ -36,7 +35,6 @@ public class FrmLogin extends LoginPanel {
 				FrmUsuario frm = CfipDesktopApp.getBean(FrmUsuario.class);
 				frm.setVisible(true);
 			} else {
-				DesktopApp.setLogin(sessao.getLogin());;
 				MDICfip mdi = CfipDesktopApp.getBean(MDICfip.class);
 				mdi.exibirSessao();
 				mdi.setVisible(true);

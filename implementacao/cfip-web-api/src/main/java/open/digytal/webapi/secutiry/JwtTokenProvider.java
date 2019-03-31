@@ -59,8 +59,8 @@ public class JwtTokenProvider implements Serializable {
 		Usuario usuario = service.buscar(authentication.getName());
 		Sessao sessao = new Sessao();
 		sessao.setUsuario(usuario);
-		
-		return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities).claim(SESSAO, sessao)
+		sessao.setExpiracao(expiracao);
+		return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities).claim(Sessao.KEY, sessao)
 				.signWith(SignatureAlgorithm.HS256, SIGNING_KEY).setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(expiracao).compact();
 	}

@@ -5,6 +5,7 @@ import java.util.Date;
 public class Sessao {
 	private Usuario usuario;
 	private Date expiracao;
+	public static String KEY="SESSAO";
 	public Sessao() {
 	}
 	public Usuario getUsuario() {
@@ -21,5 +22,8 @@ public class Sessao {
 	}
 	public Date getExpiracao() {
 		return expiracao;
+	}
+	public String getLogin() {
+		return usuario.getLogin();
 	}
 }
