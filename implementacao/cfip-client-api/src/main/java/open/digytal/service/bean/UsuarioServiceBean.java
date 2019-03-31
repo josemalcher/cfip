@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.jsonwebtoken.Claims;
 import open.digytal.client.api.ClientResource;
 import open.digytal.model.Login;
@@ -16,6 +18,8 @@ import open.digytal.service.UsuarioService;
 public class UsuarioServiceBean extends ClientResource implements UsuarioService {
 	@Autowired
 	private Sessao sessao;
+	@Autowired
+	private ObjectMapper mapper;
 	@Override
 	public Sessao login(String usuario, String senha) {
 		try {
@@ -24,14 +28,16 @@ public class UsuarioServiceBean extends ClientResource implements UsuarioService
 			login.setPassword(senha);
 			String token = post(String.class, login, "login");
 			Claims claims = getClaims(token);
-			Sessao sessao= claims.get(Sessao.KEY,Sessao.class);
-			this.sessao=sessao;
+			this.sessao=atualizarSessao(claims);
 		    return this.sessao;
 		} catch (HttpClientErrorException e) {
 			return null;
 		}
 	}
-
+	private Sessao atualizarSessao(Claims claims) {
+		Sessao sessao= mapper.convertValue(claims.get(Sessao.KEY),Sessao.class);
+		return sessao;
+	}
 	@Override
 	public void incluir(Usuario usuario) {
 		usuario = post(Usuario.class, usuario, "usuarios");
