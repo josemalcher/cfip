@@ -29,7 +29,8 @@ public abstract class ClientResource {
 	@Autowired
 	protected Sessao sessao;
 	private String getUrl(Serializable... path) {
-		String ROOT=Objects.toString(environment.getProperty("web-api-url"),"http://localhost:8080/");
+		String ROOT=Objects.toString(environment.getProperty("api.url"),"http://localhost:8080/");
+		System.out.println(ROOT);
 		String sufix = Texto.concatenar("/", path);
 		String url = String.format("%s%s", ROOT, sufix);
 		return url;

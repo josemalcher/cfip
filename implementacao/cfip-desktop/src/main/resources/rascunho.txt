@@ -80,39 +80,11 @@ public enum Categoria {
 	}
 }
 
-@Transactional
-	public void incluir(Lancamento lancamento) {
-		boolean previsao = lancamento.isPrevisao();
-		if (previsao) {
-			Date primeiroVencimento = lancamento.getParcelamento().getPrimeiroVencimento();
-			Integer primeiraParcela = lancamento.getParcelamento().getPrimeiraParcela();
-			Integer ultimaParcela = lancamento.getParcelamento().getUltimaParcela();
-			Integer parcelas = 1 + (ultimaParcela - primeiraParcela);
-			Double valor = lancamento.getValor();
-			if (lancamento.getParcelamento().isRateio())
-				valor = lancamento.getValor() / parcelas;
-			else {
-				lancamento.setValor(valor * parcelas);
-			}
-			gerarParcelas(primeiroVencimento, valor, primeiraParcela, ultimaParcela, lancamento);
-			if(lancamento.getConta().isCartaoCredito()) {
-				Conta conta = lancamento.getConta();
-				conta.setSaldoAtual(conta.getSaldoAtual() + lancamento.getValor());
-				contaRepository.save(conta);
-				lancamento.setPrevisao(false);
-			}
-		} else {
-			if (lancamento.getTipoMovimento() == TipoMovimento.T) {
-				Lancamento transferencia = lancamento.transferencia();
-				repository.save(transferencia);
-				Conta destino = transferencia.getConta();
-				destino.setSaldoAtual(destino.getSaldoAtual() + transferencia.getValor());
-				contaRepository.save(destino);
-			}
-			Conta conta = lancamento.getConta();
-			conta.setSaldoAtual(conta.getSaldoAtual() + lancamento.getValorMovimento());
-			contaRepository.save(conta);
-			
-		}
-		repository.save(lancamento);
-	}
+spring.datasource.url=jdbc:hsqldb:file:/opendigytal/cfip/database/cfipdb
+spring.datasource.username=sa
+spring.datasource.password=ENC(GwOd1LOQBQ5MheluaQ7C0Q==)
+spring.datasource.driverClassName=org.hsqldb.jdbcDriver
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.HSQLDialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=false
+jasypt.encryptor.password=cfip

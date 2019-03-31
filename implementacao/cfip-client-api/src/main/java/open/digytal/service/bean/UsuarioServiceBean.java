@@ -28,16 +28,17 @@ public class UsuarioServiceBean extends ClientResource implements UsuarioService
 			login.setPassword(senha);
 			String token = post(String.class, login, "login");
 			Claims claims = getClaims(token);
-			this.sessao=atualizarSessao(claims);
-			this.sessao.setToken(token);
-		    return this.sessao;
+			atualizarSessao(claims,token);
+			return this.sessao;
 		} catch (HttpClientErrorException e) {
 			return null;
 		}
 	}
-	private Sessao atualizarSessao(Claims claims) {
+	private void atualizarSessao(Claims claims,String token) {
 		Sessao sessao= mapper.convertValue(claims.get(Sessao.KEY),Sessao.class);
-		return sessao;
+		this.sessao.setExpiracao(sessao.getExpiracao());
+		this.sessao.setUsuario(sessao.getUsuario());
+		this.sessao.setToken(token);
 	}
 	@Override
 	public void incluir(Usuario usuario) {
