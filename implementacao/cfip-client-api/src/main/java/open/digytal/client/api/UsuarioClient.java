@@ -30,6 +30,12 @@ public class UsuarioClient extends ClientResource implements UsuarioService {
 		usuario = post(Usuario.class, usuario, "usuarios");
 	}
 
+	@Override
+	public Usuario buscar(String loging) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }

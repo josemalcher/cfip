@@ -4,10 +4,8 @@ import java.util.Date;
 
 public class Sessao {
 	private Usuario usuario;
-	private String token;
-	private Date inicio;
+	private Date expiracao;
 	public Sessao() {
-		inicio = new Date();
 	}
 	public Usuario getUsuario() {
 		return usuario;
@@ -15,23 +13,14 @@ public class Sessao {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
-	}
-	public Date getInicio() {
-		return inicio;
-	}
-	public void setInicio(Date inicio) {
-		this.inicio = inicio;
-	}
-	public boolean ativa() {
+	public boolean isAtiva() {
 		return usuario!=null;
 	}
-	public String getLogin() {
-		return usuario.getLogin();
+	public void setExpiracao(Date expiracao) {
+		this.expiracao = expiracao;
+	}
+	public Date getExpiracao() {
+		return expiracao;
 	}
 	private static Sessao instance;
 	public static Sessao getInstance() {
@@ -41,11 +30,10 @@ public class Sessao {
 		instance = sessao;
 		return instance;
 	}
-	public static Sessao  newInstance(Usuario usuario, String token) {
+	public static Sessao  newInstance(Usuario usuario, Date expiracao) {
 		instance = new Sessao();
-		instance.setInicio(new Date());
 		instance.setUsuario(usuario);
-		instance.setToken(token);
+		instance.setExpiracao(expiracao);
 		return instance;
 	}
 }

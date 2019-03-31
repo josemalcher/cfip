@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import open.digytal.controller.UsuarioController;
 import open.digytal.model.Usuario;
+import open.digytal.service.bean.UsuarioServiceBean;
 
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioResource {
 	@Autowired
-	private UsuarioController service;
+	private UsuarioServiceBean service;
 	
 	@PostMapping
 	public void incluir(@RequestBody Usuario usuario) {	

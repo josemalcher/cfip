@@ -15,7 +15,7 @@ import open.digytal.util.desktop.LoginPanel;
 
 @SpringBootApplication
 @EnableEncryptableProperties
-public class CfipDesktopApp {
+public class CfipDesktopApp extends DesktopApp {
 	private static ConfigurableApplicationContext contexto;
 	
 	public static void main(String[] args) {
