@@ -11,6 +11,7 @@ public class Configuracao {
 	public static final String CONF_API="API";
 	
 	public static final String API_URL="api.url";
+	public static final String JWT_KEY="jwt.key";
 	
 	public static final String DB_DRIVER="spring.datasource.driverClassName";
 	public static final String DB_URL="spring.datasource.url";
@@ -29,7 +30,7 @@ public class Configuracao {
 	private String tipo;
 	
 	private String apiUrl;
-	
+	private String jwtKey;
 	private Configuracao(String tipo) {
 		this.tipo=tipo;
 	}
@@ -60,6 +61,12 @@ public class Configuracao {
 	}
 	public String getApiUrl() {
 		return apiUrl;
+	}
+	public String getJwtKey() {
+		return jwtKey;
+	}
+	public void setJwtKey(String jwtKey) {
+		this.jwtKey = jwtKey;
 	}
 	public String getDbUrl() {
 		return dbUrl;

@@ -29,6 +29,7 @@ public class UsuarioServiceBean extends ClientResource implements UsuarioService
 			String token = post(String.class, login, "login");
 			Claims claims = getClaims(token);
 			this.sessao=atualizarSessao(claims);
+			this.sessao.setToken(token);
 		    return this.sessao;
 		} catch (HttpClientErrorException e) {
 			return null;

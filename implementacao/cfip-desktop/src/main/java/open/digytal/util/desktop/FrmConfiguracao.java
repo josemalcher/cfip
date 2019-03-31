@@ -39,17 +39,17 @@ public class FrmConfiguracao extends JFrame {
 	
 	private JPanel pnlServer = new JPanel();
 	private SSCampoTexto txtDbLogin = new SSCampoTexto();
-	private SSCampoSenha txtDbSenha = new SSCampoSenha();
+	private SSCampoSenha txtSenha = new SSCampoSenha();
 	private SSCampoTexto txtUrl = new SSCampoTexto();
-	private SSCampoSenha txtDbRepeteSenha = new SSCampoSenha();
+	private SSCampoSenha txtRepeteSenha = new SSCampoSenha();
 	public FrmConfiguracao() {
 		init();
 	}
 	private void init() {
 		this.setIconImage(Imagem.pngImage("app"));
 		txtDbLogin.setTudoMaiusculo(false);
-		txtDbSenha.setTudoMaiusculo(false);
-		txtDbRepeteSenha.setTudoMaiusculo(false);
+		txtSenha.setTudoMaiusculo(false);
+		txtRepeteSenha.setTudoMaiusculo(false);
 		txtUrl.setColunas(35);
 		txtUrl.setTudoMaiusculo(false);
 		
@@ -140,11 +140,11 @@ public class FrmConfiguracao extends JFrame {
 		gbc_txtDbSenha.gridx = 0;
 		gbc_txtDbSenha.gridy = 2;
 		
-		txtDbSenha.setTudoMaiusculo(false);
+		txtSenha.setTudoMaiusculo(false);
 		
-		txtDbSenha.setRotulo("Senha");
-		txtDbSenha.setColunas(10);
-		pnlServer.add(txtDbSenha, gbc_txtDbSenha);
+		txtSenha.setRotulo("Senha");
+		txtSenha.setColunas(10);
+		pnlServer.add(txtSenha, gbc_txtDbSenha);
 
 		GridBagConstraints gbc_txtDbRepeteSenha = new GridBagConstraints();
 		gbc_txtDbRepeteSenha.weighty = 1.0;
@@ -155,10 +155,10 @@ public class FrmConfiguracao extends JFrame {
 		gbc_txtDbRepeteSenha.gridx = 0;
 		gbc_txtDbRepeteSenha.gridy = 3;
 		
-		txtDbRepeteSenha.setTudoMaiusculo(false);
+		txtRepeteSenha.setTudoMaiusculo(false);
 		
-		txtDbRepeteSenha.setRotulo("Confirma Senha");
-		pnlServer.add(txtDbRepeteSenha, gbc_txtDbRepeteSenha);
+		txtRepeteSenha.setRotulo("Confirma Senha");
+		pnlServer.add(txtRepeteSenha, gbc_txtDbRepeteSenha);
 		tabbedPane.addTab("ORIGEM", null, pnlServer, null);
 		
 		cboConfiguracao.setItens(Configuracao.CONFIGURACOES, "tipo");
@@ -176,8 +176,8 @@ public class FrmConfiguracao extends JFrame {
 		if (configuracao != null) {
 			txtUrl.setText(Objects.toString(configuracao.getDbUrl(),configuracao.getApiUrl()));
 			txtDbLogin.setText(configuracao.getDbUser());
-			txtDbSenha.setText(configuracao.getDbPass());
-			txtDbRepeteSenha.setText(configuracao.getDbPass());
+			txtSenha.setText(configuracao.getDbPass());
+			txtRepeteSenha.setText(configuracao.getDbPass());
 		}
 	}
 	private void confirmar() {
@@ -190,27 +190,25 @@ public class FrmConfiguracao extends JFrame {
 				SSMensagem.avisa("Informe o usuário do banco de dados");
 				return ;
 			}
-			if(txtDbSenha.getText()==null || txtDbSenha.getText().trim().isEmpty()){
+			if(txtSenha.getText()==null || txtSenha.getText().trim().isEmpty()){
 				SSMensagem.avisa("Informe a senha do banco de dados");
 				return ;
 			}
-			if(!txtDbSenha.getText().equals(txtDbRepeteSenha.getSenha())){
+			if(!txtSenha.getText().equals(txtRepeteSenha.getSenha())){
 				SSMensagem.avisa("Senhas não conferem");
 				return; 
 			}
 			if(!SSMensagem.pergunta("Concluir a configuração atual")){
 				return;
 			}
-			if(configuracao.getTipo().equals(Configuracao.CONF_API))
+			if(configuracao.getTipo().equals(Configuracao.CONF_API)) {
 				configuracao.setApiUrl(txtUrl.getText());
-			else
+				configuracao.setJwtKey(txtSenha.getText());
+			}else {
 				configuracao.setDbUrl(txtUrl.getText());
-			
-			configuracao.setDbUser(txtDbLogin.getText());
-			if(configuracao.getTipo().equals(Configuracao.LOCAL))
-				configuracao.setDbPass(txtDbSenha.getText());
-			else
+				configuracao.setDbUser(txtDbLogin.getText());
 				configuracao.setDbPass("ENC(GwOd1LOQBQ5MheluaQ7C0Q==)");//senha=sa
+			}	
 			configurar();
 			
 			SSMensagem.informa("Acesse o sistema com as novas configurações");
@@ -255,6 +253,7 @@ public class FrmConfiguracao extends JFrame {
 			
 		}else {
 			sb.append(Configuracao.API_URL +"="+ configuracao.getApiUrl()  +"\n");
+			sb.append(Configuracao.JWT_KEY +"="+ configuracao.getJwtKey()  +"\n");
 		}
 		
 		return sb.toString();

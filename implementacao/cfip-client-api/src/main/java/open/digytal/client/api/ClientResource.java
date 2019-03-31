@@ -40,8 +40,8 @@ public abstract class ClientResource {
 			@Override
 			public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
 					throws IOException {
-				if (sessao!=null && sessao.isAtiva() ) {
-					//request.getHeaders().set("Authorization", Sessao.getInstance().getToken());
+				if (sessao!=null && sessao.getToken()!=null ) {
+					request.getHeaders().set("Authorization",sessao.getToken());
 				}
 
 				return execution.execute(request, body);

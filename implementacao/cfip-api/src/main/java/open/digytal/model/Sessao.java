@@ -5,6 +5,7 @@ import java.util.Date;
 public class Sessao {
 	private Usuario usuario;
 	private Date expiracao;
+	private String token;
 	public static String KEY="SESSAO";
 	public Sessao() {
 	}
@@ -14,16 +15,16 @@ public class Sessao {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	public boolean isAtiva() {
-		return usuario!=null;
-	}
 	public void setExpiracao(Date expiracao) {
 		this.expiracao = expiracao;
 	}
 	public Date getExpiracao() {
 		return expiracao;
 	}
-	public String getLogin() {
-		return usuario.getLogin();
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 }
