@@ -24,9 +24,9 @@ public class CfipApplication {
 	public static void main(String[] args) {
 		context = SpringApplication.run(CfipApplication.class, args);
 		//alteraConta();
-		exemploContas();
-		exemploNaturezas();
-		//incluirLancamento();
+		//exemploContas();
+		//exemploNaturezas();
+		incluirLancamento();
 		
 	}
 	static Conta buscarConta(Integer id) {
@@ -45,14 +45,12 @@ public class CfipApplication {
 	}
 	static void incluirLancamento() {
 		Conta conta = buscarConta(1);
-		Natureza natureza = buscarNatureza(2);
+		Natureza natureza = buscarNatureza(4);
 		if(conta!=null && natureza!=null) {
 			Lancamento lancamento = new Lancamento();
 			lancamento.setDescricao("SALARIO");
 			lancamento.setValor(1250.25D);
 			lancamento.setData(new Date());
-			
-			
 			
 			lancamento.setConta(conta);
 			lancamento.setNatureza(natureza);
