@@ -21,7 +21,9 @@ import open.digytal.util.Texto;
 
 public abstract class ClientResource {
 	@Autowired
-	Environment environment;
+	protected Environment environment;
+	@Autowired
+	protected Sessao sessao;
 	private String getUrl(Serializable... path) {
 		String ROOT=Objects.toString(environment.getProperty("web-api-url"),"http://localhost:8080/");
 		String sufix = Texto.concatenar("/", path);
@@ -34,7 +36,7 @@ public abstract class ClientResource {
 			@Override
 			public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
 					throws IOException {
-				if (Sessao.getInstance()!=null && Sessao.getInstance().isAtiva() ) {
+				if (sessao!=null && sessao.isAtiva() ) {
 					//request.getHeaders().set("Authorization", Sessao.getInstance().getToken());
 				}
 

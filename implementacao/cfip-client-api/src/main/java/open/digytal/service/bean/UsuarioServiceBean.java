@@ -10,17 +10,15 @@ import open.digytal.model.Usuario;
 import open.digytal.service.UsuarioService;
 
 @Service
-//@Profile(Services.API)
 public class UsuarioServiceBean extends ClientResource implements UsuarioService {
-
 	@Override
 	public Sessao login(String usuario, String senha) {
 		try {
 			Login login = new Login();
 			login.setUsername(usuario);
 			login.setPassword(senha);
-			Sessao credencial = Sessao.newInstance(post(Sessao.class, login, "login"));
-			return credencial;
+			String token = post(String.class, login, "login");
+			return null;
 		} catch (HttpClientErrorException e) {
 			return null;
 		}

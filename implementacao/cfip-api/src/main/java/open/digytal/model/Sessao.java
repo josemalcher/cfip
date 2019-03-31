@@ -22,18 +22,4 @@ public class Sessao {
 	public Date getExpiracao() {
 		return expiracao;
 	}
-	private static Sessao instance;
-	public static Sessao getInstance() {
-		return instance;
-	}
-	public static Sessao  newInstance(Sessao sessao) {
-		instance = sessao;
-		return instance;
-	}
-	public static Sessao  newInstance(Usuario usuario, Date expiracao) {
-		instance = new Sessao();
-		instance.setUsuario(usuario);
-		instance.setExpiracao(expiracao);
-		return instance;
-	}
 }

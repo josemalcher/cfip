@@ -39,9 +39,10 @@ public class UsuarioServiceBean implements UsuarioService  {
 	private RoleRepository roleRepository;
 	@Autowired
 	private PasswordEncoder encoder;
+	@Autowired
+	private Sessao sessao;
 	@Override
 	public Sessao login(String login,String senha) {
-		Sessao sessao =null;
 		Optional<EntidadeUsuario> entidade = repository.findById(login);
 		if(entidade.isPresent()) {
 			sessao = new Sessao();
@@ -49,7 +50,8 @@ public class UsuarioServiceBean implements UsuarioService  {
 				Usuario usuario = new Usuario();
 				BeanUtils.copyProperties(entidade.get(), usuario);
 				usuario.setSenha(null);
-				sessao=Sessao.newInstance(usuario, Calendario.adicionarHora(new Date(), 1));
+				sessao.setUsuario(usuario);
+				sessao.setExpiracao( Calendario.adicionarHora(new Date(), 1));
 			}
 		}
 		return sessao;
