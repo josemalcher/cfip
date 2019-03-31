@@ -1,17 +1,17 @@
-package open.digytal.client.api;
+package open.digytal.service.bean;
 
 import java.util.List;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
+import open.digytal.client.api.ClientResource;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.TipoMovimento;
 import open.digytal.service.CadastroService;
 @Service
-//@Profile(Services.API)
-public class CadastroClient extends ClientResource implements CadastroService {
+public class CadastroServiceBean extends ClientResource implements CadastroService {
 	private String contas="cadastros/contas";
 	private String corrente=contas+"/correntepoupanca";
 	private String cartaocredito=contas+"/cartaocredito";

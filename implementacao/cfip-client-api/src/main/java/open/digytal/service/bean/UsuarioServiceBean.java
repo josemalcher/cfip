@@ -1,8 +1,9 @@
-package open.digytal.client.api;
+package open.digytal.service.bean;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import open.digytal.client.api.ClientResource;
 import open.digytal.model.Login;
 import open.digytal.model.Sessao;
 import open.digytal.model.Usuario;
@@ -10,7 +11,7 @@ import open.digytal.service.UsuarioService;
 
 @Service
 //@Profile(Services.API)
-public class UsuarioClient extends ClientResource implements UsuarioService {
+public class UsuarioServiceBean extends ClientResource implements UsuarioService {
 
 	@Override
 	public Sessao login(String usuario, String senha) {
