@@ -32,6 +32,7 @@ public class CfipDesktopApp extends DesktopApp {
 		}
 	}
 	private static void jasyptTest() {
+		System.setProperty("jasypt.encryptor.password", "password");
 		JasyptTest jasypt = contexto.getBean(JasyptTest.class);
 		Environment env = contexto.getEnvironment();
 		System.out.println(jasypt.getProperty());
