@@ -32,27 +32,25 @@ public class CfipDesktopApp extends DesktopApp {
 		}
 	}
 	private static void jasyptTest() {
-		System.setProperty("jasypt.encryptor.password", "password");
 		JasyptTest jasypt = contexto.getBean(JasyptTest.class);
-		Environment env = contexto.getEnvironment();
-		System.out.println(jasypt.getProperty());
-		System.out.println(jasypt.getPasswordUsingEnvironment(env));
+		System.out.println(jasypt.getUrl());
+		
 		
 	}
 	private static void initApp(String[] args) {
 		//DesktopApp.exibirSplash();
-		//if(Configuracao.iniciarConfiguracao()) {
-			//DesktopApp.fecharSplash();
-			//FrmConfiguracao.iniciar();
-		//}else {
-			
+		if(Configuracao.iniciarConfiguracao()) {
+			DesktopApp.fecharSplash();
+			FrmConfiguracao.iniciar();
+		}else {
 			SpringApplicationBuilder builder = new SpringApplicationBuilder(CfipDesktopApp.class);
 			builder.headless(false);
 			contexto = builder.run(args);
 			//LoginPanel login = CfipDesktopApp.getBean(LoginPanel.class);
 			//login.exibir();
-		//}
-		jasyptTest();
+			jasyptTest();
+		}
+		
 	}
 	
 	public static <T> T getBean(Class classe) {
