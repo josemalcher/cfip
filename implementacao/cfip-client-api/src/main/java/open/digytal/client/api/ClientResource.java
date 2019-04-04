@@ -22,14 +22,15 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import open.digytal.model.Sessao;
 import open.digytal.util.Texto;
-
 public abstract class ClientResource {
 	@Autowired
 	protected Environment environment;
 	@Autowired
 	protected Sessao sessao;
 	private String getUrl(Serializable... path) {
-		String ROOT=Objects.toString(environment.getProperty("api.url"),"http://localhost:8080/");
+		String envURL=environment.getProperty("api.url");
+		
+		String ROOT=Objects.toString(envURL,"http://localhost:8080/");
 		System.out.println(ROOT);
 		String sufix = Texto.concatenar("/", path);
 		String url = String.format("%s%s", ROOT, sufix);
