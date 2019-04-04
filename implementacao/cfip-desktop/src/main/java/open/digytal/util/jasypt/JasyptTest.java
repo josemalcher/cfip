@@ -7,6 +7,6 @@ public class JasyptTest {
 	@Value("${url}")
     private String url;
 	public String getUrl() {
-		return url;
+		return "http://"+new String(url.getBytes());
 	}
 }

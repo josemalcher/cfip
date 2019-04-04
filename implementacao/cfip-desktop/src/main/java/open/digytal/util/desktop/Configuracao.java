@@ -105,7 +105,7 @@ public class Configuracao {
 	public static boolean iniciarConfiguracao(){ //empresa e sistema
 		System.out.println("Iniciando a aplicação em: " + ROOT_PATH);
 		System.setProperty("app.home", ROOT_PATH);
-		System.setProperty("jasypt.encryptor.password", "password");
+		System.setProperty("jasypt.encryptor.password", "cfip");
 		return !getArquivoConfiguracao().exists();
 	}
 	public static File getArquivoConfiguracao() {

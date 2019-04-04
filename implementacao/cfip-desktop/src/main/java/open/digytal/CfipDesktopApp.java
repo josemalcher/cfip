@@ -2,17 +2,17 @@ package open.digytal;
 
 import javax.swing.UIManager;
 
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.env.Environment;
 
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 
 import open.digytal.util.desktop.Configuracao;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.FrmConfiguracao;
-import open.digytal.util.desktop.LoginPanel;
 import open.digytal.util.jasypt.JasyptTest;
 
 @SpringBootApplication
@@ -32,6 +32,28 @@ public class CfipDesktopApp extends DesktopApp {
 		}
 	}
 	private static void jasyptTest() {
+		//http://www.jasypt.org/encrypting-texts.html
+		/*
+		 * BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
+		 * textEncryptor.setPassword("cfip");
+		 * 
+		 * System.out.println(textEncryptor.encrypt(
+		 * "http://www.boxsolutions.com.br/cfip-web-api/"));
+		 * 
+		 * StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+		 * encryptor.setPassword("cfip");
+		 * 
+		 * //System.out.println(encryptor.encrypt(
+		 * "www.boxsolutions.com.br/cfip-web-api/"));
+		 */		
+		
+		
+		BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
+		String privateData = "www.boxsolutions.com.br/cfip-web-api/";
+		textEncryptor.setPasswordCharArray("cfip".toCharArray());
+		
+		System.out.println(textEncryptor.encrypt(privateData));
+		
 		JasyptTest jasypt = contexto.getBean(JasyptTest.class);
 		System.out.println(jasypt.getUrl());
 		
