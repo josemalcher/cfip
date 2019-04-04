@@ -8,6 +8,7 @@ import java.util.Objects;
 import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -23,8 +24,11 @@ import io.jsonwebtoken.Jwts;
 import open.digytal.model.Sessao;
 import open.digytal.util.Texto;
 public abstract class ClientResource {
+	//@Value("${url}")
 	@Autowired
 	protected Environment environment;
+	
+	
 	@Autowired
 	protected Sessao sessao;
 	private String getUrl(Serializable... path) {

@@ -19,6 +19,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
+import org.jasypt.util.text.BasicTextEncryptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+
 import open.digytal.util.Imagem;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCabecalho;
@@ -205,9 +209,12 @@ public class FrmConfiguracao extends JFrame {
 				configuracao.setApiUrl(txtUrl.getText());
 				configuracao.setJwtKey(txtSenha.getText());
 			}else {
+				String senha = txtSenha.getText();
+				BasicTextEncryptor encryptor = basicTextEncryptor();
+				senha = encryptor.encrypt(senha);
 				configuracao.setDbUrl(txtUrl.getText());
 				configuracao.setDbUser(txtDbLogin.getText());
-				configuracao.setDbPass("ENC(GwOd1LOQBQ5MheluaQ7C0Q==)");//senha=sa
+				configuracao.setDbPass(String.format("ENC(%s)", senha));//senha=sa
 			}	
 			configurar();
 			
@@ -258,7 +265,11 @@ public class FrmConfiguracao extends JFrame {
 		
 		return sb.toString();
 	}
-	
+	private BasicTextEncryptor basicTextEncryptor() {
+		BasicTextEncryptor encryptor = new BasicTextEncryptor();
+		encryptor.setPasswordCharArray("CfipAppSecret".toCharArray());
+		return encryptor;
+	}
 	public static void iniciar(){
 		FrmConfiguracao frm= new FrmConfiguracao();
 		frm.setUndecorated(true);
