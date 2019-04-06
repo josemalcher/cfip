@@ -34,9 +34,9 @@ Source: "C:\opendigytal\build\cfip\bin\*"; DestDir: "{app}"; Flags: ignoreversio
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{commonprograms}\CFIP"; Filename: "{app}\CFIP 1.0.exe"
-Name: "{commondesktop}\CFIP"; Filename: "{app}\CFIP 1.0.exe"; Tasks: desktopicon
+Name: "{commonprograms}\CFIP"; Filename: "{app}\CFIP1.0.exe"
+Name: "{commondesktop}\CFIP"; Filename: "{app}\CFIP1.0.exe"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\CFIP 1.0.exe"; Description: "{cm:LaunchProgram,CFIP}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\CFIP1.0.exe"; Description: "{cm:LaunchProgram,CFIP}"; Flags: nowait postinstall skipifsilent
 

@@ -33,7 +33,7 @@ public class FrmLogin extends LoginPanel {
 	private void logarAction() {
 		try {
 			Sessao sessao = service.login(getLogin(),getSenha());
-			if (sessao.getUsuario()==null) {
+			if (sessao==null|| sessao.getUsuario()==null) {
 				SSMensagem.avisa("Credencial Inválida");
 				FrmUsuario frm = CfipDesktopApp.getBean(FrmUsuario.class);
 				frm.setVisible(true);

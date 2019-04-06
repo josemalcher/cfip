@@ -29,7 +29,7 @@ import open.digytal.util.desktop.LoginPanel;
 //https://www.youtube.com/watch?v=BKn5DxLtv78
 
 
-//http://www.boxsolutions.com.br/cfip-web-api
+//http://www.boxsolutions.com.br/cfip-web-api/
 public class CfipDesktopApp extends DesktopApp {
 	private static final Logger logger = LogManager.getLogger(CfipDesktopApp.class);
 	private static ConfigurableApplicationContext contexto;
