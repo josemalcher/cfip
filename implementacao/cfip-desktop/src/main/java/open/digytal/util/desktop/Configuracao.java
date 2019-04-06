@@ -12,7 +12,6 @@ public class Configuracao {
 	public static final String CONF_API="API";
 	
 	public static final String API_URL="api.url";
-	public static final String JWT_KEY="jwt.key";
 	
 	public static final String DB_DRIVER="spring.datasource.driverClassName";
 	public static final String DB_URL="spring.datasource.url";
@@ -22,7 +21,6 @@ public class Configuracao {
 	public static final String DB_SHOWSQL="spring.jpa.show-sql";
 	public static final String DB_DDL="spring.jpa.hibernate.ddl-auto";
 	
-	
 	private String dbUrl;
 	private String dbUser;
 	private String dbPass;
@@ -31,7 +29,6 @@ public class Configuracao {
 	private String tipo;
 	
 	private String apiUrl;
-	private String jwtKey;
 	private Configuracao(String tipo) {
 		this.tipo=tipo;
 	}
@@ -63,12 +60,6 @@ public class Configuracao {
 	public String getApiUrl() {
 		return apiUrl;
 	}
-	public String getJwtKey() {
-		return jwtKey;
-	}
-	public void setJwtKey(String jwtKey) {
-		this.jwtKey = jwtKey;
-	}
 	public String getDbUrl() {
 		return dbUrl;
 	}
@@ -99,13 +90,14 @@ public class Configuracao {
 	
 	public static Configuracao LOCAL = new Configuracao(CONF_LOCAL,String.format("jdbc:hsqldb:file:/%s/%s/database/%sdb", "opendigytal", "cfip","cfip") ,"sa","sa","org.hsqldb.jdbcDriver","org.hibernate.dialect.HSQLDialect");
 	public static Configuracao SERVER = new Configuracao(CONF_SERVER,String.format("datasource:postgresql://localhost:5432/%sdb", "cfip"), "postgres","postgres","org.postgresql.Driver","org.hibernate.dialect.PostgreSQLDialect");
-	public static Configuracao API = new Configuracao(CONF_API,String.format("localhost:8080/%s-web-api", "cfip"));
+	public static Configuracao API = new Configuracao(CONF_API,String.format("localhost:8080/%s-web-api/", "cfip"));
 	
 	public static Configuracao[] CONFIGURACOES={LOCAL,SERVER,API};
 
 	public static boolean iniciarConfiguracao(){ //empresa e sistema
 		System.out.println("Iniciando a aplicação em: " + ROOT_PATH);
 		System.setProperty("app.home", ROOT_PATH);
+		System.setProperty("app.name", "cfip");
 		return !getArquivoConfiguracao().exists();
 	}
 	public static File getArquivoConfiguracao() {

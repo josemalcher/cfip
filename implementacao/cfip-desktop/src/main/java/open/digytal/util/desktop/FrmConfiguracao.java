@@ -207,7 +207,6 @@ public class FrmConfiguracao extends JFrame {
 			}
 			if(configuracao.getTipo().equals(Configuracao.CONF_API)) {
 				configuracao.setApiUrl(txtUrl.getText());
-				configuracao.setJwtKey(txtSenha.getText());
 			}else {
 				String senha = txtSenha.getText();
 				BasicTextEncryptor encryptor = basicTextEncryptor();
@@ -260,7 +259,6 @@ public class FrmConfiguracao extends JFrame {
 			
 		}else {
 			sb.append(Configuracao.API_URL +"="+ configuracao.getApiUrl()  +"\n");
-			sb.append(Configuracao.JWT_KEY +"="+ configuracao.getJwtKey()  +"\n");
 		}
 		sb.append(log());
 		return sb.toString();
@@ -269,8 +267,8 @@ public class FrmConfiguracao extends JFrame {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\nlogging.pattern.level=WARN\n");
 		sb.append("logging.file=${app.home}/application.log\n");
-		sb.append("logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} - %msg%n\n");
-		sb.append("logging.pattern.file= %d{yyyy-MM-dd HH:mm:ss} - %msg%\n");
+		sb.append("logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n\n");
+		sb.append("logging.pattern.file= %d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n\n");
 		return sb.toString();
 	}
 	private BasicTextEncryptor basicTextEncryptor() {
