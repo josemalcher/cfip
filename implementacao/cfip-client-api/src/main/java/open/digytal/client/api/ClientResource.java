@@ -10,7 +10,6 @@ import javax.xml.bind.DatatypeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
@@ -24,20 +23,14 @@ import io.jsonwebtoken.Jwts;
 import open.digytal.model.Sessao;
 import open.digytal.util.Texto;
 public abstract class ClientResource {
-	//@Value("${url}")
-	@Autowired
-	protected Environment environment;
-	
-	
-	@Autowired
+	@Value("${api.url}")
+	private String url;
+	@Autowired	
 	protected Sessao sessao;
 	private String getUrl(Serializable... path) {
-		String envURL=environment.getProperty("api.url");
-		
-		String ROOT=Objects.toString(envURL,"http://localhost:8080/");
-		System.out.println(ROOT);
+		String ROOT=Objects.toString(url,"http://localhost:8080/");
 		String sufix = Texto.concatenar("/", path);
-		String url = String.format("%s%s", ROOT, sufix);
+		url = String.format("%s%s", ROOT, sufix);
 		return url;
 	}	
 	private RestTemplate getRestTemplate() {

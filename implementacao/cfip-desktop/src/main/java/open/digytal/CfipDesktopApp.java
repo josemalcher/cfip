@@ -10,7 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 
-import open.digytal.util.desktop.Configuracao;
+import open.digytal.util.config.Configuracao;
 import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.FrmConfiguracao;
 import open.digytal.util.desktop.LoginPanel;
@@ -27,8 +27,6 @@ import open.digytal.util.desktop.LoginPanel;
 //https://www.callicoder.com/spring-boot-log4j-2-example/
 //http://www.iconarchive.com/show/free-shopping-icons-by-petalart/money-wallet-icon.html
 //https://www.youtube.com/watch?v=BKn5DxLtv78
-
-
 //http://www.boxsolutions.com.br/cfip-web-api/
 public class CfipDesktopApp extends DesktopApp {
 	private static final Logger logger = LogManager.getLogger(CfipDesktopApp.class);

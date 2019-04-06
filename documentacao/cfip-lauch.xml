@@ -13,6 +13,7 @@
   <stayAlive>false</stayAlive>
   <manifest></manifest>
   <icon>C:\opendigytal\build\cfipico.ico</icon>
+  <var>app.secret=NewCfipAppSecret</var>
   <jre>
     <path></path>
     <minVersion>1.8.0</minVersion>

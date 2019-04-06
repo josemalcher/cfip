@@ -20,10 +20,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import org.jasypt.util.text.BasicTextEncryptor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 
 import open.digytal.util.Imagem;
+import open.digytal.util.config.Configuracao;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCabecalho;
 import open.digytal.util.desktop.ss.SSCaixaCombinacao;
@@ -183,40 +182,46 @@ public class FrmConfiguracao extends JFrame {
 			txtSenha.setText(configuracao.getDbPass());
 			txtRepeteSenha.setText(configuracao.getDbPass());
 		}
+		boolean isNoApi =!configuracao.getTipo().equals(Configuracao.CONF_API);
+		txtSenha.setEnabled(isNoApi);
+		txtDbLogin.setEnabled(isNoApi);
+		txtRepeteSenha.setEnabled(isNoApi);
 	}
 	private void confirmar() {
 		try {
+			BasicTextEncryptor encryptor = basicTextEncryptor();
+			
 			if(txtUrl.getText()==null || txtUrl.getText().trim().isEmpty()){
 				SSMensagem.avisa("Informe uma URL");
 				return ;
 			}
-			if(txtDbLogin.getText()==null || txtDbLogin.getText().trim().isEmpty()){
-				SSMensagem.avisa("Informe o usuário do banco de dados");
-				return ;
-			}
-			if(txtSenha.getText()==null || txtSenha.getText().trim().isEmpty()){
-				SSMensagem.avisa("Informe a senha do banco de dados");
-				return ;
-			}
-			if(!txtSenha.getText().equals(txtRepeteSenha.getSenha())){
-				SSMensagem.avisa("Senhas não conferem");
-				return; 
-			}
-			if(!SSMensagem.pergunta("Concluir a configuração atual")){
-				return;
-			}
-			if(configuracao.getTipo().equals(Configuracao.CONF_API)) {
-				configuracao.setApiUrl(txtUrl.getText());
-			}else {
+			
+			if(!SSMensagem.pergunta("Concluir a configuração atual")){ return; }
+			
+			if(!configuracao.getTipo().equals(Configuracao.CONF_API)) {
+				if(txtDbLogin.getText()==null || txtDbLogin.getText().trim().isEmpty()){
+					SSMensagem.avisa("Informe o usuário do banco de dados");
+					return ;
+				}
+				if(txtSenha.getText()==null || txtSenha.getText().trim().isEmpty()){
+					SSMensagem.avisa("Informe a senha do banco de dados");
+					return ;
+				}
+				if(!txtSenha.getText().equals(txtRepeteSenha.getSenha())){
+					SSMensagem.avisa("Senhas não conferem");
+					return; 
+				}
 				String senha = txtSenha.getText();
-				BasicTextEncryptor encryptor = basicTextEncryptor();
 				senha = encryptor.encrypt(senha);
 				configuracao.setDbUrl(txtUrl.getText());
 				configuracao.setDbUser(txtDbLogin.getText());
 				configuracao.setDbPass(String.format("ENC(%s)", senha));//senha=sa
-			}	
+			}else {
+				String url=txtUrl.getText();
+				url=encryptor.encrypt(url);
+				configuracao.setApiUrl(String.format("ENC(%s)", url));
+			}
 			configurar();
-			
 			SSMensagem.informa("Acesse o sistema com as novas configurações");
 			fechar();
 		} catch (Exception e) {
@@ -247,7 +252,7 @@ public class FrmConfiguracao extends JFrame {
 	private  String configuracao() {
 		StringBuilder sb =  new StringBuilder();
 		//isso é especifico ao projeto, vc pode customizar
-		sb.append("jasypt.encryptor.password="+Configuracao.SECRET+"\n");
+		//sb.append("jasypt.encryptor.password="+Configuracao.SECRET+"\n");
 		if(!configuracao.getTipo().equals(Configuracao.CONF_API)) {
 			sb.append(Configuracao.DB_URL +"="+ configuracao.getDbUrl()  +"\n");
 			sb.append(Configuracao.DB_USER +"="+ configuracao.getDbUser()  +"\n");
