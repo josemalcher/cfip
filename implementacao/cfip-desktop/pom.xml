@@ -57,57 +57,50 @@
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
 			</plugin>
 
+
 			<plugin>
-				<groupId>com.akathist.maven.plugins.launch4j</groupId>
-				<artifactId>launch4j-maven-plugin</artifactId>
-				<version>1.5.2</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
 				<executions>
 					<execution>
-						<id>l4j-gui</id>
+						<id>make-assembly</id>
 						<phase>package</phase>
 						<goals>
-							<goal>launch4j</goal>
+							<goal>single</goal>
 						</goals>
 						<configuration>
-							<headerType>gui</headerType>
-							<outfile>target/cfip-desktop.exe</outfile>
-							<jar>target/${project.artifactId}-${project.version}.jar</jar>
-							<!-- if <dontWrapJar>true</dontWrapJar> change to this conf <jar>${project.artifactId}-${project.version}.jar</jar> -->
-							<dontWrapJar>false</dontWrapJar>
-							<errTitle>Error in launch4j plugin</errTitle>
-							<classPath>
-								<mainClass>open.digytal.CfipDesktopApp</mainClass>
-							</classPath>
-							<icon>application.ico</icon>
-							<jre>
-								<minVersion>1.7.0</minVersion>
-								<maxVersion>1.9.0</maxVersion>
-								<initialHeapSize>1024</initialHeapSize>
-								<maxHeapSize>1024</maxHeapSize>
-							</jre>
-							<versionInfo>
-								<fileVersion>1.0.0.0</fileVersion>
-								<txtFileVersion>1.0</txtFileVersion>
-								<fileDescription>CFIP - Controle Financeiro Pessoal</fileDescription>
-								<copyright>Copyright (c) 2019 </copyright>
-								<companyName>Digytal</companyName>
-								<productVersion>1.0.0.0</productVersion>
-								<txtProductVersion>${project.version}</txtProductVersion>
-								<productName>CFIP</productName>
-								<internalName>CFIP</internalName>
-								<originalFilename>cfip-desktop.exe</originalFilename>
-							</versionInfo>
+							<archive>
+								<manifest>
+									<mainClass>open.digytal.CfipDesktopApp</mainClass>
+								</manifest>
+								<manifestEntries>
+									<Permissions>all-permissions</Permissions>
+									<Application-Name>CFIP</Application-Name>
+									<Built-By>Digytal</Built-By>
+								</manifestEntries>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

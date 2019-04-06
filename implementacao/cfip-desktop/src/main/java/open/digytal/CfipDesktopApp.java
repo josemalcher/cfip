@@ -18,6 +18,8 @@ import open.digytal.util.desktop.LoginPanel;
 
 //http://mbcoder.com/spring-boot-how-to-encrypt-properties-in-application-properties/
 //https://stackoverflow.com/questions/37404703/spring-boot-how-to-hide-passwords-in-properties-file
+//https://howtodoinjava.com/maven/create-windows-exe-file-for-java-application/
+//http://trabajosdesisifo.blogspot.com/2015/12/java-bundle-jre-inside-executable-file.html
 public class CfipDesktopApp extends DesktopApp {
 	private static ConfigurableApplicationContext contexto;
 	
@@ -33,7 +35,7 @@ public class CfipDesktopApp extends DesktopApp {
 		}
 	}
 	private static void initApp(String[] args) {
-		//DesktopApp.exibirSplash();
+		DesktopApp.exibirSplash();
 		if(Configuracao.iniciarConfiguracao()) {
 			DesktopApp.fecharSplash();
 			FrmConfiguracao.iniciar();
