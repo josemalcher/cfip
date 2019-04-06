@@ -262,7 +262,6 @@ public class FrmConfiguracao extends JFrame {
 			sb.append(Configuracao.API_URL +"="+ configuracao.getApiUrl()  +"\n");
 			sb.append(Configuracao.JWT_KEY +"="+ configuracao.getJwtKey()  +"\n");
 		}
-		
 		sb.append(log());
 		return sb.toString();
 	}
