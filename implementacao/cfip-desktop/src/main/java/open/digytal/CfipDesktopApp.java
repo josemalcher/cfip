@@ -15,6 +15,9 @@ import open.digytal.util.desktop.LoginPanel;
 
 @SpringBootApplication
 @EnableEncryptableProperties
+
+//http://mbcoder.com/spring-boot-how-to-encrypt-properties-in-application-properties/
+//https://stackoverflow.com/questions/37404703/spring-boot-how-to-hide-passwords-in-properties-file
 public class CfipDesktopApp extends DesktopApp {
 	private static ConfigurableApplicationContext contexto;
 	

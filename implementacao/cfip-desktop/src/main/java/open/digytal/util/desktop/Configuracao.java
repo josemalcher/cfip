@@ -3,6 +3,7 @@ package open.digytal.util.desktop;
 import java.io.File;
 
 public class Configuracao {
+	public static final String SECRET="CfipAppSecret";
 	public static final String ROOT_PATH=System.getProperty("user.dir");
 	public static final String CONFIG="application.properties";
 	
@@ -105,7 +106,6 @@ public class Configuracao {
 	public static boolean iniciarConfiguracao(){ //empresa e sistema
 		System.out.println("Iniciando a aplicação em: " + ROOT_PATH);
 		System.setProperty("app.home", ROOT_PATH);
-		System.setProperty("jasypt.encryptor.password", "cfip");
 		return !getArquivoConfiguracao().exists();
 	}
 	public static File getArquivoConfiguracao() {
