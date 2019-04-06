@@ -45,6 +45,7 @@ public class FrmLogin extends LoginPanel {
 			}
 		} catch (Exception e) {
 			logger.error(e);
+			SSMensagem.erro("Erro ao tentar fazer login");
 		}
 	}
 }

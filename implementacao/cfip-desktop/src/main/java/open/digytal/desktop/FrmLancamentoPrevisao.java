@@ -13,6 +13,8 @@ import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.border.EtchedBorder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -20,7 +22,6 @@ import org.springframework.stereotype.Component;
 
 import open.digytal.model.Lancamento;
 import open.digytal.model.entity.EntidadeConta;
-import open.digytal.model.entity.EntidadeLancamento;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.TipoMovimento;
 import open.digytal.service.CadastroService;
@@ -39,6 +40,7 @@ import open.digytal.util.desktop.ss.SSMensagem;
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)	
 public class FrmLancamentoPrevisao extends Formulario {
+	private static final Logger logger = LogManager.getLogger(FrmLancamentoPrevisao.class);
 	private SSCampoDataHora txtData = new SSCampoDataHora();
 	private SSCampoNumero txtValor = new SSCampoNumero();
 	private SSCampoTexto txtDescricao = new SSCampoTexto();
