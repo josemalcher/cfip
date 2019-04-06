@@ -25,6 +25,7 @@ import open.digytal.util.desktop.LoginPanel;
 //java -jar -Dspring.profiles.active=prod spring-boot-demo.jar
 //https://www.tutorialspoint.com/log4j/log4j_logging_levels.htm
 //https://www.callicoder.com/spring-boot-log4j-2-example/
+//http://www.iconarchive.com/show/free-shopping-icons-by-petalart/money-wallet-icon.html
 public class CfipDesktopApp extends DesktopApp {
 	private static final Logger logger = LogManager.getLogger(CfipDesktopApp.class);
 	private static ConfigurableApplicationContext contexto;
