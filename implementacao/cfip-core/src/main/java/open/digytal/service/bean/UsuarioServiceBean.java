@@ -27,10 +27,9 @@ import open.digytal.repository.RoleRepository;
 import open.digytal.repository.UsuarioRepository;
 import open.digytal.service.UsuarioService;
 import open.digytal.util.Calendario;
-import open.digytal.util.config.Configuracao;
 
 @Controller
-@Profile(Configuracao.PROFILE_DB)
+@Profile("!api")
 public class UsuarioServiceBean implements UsuarioService  {
 	@Autowired
 	private UsuarioRepository repository;

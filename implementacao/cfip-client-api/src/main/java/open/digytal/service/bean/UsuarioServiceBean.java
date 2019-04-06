@@ -13,11 +13,9 @@ import open.digytal.model.Login;
 import open.digytal.model.Sessao;
 import open.digytal.model.Usuario;
 import open.digytal.service.UsuarioService;
-//http://andreybleme.com/2017-04-01/autenticacao-com-jwt-no-spring-boot/
-import open.digytal.util.config.Configuracao;
 
 @Service
-@Profile(Configuracao.PROFILE_API)
+@Profile("api")
 public class UsuarioServiceBean extends ClientResource implements UsuarioService {
 	@Autowired
 	private Sessao sessao;

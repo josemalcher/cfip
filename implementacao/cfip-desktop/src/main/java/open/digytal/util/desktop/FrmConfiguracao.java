@@ -252,7 +252,7 @@ public class FrmConfiguracao extends JFrame {
 	private  String configuracao() {
 		StringBuilder sb =  new StringBuilder();
 		//isso é especifico ao projeto, vc pode customizar
-		sb.append(Configuracao.ACTIVE_PROFILE+"=" + configuracao.getTipo() +"\n\n");
+		sb.append(Configuracao.ACTIVE_PROFILE+"=" + configuracao.getTipo().toLowerCase() +"\n\n");
 		if(!configuracao.getTipo().equals(Configuracao.CONF_API)) {
 			sb.append(Configuracao.DB_URL +"="+ configuracao.getDbUrl()  +"\n");
 			sb.append(Configuracao.DB_USER +"="+ configuracao.getDbUser()  +"\n");
@@ -261,7 +261,7 @@ public class FrmConfiguracao extends JFrame {
 			sb.append(Configuracao.DB_DIALECT +"=" + configuracao.getDbDialect()+"\n");
 			sb.append(Configuracao.DB_DDL +"=" + configuracao.getDbDdl()+"\n");
 			sb.append(Configuracao.DB_SHOWSQL +"=" + configuracao.getDbShowSql()+"\n");
-			
+			sb.append(Configuracao.API_URL +"="+ "INACTIVE\n");
 		}else {
 			sb.append(Configuracao.API_URL +"="+ configuracao.getApiUrl()  +"\n");
 		}

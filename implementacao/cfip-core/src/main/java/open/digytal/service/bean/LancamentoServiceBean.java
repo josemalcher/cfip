@@ -29,10 +29,9 @@ import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
 import open.digytal.util.Filtro;
 import open.digytal.util.Filtros;
-import open.digytal.util.config.Configuracao;
 
 @Controller
-@Profile(Configuracao.PROFILE_DB)
+@Profile("!api")
 public class LancamentoServiceBean implements LancamentoService {
 	@Autowired
 	private ContaRepository contaRepository;

@@ -12,10 +12,9 @@ import open.digytal.model.enums.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.service.CadastroService;
-import open.digytal.util.config.Configuracao;
 
 @Controller
-@Profile(Configuracao.PROFILE_DB)
+@Profile("!api")
 public class CadastroServiceBean implements CadastroService {
 	@Autowired
 	private ContaRepository repository;

@@ -14,9 +14,8 @@ import open.digytal.model.Parcelas;
 import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Formatador;
-import open.digytal.util.config.Configuracao;
 @Service
-@Profile(Configuracao.PROFILE_API)
+@Profile("api")
 public class LancamentoServiceBean extends ClientResource implements LancamentoService {
 	private String lancamentos="lancamentos";
 	private String previsoes="previsoes";

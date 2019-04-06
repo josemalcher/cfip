@@ -11,9 +11,8 @@ import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeNatureza;
 import open.digytal.model.enums.TipoMovimento;
 import open.digytal.service.CadastroService;
-import open.digytal.util.config.Configuracao;
 @Service
-@Profile(Configuracao.PROFILE_API)
+@Profile("api")
 public class CadastroServiceBean extends ClientResource implements CadastroService {
 	private String contas="cadastros/contas";
 	private String corrente=contas+"/correntepoupanca";

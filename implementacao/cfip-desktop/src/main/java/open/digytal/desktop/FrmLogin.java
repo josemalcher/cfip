@@ -32,6 +32,7 @@ public class FrmLogin extends LoginPanel {
 
 	private void logarAction() {
 		try {
+			logger.info(service.getClass().getName());
 			Sessao sessao = service.login(getLogin(),getSenha());
 			if (sessao==null|| sessao.getUsuario()==null) {
 				SSMensagem.avisa("Credencial Inválida");
