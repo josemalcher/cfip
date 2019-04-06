@@ -1,6 +1,7 @@
 package open.digytal.service.bean;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -13,8 +14,10 @@ import open.digytal.model.Sessao;
 import open.digytal.model.Usuario;
 import open.digytal.service.UsuarioService;
 //http://andreybleme.com/2017-04-01/autenticacao-com-jwt-no-spring-boot/
+import open.digytal.util.config.Configuracao;
 
 @Service
+@Profile(Configuracao.PROFILE_API)
 public class UsuarioServiceBean extends ClientResource implements UsuarioService {
 	@Autowired
 	private Sessao sessao;

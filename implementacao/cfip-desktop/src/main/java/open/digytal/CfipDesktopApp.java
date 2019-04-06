@@ -39,7 +39,7 @@ public class CfipDesktopApp extends DesktopApp {
 			initApp(args);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			System.exit(0);
 		}
 	}

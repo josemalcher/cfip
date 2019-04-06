@@ -7,6 +7,8 @@ import java.util.Objects;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -23,6 +25,7 @@ import io.jsonwebtoken.Jwts;
 import open.digytal.model.Sessao;
 import open.digytal.util.Texto;
 public abstract class ClientResource {
+	private static final Logger logger = LogManager.getLogger(ClientResource.class);
 	@Value("${api.url}")
 	private String url;
 	@Autowired	
@@ -55,21 +58,21 @@ public abstract class ClientResource {
 
 	protected <T> T post(Class response, Object request, Serializable... path) {
 		String url = getUrl(path);
-		System.out.println("POST --> " + url);
+		logger.info("POST --> " + url);
 		Object result = getRestTemplate().postForObject(url, request, response);
 		return (T) result;
 	}
 
 	protected <T> T put(Object entidade, Serializable... path) {
 		String url = getUrl(path);
-		System.out.println("PUT --> " + url);
+		logger.info("PUT --> " + url);
 		getRestTemplate().put(url, entidade);
 		return (T) entidade;
 	}
 
 	protected <T> T get(ParameterizedTypeReference type, Serializable... path) {
 		String url = getUrl(path);
-		System.out.println("GET --> " + url);
+		logger.info("GET --> " + url);
 		ResponseEntity<T> resposta = getRestTemplate().exchange(url, HttpMethod.GET, null, type);
 		Object entidade = resposta.getBody();
 		return (T) entidade;
@@ -77,7 +80,7 @@ public abstract class ClientResource {
 
 	protected List getLista(ParameterizedTypeReference type, Serializable... path) {
 		String url = getUrl(path);
-		System.out.println("GET LISTA --> " + url);
+		logger.info("GET LISTA --> " + url);
 		ResponseEntity<List> resposta = getRestTemplate().exchange(url, HttpMethod.GET, null, type);
 		List lista = resposta.getBody();
 		return lista;

@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
@@ -26,8 +27,10 @@ import open.digytal.repository.RoleRepository;
 import open.digytal.repository.UsuarioRepository;
 import open.digytal.service.UsuarioService;
 import open.digytal.util.Calendario;
+import open.digytal.util.config.Configuracao;
 
 @Controller
+@Profile(Configuracao.PROFILE_DB)
 public class UsuarioServiceBean implements UsuarioService  {
 	@Autowired
 	private UsuarioRepository repository;

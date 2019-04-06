@@ -21,6 +21,10 @@ public class Configuracao {
 	public static final String DB_DIALECT="spring.jpa.properties.hibernate.dialect";
 	public static final String DB_SHOWSQL="spring.jpa.show-sql";
 	public static final String DB_DDL="spring.jpa.hibernate.ddl-auto";
+	public static final String ACTIVE_PROFILE="spring.profiles.active";
+	
+	public static final String PROFILE_API="API";
+	public static final String PROFILE_DB="!API";
 	
 	private String dbUrl;
 	private String dbUser;
