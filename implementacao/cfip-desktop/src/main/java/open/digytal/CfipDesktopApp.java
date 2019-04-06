@@ -2,6 +2,8 @@ package open.digytal;
 
 import javax.swing.UIManager;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -20,7 +22,11 @@ import open.digytal.util.desktop.LoginPanel;
 //https://stackoverflow.com/questions/37404703/spring-boot-how-to-hide-passwords-in-properties-file
 //https://howtodoinjava.com/maven/create-windows-exe-file-for-java-application/
 //http://trabajosdesisifo.blogspot.com/2015/12/java-bundle-jre-inside-executable-file.html
+//java -jar -Dspring.profiles.active=prod spring-boot-demo.jar
+//https://www.tutorialspoint.com/log4j/log4j_logging_levels.htm
+//https://www.callicoder.com/spring-boot-log4j-2-example/
 public class CfipDesktopApp extends DesktopApp {
+	private static final Logger logger = LogManager.getLogger(CfipDesktopApp.class);
 	private static ConfigurableApplicationContext contexto;
 	
 	public static void main(String[] args) {
@@ -46,6 +52,7 @@ public class CfipDesktopApp extends DesktopApp {
 			LoginPanel login = CfipDesktopApp.getBean(LoginPanel.class);
 			login.exibir();
 		}
+		logger.info("Bem vindo");
 		
 	}
 	

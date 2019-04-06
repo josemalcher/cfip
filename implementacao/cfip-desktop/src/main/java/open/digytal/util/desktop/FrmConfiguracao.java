@@ -267,13 +267,11 @@ public class FrmConfiguracao extends JFrame {
 		return sb.toString();
 	}
 	private String log() {
-		//java -jar -Dspring.profiles.active=prod spring-boot-demo.jar
-		//https://www.tutorialspoint.com/log4j/log4j_logging_levels.htm
 		StringBuilder sb = new StringBuilder();
-		sb.append("\nlogging.level.org.springframework.web=WARN\n");
+		sb.append("\nlogging.pattern.level=WARN\n");
 		sb.append("logging.file=${app.home}/application.log\n");
 		sb.append("logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} - %msg%n\n");
-		sb.append("logging.pattern.file= %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%\n");
+		sb.append("logging.pattern.file= %d{yyyy-MM-dd HH:mm:ss} - %msg%\n");
 		return sb.toString();
 	}
 	private BasicTextEncryptor basicTextEncryptor() {
