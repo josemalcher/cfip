@@ -52,7 +52,6 @@ public class CfipDesktopApp extends DesktopApp {
 			SpringApplicationBuilder builder = new SpringApplicationBuilder(CfipDesktopApp.class);
 			builder.headless(false);
 			contexto = builder.run(args);
-			//contexto.getEnvironment().setActiveProfiles("api");
 			LoginPanel login = CfipDesktopApp.getBean(LoginPanel.class);
 			login.exibir();
 		}

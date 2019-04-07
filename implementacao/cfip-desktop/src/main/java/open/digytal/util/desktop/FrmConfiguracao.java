@@ -253,6 +253,8 @@ public class FrmConfiguracao extends JFrame {
 		StringBuilder sb =  new StringBuilder();
 		//isso é especifico ao projeto, vc pode customizar
 		sb.append(Configuracao.ACTIVE_PROFILE+"=" + configuracao.getTipo() +"\n\n");
+		//FIXME:Remover depois de testar
+		sb.append(System.getProperty("app.secret"));
 		if(!configuracao.getTipo().equals(Configuracao.CONF_API)) {
 			sb.append(Configuracao.DB_URL +"="+ configuracao.getDbUrl()  +"\n");
 			sb.append(Configuracao.DB_USER +"="+ configuracao.getDbUser()  +"\n");
