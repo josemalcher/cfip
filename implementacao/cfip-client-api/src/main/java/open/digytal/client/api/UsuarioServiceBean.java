@@ -1,21 +1,21 @@
-package open.digytal.service.bean;
+package open.digytal.client.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Claims;
-import open.digytal.client.api.ClientResource;
 import open.digytal.model.Login;
 import open.digytal.model.Sessao;
 import open.digytal.model.Usuario;
 import open.digytal.service.UsuarioService;
+import open.digytal.util.config.Configuracao;
 
-@Service
-@Profile("api")
+@Component
+@Profile(Configuracao.PROFILE_API)
 public class UsuarioServiceBean extends ClientResource implements UsuarioService {
 	@Autowired
 	private Sessao sessao;

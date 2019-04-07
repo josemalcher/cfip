@@ -1,4 +1,4 @@
-package open.digytal.service.bean;
+package open.digytal.core;
 
 import java.util.Collections;
 import java.util.Date;
@@ -10,7 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import open.digytal.model.Sessao;
 import open.digytal.model.Usuario;
@@ -27,9 +27,10 @@ import open.digytal.repository.RoleRepository;
 import open.digytal.repository.UsuarioRepository;
 import open.digytal.service.UsuarioService;
 import open.digytal.util.Calendario;
+import open.digytal.util.config.Configuracao;
 
-@Controller
-@Profile("!api")
+@Component
+@Profile(Configuracao.PROFILE_DB)
 public class UsuarioServiceBean implements UsuarioService  {
 	@Autowired
 	private UsuarioRepository repository;

@@ -1,10 +1,10 @@
-package open.digytal.service.bean;
+package open.digytal.core;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.model.entity.EntidadeNatureza;
@@ -12,9 +12,10 @@ import open.digytal.model.enums.TipoMovimento;
 import open.digytal.repository.ContaRepository;
 import open.digytal.repository.NaturezaRepository;
 import open.digytal.service.CadastroService;
+import open.digytal.util.config.Configuracao;
 
-@Controller
-@Profile("!api")
+@Service
+@Profile(Configuracao.PROFILE_DB)
 public class CadastroServiceBean implements CadastroService {
 	@Autowired
 	private ContaRepository repository;

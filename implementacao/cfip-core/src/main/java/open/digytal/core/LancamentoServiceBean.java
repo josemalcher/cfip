@@ -1,4 +1,4 @@
-package open.digytal.service.bean;
+package open.digytal.core;
 
 import java.util.Date;
 import java.util.List;
@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import open.digytal.model.Lancamento;
@@ -29,9 +29,10 @@ import open.digytal.service.LancamentoService;
 import open.digytal.util.Calendario;
 import open.digytal.util.Filtro;
 import open.digytal.util.Filtros;
+import open.digytal.util.config.Configuracao;
 
-@Controller
-@Profile("!api")
+@Service
+@Profile(Configuracao.PROFILE_DB)
 public class LancamentoServiceBean implements LancamentoService {
 	@Autowired
 	private ContaRepository contaRepository;

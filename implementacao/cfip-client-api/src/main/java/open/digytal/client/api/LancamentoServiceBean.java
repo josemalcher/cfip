@@ -1,4 +1,4 @@
-package open.digytal.service.bean;
+package open.digytal.client.api;
 
 import java.util.Date;
 import java.util.List;
@@ -7,15 +7,15 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
-import open.digytal.client.api.ClientResource;
 import open.digytal.model.Lancamento;
 import open.digytal.model.Lancamentos;
 import open.digytal.model.Parcelas;
 import open.digytal.model.entity.EntidadeParcela;
 import open.digytal.service.LancamentoService;
 import open.digytal.util.Formatador;
+import open.digytal.util.config.Configuracao;
 @Service
-@Profile("api")
+@Profile(Configuracao.PROFILE_API)
 public class LancamentoServiceBean extends ClientResource implements LancamentoService {
 	private String lancamentos="lancamentos";
 	private String previsoes="previsoes";
