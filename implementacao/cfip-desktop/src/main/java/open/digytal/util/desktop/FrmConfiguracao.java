@@ -271,7 +271,7 @@ public class FrmConfiguracao extends JFrame {
 	private String log() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\nlogging.pattern.level=WARN\n");
-		sb.append("logging.file=${app.home}/application.log\n");
+		sb.append("logging.file=${app.home}/log.log\n");
 		sb.append("logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n\n");
 		sb.append("logging.pattern.file= %d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n\n");
 		return sb.toString();
