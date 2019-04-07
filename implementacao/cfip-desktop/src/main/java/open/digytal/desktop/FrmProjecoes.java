@@ -269,8 +269,8 @@ public class FrmProjecoes extends Formulario {
 	public void carregar() {
 		cboConta.setPrimeiroElementoVazio(true);
 		cboNatureza.setPrimeiroElementoVazio(true); 
-		cboConta.setItens(cadastroService.listarContas(DesktopApp.getLogin(),null), "nome");
-		cboNatureza.setItens(cadastroService.listarNaturezas(DesktopApp.getLogin(),""), "nome");
+		cboConta.setItens(cadastroService.listarContas(sessao.getUsuario().getLogin(),null), "nome");
+		cboNatureza.setItens(cadastroService.listarNaturezas(sessao.getUsuario().getLogin(),""), "nome");
 		
 		int ano = SSDataHora.pegaAno(new Date());
 		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
@@ -302,9 +302,9 @@ public class FrmProjecoes extends Formulario {
 			Integer cId = conta == null ? null : conta.getId();
 			Integer nId = nat == null ? null : nat.getId();
 
-			lista = service.listarPrevisoes(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(),cId, nId);
+			lista = service.listarPrevisoes(sessao.getUsuario().getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(),cId, nId);
 			if (cId == null)
-				contas = cadastroService.listarCorrentesPoupanca(DesktopApp.getLogin());
+				contas = cadastroService.listarCorrentesPoupanca(sessao.getUsuario().getLogin());
 			else
 				contas = cadastroService.listarContas(cId);
 			gridContas.setValue(contas);

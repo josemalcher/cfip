@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -38,6 +40,7 @@ import open.digytal.util.desktop.ss.SSMensagem;
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FrmLancamentoDebito extends Formulario {
+	private static final Logger logger = LogManager.getLogger(FrmLancamentoDebito.class);
 	private SSCampoDataHora txtData = new SSCampoDataHora();
 	private SSCampoNumero txtValor = new SSCampoNumero();
 	private SSCampoTexto txtDescricao = new SSCampoTexto();
@@ -188,9 +191,9 @@ public class FrmLancamentoDebito extends Formulario {
 	}
 
 	public void carregar() {
-		List<EntidadeConta> contas = contaService.listarCorrentesPoupanca(DesktopApp.getLogin());
+		List<EntidadeConta> contas = contaService.listarCorrentesPoupanca(sessao.getUsuario().getLogin());
 		cboConta.setItens(contas, "nome");
-		cboNatureza.setItens(contaService.listarNaturezas(DesktopApp.getLogin(), TipoMovimento.D), "nomeSigla");
+		cboNatureza.setItens(contaService.listarNaturezas(sessao.getUsuario().getLogin(), TipoMovimento.D), "nomeSigla");
 
 	}
 }

@@ -139,20 +139,23 @@ public class FrmNatureza extends Formulario {
 	}
 	private void salvar() {
 		try {
+			
 			entidade.setDescricao(txtDescricao.getText());
 			entidade.setNome(txtNome.getText());
 			entidade.setTipoMovimento((TipoMovimento) cboTipoMovto.getValue());
 			entidade.setCategoria((Categoria) cboCategoria.getValue());
-			entidade.setLogin(DesktopApp.getLogin());
+			entidade.setLogin(sessao.getUsuario().getLogin());
 			if (entidade.getNome() == null || entidade.getNome().isEmpty() || entidade.getNome() == null
 					|| entidade.getNome().isEmpty() || entidade.getTipoMovimento() == null || entidade.getCategoria() ==null) {
 				SSMensagem.avisa("Dados incompletos");
 				return;
 			}
-			if(entidade.getTipoMovimento().isTranferencia() &&  entidade.getTipoMovimento()==TipoMovimento.T) {
-				SSMensagem.avisa("Não é possível alterar a natureza TRANSFERENCIA");
-				return;
-			}
+			/*
+			 * if(entidade.getTipoMovimento().isTranferencia() &&
+			 * entidade.getTipoMovimento()==TipoMovimento.T) {
+			 * SSMensagem.avisa("Não é possível alterar a natureza TRANSFERENCIA"); return;
+			 * }
+			 */
 			
 			//dao.gravar(operacao, entidade);
 			service.salvarNatureza(entidade);

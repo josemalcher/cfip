@@ -313,8 +313,8 @@ public class FrmMovimentacoes extends Formulario {
 	public void carregar() {
 		cboConta.setPrimeiroElementoVazio(true);
 		cboNatureza.setPrimeiroElementoVazio(true); 
-		cboConta.setItens(cadastroService.listarContas(DesktopApp.getLogin(),null), "nome");
-		cboNatureza.setItens(cadastroService.listarNaturezas(DesktopApp.getLogin(),""), "nome");
+		cboConta.setItens(cadastroService.listarContas(sessao.getUsuario().getLogin(),null), "nome");
+		cboNatureza.setItens(cadastroService.listarNaturezas(sessao.getUsuario().getLogin(),""), "nome");
 		
 		int ano = SSDataHora.pegaAno(new Date());
 		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
@@ -336,8 +336,8 @@ public class FrmMovimentacoes extends Formulario {
 			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
 			Integer cId=conta==null?null:conta.getId();
 			Integer nId=nat==null?null:nat.getId();
-			lanctos = service.listarLancamentos(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
-			previsoes = service.listarPrevisoes(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
+			lanctos = service.listarLancamentos(sessao.getUsuario().getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
+			previsoes = service.listarPrevisoes(sessao.getUsuario().getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId,nId);
 			
 			gridLancamento.setValue(lanctos);
 			gridPrevisao.setValue(previsoes);

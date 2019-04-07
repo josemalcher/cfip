@@ -13,6 +13,8 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -22,7 +24,6 @@ import open.digytal.CfipDesktopApp;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.service.CadastroService;
 import open.digytal.util.Formato;
-import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCampoTexto;
@@ -32,6 +33,7 @@ import open.digytal.util.desktop.ss.SSMensagem;
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FrmContas extends Formulario {
+	private static final Logger logger = LogManager.getLogger(FrmContas.class);
 	@Autowired
 	private CadastroService service;
 	
@@ -47,7 +49,6 @@ public class FrmContas extends Formulario {
 	private SSBotao cmdAlterar = new SSBotao();
 	private SSBotao cmdExtrato = new SSBotao();
 	private SSBotao cmdFechar = new SSBotao();
-	
 	public FrmContas() {
 		//JA PODERIA VIR DE FormularioConsulta
 
@@ -160,13 +161,13 @@ public class FrmContas extends Formulario {
 		List<EntidadeConta> lista = new ArrayList<EntidadeConta>();
 		try {
 			String nome = txtFiltro.getText();
-			lista = service.listarContas(DesktopApp.getLogin(),nome);
+			lista = service.listarContas(sessao.getUsuario().getLogin(),nome);
 			if(lista.size()==0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 			
 			tabela.setValue(lista);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			SSMensagem.erro(e.getMessage());
 		}
 	}

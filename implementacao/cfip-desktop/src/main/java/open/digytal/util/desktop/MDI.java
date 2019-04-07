@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
-import open.digytal.util.Configuracao;
 import open.digytal.util.Imagem;
 
 public abstract class MDI extends JFrame {
@@ -28,7 +27,6 @@ public abstract class MDI extends JFrame {
 
     private JLabel imagemFundo = new JLabel();
     private ImageIcon imgFundo;
-    private Configuracao configuracao;
     public MDI() {
         areaTrabalho.setBackground(Color.LIGHT_GRAY);
         areaTrabalho.setVisible(true);

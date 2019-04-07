@@ -265,8 +265,8 @@ public class FrmLancamentos extends Formulario {
 	public void carregar() {
 		cboConta.setPrimeiroElementoVazio(true);
 		cboNatureza.setPrimeiroElementoVazio(true); 
-		cboConta.setItens(cadastroService.listarContas(DesktopApp.getLogin(),null), "nome");
-		cboNatureza.setItens(cadastroService.listarNaturezas(DesktopApp.getLogin(),""), "nome");
+		cboConta.setItens(cadastroService.listarContas(sessao.getUsuario().getLogin(),null), "nome");
+		cboNatureza.setItens(cadastroService.listarNaturezas(sessao.getUsuario().getLogin(),""), "nome");
 		
 		Date hoje = new Date();
 		int ano = SSDataHora.pegaAno(hoje);
@@ -294,7 +294,7 @@ public class FrmLancamentos extends Formulario {
 			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
 			Integer cId=conta==null?null:conta.getId();
 			Integer nId=nat==null?null:nat.getId();
-			lista = service.listarLancamentos(DesktopApp.getLogin(), txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId );
+			lista = service.listarLancamentos(sessao.getUsuario().getLogin(), txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId );
 			if(lista.size()==0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 			

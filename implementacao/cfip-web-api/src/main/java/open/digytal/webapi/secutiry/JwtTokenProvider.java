@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,9 +22,14 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import open.digytal.model.Sessao;
+import open.digytal.model.Usuario;
+import open.digytal.service.UsuarioService;
 
 @Component
 public class JwtTokenProvider implements Serializable {
+	@Autowired
+	private UsuarioService service;
 	public String getUsernameFromToken(String token) {
 		return getClaimFromToken(token, Claims::getSubject);
 	}
@@ -47,11 +53,16 @@ public class JwtTokenProvider implements Serializable {
 	}
 
 	public String generateToken(Authentication authentication) {
-		final String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-				.collect(Collectors.joining(","));
-		return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities)
+		final String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
+		
+		Date expiracao = new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY_SECONDS);
+		Usuario usuario = service.buscar(authentication.getName());
+		Sessao sessao = new Sessao();
+		sessao.setUsuario(usuario);
+		sessao.setExpiracao(expiracao);
+		return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities).claim(Sessao.KEY, sessao)
 				.signWith(SignatureAlgorithm.HS256, SIGNING_KEY).setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY_SECONDS * 1000)).compact();
+				.setExpiration(expiracao).compact();
 	}
 
 	public Boolean validateToken(String token, UserDetails userDetails) {

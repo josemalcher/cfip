@@ -1,0 +1,2 @@
+gerenciamento de log
+testar expiração de token

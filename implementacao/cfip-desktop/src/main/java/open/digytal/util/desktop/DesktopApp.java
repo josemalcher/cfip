@@ -2,7 +2,10 @@ package open.digytal.util.desktop;
 
 public class DesktopApp {
 	private static Splash splash;
-	private static String login;
+	@Deprecated
+	public static String getLogin() {
+		return "gso";
+	}
 	public static void exibirSplash() {
 		splash = new Splash();
 		splash.setVisible(true);
@@ -12,11 +15,4 @@ public class DesktopApp {
 		if (splash != null)
 			splash.dispose();
 	}
-	public static void setLogin(String novoLogin) {
-		login = novoLogin;
-	}
-	public static String getLogin() {
-		return login;
-	}
-
 }

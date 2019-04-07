@@ -10,6 +10,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -18,7 +20,6 @@ import org.springframework.stereotype.Component;
 import open.digytal.model.entity.EntidadeConta;
 import open.digytal.service.CadastroService;
 import open.digytal.util.Formato;
-import open.digytal.util.desktop.DesktopApp;
 import open.digytal.util.desktop.Formulario;
 import open.digytal.util.desktop.ss.SSBotao;
 import open.digytal.util.desktop.ss.SSCampoNumero;
@@ -28,6 +29,7 @@ import open.digytal.util.desktop.ss.SSMensagem;
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)	
 public class FrmConta extends Formulario {
+	private static final Logger logger = LogManager.getLogger(FrmContas.class);
 	@Autowired
 	private CadastroService service;
 	private SSCampoTexto txtNome = new SSCampoTexto();
@@ -195,7 +197,7 @@ public class FrmConta extends Formulario {
 			entidade.setSaldoInicial(txtSaldoInicial.getDouble());
 			entidade.setDiaPagamento(txtDiaPagamento.getInteger());
 			entidade.setDiaFechamento(txtDiaFechamento.getInteger());
-			entidade.setLogin(DesktopApp.getLogin());
+			entidade.setLogin(sessao.getUsuario().getLogin());
 			if (entidade.getNome() == null || entidade.getNome().isEmpty() || entidade.getSigla() == null
 					|| entidade.getSigla().isEmpty()) {
 				SSMensagem.avisa("Dados incompletos");
@@ -208,7 +210,8 @@ public class FrmConta extends Formulario {
 			SSMensagem.informa("Conta registrada com sucesso!!");
 			novo();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
+			SSMensagem.erro("Erro ao tentar salvar conta, veja o log");
 		}
 	}
 }
