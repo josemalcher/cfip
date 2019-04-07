@@ -14,10 +14,11 @@ import open.digytal.util.config.Configuracao;
 @Service
 @Profile(Configuracao.PROFILE_API)
 public class CadastroServiceBean extends ClientResource implements CadastroService {
-	private String contas="cadastros/contas";
-	private String corrente=contas+"/correntepoupanca";
-	private String cartaocredito=contas+"/cartaocredito";
-	private String naturezas="cadastros/naturezas";
+	private String cadastros="cadastros/";
+	private String corrente=cadastros+"correntepoupanca";
+	private String cartaocredito=cadastros+"cartaocredito";
+	private String naturezas=cadastros+"naturezas";
+	private String contas=cadastros+"contas";
 	
 	private ParameterizedTypeReference getListaType() {
 		return new ParameterizedTypeReference<List<EntidadeConta>>() {};

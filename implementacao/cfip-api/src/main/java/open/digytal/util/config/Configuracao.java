@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Objects;
 
 public class Configuracao {
-	public static final String SECRET=Objects.toString(System.getProperty("app.secret"),"CfipAppSecret");
+	public static final String SECRET=Objects.toString(System.getProperty("app.secret"),"NewCfipAppSecret");
 	public static final String ROOT_PATH=System.getProperty("user.dir");
 	public static final String CONFIG="application.properties";
 	
@@ -104,7 +104,6 @@ public class Configuracao {
 		System.setProperty("app.home", ROOT_PATH);
 		System.setProperty("app.name", "cfip");
 		System.setProperty("jasypt.encryptor.password",SECRET); //SECRET
-		System.out.println(SECRET);
 		return !getArquivoConfiguracao().exists();
 	}
 	public static File getArquivoConfiguracao() {

@@ -246,8 +246,8 @@ public class FrmPrevisoes extends Formulario {
 	public void carregar() {
 		cboConta.setPrimeiroElementoVazio(true);
 		cboNatureza.setPrimeiroElementoVazio(true); 
-		cboConta.setItens(cadastroService.listarContas(DesktopApp.getLogin(),null), "nome");
-		cboNatureza.setItens(cadastroService.listarNaturezas(DesktopApp.getLogin(),""), "nome");
+		cboConta.setItens(cadastroService.listarContas(sessao.getUsuario().getLogin(),null), "nome");
+		cboNatureza.setItens(cadastroService.listarNaturezas(sessao.getUsuario().getLogin(),""), "nome");
 		
 		int ano = SSDataHora.pegaAno(new Date());
 		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
@@ -271,7 +271,7 @@ public class FrmPrevisoes extends Formulario {
 			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
 			Integer cId=conta==null?null:conta.getId();
 			Integer nId=nat==null?null:nat.getId();
-			lista = service.listarPrevisoes(DesktopApp.getLogin(), txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId);
+			lista = service.listarPrevisoes(sessao.getUsuario().getLogin(), txtDataDe.getDataHora(),txtDataAte.getDataHora(),cId,nId);
 			if (lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 

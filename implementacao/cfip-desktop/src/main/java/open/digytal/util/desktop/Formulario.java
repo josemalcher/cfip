@@ -16,6 +16,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import open.digytal.model.Sessao;
 import open.digytal.util.Imagem;
 import open.digytal.util.TipoOperacao;
 import open.digytal.util.desktop.ss.SSCabecalho;
@@ -25,6 +28,8 @@ import open.digytal.util.desktop.ss.SSRodape;
 //WindowBuilder
 //http://download.eclipse.org/windowbuilder/WB/integration/4.7/
 public abstract class Formulario extends JPanel {
+	@Autowired
+	protected Sessao sessao;
 	private Object respostaDialogo;
 	private static Object selecionado;
 	private Formulario dono;

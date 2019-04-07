@@ -249,7 +249,7 @@ public class FrmFaturas extends Formulario {
 
 	@Override
 	public void carregar() {
-		cboConta.setItens(contaService.listarCartoesCredito(DesktopApp.getLogin()), "nome");
+		cboConta.setItens(contaService.listarCartoesCredito(sessao.getUsuario().getLogin()), "nome");
 		int ano = SSDataHora.pegaAno(new Date());
 		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
 		txtDataAte.setDataHora(Calendario.data(31, 12, ano));
@@ -290,7 +290,7 @@ public class FrmFaturas extends Formulario {
 		try {
 			EntidadeConta conta = (EntidadeConta) cboConta.getValue();
 			Integer cId = conta == null ? null : conta.getId();
-			lista = service.listarFaturas(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, null);
+			lista = service.listarFaturas(sessao.getUsuario().getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, null);
 			if (lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 

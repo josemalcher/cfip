@@ -143,7 +143,7 @@ public class FrmNatureza extends Formulario {
 			entidade.setNome(txtNome.getText());
 			entidade.setTipoMovimento((TipoMovimento) cboTipoMovto.getValue());
 			entidade.setCategoria((Categoria) cboCategoria.getValue());
-			entidade.setLogin(DesktopApp.getLogin());
+			entidade.setLogin(sessao.getUsuario().getLogin());
 			if (entidade.getNome() == null || entidade.getNome().isEmpty() || entidade.getNome() == null
 					|| entidade.getNome().isEmpty() || entidade.getTipoMovimento() == null || entidade.getCategoria() ==null) {
 				SSMensagem.avisa("Dados incompletos");

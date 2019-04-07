@@ -140,7 +140,7 @@ public class FrmNaturezas extends Formulario {
 		List<EntidadeNatureza> lista = new ArrayList<EntidadeNatureza>();
 		try {
 			String nome = txtFiltro.getText();
-			lista = service.listarNaturezas(DesktopApp.getLogin(),nome);
+			lista = service.listarNaturezas(sessao.getUsuario().getLogin(),nome);
 			if(lista.size()==0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 			

@@ -18,6 +18,7 @@
     <minVersion>1.8.0</minVersion>
     <maxVersion>1.8.0_201</maxVersion>
     <jdkPreference>preferJre</jdkPreference>
+    <opt>-Dapp.secret=NewCfipAppSecret</opt>
   </jre>
   <versionInfo>
     <fileVersion>1.0.0.0</fileVersion>

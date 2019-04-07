@@ -33,7 +33,7 @@ public abstract class ClientResource {
 	private String getUrl(Serializable... path) {
 		String ROOT=Objects.toString(url,"http://localhost:8080/");
 		String sufix = Texto.concatenar("/", path);
-		url = String.format("%s%s", ROOT, sufix);
+		String url = String.format("%s%s", ROOT, sufix);
 		return url;
 	}	
 	private RestTemplate getRestTemplate() {

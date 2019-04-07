@@ -334,10 +334,10 @@ public class FrmLancamentoPrevisao extends Formulario {
 		super.fechar();
 	}
 	public void carregar() {
-		List<EntidadeConta> contas = cadastroService.listarContas(DesktopApp.getLogin(),null);
+		List<EntidadeConta> contas = cadastroService.listarContas(sessao.getUsuario().getLogin(),null);
 		cboConta.setItens( contas,"nome"); 
 		cboDestino.setItens( contas,"nome");
-		cboNatureza.setItens( cadastroService.listarNaturezas(DesktopApp.getLogin(),""),"nomeSigla");
+		cboNatureza.setItens( cadastroService.listarNaturezas(sessao.getUsuario().getLogin(),""),"nomeSigla");
 	}
 	public static void main(String[] args) {
 		int m = (int) (100.0%3);

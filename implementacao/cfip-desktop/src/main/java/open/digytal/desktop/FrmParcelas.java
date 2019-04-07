@@ -264,8 +264,8 @@ public class FrmParcelas extends Formulario {
 	public void carregar() {
 		cboConta.setPrimeiroElementoVazio(true);
 		cboNatureza.setPrimeiroElementoVazio(true); 
-		cboConta.setItens(cadastroService.listarContas(DesktopApp.getLogin(),null), "nome");
-		cboNatureza.setItens(cadastroService.listarNaturezas(DesktopApp.getLogin(),""), "nome");
+		cboConta.setItens(cadastroService.listarContas(sessao.getUsuario().getLogin(),null), "nome");
+		cboNatureza.setItens(cadastroService.listarNaturezas(sessao.getUsuario().getLogin(),""), "nome");
 		int ano = SSDataHora.pegaAno(new Date());
 		txtDataDe.setDataHora(Calendario.data(1, 1, ano));
 		txtDataAte.setDataHora(Calendario.data(31, 12, ano));
@@ -315,7 +315,7 @@ public class FrmParcelas extends Formulario {
 			EntidadeNatureza nat = (EntidadeNatureza) cboNatureza.getValue();
 			Integer cId = conta == null ? null : conta.getId();
 			Integer nId = nat == null ? null : nat.getId();
-			List<Parcelas> lista = service.listarParcelas(DesktopApp.getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, nId);
+			List<Parcelas> lista = service.listarParcelas(sessao.getUsuario().getLogin(), txtDataDe.getDataHora(), txtDataAte.getDataHora(), cId, nId);
 			if (lista.size() == 0)
 				SSMensagem.avisa("Nenhum dado encontrado");
 			grid.setValue(lista);
