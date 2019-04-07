@@ -23,7 +23,8 @@ Quando selecionar a opção no diretório root do projeto será criado o arquivo
 **NOTA:** Antes de iniciar o projeto desktop em profile API, é necessário subir a aplicação cfip-web-api e se preferir ver a documentação em http://localhost:8080/swagger-ui.html
 
 ### Primeiro acesso
-Via aplicação desktop crie um usuário para acessar o sistema desktop e se preferir fazer a autenticação no swagger, 
+Via aplicação desktop faça a configuração inicial, crie um usuário para acessar o sistema desktop e se preferir fazer a autenticação no swagger, 
 
+![Configuração Inicial](https://github.com/digytal/cfip/blob/cfip-v1/documentacao/config_inicial.png)
 ![Desktop](https://github.com/digytal/cfip/blob/develop/documentacao/print/CFIP.JPG)
 ![Swagger](https://github.com/digytal/cfip/blob/develop/documentacao/print/Swagger.JPG)
