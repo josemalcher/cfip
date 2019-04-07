@@ -15,10 +15,12 @@ import open.digytal.util.config.Configuracao;
 @Profile(Configuracao.PROFILE_API)
 public class CadastroServiceBean extends ClientResource implements CadastroService {
 	private String cadastros="cadastros/";
-	private String corrente=cadastros+"correntepoupanca";
-	private String cartaocredito=cadastros+"cartaocredito";
+	
 	private String naturezas=cadastros+"naturezas";
-	private String contas=cadastros+"contas";
+	private String contas=cadastros+"contas/";
+	
+	private String correntepoupanca=contas+"correntepoupanca";
+	private String cartaocredito=contas+"cartaocredito";
 	
 	private ParameterizedTypeReference getListaType() {
 		return new ParameterizedTypeReference<List<EntidadeConta>>() {};
@@ -59,7 +61,7 @@ public class CadastroServiceBean extends ClientResource implements CadastroServi
 
 	@Override
 	public List<EntidadeConta> listarCorrentesPoupanca(String login) {
-		return getLista(getListaType(),corrente);
+		return getLista(getListaType(),correntepoupanca);
 	}
 
 	@Override
