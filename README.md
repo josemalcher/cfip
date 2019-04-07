@@ -14,8 +14,13 @@ Abaixo temos os 05 projetos que compõem a aplicação:
   
 ### Inicialização
 
-- JPA: Configure as dependências do `pom.xml` do projeto `cfip-desktop` incluindo a dependência  `cfip-core` e ajuste o arquivo `application.properties` para o banco de sua referencia.
-- REST: No projeto `cfip-web-api` ajuste o arquivo `application.properties` para o banco de sua referencia e no projeto `cfip-desktop` utilize a dependência `cfip-client-api`. **NOTA:** Antes de iniciar o projeto desktop, é necessário subir a aplicação cfip-web-api e se preferir ver a documentação em http://localhost:8080/swagger-ui.html
+- O CFIP é configurado por interface e profiles, assim você decide se vai usar a versão Core (JPA) ou Client-api(REST).
+A executar a classe ` open.digytal.CfipDesktopApp` será exibida uma tela de configuração para você usar o HSQL(LOCAL) ou API(REST).
+Quando selecionar a opção no diretório root do projeto será criado o arquivo `application.properties` contendo as devidas configurações da aplicação.
+**NOTA:Esta versão contém a criptografia Jasypt**
+
+- WEB SERVER: No projeto `cfip-web-api` ajuste o arquivo `application.properties` para o banco de sua preferencia
+**NOTA:** Antes de iniciar o projeto desktop em profile API, é necessário subir a aplicação cfip-web-api e se preferir ver a documentação em http://localhost:8080/swagger-ui.html
 
 ### Primeiro acesso
 Via aplicação desktop crie um usuário para acessar o sistema desktop e se preferir fazer a autenticação no swagger, 
