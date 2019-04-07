@@ -139,6 +139,7 @@ public class FrmNatureza extends Formulario {
 	}
 	private void salvar() {
 		try {
+			
 			entidade.setDescricao(txtDescricao.getText());
 			entidade.setNome(txtNome.getText());
 			entidade.setTipoMovimento((TipoMovimento) cboTipoMovto.getValue());
@@ -149,10 +150,12 @@ public class FrmNatureza extends Formulario {
 				SSMensagem.avisa("Dados incompletos");
 				return;
 			}
-			if(entidade.getTipoMovimento().isTranferencia() &&  entidade.getTipoMovimento()==TipoMovimento.T) {
-				SSMensagem.avisa("Não é possível alterar a natureza TRANSFERENCIA");
-				return;
-			}
+			/*
+			 * if(entidade.getTipoMovimento().isTranferencia() &&
+			 * entidade.getTipoMovimento()==TipoMovimento.T) {
+			 * SSMensagem.avisa("Não é possível alterar a natureza TRANSFERENCIA"); return;
+			 * }
+			 */
 			
 			//dao.gravar(operacao, entidade);
 			service.salvarNatureza(entidade);

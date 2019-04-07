@@ -55,14 +55,13 @@ public class FrmNaturezas extends Formulario {
 		filtro.setLayout(new GridBagLayout());
 		
 		txtFiltro.setRotulo("Nome");
-		txtFiltro.setColunas(30);
+		txtFiltro.setColunas(35);
 		cmdBuscar.setText("Buscar");
 		
 		cmdIncluir.setText("Incluir");
 		cmdIncluir.setIcone("novo");
 		cmdAlterar.setText("Alterar");
 		cmdFechar.setText("Fechar");
-		txtFiltro.setColunas(30);
 		
 		// campos da tabela
 		//BASICAMENTE O QUE VC TERÃ� QUE MUDAR ENTRE FORMULARIOS
@@ -70,7 +69,7 @@ public class FrmNaturezas extends Formulario {
 		tabela.getModeloTabela().addColumn("Tipo Movto");
 		tabela.getModeloTabela().addColumn("Categoria");
 		
-		tabela.getModeloColuna().getColumn(0).setPreferredWidth(130);
+		tabela.getModeloColuna().getColumn(0).setPreferredWidth(160);
 		tabela.getModeloColuna().getColumn(1).setPreferredWidth(100);
 		tabela.getModeloColuna().getColumn(2).setPreferredWidth(110);
 		
